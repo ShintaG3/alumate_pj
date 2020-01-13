@@ -29,3 +29,11 @@ In a post, user can like and comment.
 - **Mentor**: User can be a mentor who can intensively support other users for certain duration.
 - **Restriction**: Free subscription user can send messages to only same status or less users. They cannot request mentor suport.
 - **Premium**: Premium user can send message all users and can request mentor suport.
+
+Deployment
+---
+Heroku
+
+Mediafile storage
+---
+AWS
