@@ -40,3 +40,42 @@ Heroku
 Mediafile storage
 ---
 AWS
+
+Folder Structure
+---
+
+```
+project
+├─project_name
+│      settings.py
+│      local_settings.py #configulation for heroku
+│
+├─templates           #contain templates which used accross the project
+│  └─base            #contain templates used wiht xtends syntax {% extends 'base.html' %}
+│
+├─app_name            #app's folder
+│  └─templates       #contain templats which used in each app
+│     └─app_name     #create an app's name folder here
+│        ├─base      #contain templates used with extends syntax {% extends 'base.html' %}
+│        └─includes  #contain templates used with includes syntax {% includes 'format.html' %}
+│
+├─static
+│  ├─css
+│  ├─js
+│  │  ├─core
+│  │  └─plugins
+│  └─json
+│
+├─media_root          #for the img files which changes regularly
+│  ├─university_img
+│  └─profile_img
+│
+├─staticfiles
+│
+│
+├─env                 #environment file: it's heavy and should not be pushed to remoterepositry
+│
+│
+│  .gitignore          #files which will not be pushed to remote repository
+│  requirements.txt    #files which will not be pushed to remote repository
+```
