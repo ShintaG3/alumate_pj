@@ -52,6 +52,10 @@ project
 │
 ├─templates           #contain templates which used accross the project
 │  └─base            #contain templates used wiht xtends syntax {% extends 'base.html' %}
+│       css.html
+│       js.html
+│       navbar.html
+│    base.html
 │
 ├─app_name            #app's folder
 │  └─templates       #contain templats which used in each app
