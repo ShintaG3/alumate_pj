@@ -4,6 +4,12 @@ Overview
 ---
 Alumate is a social platform which helps people who is preparing for study abroad, current students, and alumni.
 
+<img src="https://raw.githubusercontent.com/ShintaG3/alumate_pj/master/Screenshot/page1.png" alt="landing" title="sample">  
+<img src="https://raw.githubusercontent.com/ShintaG3/alumate_pj/master/Screenshot/page2.png" alt="landing" title="sample">  
+<img src="https://raw.githubusercontent.com/ShintaG3/alumate_pj/master/Screenshot/page3.png" alt="landing" title="sample">  
+<img src="https://raw.githubusercontent.com/ShintaG3/alumate_pj/master/Screenshot/page4.png" alt="landing" title="sample">  
+
+
 Milestones
 ---
 - Complete the Resistration/Login/Logout, Profile, Search, Follow
