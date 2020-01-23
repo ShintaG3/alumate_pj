@@ -1,0 +1,27 @@
+{% load static %}
+<nav id="navbar-main" class="navbar navbar-main navbar-expand-lg navbar-light headroom" >
+    <div class="container">
+      <a class="navbar-brand mr-lg-5" href="/">
+          Alumate
+        <!-- <img alt="image" src="{% static 'img/brand/white.png' %}"> -->
+      </a>
+      <div class="navbar-collapse collapse" id="navbar_global">
+        <ul class="navbar-nav align-items-lg-center ml-lg-auto">
+          <li class="nav-item d-none d-lg-block ml-lg-4">
+            <a href="{% url 'demo:index' %}" class="nav-link">
+              <span class="nav-link-inner--text">demo</span>
+            </a>
+          </li>
+            <a href="{% url 'auths:login' %}" class="nav-link">
+              <span class="nav-link-inner--text">Log in</span>
+            </a>
+          </li>
+          <li class="nav-item d-none d-lg-block ml-lg-4">
+          <a href="{% url 'auths:register' %}" class="nav-link">
+              <span class="nav-link-inner--text">Join now</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+</nav>
