@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'landingpage',
     'auths',
     'feed',
+    'account',
 ]
 
 MIDDLEWARE = [
