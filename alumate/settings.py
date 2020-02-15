@@ -127,7 +127,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' 
 # MEDIA_URL = '/media/'                                                #local settings
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media_root')   
 
-DEBUG = True
+DEBUG = False
 
 try:
     from .local_settings import *
