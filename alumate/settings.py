@@ -28,7 +28,8 @@ INSTALLED_APPS = [
     'demo',
     'landingpage',
     'auths',
-    'user_profile'
+    'user_profile',
+    'post'
 ]
 
 MIDDLEWARE = [

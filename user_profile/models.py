@@ -43,7 +43,7 @@ class UserProfile(models.Model):
     posts = models.IntegerField(default=0)
         
     def __str__(self):
-        return self.about
+        return self.user.username
     
 class School(models.Model):
     school_name = models.CharField(max_length=50)
