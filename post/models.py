@@ -1,8 +1,9 @@
 from django.db import models
+from django.contrib.auth.models import User
 from user_profile.models import School, Country, UserProfile, City
     
 class Post(models.Model):
-    user = models.ForeignKey(UserProfile,on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(User,on_delete=models.SET_NULL, null=True)
     post_title = models.CharField(max_length=100)
     body = models.CharField(max_length=5000)
     post_country_tag = models.ManyToManyField(Country)

@@ -29,7 +29,8 @@ INSTALLED_APPS = [
     'landingpage',
     'auths',
     'user_profile',
-    'post'
+    'post',
+    'message'
 ]
 
 MIDDLEWARE = [
