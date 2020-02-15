@@ -8,4 +8,5 @@ urlpatterns = [
     path('auths/', include('auths.urls', namespace='auths')),
     path('feed/', include('feed.urls', namespace='feed')),
     path('account/', include('account.urls', namespace='account')),
+    path('chat/', include('chat.urls', namespace='chat')),
 ]

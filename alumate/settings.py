@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'auths',
     'feed',
     'account',
+    'chat',
 ]
 
 MIDDLEWARE = [
