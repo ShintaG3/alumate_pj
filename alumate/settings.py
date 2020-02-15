@@ -28,6 +28,9 @@ INSTALLED_APPS = [
     'demo',
     'landingpage',
     'auths',
+    'user_profile',
+    'post',
+    'message',
     'feed',
     'account',
 ]
@@ -123,7 +126,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' 
 # MEDIA_URL = '/media/'                                                #local settings
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media_root')   
 
-DEBUG = False
+DEBUG = True
 
 try:
     from .local_settings import *
