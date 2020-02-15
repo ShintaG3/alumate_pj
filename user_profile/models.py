@@ -23,17 +23,18 @@ class UserProfile(models.Model):
         validators = [MaxValueValidator(2020), MinValueValidator(1940)],
         null=True, blank=True
         )
-    # Should a User must have a course ?
+    # Should a User must have a course ? => No
     course = models.CharField(max_length=50, null=True, blank=True)
-    previus_job = models.CharField(max_length=100, null=True, blank=True)
-    previus_job_start_year = models.IntegerField(
+    previous_job = models.CharField(max_length=100, null=True, blank=True)
+    previous_job_start_year = models.IntegerField(
         validators = [MaxValueValidator(2020), MinValueValidator(1970)],
         null=True, blank=True
         )
-    previus_job_end_year = models.IntegerField(
+    previous_job_end_year = models.IntegerField(
         validators = [MaxValueValidator(2020), MinValueValidator(1970)],
         null=True, blank=True
         )
+    post_job = models.CharField(max_length=100, null=True, blank=True)
     living_country = models.ForeignKey('Country', on_delete=models.SET_NULL, null=True)
     living_city = models.ForeignKey('City', on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField()
@@ -41,6 +42,7 @@ class UserProfile(models.Model):
     follower = models.IntegerField(default=0)
     following = models.IntegerField(default=0)
     posts = models.IntegerField(default=0)
+    slug = models.SlugField(max_length=40)
         
     def __str__(self):
         return self.user.username
@@ -53,8 +55,8 @@ class School(models.Model):
         return self.school_name
 
 class Country(models.Model):
-    country_name = models.CharField(max_length=50)
-
+    country_name = models.CharField(max_length=50)   # change in to choose filed
+    
     def __str__(self):
         return self.country_name
 
