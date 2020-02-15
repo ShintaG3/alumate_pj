@@ -6,4 +6,6 @@ urlpatterns = [
     path('demo/', include('demo.urls', namespace='demo')),
     path('', include('landingpage.urls', namespace='index')),
     path('auths/', include('auths.urls', namespace='auths')),
+    path('feed/', include('feed.urls', namespace='feed')),
+    path('account/', include('account.urls', namespace='account')),
 ]

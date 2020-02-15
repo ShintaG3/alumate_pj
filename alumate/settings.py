@@ -30,7 +30,9 @@ INSTALLED_APPS = [
     'auths',
     'user_profile',
     'post',
-    'message'
+    'message',
+    'feed',
+    'account',
 ]
 
 MIDDLEWARE = [
