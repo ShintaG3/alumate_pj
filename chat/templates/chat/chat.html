@@ -6,9 +6,9 @@
 {% block content %}
 <div class="wrapper">
     <section>
-      <div class="container ml-0 mr-0 pt-5 mb-5 upper">
+      <div class="container pt-lg mb-3">
         <div class="row flex-row chat">
-          <div class="col-lg-3">
+          <div class="col-lg-4">
             <div class="card bg-secondary">
               <form class="card-header mb-3">
                 <div class="input-group input-group-alternative">
@@ -21,7 +21,7 @@
               <div class="list-group list-group-chat list-group-flush">
                 <a href="javascript:;" class="list-group-item active bg-gradient-primary">
                   <div class="media">
-                    <img alt="Image" src="../assets/img/faces/christian.jpg" class="avatar">
+                    <img alt="Image" src="{% static 'img/faces/christian.jpg' %}" class="avatar">
                     <div class="media-body ml-2">
                       <div class="justify-content-between align-items-center">
                         <h6 class="mb-0 text-white">Charlie Watson
@@ -36,7 +36,7 @@
                 </a>
                 <a href="javascript:;" class="list-group-item">
                   <div class="media">
-                    <img alt="Image" src="../assets/img/faces/team-2.jpg" class="avatar shadow">
+                    <img alt="Image" src="{% static 'img/faces/team-2.jpg' %}" class="avatar shadow">
                     <div class="media-body ml-2">
                       <div class="justify-content-between align-items-center">
                         <h6 class="mb-0">Jane Doe</h6>
@@ -50,7 +50,7 @@
                 </a>
                 <a href="javascript:;" class="list-group-item">
                   <div class="media">
-                    <img alt="Image" src="../assets/img/faces/team-3.jpg" class="avatar shadow">
+                    <img alt="Image" src="{% static 'img/faces/team-3.jpg' %}" class="avatar shadow">
                     <div class="media-body ml-2">
                       <div class="justify-content-between align-items-center">
                         <h6 class="mb-0">Mila Skylar</h6>
@@ -64,7 +64,7 @@
                 </a>
                 <a href="javascript:;" class="list-group-item">
                   <div class="media">
-                    <img alt="Image" src="../assets/img/faces/team-4.jpg" class="avatar shadow">
+                    <img alt="Image" src="{% static 'img/faces/team-4.jpg' %}" class="avatar shadow">
                     <div class="media-body ml-2">
                       <div class="justify-content-between align-items-center">
                         <h6 class="mb-0">Sofia Scarlett</h6>
@@ -78,7 +78,7 @@
                 </a>
                 <a href="javascript:;" class="list-group-item">
                   <div class="media">
-                    <img alt="Image" src="../assets/img/faces/team-5.jpg" class="avatar shadow">
+                    <img alt="Image" src="{% static 'img/faces/team-5.jpg' %}" class="avatar shadow">
                     <div class="media-body ml-2">
                       <div class="justify-content-between align-items-center">
                         <h6 class="mb-0">Tom Klein</h6>
@@ -93,13 +93,13 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-9">
+          <div class="col-lg-8">
             <div class="card">
               <div class="card-header d-inline-block">
                 <div class="row">
                   <div class="col-md-10">
                     <div class="media align-items-center">
-                      <img alt="Image" src="../assets/img/faces/christian.jpg" class="avatar shadow">
+                      <img alt="Image" src="{% static 'img/faces/christian.jpg' %}" class="avatar shadow">
                       <div class="media-body">
                         <h6 class="mb-0 d-block">Charlie Watson</h6>
                         <span class="text-muted text-small">last seen today at 1:53am</span>
@@ -237,7 +237,7 @@
                     <div class="card">
                       <div class="card-body p-2">
                         <div class="col-12 p-0">
-                          <img src="../assets/img/theme/img-1-1200x1000.jpg" alt="Rounded image" class="img-fluid rounded mb-1">
+                          <img src="{% static 'img/theme/img-1-1200x1000.jpg' %}" alt="Rounded image" class="img-fluid rounded mb-1">
                         </div>
                         <div>
                           <small class="opacity-60"><i class="far fa-clock"></i> 4:47pm</small>
@@ -295,53 +295,6 @@
         </div>
       </div>
     </section>
-    <footer class="footer">
-      <div class="container">
-        <div class="row row-grid align-items-center mb-5">
-          <div class="col-lg-6">
-            <h3 class="text-primary font-weight-light mb-2">Thank you for supporting us!</h3>
-            <h4 class="mb-0 font-weight-light">Let's get in touch on any of these platforms.</h4>
-          </div>
-          <div class="col-lg-6 text-lg-center btn-wrapper">
-            <button target="_blank" href="https://twitter.com/creativetim" class="btn btn-icon-only btn-twitter rounded-circle" data-toggle="tooltip" data-original-title="Follow us">
-              <span class="btn-inner--icon"><i class="fa fa-twitter"></i></span>
-            </button>
-            <button target="_blank" href="https://www.facebook.com/CreativeTim/" class="btn-icon-only rounded-circle btn btn-facebook" data-toggle="tooltip" data-original-title="Like us">
-              <span class="btn-inner--icon"><i class="fab fa-facebook"></i></span>
-            </button>
-            <button target="_blank" href="https://dribbble.com/creativetim" class="btn btn-icon-only btn-dribbble rounded-circle" data-toggle="tooltip" data-original-title="Follow us">
-              <span class="btn-inner--icon"><i class="fa fa-dribbble"></i></span>
-            </button>
-            <button target="_blank" href="https://github.com/creativetimofficial" class="btn btn-icon-only btn-github rounded-circle" data-toggle="tooltip" data-original-title="Star on Github">
-              <span class="btn-inner--icon"><i class="fa fa-github"></i></span>
-            </button>
-          </div>
-        </div>
-        <hr>
-        <div class="row align-items-center justify-content-md-between">
-          <div class="col-md-6">
-            <div class="copyright">
-              © 2019 <a href="" target="_blank">Creative Tim</a>.
-            </div>
-          </div>
-          <div class="col-md-6">
-            <ul class="nav nav-footer justify-content-end">
-              <li class="nav-item">
-                <a href="" class="nav-link" target="_blank">Creative Tim</a>
-              </li>
-              <li class="nav-item">
-                <a href="" class="nav-link" target="_blank">About Us</a>
-              </li>
-              <li class="nav-item">
-                <a href="https://blog.creative-tim.com/" class="nav-link" target="_blank">Blog</a>
-              </li>
-              <li class="nav-item">
-                <a href="" class="nav-link" target="_blank">License</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </footer>
+    
 </div>
 {% endblock %}
