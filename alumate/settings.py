@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'feed',
     'account',
     'chat',
+    'inquiry',
 ]
 
 MIDDLEWARE = [

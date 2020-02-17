@@ -1,0 +1,145 @@
+{% extends 'base-authpage.html' %}
+{% load static %}
+{% block navbar %}
+{% include 'include/nav-authpage.html' %}
+{% endblock %}
+{% block content %}
+  
+<style>
+    .card-zoom[data-animation=zooming] {
+        transition: all .3s cubic-bezier(.2,1,.22,1);
+        -webkit-transition: all .3s cubic-bezier(.2,1,.22,1);
+    }
+    .card-zoom[data-animation=zooming]:hover {
+    transform: scale(1.07);
+    -webkit-transform: scale(1.07);
+    z-index: 2;
+    }
+</style>
+    <div class="wrapper">     
+      <div class="main">
+        <div class="pt-lg mb-5 container">
+
+          <div class="row mb-5">
+            <div class="col-md-8">
+              <h3 class="display-3">Inquiries</h3>
+              <p class="lead mt-1">Share the information and richen the collective knowledge to maximize the possibility that all people are able to reach the write information. Making a inquiry is the best way to reach your goals. Answering questions is the best way to support your mates.</p>
+            </div>
+          </div>
+          
+
+          <div class="row">
+            <div class="col-lg-4 col-md-6">
+              <div class="card card-blog card-zoom" data-header="pattern" data-animation="zooming">
+                <a href="javascript:;">
+                  <img class="img pattern rounded" src="{% static 'img/ill/presentation_bg.png' %}">
+                </a>
+                <div class="card-body">
+                  <h6 class="card-category text-danger">
+                    <i class="ni ni-badge"></i> Oxford
+                  </h6>
+                  <h5 class="card-title">
+                    <a href="javascript:;">Looking for accommodation</a>
+                  </h5>
+                  <p class="card-description">
+                    Hi, I enrole in Oxford University in 2021. My college is Crist charch. I am looking for afordable accommodations around Oxford...
+                  </p>
+                </div>
+                <div class="card-footer">
+                    <div class="icon-actions">
+                        <a href="javascript:;" class="like active">
+                          <i class="ni ni-like-2"></i>
+                          <span class="text-muted">150</span>
+                        </a>
+                        <a href="javascript:;">
+                          <i class="ni ni-chat-round"></i>
+                          <span class="text-muted">36</span>
+                        </a>
+                        <a href="javascript:;">
+                          <i class="ni ni-curved-next"></i>
+                          <span class="text-muted">12</span>
+                        </a>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+              <div class="card card-blog card-zoom" data-header="pattern" data-animation="zooming">
+                  <!-- <img class="card-img-top" src="{% static 'img/ill/linth3.svg' %}" alt=""> -->
+                  <!-- <div class="card-header">
+                </div> -->
+                <a href="javascript:;">
+                  <img class="img pattern rounded" src="{% static 'img/ill/linth3.svg' %}">
+                </a>
+                <div class="card-body">
+                  <h6 class="card-category text-danger">
+                    <i class="ni ni-badge"></i> Job hunting
+                  </h6>
+                  <h5 class="card-title">
+                    <a href="javascript:;">How to increase the possibility to get job?</a>
+                  </h5>
+                  <p class="card-description">
+                    I am undergraduate student studing accounting at Coventry University. I want to wark in the ...
+                  </p>
+                </div>
+                <div class="card-footer">
+                    <div class="icon-actions">
+                        <a href="javascript:;" class="like active">
+                          <i class="ni ni-like-2"></i>
+                          <span class="text-muted">150</span>
+                        </a>
+                        <a href="javascript:;">
+                          <i class="ni ni-chat-round"></i>
+                          <span class="text-muted">36</span>
+                        </a>
+                        <a href="javascript:;">
+                          <i class="ni ni-curved-next"></i>
+                          <span class="text-muted">12</span>
+                        </a>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+              <div class="card card-blog card-zoom" data-header="pattern" data-animation="zooming">
+                <a href="javascript:;">
+                  <img class="img pattern rounded" src="{% static 'img/ill/p2.svg' %}">
+                </a>
+                <div class="card-body">
+                  <h6 class="card-category text-danger">
+                    <i class="ni ni-badge"></i> Fashion
+                  </h6>
+                  <h5 class="card-title">
+                    <a href="javascript:;">Wardrobe essentials</a>
+                  </h5>
+                  <p class="card-description">
+                    Trends may come and go, but wardrobe essentials are here to stay. Basic pieces tend to be universal across.
+                  </p>
+                </div>
+                <div class="card-footer">
+                    <div class="icon-actions">
+                        <a href="javascript:;" class="like active">
+                          <i class="ni ni-like-2"></i>
+                          <span class="text-muted">150</span>
+                        </a>
+                        <a href="javascript:;">
+                          <i class="ni ni-chat-round"></i>
+                          <span class="text-muted">36</span>
+                        </a>
+                        <a href="javascript:;">
+                          <i class="ni ni-curved-next"></i>
+                          <span class="text-muted">12</span>
+                        </a>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 ml-auto mr-auto mt-5 text-center">
+                <button rel="tooltip" class="btn btn-primary btn-round btn-simple">Load more...</button>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  {% endblock %}
