@@ -10,4 +10,5 @@ urlpatterns = [
     path('account/', include('account.urls', namespace='account')),
     path('chat/', include('chat.urls', namespace='chat')),
     path('inquiry/', include('inquiry.urls', namespace='inquiry')),
+    path('people/', include('people.urls', namespace='people')),
 ]
