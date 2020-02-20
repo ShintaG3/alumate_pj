@@ -28,14 +28,13 @@ INSTALLED_APPS = [
     'demo',
     'landingpage',
     'auths',
-    'user_profile',
-    'post',
     'message',
     'feed',
     'account',
     'chat',
     'inquiry',
     'people',
+    'noticle',
 ]
 
 MIDDLEWARE = [

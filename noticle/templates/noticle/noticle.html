@@ -1,0 +1,104 @@
+{% extends 'base-authpage.html' %}
+{% load static %}
+{% block navbar %}
+{% include 'include/nav-authpage.html' %}
+{% endblock %}
+{% block content %}
+
+<div class="container pt-lg mb-5">
+    <div class="row mb-5">
+      <div class="col-md-8">
+        <h3 class="display-3">These are Noticles</h3>
+        <p class="lead mt-1">Noticle is a note to organize information that you find, <br> as well as a casual article that you think is helpful to other people.</p>
+      </div>
+    </div>
+    {% include 'include/search_filter.html' %}
+    <div class="row align-items-center">
+      <div class="col-lg-3">
+        <div class="card card-blog card-background" data-animation="zooming">
+        <div class="full-background" style="background-image: url({% static 'img/theme/josh-appel.jpg' %})"></div>
+          <a href="javascript:;">
+            <div class="card-body">
+              <div class="content-bottom">
+                <h6 class="card-category text-white opacity-8">Best practice of learning English</h6>
+                <h5 class="card-title">Keep striving</h5>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-3">
+        <div class="card card-blog card-background" data-animation="zooming">
+        <div class="full-background" style="background-image: url({% static 'img/theme/john-hoang.jpg' %})"></div>
+          <a href="javascript:;">
+            <div class="card-body">
+              <div class="content-bottom">
+                <h6 class="card-category text-white opacity-8">New Opportunities</h6>
+                <h5 class="card-title">Constantly growing</h5>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card card-blog card-background" data-animation="zooming">
+          <div class="full-background" style="background-image: url({% static 'img/theme/kit-suman.jpg' %})"></div>
+          <a href="javascript:;">
+            <div class="card-body">
+              <div class="content-bottom">
+                <h6 class="card-category text-white opacity-8">Sales Leads</h6>
+                <h5 class="card-title">Configure Blockchain Technology</h5>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="row align-items-center">
+      <div class="col-lg-6">
+        <div class="card card-blog card-background" data-animation="zooming">
+          <div class="full-background" style="background-image: url({% static 'img/sections/damian.jpg' %})"></div>
+          <a href="javascript:;">
+            <div class="card-body">
+              <div class="content-bottom">
+                <h6 class="card-category text-white opacity-8">AI at the Edge</h6>
+                <h5 class="card-title">Research Byte</h5>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-3">
+        <div class="card card-blog card-background" data-animation="zooming">
+          <div class="full-background" style="background-image: url({% static 'img/sections/chrisa.jpg' %})"></div>
+          <a href="javascript:;">
+            <div class="card-body">
+              <div class="content-bottom">
+                <h6 class="card-category text-white opacity-8">Focus</h6>
+                <h5 class="card-title">Stay alert</h5>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-3">
+        <div class="card card-blog card-background" data-animation="zooming">
+          <div class="full-background" style="background-image: url({% static 'img/sections/odin.jpg' %})"></div>
+          <a href="javascript:;">
+            <div class="card-body">
+              <div class="content-bottom">
+                <h6 class="card-category text-white opacity-8">Touch on a trend</h6>
+                <h5 class="card-title">New Challenges</h5>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-icon btn-primary mt-4" type="button">
+      <span class="btn-inner--text">Show more</span>
+      <span class="btn-inner--icon"><i class="ni ni-bold-right"></i></span>
+    </button>
+  </div>
+
+{% endblock %}
