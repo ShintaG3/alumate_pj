@@ -1,0 +1,303 @@
+{% extends 'base-authpage.html' %}
+{% load static %}
+{% block navbar %}
+{% include 'include/nav-authpage.html' %}
+{% endblock %}
+{% block content %}
+<style>
+.sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    /* z-index: 100; */
+    padding: 96px 0 0 8%;
+    /* box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1); */
+}
+</style>
+<div class="wrapper">
+    <section class="section section-blog-info">
+        <nav class="col-md-3 d-none d-md-block">
+            <div class="sidebar-sticky sidebar">
+              <ul class="nav flex-column">
+                <li class="nav-item">
+                  <a class="nav-link active" href="{% url 'people:people' %}">
+                      <i class="fa fa-users"></i>
+                      People
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'inquiry:inquiry' %}">
+                    <span>
+                      <i class="fa fa-question"></i>
+
+                    </span>
+                    Questions
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'chat:chat' %}">
+                    <span>
+                      <i class="fa fa-comments"></i>
+
+                    </span>
+                    Messages
+                  </a>
+                </li>
+               
+              </ul>
+      
+              
+            </div>
+        </nav>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-8 mx-auto">
+              <!-- Tabs with icons -->
+           
+              <div class="nav-wrapper mt-3">
+                <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="tabs-icons-text" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link mb-sm-3 mb-md-0 active" id="tabs-icons-text-1-tab" data-toggle="tab" href="#tabs-icons-text-1" role="tab" aria-controls="tabs-icons-text-1" aria-selected="true"><i class="ni ni-cloud-upload-96 mr-2"></i>Post</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-2-tab" data-toggle="tab" href="#tabs-icons-text-2" role="tab" aria-controls="tabs-icons-text-2" aria-selected="false"><i class="fa fa-question mr-2"></i>Ask</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="card shadow">
+                <div class="card-body">
+                  <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade active show" id="tabs-icons-text-1" role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">
+                      <div class="media align-items-center">
+                        <img alt="Image placeholder" class="avatar avatar-lg rounded-circle mb-4" src="{% static 'img/faces/team-3.jpg' %}">
+                        <div class="media-body">
+                          <form>
+                            <textarea class="form-control" placeholder="Write your comment" rows="1"></textarea>
+                          </form>
+                        </div>
+                      </div>
+                      <div class="text-right ml-auto">
+                        <button type="button" class="btn btn-md btn-transparent btn-icon rounded">
+                          <span class="btn-inner--icon icon-big"><i class="fa fa-image"></i></span>
+                        </button>
+                        <button type="button" class="btn btn-sm btn-primary btn-icon">
+                          <span class="btn-inner--icon icon-big"><i class="ni ni-fat-add"></i></span>
+                          <span class="btn-inner--text">Post</span>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="tab-pane fade" id="tabs-icons-text-2" role="tabpanel" aria-labelledby="tabs-icons-text-2-tab">
+                      <div class="media align-items-center">
+                        <img alt="Image placeholder" class="avatar avatar-lg rounded-circle mb-4" src="{% static 'img/faces/team-3.jpg' %}">
+                        <div class="media-body">
+                          <form>
+                            <div class="form-group">
+                              <input type="text" class="form-control" placeholder="Title" ></input>
+                            </div>
+                            <div class="form-group">
+                              <textarea class="form-control" placeholder="Write your question" rows="3"></textarea>
+                            </div>
+                            <div class="form-group bg-secondary">
+                              <div class="container mt-1">
+                                <div class="row">
+                                  <div class="col mt-3 mb-3">
+                                    <i class="ni ni-tag"></i>
+                                    <span>Tags</span>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-md-8">
+                                    <div class="input-group input-group-alternative mb-4">
+                                      <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
+                                      </div>
+                                      <input class="form-control" placeholder="Country" type="text">
+                                    </div>
+                                  </div>  
+                                  <div class="col-md-8">
+                                    <div class="input-group input-group-alternative mb-4">
+                                      <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
+                                      </div>
+                                      <input class="form-control" placeholder="School" type="text">
+                                    </div>
+                                  </div>  
+                                  <div class="col-md-8">
+                                    <div class="input-group input-group-alternative mb-4">
+                                      <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
+                                      </div>
+                                      <input class="form-control" placeholder="Course" type="text">
+                                    </div>
+                                  </div>  
+                                  <div class="col-md-8">
+                                    <div class="input-group input-group-alternative mb-4">
+                                      <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
+                                      </div>
+                                      <input class="form-control" placeholder="Year of study abroad" type="text">
+                                    </div>
+                                  </div>  
+                                  <div class="col-md-8">
+                                    <div class="input-group input-group-alternative mb-4">
+                                      <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
+                                      </div>
+                                      <input class="form-control" placeholder="Job before study abroad" type="text">
+                                    </div>
+                                  </div>  
+                                  <div class="col-md-8">
+                                    <div class="input-group input-group-alternative mb-4">
+                                      <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
+                                      </div>
+                                      <input class="form-control" placeholder="Job after study abroad" type="text">
+                                    </div>
+                                  </div>  
+                                  <div class="col-md-8">
+                                    <div class="input-group input-group-alternative mb-4">
+                                      <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
+                                      </div>
+                                      <input class="form-control" placeholder="Keyword" type="text">
+                                    </div>
+                                  </div>  
+                                </div>  
+
+                              </div>
+                            </div>
+
+                          </form>
+                        </div>
+                      </div>
+                      <div class="text-right ml-auto">
+                        <button type="button" class="btn btn-sm btn-primary btn-icon">
+                          <span class="btn-inner--icon icon-big"><i class="fa fa-question"></i></span>
+                          <span class="btn-inner--text">Ask</span>
+                        </button>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-8 mx-auto">
+              
+              <div class="card mt-sm">
+                <div class="card-header d-flex align-items-center">
+                  <div class="d-flex align-items-center">
+                    <a href="javascript:;">
+                      <img src="{% static 'img/faces/team-1.jpg' %}" class="avatar">
+                    </a>
+                    <div class="mx-3">
+                      <a href="javascript:;" class="text-dark font-weight-600 text-sm">John Snow</a>
+                      <small class="d-block text-muted">3 days ago</small>
+                    </div>
+                  </div>
+                  <div class="text-right ml-auto">
+                    <button type="button" class="btn btn-sm btn-primary btn-icon">
+                      <span class="btn-inner--icon icon-big"><i class="ni ni-fat-add"></i></span>
+                      <span class="btn-inner--text">Follow</span>
+                    </button>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <p class="mb-4">
+                    Personal profiles are the perfect way for you to grab their attention and persuade recruiters to continue reading your CV because you’re telling them from the off exactly why they should hire you.
+                  </p>
+                  <img alt="Image placeholder" src="{% static 'img/sections/mohamed.jpg' %}" class="img-fluid rounded">
+                  <div class="row align-items-center my-3 pb-3 border-bottom">
+                    <div class="col-sm-6">
+                      <div class="icon-actions">
+                        <a href="javascript:;" class="like active">
+                          <i class="ni ni-like-2"></i>
+                          <span class="text-muted">150</span>
+                        </a>
+                        <a href="javascript:;">
+                          <i class="ni ni-chat-round"></i>
+                          <span class="text-muted">36</span>
+                        </a>
+                        <a href="javascript:;">
+                          <i class="ni ni-curved-next"></i>
+                          <span class="text-muted">12</span>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="col-sm-6 d-none d-sm-block">
+                      <div class="d-flex align-items-center justify-content-sm-end">
+                        <div class="avatar-group">
+                          <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-toggle="tooltip" data-original-title="Jessica Rowland">
+                            <img alt="Image placeholder" src="{% static 'img/faces/team-1.jpg' %}" class="">
+                          </a>
+                          <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-toggle="tooltip" data-original-title="Audrey Love">
+                            <img alt="Image placeholder" src="{% static 'img/faces/team-2.jpg' %}" class="rounded-circle">
+                          </a>
+                          <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-toggle="tooltip" data-original-title="Michael Lewis">
+                            <img alt="Image placeholder" src="{% static 'img/faces/team-3.jpg' %}" class="rounded-circle">
+                          </a>
+                        </div>
+                        <small class="pl-2 font-weight-bold">and 30+ more</small>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Comments -->
+                  <div class="mb-1">
+                    <div class="media media-comment">
+                      <img alt="Image placeholder" class="avatar avatar-lg rounded-circle" src="{% static 'img/faces/team-1.jpg' %}">
+                      <div class="media-body">
+                        <div class="media-comment-text">
+                          <h6 class="h5 mt-0">Michael Lewis</h6>
+                          <p class="text-sm lh-160">You have the opportunity to play this game of life you need to appreciate every moment. A lot of people don’t appreciate the moment until it’s passed.</p>
+                          <div class="icon-actions">
+                            <a href="javascript:;" class="like active">
+                              <i class="ni ni-like-2"></i>
+                              <span class="text-muted">3 likes</span>
+                            </a>
+                            <a href="javascript:;">
+                              <i class="ni ni-curved-next"></i>
+                              <span class="text-muted">2 shares</span>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="media media-comment">
+                      <img alt="Image placeholder" class="avatar avatar-lg rounded-circle" src="{% static 'img/faces/team-2.jpg' %}">
+                      <div class="media-body">
+                        <div class="media-comment-text">
+                          <h6 class="h5 mt-0">Jessica Stones</h6>
+                          <p class="text-sm lh-160">I always felt like I could do anything. That’s the main thing people are controlled by! Thoughts- their perception of themselves! They're slowed down.</p>
+                          <div class="icon-actions">
+                            <a href="javascript:;" class="like active">
+                              <i class="ni ni-like-2"></i>
+                              <span class="text-muted">10 likes</span>
+                            </a>
+                            <a href="javascript:;">
+                              <i class="ni ni-curved-next"></i>
+                              <span class="text-muted">1 share</span>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="media align-items-center mt-5">
+                      <img alt="Image placeholder" class="avatar avatar-lg rounded-circle mb-4" src="{% static 'img/faces/team-3.jpg' %}">
+                      <div class="media-body">
+                        <form>
+                          <textarea class="form-control" placeholder="Write your comment" rows="1"></textarea>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

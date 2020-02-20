@@ -4,7 +4,7 @@ from user_profile.models import School, Country, UserProfile, City
     
 class Post(models.Model):
     user = models.ForeignKey(User,on_delete=models.SET_NULL, null=True)
-    post_title = models.CharField(max_length=100)
+    # post_title = models.CharField(max_length=100) # No need so far
     body = models.CharField(max_length=5000)
     post_country_tag = models.ManyToManyField(Country)
     post_city_tag = models.ManyToManyField(City)
@@ -19,7 +19,7 @@ class Post(models.Model):
     post_likes = models.IntegerField(default=0)
     post_views = models.IntegerField(default=0)
     post_replies = models.IntegerField(default=0)
-    slug = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=40)
 
     def __str__(self):
         return self.post_title

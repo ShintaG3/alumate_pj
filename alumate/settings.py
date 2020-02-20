@@ -31,9 +31,11 @@ INSTALLED_APPS = [
     'user_profile',
     'post',
     'message',
-    # 'feed',
-    # 'account',
-    # 'chat',
+    'feed',
+    'account',
+    'chat',
+    'inquiry',
+    'people',
 ]
 
 MIDDLEWARE = [
