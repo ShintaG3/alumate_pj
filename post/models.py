@@ -9,7 +9,7 @@ class Post(models.Model):
     post_country_tag = models.ManyToManyField(Country)
     post_city_tag = models.ManyToManyField(City)
     post_school_tag = models.ManyToManyField(School)
-    #Should'nt the post be displayed in paragraphs instead of one big body?
+    #Should'nt the post be displayed in paragraphs instead of one big body ?
     # p1 = models.CharField(max_length=500)
     # p2 = models.CharField(max_length=500, blank=True)
     # p3 = models.CharField(max_length=500, blank=True)

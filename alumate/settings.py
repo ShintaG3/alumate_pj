@@ -30,7 +30,10 @@ INSTALLED_APPS = [
     'auths',
     'user_profile',
     'post',
-    'message'
+    'message',
+    # 'feed',
+    # 'account',
+    # 'chat',
 ]
 
 MIDDLEWARE = [
@@ -121,10 +124,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' #Deploy settings Staticfile storage to Heroku via whitenoise
 
 #--Media file configuration --
-# MEDIA_URL = '/media/'                                                #local settings
+# MEDIA_URL = '/media/'                                              #local settings
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media_root')   
 
-DEBUG = True
+DEBUG = False
 
 try:
     from .local_settings import *

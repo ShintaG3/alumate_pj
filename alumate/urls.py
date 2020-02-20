@@ -7,3 +7,5 @@ urlpatterns = [
     path('', include('landingpage.urls', namespace='index')),
     path('auths/', include('auths.urls', namespace='auths')),
 ]
+
+

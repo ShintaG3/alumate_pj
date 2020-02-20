@@ -8,3 +8,4 @@ stored in db.
 Post:
 A user needs to add tags for the posts(ManyToMany fields can't be empty).
 Any other tags required?
+...
