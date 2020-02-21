@@ -28,12 +28,16 @@ INSTALLED_APPS = [
     'demo',
     'landingpage',
     'auths',
+<<<<<<< HEAD
     'post',
+=======
+>>>>>>> 67223d94e98feb93aa9bdf65a993f7939fc0d84a
     'message',
     'feed',
     'chat',
     'inquiry',
     'people',
+    'noticle',
 ]
 
 MIDDLEWARE = [

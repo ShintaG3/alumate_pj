@@ -3,9 +3,19 @@
 {% block navbar %}
 {% include 'include/nav-authpage.html' %}
 {% endblock %}
-{% block content %}
+
+{% block style %}
 <style>
-.sidebar {
+  .card-zoom[data-animation=zooming] {
+      transition: all .3s cubic-bezier(.2,1,.22,1);
+      -webkit-transition: all .3s cubic-bezier(.2,1,.22,1);
+  }
+  .card-zoom[data-animation=zooming]:hover {
+  transform: scale(1.07);
+  -webkit-transform: scale(1.07);
+  z-index: 2;
+  }
+  .sidebar {
     position: fixed;
     top: 0;
     bottom: 0;
@@ -13,10 +23,14 @@
     /* z-index: 100; */
     padding: 96px 0 0 8%;
     /* box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1); */
-}
+  }
 </style>
+{% endblock %}
+
+{% block content %}
 <div class="wrapper">
     <section class="section section-blog-info">
+        <!-- side bar -->
         <nav class="col-md-3 d-none d-md-block">
             <div class="sidebar-sticky sidebar">
               <ul class="nav flex-column">
@@ -27,10 +41,15 @@
                   </a>
                 </li>
                 <li class="nav-item">
+                  <a class="nav-link" href="{% url 'noticle:noticle' %}">
+                      <i class="ni ni-collection"></i>
+                      Noticles
+                  </a>
+                </li>
+                <li class="nav-item">
                   <a class="nav-link" href="{% url 'inquiry:inquiry' %}">
                     <span>
                       <i class="fa fa-question"></i>
-
                     </span>
                     Questions
                   </a>
@@ -39,35 +58,36 @@
                   <a class="nav-link" href="{% url 'chat:chat' %}">
                     <span>
                       <i class="fa fa-comments"></i>
-
                     </span>
                     Messages
                   </a>
                 </li>
-               
               </ul>
-      
-              
             </div>
         </nav>
+
+        <!-- post area -->
         <div class="container">
           <div class="row">
             <div class="col-md-8 mx-auto">
               <!-- Tabs with icons -->
-           
               <div class="nav-wrapper mt-3">
                 <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="tabs-icons-text" role="tablist">
                   <li class="nav-item">
                     <a class="nav-link mb-sm-3 mb-md-0 active" id="tabs-icons-text-1-tab" data-toggle="tab" href="#tabs-icons-text-1" role="tab" aria-controls="tabs-icons-text-1" aria-selected="true"><i class="ni ni-cloud-upload-96 mr-2"></i>Post</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-2-tab" data-toggle="tab" href="#tabs-icons-text-2" role="tab" aria-controls="tabs-icons-text-2" aria-selected="false"><i class="fa fa-question mr-2"></i>Ask</a>
+                    <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-2-tab" data-toggle="tab" href="#tabs-icons-text-2" role="tab" aria-controls="tabs-icons-text-2" aria-selected="false"><i class="ni ni-collection mr-2"></i>Noticle</a>
                   </li>
+                  <li class="nav-item">
+                    <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-3-tab" data-toggle="tab" href="#tabs-icons-text-3" role="tab" aria-controls="tabs-icons-text-3" aria-selected="false"><i class="fa fa-question mr-2"></i>Ask</a>
+                </li>
                 </ul>
               </div>
               <div class="card shadow">
                 <div class="card-body">
                   <div class="tab-content" id="myTabContent">
+                    <!-- Post -->
                     <div class="tab-pane fade active show" id="tabs-icons-text-1" role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">
                       <div class="media align-items-center">
                         <img alt="Image placeholder" class="avatar avatar-lg rounded-circle mb-4" src="{% static 'img/faces/team-3.jpg' %}">
@@ -87,7 +107,27 @@
                         </button>
                       </div>
                     </div>
+
+                    <!-- Noticle -->
                     <div class="tab-pane fade" id="tabs-icons-text-2" role="tabpanel" aria-labelledby="tabs-icons-text-2-tab">
+                      <div class="media align-items-center">
+                        <img alt="Image placeholder" class="avatar avatar-lg rounded-circle mb-4" src="{% static 'img/faces/team-3.jpg' %}">
+                        <div class="media-body">
+                          <form>
+                            <textarea class="form-control" placeholder="Markdownx" rows="5"></textarea>
+                          </form>
+                        </div>
+                      </div>
+                      <div class="text-right ml-auto">
+                        <button type="button" class="btn btn-sm btn-primary btn-icon">
+                          <span class="btn-inner--icon icon-big"><i class="ni ni-collection"></i></span>
+                          <span class="btn-inner--text">Noticle</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- Ask -->
+                    <div class="tab-pane fade" id="tabs-icons-text-3" role="tabpanel" aria-labelledby="tabs-icons-text-3-tab">
                       <div class="media align-items-center">
                         <img alt="Image placeholder" class="avatar avatar-lg rounded-circle mb-4" src="{% static 'img/faces/team-3.jpg' %}">
                         <div class="media-body">
@@ -178,12 +218,14 @@
                         </button>
                       </div>
                     </div>
-                    
+
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          
+          <!-- feed area -->
           <div class="row">
             <div class="col-md-8 mx-auto">
               
@@ -297,6 +339,71 @@
               </div>
             </div>
           </div>
+
+          <!-- noticle -->
+          <div class="row">
+            <div class="col-md-8 mx-auto">
+              <div class="card card-blog card-background card-grande" data-animation="zooming">
+                <div class="full-background" style="background-image: url({% static 'img/sections/unsplashs.jpg' %})"></div>
+                <a href="javascript:;">
+                  </a><div class="card-body mb-4"><a href="javascript:;">
+                    <h2 class="card-title">Miami Vice</h2>
+                    <p class="card-description text-white">The simplest visual description uses ordinary words to convey what the writer sees. First he or she must look at the subject – slowly, carefully, and repeatedly, if possible – to identify the parts that make the whole</p>
+                    <div class="author">
+                      <img src="{% static 'img/faces/team-4.jpg' %}" alt="..." class="avatar">
+                      <span class="text-white">by Johanna Zmud</span>
+                    </div>
+                    <br>
+                    </a><a class="btn btn-primary" href="javascript:;">
+                      Read more...
+                    </a>
+                  </div>               
+              </div>
+            </div>
+          </div>
+
+          <!-- inquiry -->
+          <div class="row">
+            <div class="col-md-8 mx-auto">
+              <div class="card card-blog card-zoom" data-header="pattern" data-animation="zooming">
+                <a href="javascript:;">
+                  <img class="img pattern rounded" src="{% static 'img/ill/presentation_bg.png' %}">
+                </a>
+                <div class="card-body">
+                  <h6 class="card-category text-danger">
+                    <i class="ni ni-badge"></i> Oxford
+                  </h6>
+                  <h5 class="card-title">
+                    <a href="javascript:;">Looking for accommodation</a>
+                  </h5>
+                  <p class="card-description">
+                    Hi, I enrole in Oxford University in 2021. My college is Crist charch. I am looking for afordable accommodations around Oxford...
+                  </p>
+                  <div class="author">
+                    <img src="{% static 'img/faces/team-4.jpg' %}" alt="..." class="avatar">
+                    <span>by Johanna Zmud</span>
+                  </div>
+                </div>
+                <div class="card-footer">
+                    <div class="icon-actions">
+                        <a href="javascript:;" class="like active">
+                          <i class="ni ni-like-2"></i>
+                          <span class="text-muted">150</span>
+                        </a>
+                        <a href="javascript:;">
+                          <i class="ni ni-chat-round"></i>
+                          <span class="text-muted">36</span>
+                        </a>
+                        <a href="javascript:;">
+                          <i class="ni ni-curved-next"></i>
+                          <span class="text-muted">12</span>
+                        </a>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
     </section>
 </div>
