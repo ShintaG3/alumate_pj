@@ -1,11 +1,1 @@
-1)School, City, Country:
-How are these data to be filled ? Using some API ? 
-In any case one can't expect every user's school, city to be stored in db. 
-Like my current city, is Lucknow and I went to Boy's High School. 
-So a user should have the option of adding these information even if not already
-stored in db.
 
-Post:
-A user needs to add tags for the posts(ManyToMany fields can't be empty).
-Any other tags required?
-...
