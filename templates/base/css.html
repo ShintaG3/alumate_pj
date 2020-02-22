@@ -9,3 +9,64 @@
 <!-- Argon CSS -->
 <!-- <link type="text/css" href="{% static 'css/argon.css' %}" rel="stylesheet"> -->
 <link type="text/css" href="{% static 'css/argon-design-system.min.css' %}" rel="stylesheet">
+<!-- Manual Style  -->
+<style>
+    .bootstrap-tagsinput{
+        display:inline-block;
+        max-width:100%;
+        padding:.25rem;cursor:text;
+        vertical-align:middle;
+        color:#8898aa;
+        border:0 solid transparent;
+        border-radius:.25rem;
+        background-color:#fff;
+    }
+    .bootstrap-tagsinput input{
+        width:auto;
+        max-width:inherit;margin:0;
+        padding:0 6px;border:none;outline:0;
+        background-color:transparent;
+        box-shadow:none
+    }
+    .bootstrap-tagsinput input::-ms-input-placeholder{
+        opacity:1;
+        color:#adb5bd;
+    }
+    .bootstrap-tagsinput input::placeholder{
+        opacity:1;
+        color:#adb5bd
+    }
+    .bootstrap-tagsinput input:focus{
+        border:none;
+        box-shadow:none
+    }
+    .bootstrap-tagsinput .badge{
+        line-height:1.5;
+        position:relative;
+        margin:.125rem;
+        padding:.625rem .625rem .5rem;
+        transition:all .15s ease;
+        color:#fff;
+        border-radius:.25rem;
+        background:#172b4d;
+        box-shadow:0 1px 2px rgba(68,68,68,.25)
+    }
+    @media (prefers-reduced-motion:reduce){
+        .bootstrap-tagsinput 
+        .badge{transition:none}
+    }
+    .bootstrap-tagsinput .badge:hover{
+        padding-right:1.5rem
+    }
+    .bootstrap-tagsinput [data-role=remove]{
+        position:absolute;
+        top:50%;
+        margin-left:10px;
+        cursor:pointer;
+        transform:translate(0,-50%);
+        color:#fff
+    }
+    .bootstrap-tagsinput [data-role=remove]:after{
+        font-size:16px;content:'×'
+    }
+</style>
