@@ -5,6 +5,8 @@
 {% endblock %}
 
 {% block style %}
+<link type="text/css" href="{% static 'vendor/select2/css/select2.min.css' %}" rel="stylesheet">
+<link type="text/css" href="{% static 'css/argon-dash.min.css' %}" rel="stylesheet">
 <style>
   .card-zoom[data-animation=zooming] {
       transition: all .3s cubic-bezier(.2,1,.22,1);
@@ -17,7 +19,9 @@
   }
 </style>
 {% endblock %}
-  
+{% block scripts %}
+<script src="{% static 'vendor/select2/js/select2.min.js' %}"></script>
+{% endblock %}
 
 {% block content %}
 
