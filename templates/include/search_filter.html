@@ -1,105 +1,169 @@
+{% load static %}
 <!-- check out the following link to create multiple option filter
 https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/dropdown.html -->
+
 <div class="row">
-  <div class="ct-example" data-select2-id="21">
-          <ul class="nav nav-tabs-code" id="dropdown-multiple-tab" role="tablist">
-            <li class="nav-item">
-              <a class="nav-link active" id="dropdown-multiple-component-tab" data-toggle="tab" href="#dropdown-multiple-component" role="tab" aria-controls="dropdown-multiple-component" aria-selected="true">Result</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="dropdown-multiple-html-tab" data-toggle="tab" href="#dropdown-multiple-html" role="tab" aria-controls="dropdown-multiple-html" aria-selected="false">HTML</a>
-            </li>
-          </ul>
-          <div class="tab-content" data-select2-id="20">
-            <div id="dropdown-multiple-component" class="tab-pane tab-example-result fade active show" role="tabpanel" aria-labelledby="dropdown-multiple-component-tab" data-select2-id="dropdown-multiple-component">
-              <form data-select2-id="19">
-                <select class="form-control select2-hidden-accessible" data-toggle="select" multiple="" data-placeholder="Select multiple options" data-select2-id="16" tabindex="-1" aria-hidden="true">
-                  <option data-select2-id="23">Alerts</option>
-                  <option data-select2-id="24">Badges</option>
-                  <option data-select2-id="25">Buttons</option>
-                  <option data-select2-id="26">Cards</option>
-                  <option data-select2-id="27">Forms</option>
-                  <option data-select2-id="28">Modals</option>
-                </select><span class="select2 select2-container select2-container--default select2-container--above select2-container--focus select2-container--open" dir="ltr" data-select2-id="17" style="width: 697.991px;"><span class="selection"><span class="select2-selection select2-selection--multiple" role="combobox" aria-haspopup="true" aria-expanded="true" tabindex="-1" aria-disabled="false" aria-owns="select2-c8qa-results" aria-activedescendant="select2-c8qa-result-oquq-Cards"><ul class="select2-selection__rendered"><li class="select2-selection__choice" title="Buttons" data-select2-id="37"><span class="select2-selection__choice__remove" role="presentation">×</span>Buttons</li><li class="select2-selection__choice" title="Cards" data-select2-id="38"><span class="select2-selection__choice__remove" role="presentation">×</span>Cards</li><li class="select2-search select2-search--inline"><input class="select2-search__field" type="search" tabindex="0" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" role="searchbox" aria-autocomplete="list" placeholder="" style="width: 0.75em;" aria-controls="select2-c8qa-results" aria-activedescendant="select2-c8qa-result-oquq-Cards"></li></ul></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-              </form>
-            </div>
-            <div id="dropdown-multiple-html" class="tab-pane fade" role="tabpanel" aria-labelledby="dropdown-multiple-html-tab">
-              <figure class="highlight"><pre class=" language-html"><code class=" language-html" data-lang="html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>form</span><span class="token punctuation">&gt;</span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>form-control<span class="token punctuation">"</span></span> <span class="token attr-name">data-toggle</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>select<span class="token punctuation">"</span></span> <span class="token attr-name">multiple</span> <span class="token attr-name">data-placeholder</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>Select multiple options<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span><span class="token punctuation">&gt;</span></span>Alerts<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span><span class="token punctuation">&gt;</span></span>Badges<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span><span class="token punctuation">&gt;</span></span>Buttons<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span><span class="token punctuation">&gt;</span></span>Cards<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span><span class="token punctuation">&gt;</span></span>Forms<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span><span class="token punctuation">&gt;</span></span>Modals<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">&gt;</span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>form</span><span class="token punctuation">&gt;</span></span></code></pre>
-              </figure>
+  <div class="col-md-4">
+    <label for="select2-multiple-input-lg" class="control-label">Country</label>
+    <select id="select2-multiple-input-lg" class="form-control input-lg select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true">
+      <optgroup label="Alaskan/Hawaiian Time Zone">
+        <option value="AK">Alaska</option>
+        <option value="HI" disabled="disabled">Hawaii</option>
+      </optgroup>
+      <optgroup label="Pacific Time Zone">
+        <option value="CA">California</option>
+        <option value="NV">Nevada</option>
+        <option value="OR">Oregon</option>
+        <option value="WA">Washington</option>
+      </optgroup>
+      <optgroup label="Mountain Time Zone">
+        <option value="AZ">Arizona</option>
+        <option value="CO">Colorado</option>
+        <option value="ID">Idaho</option>
+        <option value="MT">Montana</option>
+        <option value="NE">Nebraska</option>
+        <option value="NM">New Mexico</option>
+        <option value="ND">North Dakota</option>
+        <option value="UT">Utah</option>
+        <option value="WY">Wyoming</option>
+      </optgroup>
+      <optgroup label="Central Time Zone">
+        <option value="AL">Alabama</option>
+        <option value="AR">Arkansas</option>
+        <option value="IL">Illinois</option>
+        <option value="IA">Iowa</option>
+        <option value="KS">Kansas</option>
+        <option value="KY">Kentucky</option>
+        <option value="LA">Louisiana</option>
+        <option value="MN">Minnesota</option>
+        <option value="MS">Mississippi</option>
+        <option value="MO">Missouri</option>
+        <option value="OK">Oklahoma</option>
+        <option value="SD">South Dakota</option>
+        <option value="TX">Texas</option>
+        <option value="TN">Tennessee</option>
+        <option value="WI">Wisconsin</option>
+      </optgroup>
+      <optgroup label="Eastern Time Zone">
+        <option value="CT">Connecticut</option>
+        <option value="DE">Delaware</option>
+        <option value="FL">Florida</option>
+        <option value="GA">Georgia</option>
+        <option value="IN">Indiana</option>
+        <option value="ME">Maine</option>
+        <option value="MD">Maryland</option>
+        <option value="MA">Massachusetts</option>
+        <option value="MI">Michigan</option>
+        <option value="NH">New Hampshire</option>
+        <option value="NJ">New Jersey</option>
+        <option value="NY">New York</option>
+        <option value="NC">North Carolina</option>
+        <option value="OH">Ohio</option>
+        <option value="PA">Pennsylvania</option>
+        <option value="RI">Rhode Island</option>
+        <option value="SC">South Carolina</option>
+        <option value="VT">Vermont</option>
+        <option value="VA">Virginia</option>
+        <option value="WV">West Virginia</option>
+      </optgroup>
+      <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
+      <option value="TPZ">The Panic Zone</option>
+      <option value="TTZ">The Twilight Zone</option>
+    </select>
+  
+  </div>
+</div>
+
+<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'vendor/anchor-js/anchor.min.js' %}"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.full.js"></script>
+
+<script>
+  $.fn.select2.defaults.set("theme", "bootstrap");
+  var placeholder = "Select Country";
+  $(".select2-single, .select2-multiple").select2({
+    placeholder: placeholder,
+    width: null,
+    containerCssClass: ':all:'
+  });
+
+  $(".select2-single, .select2-multiple, .select2-allow-clear, .js-data-example-ajax").on("select2:open", function () {
+    if ($(this).parents("[class*='has-']").length) {
+      var classNames = $(this).parents("[class*='has-']")[0].className.split(/\s+/);
+
+      for (var i = 0; i < classNames.length; ++i) {
+        if (classNames[i].match("has-")) {
+          $("body > .select2-container").addClass(classNames[i]);
+        }
+      }
+    }
+  });
+</script>
+
+
+<div class="row">
+  <div class="ct-example">
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        Country
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <form action="">
+          <div class="dropdown-item">
+            <div class="custom-control custom-checkbox mb-3">
+              <input class="custom-control-input" id="customCheck1" type="checkbox">
+              <label class="custom-control-label" for="customCheck1">United Kingdom</label>
             </div>
           </div>
-        </div>
-</div>          
-<div class="row">
-    <div class="ct-example">
-      <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Country
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <form action="">
-            <div class="dropdown-item">
-              <div class="custom-control custom-checkbox mb-3">
-                <input class="custom-control-input" id="customCheck1" type="checkbox">
-                <label class="custom-control-label" for="customCheck1">United Kingdom</label>
-              </div>
+          <div class="dropdown-item">
+            <div class="custom-control custom-checkbox mb-3">
+              <input class="custom-control-input" id="customCheck2" type="checkbox">
+              <label class="custom-control-label" for="customCheck2">United States</label>
             </div>
-            <div class="dropdown-item">
-              <div class="custom-control custom-checkbox mb-3">
-                <input class="custom-control-input" id="customCheck2" type="checkbox">
-                <label class="custom-control-label" for="customCheck2">United States</label>
-              </div>
+          </div>
+          <div class="dropdown-item">
+            <div class="custom-control custom-checkbox mb-3">
+              <input class="custom-control-input" id="customCheck3" type="checkbox">
+              <label class="custom-control-label" for="customCheck3">Australia</label>
             </div>
-            <div class="dropdown-item">
-              <div class="custom-control custom-checkbox mb-3">
-                <input class="custom-control-input" id="customCheck3" type="checkbox">
-                <label class="custom-control-label" for="customCheck3">Australia</label>
-              </div>
-            </div>
-            <div class="text-center">
-              <button type="submit" class="btn btn-primary">Apply</button>
-            </div>
-          </form>
-        </div>
-      </div>
-      <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          School
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <form action="">
-            <div class="dropdown-item">
-              <div class="custom-control custom-checkbox mb-3">
-                <input class="custom-control-input" id="customCheck4" type="checkbox">
-                <label class="custom-control-label" for="customCheck4">Harvard University</label>
-              </div>
-            </div>
-            <div class="dropdown-item">
-              <div class="custom-control custom-checkbox mb-3">
-                <input class="custom-control-input" id="customCheck5" type="checkbox">
-                <label class="custom-control-label" for="customCheck5">Cambridge University</label>
-              </div>
-            </div>
-            <div class="dropdown-item">
-              <div class="custom-control custom-checkbox mb-3">
-                <input class="custom-control-input" id="customCheck6" type="checkbox">
-                <label class="custom-control-label" for="customCheck6">Tokyo University</label>
-              </div>
-            </div>
-            <div class="text-center">
-              <button type="submit" class="btn btn-primary">Apply</button>
-            </div>
-          </form>
-        </div>
+          </div>
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary">Apply</button>
+          </div>
+        </form>
       </div>
     </div>
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        School
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <form action="">
+          <div class="dropdown-item">
+            <div class="custom-control custom-checkbox mb-3">
+              <input class="custom-control-input" id="customCheck4" type="checkbox">
+              <label class="custom-control-label" for="customCheck4">Harvard University</label>
+            </div>
+          </div>
+          <div class="dropdown-item">
+            <div class="custom-control custom-checkbox mb-3">
+              <input class="custom-control-input" id="customCheck5" type="checkbox">
+              <label class="custom-control-label" for="customCheck5">Cambridge University</label>
+            </div>
+          </div>
+          <div class="dropdown-item">
+            <div class="custom-control custom-checkbox mb-3">
+              <input class="custom-control-input" id="customCheck6" type="checkbox">
+              <label class="custom-control-label" for="customCheck6">Tokyo University</label>
+            </div>
+          </div>
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary">Apply</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
