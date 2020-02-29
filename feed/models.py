@@ -6,7 +6,7 @@ class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     body = models.CharField(max_length=5000)
     post_created_at = models.DateTimeField(auto_now_add=True)
-    post_edited_at = models.DateTimeField(blank=True)
+    post_edited_at = models.DateTimeField(blank=True, null=True)
     post_likes = models.IntegerField(default=0)
     post_views = models.IntegerField(default=0)
     post_replies = models.IntegerField(default=0)

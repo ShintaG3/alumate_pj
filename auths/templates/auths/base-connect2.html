@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block navbar %}
+{% include 'include/nav-black.html' %}
+{% endblock %}
+
+{% block content %}
+<main>
+  <section class="section section-lg">
+    <div class="container">
+      <div class="row mb-sm">
+        <div class="col-lg-8">
+          <h3 class="display-3">Future students</h3>
+        </div>
+      </div>
+      <div class="row mb-lg">
+        {% for user in users %}
+        {% if user.status == 'future' %}
+        <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
+          <div class="px-4">
+            <img src="{% static 'img/theme/team-1-800x800.jpg' %}" class="rounded-circle img-center img-fluid shadow shadow-lg--hover" style="width: 200px;" alt="image">
+            <div class="pt-4 text-center">
+              <h5 class="title">
+                <span class="d-block mb-1">{{ user.user.username }}</span>
+                {% for school in user.school.all %}
+                <small class="h6 text-muted">{{ school.school_name }}</small>
+                {% endfor %}
+              </h5>
+              <div class="mt-1">
+                <button class="btn btn-transparent rounded">
+                  <i class="fa fa-plus text-danger"></i>
+                  <small>Connect</small>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>  
+        {% endif %}
+        {% endfor %}
+      </div>
+
+      <div class="row mb-sm">
+        <div class="col-lg-8">
+          <h3 class="display-3">Current students</h3>
+        </div>
+      </div>
+      <div class="row mb-lg">
+        {% for user in users %}
+        {% if user.status == 'student'%}
+        <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
+          <div class="px-4">
+            <img src="{% static 'img/sam.png' %}" class="rounded-circle img-center shadow shadow-lg--hover" style="object-fit:cover; width:182px; height:182px;" alt="image">
+            <div class="pt-4 text-center">
+              <h5 class="title">
+                <span class="d-block mb-1">{{ user.user.username }}</span>
+                {% for  school in user.school.all %}
+                <small class="h6 text-muted">{{ school.school_name }}</small>
+                {% endfor %}
+              </h5>
+              <div class="mt-1">
+                <button class="btn btn-transparent rounded">
+                  <i class="fa fa-plus text-danger"></i>
+                  <small>Connect</small>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+      </div>
+
+      <div class="row mb-sm">
+        <div class="col-lg-8">
+          <h3 class="display-3">Alumni</h3>
+        </div>
+      </div>
+      <div class="row mb-md">
+          {% for user in users %}
+          {% if user.status == 'alumni' %}
+        <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
+          <div class="px-4">
+            <img src="{% static 'img/shinta.jpg' %}" class="rounded-circle img-center shadow shadow-lg--hover" style="object-fit:cover; width:182px; height:182px;" alt="image">
+            <div class="pt-4 text-center">
+              <h5 class="title">
+                <span class="d-block mb-1">{{ user.user.username }}</span>
+                {% for  school in user.school.all %}
+                <small class="h6 text-muted">{{ school.school_name }}</small>
+                {% endfor %}
+              </h5>
+              <div class="mt-1">
+                <button class="btn btn-transparent rounded">
+                  <i class="fa fa-plus text-danger"></i>
+                  <small>Connect</small>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+      </div>
+      <div class="row justify-content-center">
+        <a href="{% url 'feed:feed' %}" class="btn btn-primary mt-4">Welcome to Alumate!</a>
+      </div>
+    </div>
+  </section>
+  
+</main>
+  
+{% endblock %}

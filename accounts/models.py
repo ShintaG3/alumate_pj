@@ -23,8 +23,8 @@ class UserProfile(models.Model):
         validators = [MaxValueValidator(2020), MinValueValidator(1940)],
         null=True, blank=True
         )
-    # Should a User must have a course ? => No
     course = models.CharField(max_length=50, null=True, blank=True)
+    year_of_abroad_study = models.DateField(null=True, blank=True)
     previous_job = models.CharField(max_length=100, null=True, blank=True)
     previous_job_start_year = models.IntegerField(
         validators = [MaxValueValidator(2020), MinValueValidator(1970)],
