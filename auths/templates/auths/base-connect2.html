@@ -14,8 +14,7 @@
         </div>
       </div>
       <div class="row mb-lg">
-        {% for user in users %}
-        {% if user.status == 'future' %}
+        {% for user in futures %}
         <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
           <div class="px-4">
             <img src="{% static 'img/theme/team-1-800x800.jpg' %}" class="rounded-circle img-center img-fluid shadow shadow-lg--hover" style="width: 200px;" alt="image">
@@ -27,15 +26,14 @@
                 {% endfor %}
               </h5>
               <div class="mt-1">
-                <button class="btn btn-transparent rounded">
+                <button class="btn btn-transparent rounded" data-follow="{{ user.id }}">
                   <i class="fa fa-plus text-danger"></i>
-                  <small>Connect</small>
+                  <small>Follow</small>
                 </button>
               </div>
             </div>
           </div>
-        </div>  
-        {% endif %}
+        </div>
         {% endfor %}
       </div>
 
@@ -45,8 +43,7 @@
         </div>
       </div>
       <div class="row mb-lg">
-        {% for user in users %}
-        {% if user.status == 'student'%}
+        {% for user in students %}
         <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
           <div class="px-4">
             <img src="{% static 'img/sam.png' %}" class="rounded-circle img-center shadow shadow-lg--hover" style="object-fit:cover; width:182px; height:182px;" alt="image">
@@ -58,15 +55,14 @@
                 {% endfor %}
               </h5>
               <div class="mt-1">
-                <button class="btn btn-transparent rounded">
+                <button class="btn btn-transparent rounded" data-follow="{{ user.id }}">
                   <i class="fa fa-plus text-danger"></i>
-                  <small>Connect</small>
+                  <small>Follow</small>
                 </button>
               </div>
             </div>
           </div>
         </div>
-        {% endif %}
         {% endfor %}
       </div>
 
@@ -76,8 +72,7 @@
         </div>
       </div>
       <div class="row mb-md">
-          {% for user in users %}
-          {% if user.status == 'alumni' %}
+          {% for user in alumnis %}
         <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
           <div class="px-4">
             <img src="{% static 'img/shinta.jpg' %}" class="rounded-circle img-center shadow shadow-lg--hover" style="object-fit:cover; width:182px; height:182px;" alt="image">
@@ -89,15 +84,14 @@
                 {% endfor %}
               </h5>
               <div class="mt-1">
-                <button class="btn btn-transparent rounded">
+                <button class="btn btn-transparent rounded" data-follow="{{ user.id }}">
                   <i class="fa fa-plus text-danger"></i>
-                  <small>Connect</small>
+                  <small>Follow</small>
                 </button>
               </div>
             </div>
           </div>
         </div>
-        {% endif %}
         {% endfor %}
       </div>
       <div class="row justify-content-center">
@@ -105,7 +99,29 @@
       </div>
     </div>
   </section>
-  
+
 </main>
-  
+
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+
+<script>
+   let follow;
+   document.querySelectorAll('button').forEach(function(button){
+        button.onclick = function(){
+        follow = button.dataset.follow;
+        $.ajax({
+        url: 'ajax/follow/',
+        data: {
+          'follow': follow
+        },
+        dataType: 'json',
+        success: function (data) {
+            console.log(data);
+        }
+      });
+    }
+     
+   }); 
+          
+</script>
 {% endblock %}

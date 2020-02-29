@@ -49,7 +49,7 @@ class UserProfile(models.Model):
     
 class School(models.Model):
     school_name = models.CharField(max_length=50)
-    country = models.ForeignKey('Country',on_delete=models.SET_NULL, null=True)
+    country = models.ForeignKey('Country', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.school_name
@@ -67,4 +67,10 @@ class City(models.Model):
     def __str__(self):
         return self.city_name
 
+class Follow(models.Model):
+    follower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    followed = models.ForeignKey(User, related_name='followed_user', on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return self.follower.username
 

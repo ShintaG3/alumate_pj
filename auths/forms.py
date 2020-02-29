@@ -43,7 +43,7 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ('status', 'about', 'country', 'school', 'course', 'year_of_abroad_study', 'job_before_abroad_study', 'job_after_abroad_study')
-    
+
     about = forms.CharField(
         widget=forms.Textarea(
             attrs={
@@ -85,7 +85,7 @@ class UserProfileForm(forms.ModelForm):
             }
         )
     )
-    
+
     year_of_abroad_study = forms.DateField(
         widget=forms.DateInput(
             attrs={
@@ -113,6 +113,3 @@ class UserProfileForm(forms.ModelForm):
             }
         )
     )
-
-        
-    
