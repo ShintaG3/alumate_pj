@@ -1,14 +1,20 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from . forms import SignUpForm, UserProfileForm
+from . forms import SignUpForm, BaseInfoForm
 from django.contrib.auth import login, authenticate
 from accounts.models import UserProfile, Follow
 from django.http import JsonResponse
 from django.contrib.auth.models import User
-# Create your views here.
-def userProfile(request):
-    form = UserProfileForm()
-    return render (request, 'auths/user-profile.html', {'form': form})
+
+def baseInquiry(request):
+    if request.method == 'POST':
+        form = BaseInfoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('auths:baseConnect')
+    else:
+        form = BaseInfoForm()
+    return render (request, 'auths/base-inquiry2.html', {'form': form})
 
 def signup(request):
     if request.method == 'POST':
@@ -19,11 +25,10 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            return redirect('auths:userProfile')
+            return redirect('auths:baseInquiry')
     else:
         form = SignUpForm()
-    return render(request, 'auths/signup.html', {'form': form})
-
+    return render(request, 'auths/register2.html', {'form': form})
 
 def baseConnect(request):
     futures = UserProfile.objects.filter(status='future')[:4]
