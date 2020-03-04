@@ -19,6 +19,9 @@ class BaseInfo(models.Model):
     year_of_abroad_study = models.CharField(max_length=15)
     job_before_abroad_study = models.CharField(max_length=100)
     job_after_abroad_study = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.user.username
  
 class UserProfile(models.Model):
     # Many field are optional as a User may be a student 
@@ -90,6 +93,9 @@ class Follow(models.Model):
 class Message(models.Model):
     sender = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='message_sender')
     reciever = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='message_reciever')
+    message = models.CharField(max_length=500)
     timestamp = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.message
 
