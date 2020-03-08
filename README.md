@@ -98,3 +98,35 @@ project
 │  .gitignore          #files which will not be pushed to remote repository
 │  requirements.txt    #files which will not be pushed to remote repository
 ```
+
+## Development Environment Setup
+Prerequisites: Install following first
+- Python
+- pip
+- virtualenv
+- PostgresSQL
+---
+
+### Create and activate virtual environment
+```
+$ virtualenv venv
+$ . venv/bin/activate (Linux/Mac OS)
+$ venv\Scripts\activate (Windows)
+```
+
+### Install dependencies
+```
+$ pip install -r requirements.txt
+```
+
+### Collect static files
+You need to comment out `STATICFILES_STORAGE` in `almate/settings.py` before collecting static files. Otherwise, it refers to the production storage.
+```
+$ python manage.py collectstatic
+```
+
+### Run server
+Make sure `DEBUG` mode is true in `almate/settings.py` before running development server.
+```
+$ python manage.py runserver
+```
