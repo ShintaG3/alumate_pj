@@ -98,6 +98,26 @@ project
 │  .gitignore          #files which will not be pushed to remote repository
 │  requirements.txt    #files which will not be pushed to remote repository
 ```
+## Create a following local_setting.py file in "alumate" folder
+
+├─alumate
+│      settings.py
+│      local_settings.py
+
+local_settings.py'''
+import os
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
+DATABASE = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+
+}
+
+DEBUG = True
+'''
 
 ## Development Environment Setup
 Prerequisites: Install following first
