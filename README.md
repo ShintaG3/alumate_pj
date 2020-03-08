@@ -18,16 +18,7 @@ Content page img
 <img src="https://raw.githubusercontent.com/ShintaG3/alumate_pj/master/Screenshot/page3.png" alt="landing" title="sample">  
 <img src="https://raw.githubusercontent.com/ShintaG3/alumate_pj/master/Screenshot/page4.png" alt="landing" title="sample">  
 
-
-Milestones
----
-- Complete the Resistration/Login/Logout, Profile, Search, Follow
-- Complete the Post, Like, Comment, Notification 
-- Complete the Inquiry Post, Inquiry Page
-- Complete the Private message
-- Complete the Premium, Subscription method
-
-Requirements
+Functionalities
 ---
 
 Alumate shall have followinig fanctionalities.
@@ -99,12 +90,14 @@ project
 │  requirements.txt    #files which will not be pushed to remote repository
 ```
 ## Create a following local_setting.py file in "alumate" folder
-
+```
 ├─alumate
 │      settings.py
 │      local_settings.py
+```
 
-local_settings.py'''
+local_settings.py
+```
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
@@ -117,7 +110,7 @@ DATABASE = {
 }
 
 DEBUG = True
-'''
+```
 
 ## Development Environment Setup
 Prerequisites: Install following first
@@ -144,6 +137,13 @@ You need to comment out `STATICFILES_STORAGE` in `almate/settings.py` before col
 ```
 $ python manage.py collectstatic
 ```
+
+### Migrate model
+Migrate the model to sqlite file 
+```
+$ python manage.py migrate
+```
+
 
 ### Run server
 Make sure `DEBUG` mode is true in `almate/settings.py` before running development server.
