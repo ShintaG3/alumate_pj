@@ -14,9 +14,9 @@ def baseInquiry(request):
             return redirect('auths:baseConnect')
     else:
         form = BaseInfoForm()
-    return render (request, 'auths/base-inquiry2.html', {'form': form})
+    return render (request, 'auths/base-inquiry.html', {'form': form})
 
-def signup(request):
+def register(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
@@ -28,9 +28,10 @@ def signup(request):
             return redirect('auths:baseInquiry')
     else:
         form = SignUpForm()
-    return render(request, 'auths/register2.html', {'form': form})
+    return render(request, 'auths/register.html', {'form': form})
 
 def baseConnect(request):
+    user1 = User.objects.get(username=request.user.username)
     futures = BaseInfo.objects.filter(status='future')[:4]
     students = BaseInfo.objects.filter(status='student')[:4]
     alumnis = BaseInfo.objects.filter(status='alumni')[:4]
@@ -39,7 +40,7 @@ def baseConnect(request):
         'students': students,
         'alumnis': alumnis
     }
-    return render(request, 'auths/base-connect2.html', context=context)
+    return render(request, 'auths/base-connect.html', context=context)
 
 def follow(request):
     followed_id = request.GET.get('follow', None)

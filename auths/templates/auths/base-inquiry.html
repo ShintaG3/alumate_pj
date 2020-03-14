@@ -3,6 +3,7 @@
 {% block navbar %}
 {% include 'include/nav-trans.html' %}
 {% endblock %}
+
 {% block content %}
 <main>
     <section class="section section-shaped section-lg">
@@ -26,14 +27,49 @@
                 </div>
               </div>
               <div class="card-body px-lg-5 py-lg-5">
-               
-                <form action="{% url 'auths:base-connect' %}">
+                
+                <form action="{% url 'auths:baseInquiry' %}" method="POST">
+                  {% if form.errors %}
+                {% for error in form.errors %}
+                <div class="alert alert-danger">
+                  <div class="container">
+                    <b>Error Alert:</b>
+                    {{ error }} 
+                  </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+                  {% csrf_token %}
+                  <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3" style="background-color: #fff;">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                      </div>
+                      <fieldset class="form-group">
+                          <legend class="col-form-label">
+                            Status
+                          </legend>
+                          {% for choice in form.status.field.choices %}
+                          <div class="form-check form-check-radio form-check-inline">
+                            <label class="form-check-label">
+                              <input class="form-check-input" type="radio" name="status" id="id_status" value="{{choice.0}}">
+                              {{choice.0}}
+                              <span class="circle">
+                                <span class="check"></span>
+                              </span>
+                            </label>
+                          </div>
+                          {% endfor %}
+                      </fieldset>
+                      </div>
+                  </div>
+
                   <div class="form-group">
                     <div class="input-group input-group-alternative mb-3">
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                       </div>
-                      <input class="form-control" placeholder="Country" type="text">
+                      {{ form.school }}
                     </div>
                   </div>
                   <div class="form-group">
@@ -41,7 +77,7 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                       </div>
-                      <input class="form-control" placeholder="School" type="text">
+                      {{ form.country }}
                     </div>
                   </div>
                   <div class="form-group">
@@ -49,7 +85,7 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                       </div>
-                      <input class="form-control" placeholder="Course" type="text">
+                      {{ form.course }}
                     </div>
                   </div>
                   <div class="form-group">
@@ -57,7 +93,7 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                       </div>
-                      <input class="form-control" placeholder="Year of study abroad" type="text">
+                      {{ form.year_of_abroad_study }}
                     </div>
                   </div>
                   <div class="form-group">
@@ -65,7 +101,7 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                       </div>
-                      <input class="form-control" placeholder="Job before study abroad" type="text">
+                      {{ form.job_before_abroad_study }}
                     </div>
                   </div>
                   <div class="form-group">
@@ -73,7 +109,7 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                       </div>
-                      <input class="form-control" placeholder="Job after study abroad" type="text">
+                      {{ form.job_after_abroad_study }}
                     </div>
                   </div>
                   

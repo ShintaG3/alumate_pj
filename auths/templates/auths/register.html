@@ -42,29 +42,62 @@
                 <div class="text-center text-muted mb-4">
                   <small>Or sign up with credentials</small>
                 </div>
-                <form action="{% url 'auths:base-inquiry' %}">
+                
+              <form action="" method="post" id="authentication_form">
+                {% if form.errors %}
+                {% for error in form.errors %}
+                <div class="alert alert-danger">
+                  <div class="container">
+                    <b>Error Alert:</b>
+                    {{ error }} 
+                  </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+                    {% csrf_token %}
                   <div class="form-group">
+                    {% for error in form.username.error %}
+                        {{ error }}
+                    {% endfor %}
                     <div class="input-group input-group-alternative mb-3">
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                       </div>
-                      <input class="form-control" placeholder="Name" type="text">
+                        {{ form.username }}
                     </div>
                   </div>
+
                   <div class="form-group">
+                    {% for error in form.email.error %}
+                        {{ error }}
+                    {% endfor %}
                     <div class="input-group input-group-alternative mb-3">
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                       </div>
-                      <input class="form-control" placeholder="Email" type="email">
+                        {{ form.email }}
                     </div>
                   </div>
                   <div class="form-group">
+                    {% for error in form.password1.error %}
+                        {{ error }}
+                    {% endfor %}
                     <div class="input-group input-group-alternative">
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                       </div>
-                      <input class="form-control" placeholder="Password" type="password">
+                        {{ form.password1 }}
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    {% for error in form.password2.error %}
+                        {{ error }}
+                    {% endfor %}
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                      </div>
+                        {{ form.password2 }}
                     </div>
                   </div>
                   <div class="text-muted font-italic"><small>password strength: <span class="text-success font-weight-700">strong</span></small></div>
@@ -77,7 +110,7 @@
                     </div>
                   </div>
                   <div class="text-center">
-                    <button type="submit" class="btn btn-primary mt-4">Create account</button>
+                    <button type="submit" class="btn btn-primary mt-4" id="registerUser" disabled=true>Create account</button>
                   </div>
                 </form>
               </div>
@@ -88,4 +121,17 @@
     </section>
   </main>
   
+  <script>
+    let agree_to_policy = document.getElementById('customCheckRegister');
+    let registerUser = document.getElementById('registerUser');
+    agree_to_policy.onclick = function (){
+      if (agree_to_policy.checked == true) {
+        registerUser.disabled = false;
+      }
+      else {
+        registerUser.disabled = true;
+      }
+    }
+
+  </script>
 {% endblock %}

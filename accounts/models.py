@@ -13,13 +13,13 @@ current_status = (
 class BaseInfo(models.Model):
     user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
     status = models.CharField(max_length=20, choices= current_status)
-    school = models.CharField(max_length=50)
-    country = models.CharField(max_length=50)
-    course = models.CharField(max_length=50)
-    year_of_abroad_study = models.CharField(max_length=15)
-    job_before_abroad_study = models.CharField(max_length=100)
-    job_after_abroad_study = models.CharField(max_length=100)
-
+    school = models.CharField(max_length=50, null=True, blank=True)
+    country = models.CharField(max_length=50, null=True, blank=True)
+    course = models.CharField(max_length=50, null=True, blank=True)
+    year_of_abroad_study = models.CharField(max_length=15, null=True, blank=True)
+    job_before_abroad_study = models.CharField(max_length=100, null=True, blank=True)
+    job_after_abroad_study = models.CharField(max_length=100, null=True, blank=True)
+    
     def __str__(self):
         return self.user.username
  
@@ -56,7 +56,7 @@ class UserProfile(models.Model):
 
     def get_new_messages(self):
         last_read_time = self.last_message_read_time or datetime(1900, 1, 1)
-        return Message.objects.filter(sender=self).filter(
+        return Message.objects.filter(reciever=self).filter(
             Message.timestamp > self.last_message_read_time
         ).count()
 
@@ -91,8 +91,8 @@ class Follow(models.Model):
         return self.follower.username
 
 class Message(models.Model):
-    sender = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='message_sender')
-    reciever = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='message_reciever')
+    sender = models.ForeignKey(UserProfile, on_delete=models.SET_NULL, null=True, related_name='message_sender')
+    reciever = models.ForeignKey(UserProfile, on_delete=models.SET_NULL, null=True, related_name='message_reciever')
     message = models.CharField(max_length=500)
     timestamp = models.DateTimeField(auto_now_add=True)
 

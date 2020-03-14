@@ -41,6 +41,7 @@ class SignUpForm(UserCreationForm):
 
 class BaseInfoForm(forms.ModelForm):
     country = forms.CharField(
+        required=False,
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -49,6 +50,7 @@ class BaseInfoForm(forms.ModelForm):
     ))
 
     school = forms.CharField(
+        required=False,
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -57,6 +59,7 @@ class BaseInfoForm(forms.ModelForm):
     ))
 
     course = forms.CharField(
+        required=False,
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -74,16 +77,19 @@ class BaseInfoForm(forms.ModelForm):
         )
     )
 
-    year_of_abroad_study = forms.CharField(
-        widget=forms.TextInput(
+    year_of_abroad_study = forms.IntegerField(
+        required=False,
+        widget=forms.NumberInput(
             attrs={
                 'placeholder': 'Year of abroad study',
-                "class": "form-control"
+                "class": "form-control",
+                "value": 2010
             }
         )
     )
 
     job_before_abroad_study = forms.CharField(
+        required=False,
         widget = forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -93,6 +99,7 @@ class BaseInfoForm(forms.ModelForm):
     )
 
     job_after_abroad_study = forms.CharField(
+        required=False,
         widget = forms.TextInput(
             attrs={
                 'class': 'form-control',
