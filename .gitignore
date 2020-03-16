@@ -104,9 +104,3 @@ ENV/
 #data
 chotatsushien.csv
 import.py
-
-# node modules in frontend
-frontend/node_modules/
-
-# vs code settings
-.vscode/
