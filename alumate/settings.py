@@ -31,7 +31,6 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.facebook',
     'django.contrib.staticfiles',
-    'widget_tweaks',
     'demo',
     'landingpage',
     'auths',
@@ -128,13 +127,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-# Email Settings
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # this is for if you just want to try sending email on console
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'alumate.info@gmail.com'
-EMAIL_HOST_PASSWORD = 'StudyAbroad!'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
