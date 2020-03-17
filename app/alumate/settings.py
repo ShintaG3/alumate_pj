@@ -145,7 +145,7 @@ EMAIL_USE_TLS = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 #--staticfile configuration--
-STATIC_URL = '/static/'
+STATIC_URL = '/staticfiles/'
 STATICFILES_DIRS = [                                                #local settings
         os.path.join(BASE_DIR, 'static'),
     ]
