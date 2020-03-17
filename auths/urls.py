@@ -7,6 +7,7 @@ app_name="auths"
 
 urlpatterns = [
     path('register/', views.register, name='register'),
+    path('setting/account/', views.UserUpdateView.as_view(), name='my_account'),
     path('base-inquiry/', views.baseInquiry, name='baseInquiry'),
     path('login/', TemplateView.as_view(template_name="auths/login.html"), name='login'),
     path('base-connect/', views.baseConnect, name='baseConnect'),
