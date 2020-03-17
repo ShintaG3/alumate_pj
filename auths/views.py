@@ -6,7 +6,6 @@ from accounts.models import UserProfile, Follow, BaseInfo
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 
-
 def baseInquiry(request):
     if request.method == 'POST':
         form = BaseInfoForm(request.POST)
@@ -42,7 +41,6 @@ def baseConnect(request):
         'alumnis': alumnis
     }
     return render(request, 'auths/base-connect.html', context=context)
-
 
 def follow(request):
     followed_id = request.GET.get('follow', None)
