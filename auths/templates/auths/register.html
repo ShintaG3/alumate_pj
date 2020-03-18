@@ -56,7 +56,7 @@
                 {% endif %}
                     {% csrf_token %}
                   <div class="form-group">
-                    {% for error in form.username.error %}
+                    {% for error in form.username.errors %}
                         {{ error }}
                     {% endfor %}
                     <div class="input-group input-group-alternative mb-3">
@@ -68,7 +68,7 @@
                   </div>
 
                   <div class="form-group">
-                    {% for error in form.email.error %}
+                    {% for error in form.email.errors %}
                         {{ error }}
                     {% endfor %}
                     <div class="input-group input-group-alternative mb-3">
@@ -79,7 +79,7 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    {% for error in form.password1.error %}
+                    {% for error in form.password1.errors %}
                         {{ error }}
                     {% endfor %}
                     <div class="input-group input-group-alternative">
@@ -90,7 +90,7 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    {% for error in form.password2.error %}
+                    {% for error in form.password2.errors %}
                         {{ error }}
                     {% endfor %}
                     <div class="input-group input-group-alternative">
