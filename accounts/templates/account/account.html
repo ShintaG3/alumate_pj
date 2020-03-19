@@ -3,71 +3,839 @@
 {% block navbar %}
 {% include 'include/nav-authpage.html' %}
 {% endblock %}
+{% block style %}
+<style>
+  .timeline {
+    position: relative
+  }
+
+  .timeline:before {
+    position: absolute;
+    top: 0;
+    left: 1rem;
+    height: 100%;
+    content: '';
+    border-right: 2px solid #e9ecef
+  }
+
+  [data-timeline-axis-style=dashed]:before {
+    border-right-style: dashed !important
+  }
+
+  [data-timeline-axis-style=dotted]:before {
+    border-right-style: dotted !important
+  }
+
+  .timeline-block {
+    position: relative;
+    margin: 2em 0
+  }
+
+  .timeline-block:after {
+    display: table;
+    clear: both;
+    content: ''
+  }
+
+  .timeline-block:first-child {
+    margin-top: 0
+  }
+
+  .timeline-block:last-child {
+    margin-bottom: 0
+  }
+
+  .timeline-step {
+    font-size: 1rem;
+    font-weight: 600;
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    display: inline-flex;
+    width: 33px;
+    height: 33px;
+    transform: translateX(-50%);
+    text-align: center;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center
+  }
+
+  .timeline-step i,
+  .timeline-step svg {
+    line-height: 1.4
+  }
+
+  .timeline-step-icon {
+    border: 2px solid #e9ecef;
+    background: #fff
+  }
+
+  .timeline-step-xs {
+    font-size: .75rem;
+    width: 17px;
+    height: 17px
+  }
+
+  .timeline-step-sm {
+    font-size: .75rem;
+    width: 23px;
+    height: 23px
+  }
+
+  .timeline-step-lg {
+    font-size: 1.75rem;
+    width: 47px;
+    height: 47px
+  }
+
+  .timeline-content {
+    position: relative;
+    position: relative;
+    top: -6px;
+    margin-left: 60px;
+    padding-top: .5rem
+  }
+
+  .timeline-content:after {
+    display: table;
+    clear: both;
+    content: ''
+  }
+
+  .timeline-body {
+    padding: 1.5rem
+  }
+
+  @media (min-width:992px) {
+    .timeline:before {
+      left: 50%;
+      margin-left: -2px
+    }
+
+    .timeline-step {
+      left: 50%
+    }
+
+    .timeline-content {
+      width: 38%
+    }
+
+    .timeline-body {
+      padding: 1.5rem
+    }
+
+    .timeline-block:nth-child(even) .timeline-content {
+      float: right
+    }
+
+    [data-timeline-axis-color=primary]:before {
+      border-color: #5e72e4
+    }
+
+    [data-timeline-axis-color=secondary]:before {
+      border-color: #f7fafc
+    }
+
+    [data-timeline-axis-color=success]:before {
+      border-color: #2dce89
+    }
+
+    [data-timeline-axis-color=info]:before {
+      border-color: #11cdef
+    }
+
+    [data-timeline-axis-color=warning]:before {
+      border-color: #fb6340
+    }
+
+    [data-timeline-axis-color=danger]:before {
+      border-color: #f5365c
+    }
+
+    [data-timeline-axis-color=light]:before {
+      border-color: #adb5bd
+    }
+
+    [data-timeline-axis-color=dark]:before {
+      border-color: #212529
+    }
+
+    [data-timeline-axis-color=default]:before {
+      border-color: #172b4d
+    }
+
+    [data-timeline-axis-color=white]:before {
+      border-color: #fff
+    }
+
+    [data-timeline-axis-color=neutral]:before {
+      border-color: #fff
+    }
+
+    [data-timeline-axis-color=darker]:before {
+      border-color: #000
+    }
+  }
+
+  .timeline-one-side:before {
+    left: 1rem
+  }
+
+  .timeline-one-side .timeline-step {
+    left: 1rem
+  }
+
+  .timeline-one-side .timeline-content {
+    width: auto
+  }
+
+  @media (min-width:992px) {
+    .timeline-one-side .timeline-content {
+      max-width: 30rem
+    }
+  }
+
+  .timeline-one-side .timeline-block:nth-child(even) .timeline-content {
+    float: none
+  }
+
+  p {
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.7
+  }
+
+  /* over write argon-design.min.css */
+  @media (min-width: 1200px) {
+    .sidebar {
+      -ms-flex: 0 0 400px;
+      flex: 0 0 400px;
+    }
+    .blog-card-wrapper:before {
+    content:"";
+    display: block;
+    padding-top: 100%; /* 高さと幅の比を16:9に固定。9/16*100=56.25 */
+    }  
+  }
+  /* card style */
+  .card-zoom[data-animation=zooming] {
+      transition: all .3s cubic-bezier(.2,1,.22,1);
+      -webkit-transition: all .3s cubic-bezier(.2,1,.22,1);
+  }
+  .card-zoom[data-animation=zooming]:hover {
+  transform: scale(1.07);
+  -webkit-transform: scale(1.07);
+  z-index: 2;
+  }
+
+  @media (min-width: 992px) {}
+
+  @media (min-width: 768px) {}
+
+  @media (min-width: 576px) {}
+</style>
+
+{% endblock %}
 {% block content %}
+
 <div class="profile-page">
 
-    <section class="section-profile-cover section-shaped my-0">
-        <!-- Circles background -->
-        <img class="bg-image" src="{% static 'img/sections/mohamed.jpg' %}" style="width: 100%;">
-        <!-- SVG separator -->
-        <div class="separator separator-bottom separator-skew">
-            <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
-            <polygon class="fill-secondary" points="2560 0 2560 100 0 100"></polygon>
-            </svg>
-        </div>
-    </section>
-    <section class="section bg-secondary">
-        <div class="container">
-            <div class="card card-profile shadow mt--300">
-            <div class="px-4">
-                <div class="row justify-content-center">
-                <div class="col-lg-3 order-lg-2">
-                    <div class="card-profile-image">
-                        <a href="javascript:;">
-                            <img src="{% static 'img/faces/team-4.jpg' %}" class="rounded-circle">
-                        </a>
-                    </div>
+  <section class="section-profile-cover section-shaped my-0" style="height:300px">
+    <!-- Circles background -->
+    <img class="bg-image" src="{% static 'img/sections/mohamed.jpg' %}" style="width: 100%;">
+    <!-- SVG separator -->
+    <div class="separator separator-bottom separator-skew">
+      <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1"
+        xmlns="http://www.w3.org/2000/svg">
+        <polygon class="fill-secondary" points="2560 0 2560 100 0 100"></polygon>
+      </svg>
+    </div>
+  </section>
+
+  <section class="section bg-secondary">
+    <div class="container-fluid px-5">
+      <div class="row">
+
+        <!-- user info -->
+        <div class="card card-profile shadow mt--200 col-xl-5 sidebar">
+          <div class="px-4">
+            <div class="row justify-content-center">
+              <div class="col-lg-3">
+                <div class="card-profile-image">
+                  <a href="javascript:;">
+                    <img src="{% static 'img/faces/team-4.jpg' %}" class="rounded-circle">
+                  </a>
                 </div>
-                <div class="col-lg-4 order-lg-3 text-lg-right align-self-lg-center">
-                    <div class="card-profile-actions py-4 mt-lg-0">
-                    <a href="#" class="btn btn-sm btn-info mr-4">Connect</a>
-                    <a href="#" class="btn btn-sm btn-default float-right">Message</a>
-                    </div>
+              </div>
+              <div class="col-lg-12">
+                <div class="card-profile-actions text-center py-4 mt-8">
+                  <a href="#" class="btn btn-sm btn-info">Follow</a>
+                  <!-- <a href="#" class="btn btn-sm btn-default float-right">Message</a> -->
                 </div>
-                <div class="col-lg-4 order-lg-1">
-                    <div class="card-profile-stats d-flex justify-content-center">
-                    <div>
-                        <span class="heading">22</span>
-                        <span class="description">Friends</span>
-                    </div>
-                    <div>
-                        <span class="heading">10</span>
-                        <span class="description">Photos</span>
-                    </div>
-                    <div>
-                        <span class="heading">89</span>
-                        <span class="description">Comments</span>
-                    </div>
-                    </div>
+              </div>
+              <div class="col-lg-12">
+                <div class="card-profile-stats py-0 d-flex justify-content-center">
+                  <div>
+                    <a href="">
+                      <span class="heading">22</span>
+                    </a>
+                    <span class="description">Followers</span>
+                  </div>
+                  <div>
+                    <a href="">
+                      <span class="heading">10</span>
+                    </a>
+                    <span class="description">Followings</span>
+                  </div>
+
                 </div>
-                </div>
-                <div class="text-center mt-5">
-                <h3>Jessica Jones<span class="font-weight-light">, 27</span></h3>
-                <div class="h6 font-weight-300"><i class="ni location_pin mr-2"></i>Bucharest, Romania</div>
-                <div class="h6 mt-4"><i class="ni business_briefcase-24 mr-2"></i>Solution Manager - Creative Tim Officer</div>
-                <div><i class="ni education_hat mr-2"></i>University of Computer Science</div>
-                </div>
-                <div class="mt-5 py-5 border-top text-center">
-                <div class="row justify-content-center">
-                    <div class="col-lg-9">
-                    <p>An artist of considerable range, Ryan — the name taken by Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs and records all of his own music, giving it a warm, intimate feel with a solid groove structure. An artist of considerable range.</p>
-                    <a href="javascript:;">Show more</a>
-                    </div>
-                </div>
-                </div>
+              </div>
             </div>
+            <div class="text-center mt-2">
+              <h3>Jessica Jones</h3>
+              <div class="h5">Harvard University</div>
+              <div class="font-weight-500">MBA</div>
+              <div class="text-muted font-weight-300"><small> 2020 ~ 2022</small></div>
+              <div class="mt-5 py-4 border-top text-center">
+                <div class="row justify-content-center">
+                  <div class="col-lg-9">
+                    <p>An artist of considerable range, Ryan — the name taken by Melbourne-raised,
+                      Brooklyn-based Nick Murphy — writes, performs and records all of his own music,
+                      giving it a warm, intimate feel with a solid groove structure. An artist of
+                      considerable range.</p>
+                  </div>
+                </div>
+                <div class="pt-4 py-4 border-top text-center">
+                </div>
+                <div class="timeline timeline-one-side" data-timeline-content="axis" data-timeline-axis-style="dashed">
+                  <div class="timeline-block">
+                    <span class="timeline-step badge-success">
+                      <i class="ni ni-briefcase-24"></i>
+                    </span>
+                    <div class="timeline-content">
+                      <div class="d-flex justify-content-between pt-1">
+                        <div class="text-left">
+                          <span class="text-muted text-sm font-weight-bold">World Bank</span>
+                        </div>
+                        <div class="text-right">
+                          <small class="text-muted">Target</small>
+                        </div>
+                      </div>
+                      <h6 class="text-sm text-left mt-1 mb-0">Seek financial officer position</h6>
+                    </div>
+                  </div>
+                  <div class="timeline-block">
+                    <span class="timeline-step badge-danger">
+                      <i class="ni ni-hat-3"></i>
+                    </span>
+                    <div class="timeline-content">
+                      <div class="d-flex justify-content-between pt-1">
+                        <div class="text-left">
+                          <span class="text-muted text-sm font-weight-bold">Harvard
+                            University</span>
+                        </div>
+                        <div class="text-right">
+                          <small class="text-muted">2020 ~ 2022</small>
+                        </div>
+                      </div>
+                      <h6 class="text-sm text-left mt-1 mb-0">MBA</h6>
+                    </div>
+                  </div>
+                  <div class="timeline-block">
+                    <span class="timeline-step badge-info">
+                      <i class="ni ni-briefcase-24"></i>
+                    </span>
+                    <div class="timeline-content">
+                      <div class="d-flex justify-content-between pt-1">
+                        <div class="text-left">
+                          <span class="text-muted text-sm font-weight-bold">PwC</span>
+                        </div>
+                        <div class="text-right">
+                          <small class="text-muted"><i class="fas fa-clock mr-1"></i>2013 ~
+                            2020</small>
+                        </div>
+                      </div>
+                      <h6 class="text-sm text-left mt-1 mb-0">M&A Consultant</h6>
+                    </div>
+                  </div>
+                  <div class="timeline-block">
+                    <span class="timeline-step badge-info">
+                      <i class="ni ni-hat-3"></i>
+                    </span>
+                    <div class="timeline-content">
+                      <div class="d-flex justify-content-between pt-1">
+                        <div class="text-left">
+                          <span class="text-muted text-sm font-weight-bold">University of
+                            Tokyo</span>
+                        </div>
+                        <div class="text-right">
+                          <small class="text-muted">2009 ~ 2013</small>
+                        </div>
+                      </div>
+                      <h6 class="text-sm text-left mt-1 mb-0">Mathmatics</h6>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
-    </section>
+
+        <!-- Collection Area -->
+        <div class="col">
+          <!-- Nav button -->
+          <div class="row">
+            <div class="col-md-8 mx-auto">
+              <div class="profile-tabs">
+                <ul class="nav nav-pills nav-pills-icons justify-content-sm-center" role="tablist">
+                  <li class="nav-item" style="width:140px">
+                    <a class="nav-link active show" href="#post" role="tab" data-toggle="tab" aria-selected="true">
+                      <i class="ni ni-fat-add"></i>
+                      Post
+                    </a>
+                  </li>
+                  <li class="nav-item" style="width:140px">
+                    <a class="nav-link" href="#appreciation" role="tab" data-toggle="tab" aria-selected="false">
+                      <i class="ni ni-diamond"></i>
+                      Appreciation
+                    </a>
+                  </li>
+                  <li class="nav-item" style="width:140px">                  
+                    <a class="nav-link" href="#" role="tab" data-toggle="popover" aria-selected="false" data-placement="top" data-content="Oops! This function is coming soon!">
+                      <i class="ni ni-collection"></i>
+                      Noticle
+                    </a>
+                    <!-- when noticle availbe, uncomment the followings -->
+                    <!-- <a class="nav-link" href="#noticle" role="tab" data-toggle="tab" aria-selected="false">
+                      <i class="ni ni-collection"></i>
+                      Noticle
+                    </a> -->
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Post -->
+          <div class="row">
+            <div class="tab-content tab-space">
+              <div class="tab-pane active show" id="post">
+                <!-- feed area -->
+                <div class="row">
+                  <div class="col-lg-10 mx-auto">
+                    <div class="card mt-sm">
+                      <div class="card-header d-flex align-items-center">
+                        <div class="d-flex align-items-center">
+                          <a href="javascript:;">
+                            <img src="{% static 'img/faces/team-1.jpg' %}" class="avatar">
+                          </a>
+                          <div class="mx-3">
+                            <a href="javascript:;" class="text-dark font-weight-600 text-sm">John Snow</a>
+                            <small class="d-block text-muted">3 days ago</small>
+                          </div>
+                        </div>
+                    
+                      </div>
+                      <div class="card-body">
+                        <p class="mb-4">
+                          Personal profiles are the perfect way for you to grab their attention and persuade recruiters
+                          to continue reading your CV because you’re telling them from the off exactly why they should
+                          hire you.
+                        </p>
+                        <img alt="Image placeholder" src="{% static 'img/sections/mohamed.jpg' %}"
+                          class="img-fluid rounded">
+                        <div class="row align-items-center my-3 pb-3 border-bottom">
+                          <div class="col-sm-6">
+                            <div class="icon-actions">
+                              <a href="javascript:;" class="like active">
+                                <i class="ni ni-like-2"></i>
+                                <span class="text-muted">150</span>
+                              </a>
+                              <a href="javascript:;">
+                                <i class="ni ni-chat-round"></i>
+                                <span class="text-muted">36</span>
+                              </a>
+                              <a href="javascript:;">
+                                <i class="ni ni-curved-next"></i>
+                                <span class="text-muted">12</span>
+                              </a>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 d-none d-sm-block">
+                            <div class="d-flex align-items-center justify-content-sm-end">
+                              <div class="avatar-group">
+                                <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-toggle="tooltip"
+                                  data-original-title="Jessica Rowland">
+                                  <img alt="Image placeholder" src="{% static 'img/faces/team-1.jpg' %}" class="">
+                                </a>
+                                <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-toggle="tooltip"
+                                  data-original-title="Audrey Love">
+                                  <img alt="Image placeholder" src="{% static 'img/faces/team-2.jpg' %}"
+                                    class="rounded-circle">
+                                </a>
+                                <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-toggle="tooltip"
+                                  data-original-title="Michael Lewis">
+                                  <img alt="Image placeholder" src="{% static 'img/faces/team-3.jpg' %}"
+                                    class="rounded-circle">
+                                </a>
+                              </div>
+                              <small class="pl-2 font-weight-bold">and 30+ more</small>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- Comments -->
+                        <div class="mb-1">
+                          <div class="media media-comment">
+                            <img alt="Image placeholder" class="avatar avatar-lg rounded-circle"
+                              src="{% static 'img/faces/team-1.jpg' %}">
+                            <div class="media-body">
+                              <div class="media-comment-text">
+                                <h6 class="h5 mt-0">Michael Lewis</h6>
+                                <p class="text-sm lh-160">You have the opportunity to play this game of life you need to
+                                  appreciate every moment. A lot of people don’t appreciate the moment until it’s
+                                  passed.</p>
+                                <div class="icon-actions">
+                                  <a href="javascript:;" class="like active">
+                                    <i class="ni ni-like-2"></i>
+                                    <span class="text-muted">3 likes</span>
+                                  </a>
+                                  <a href="javascript:;">
+                                    <i class="ni ni-curved-next"></i>
+                                    <span class="text-muted">2 shares</span>
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="media media-comment">
+                            <img alt="Image placeholder" class="avatar avatar-lg rounded-circle"
+                              src="{% static 'img/faces/team-2.jpg' %}">
+                            <div class="media-body">
+                              <div class="media-comment-text">
+                                <h6 class="h5 mt-0">Jessica Stones</h6>
+                                <p class="text-sm lh-160">I always felt like I could do anything. That’s the main thing
+                                  people are controlled by! Thoughts- their perception of themselves! They're slowed
+                                  down.</p>
+                                <div class="icon-actions">
+                                  <a href="javascript:;" class="like active">
+                                    <i class="ni ni-like-2"></i>
+                                    <span class="text-muted">10 likes</span>
+                                  </a>
+                                  <a href="javascript:;">
+                                    <i class="ni ni-curved-next"></i>
+                                    <span class="text-muted">1 share</span>
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="media align-items-center mt-5">
+                            <img alt="Image placeholder" class="avatar avatar-lg rounded-circle mb-4"
+                              src="{% static 'img/faces/team-3.jpg' %}">
+                            <div class="media-body">
+                              <form>
+                                <textarea class="form-control" placeholder="Write your comment" rows="1"></textarea>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- noticle -->
+              <div class="tab-pane" id="noticle">
+                <div class="row">
+                  <!-- cards -->
+                  <div class="col-md-8 mx-auto pr-lg-0">
+                    <h4 class="title">Latest Collections</h4>
+                    <div class="row collections">
+                      <div class="col-md-6">
+                          <div class="card card-background card-blog" data-animation="zooming">
+                            <div class="full-background" style="background-image: url({% static 'img/sections/unsplashs.jpg' %})"></div>     
+                            <div class="card-body d-flex align-items-end text-left">
+                              <div>
+                                <a href="#pablo">
+                                  <h2 class="card-title">Keep striving</h2>
+                                  <p class="card-description text-white">Best practice of learning English is investing time to ...</p>
+                                  <div class="stats stats-left ">
+                                    <span class="mr-3">
+                                      <i class="ni ni-favourite-28 text-danger"></i> 2.4K
+                                    </span>
+                                    <span class="mr-3">
+                                      <i class="ni ni-chat-round text-success"></i> 2.4K
+                                    </span>
+                                  </div>
+                                </a>
+                              </div>
+                            </div>
+                          </div>                        
+                      </div>
+                      <div class="col-md-6">
+                          <div class="card card-background card-blog" data-animation="zooming">
+                            <div class="full-background" style="background-image: url({% static 'img/sections/unsplashs.jpg' %})"></div>     
+                            <div class="card-body d-flex align-items-end text-left">
+                              <div>
+                                <a href="#pablo">
+                                  <h2 class="card-title">Keep striving</h2>
+                                  <p class="card-description text-white">Best practice of learning English is investing time to ...</p>
+                                  <div class="stats stats-left ">
+                                    <span class="mr-3">
+                                      <i class="ni ni-favourite-28 text-danger"></i> 2.4K
+                                    </span>
+                                    <span class="mr-3">
+                                      <i class="ni ni-chat-round text-success"></i> 2.4K
+                                    </span>
+                                  </div>
+                                </a>
+                              </div>
+                            </div>
+                          </div>                        
+                      </div>
+                      <div class="col-md-6">
+                          <div class="card card-background card-blog" data-animation="zooming">
+                            <div class="full-background" style="background-image: url({% static 'img/sections/unsplashs.jpg' %})"></div>     
+                            <div class="card-body d-flex align-items-end text-left">
+                              <div>
+                                <a href="#pablo">
+                                  <h2 class="card-title">Keep striving</h2>
+                                  <p class="card-description text-white">Best practice of learning English is investing time to ...</p>
+                                  <div class="stats stats-left ">
+                                    <span class="mr-3">
+                                      <i class="ni ni-favourite-28 text-danger"></i> 2.4K
+                                    </span>
+                                    <span class="mr-3">
+                                      <i class="ni ni-chat-round text-success"></i> 2.4K
+                                    </span>
+                                  </div>
+                                </a>
+                              </div>
+                            </div>
+                          </div>                        
+                      </div>
+                      <div class="col-md-6">
+                          <div class="card card-background card-blog" data-animation="zooming">
+                            <div class="full-background" style="background-image: url({% static 'img/sections/unsplashs.jpg' %})"></div>     
+                            <div class="card-body d-flex align-items-end text-left">
+                              <div>
+                                <a href="#pablo">
+                                  <h2 class="card-title">Keep striving</h2>
+                                  <p class="card-description text-white">Best practice of learning English is investing time to ...</p>
+                                  <div class="stats stats-left ">
+                                    <span class="mr-3">
+                                      <i class="ni ni-favourite-28 text-danger"></i> 2.4K
+                                    </span>
+                                    <span class="mr-3">
+                                      <i class="ni ni-chat-round text-success"></i> 2.4K
+                                    </span>
+                                  </div>                                  
+                                </a>
+                              </div>
+                            </div>
+                          </div>                        
+                      </div>
+                    </div>
+                  </div>
+                  <!-- side bar stats -->
+                  <div class="col-md-2 ml-lg--2 pl-lg-0">
+                    <h4 class="title text-sm-center text-md-left">Tags</h4>
+                    <table class="mx-sm-auto">
+                      <tbody>
+                        <tr>
+                          <td style="width:65%"><a href=""><span class="text-wrap badge badge-md badge-primary mr-2 my-2"  style="max-width:90%">Study</span></a></td>
+                          <td><a href=""><b>10</b></a></td>
+                        </tr>
+                        <tr>
+                          <td style="width:65%"><a href=""><span class="text-wrap badge badge-md badge-primary mr-2 my-2"  style="max-width:90%">Bank</span></a></td>
+                          <td><a href=""><b>6</b></a></td>
+                        </tr>
+                        <tr>
+                          <td style="width:65%"><a href=""><span class="text-wrap badge badge-md badge-primary mr-2 my-2"  style="max-width:90%">Job Hunting in the UK</span></a></td>
+                          <td><a href=""><b>1</b></a></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- inquiry -->
+              <div class="tab-pane" id="appreciation">
+                <div class="row">
+                  <!-- cards -->
+                  <div class="col-md-8 mx-auto pr-lg-0">
+                    <h4 class="title">Latest Collections</h4>
+                    <div class="row collections">
+                      <div class="col-md-6">
+                        <div class="card card-blog card-zoom" data-header="pattern" data-animation="zooming">
+                          <a href="javascript:;">
+                            <img class="img pattern rounded" src="{% static 'img/ill/presentation_bg.png' %}">
+                          </a>
+                          <div class="card-body">
+                            <h6 class="card-category text-danger">
+                              <i class="ni ni-badge"></i> Oxford
+                            </h6>
+                            <h5 class="card-title">
+                              <a href="javascript:;">Looking for accommodation</a>
+                            </h5>
+                            <p class="card-description">
+                              Hi, I enrole in Oxford University in 2021. My college is Crist charch. I am looking for afordable accommodations around Oxford...
+                            </p>
+                          </div>
+                          <div class="card-footer">
+                              <div class="icon-actions">
+                                  <a href="javascript:;" class="like active">
+                                    <i class="ni ni-like-2"></i>
+                                    <span class="text-muted">150</span>
+                                  </a>
+                                  <a href="javascript:;">
+                                    <i class="ni ni-chat-round"></i>
+                                    <span class="text-muted">36</span>
+                                  </a>
+                                  <a href="javascript:;">
+                                    <i class="ni ni-curved-next"></i>
+                                    <span class="text-muted">12</span>
+                                  </a>
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="card card-blog card-zoom" data-header="pattern" data-animation="zooming">
+                          <a href="javascript:;">
+                            <img class="img pattern rounded" src="{% static 'img/ill/presentation_bg.png' %}">
+                          </a>
+                          <div class="card-body">
+                            <h6 class="card-category text-danger">
+                              <i class="ni ni-badge"></i> Oxford
+                            </h6>
+                            <h5 class="card-title">
+                              <a href="javascript:;">Looking for accommodation</a>
+                            </h5>
+                            <p class="card-description">
+                              Hi, I enrole in Oxford University in 2021. My college is Crist charch. I am looking for afordable accommodations around Oxford...
+                            </p>
+                          </div>
+                          <div class="card-footer">
+                              <div class="icon-actions">
+                                  <a href="javascript:;" class="like active">
+                                    <i class="ni ni-like-2"></i>
+                                    <span class="text-muted">150</span>
+                                  </a>
+                                  <a href="javascript:;">
+                                    <i class="ni ni-chat-round"></i>
+                                    <span class="text-muted">36</span>
+                                  </a>
+                                  <a href="javascript:;">
+                                    <i class="ni ni-curved-next"></i>
+                                    <span class="text-muted">12</span>
+                                  </a>
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="card card-blog card-zoom" data-header="pattern" data-animation="zooming">
+                          <a href="javascript:;">
+                            <img class="img pattern rounded" src="{% static 'img/ill/presentation_bg.png' %}">
+                          </a>
+                          <div class="card-body">
+                            <h6 class="card-category text-danger">
+                              <i class="ni ni-badge"></i> Oxford
+                            </h6>
+                            <h5 class="card-title">
+                              <a href="javascript:;">Looking for accommodation</a>
+                            </h5>
+                            <p class="card-description">
+                              Hi, I enrole in Oxford University in 2021. My college is Crist charch. I am looking for afordable accommodations around Oxford...
+                            </p>
+                          </div>
+                          <div class="card-footer">
+                              <div class="icon-actions">
+                                  <a href="javascript:;" class="like active">
+                                    <i class="ni ni-like-2"></i>
+                                    <span class="text-muted">150</span>
+                                  </a>
+                                  <a href="javascript:;">
+                                    <i class="ni ni-chat-round"></i>
+                                    <span class="text-muted">36</span>
+                                  </a>
+                                  <a href="javascript:;">
+                                    <i class="ni ni-curved-next"></i>
+                                    <span class="text-muted">12</span>
+                                  </a>
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="card card-blog card-zoom" data-header="pattern" data-animation="zooming">
+                          <a href="javascript:;">
+                            <img class="img pattern rounded" src="{% static 'img/ill/presentation_bg.png' %}">
+                          </a>
+                          <div class="card-body">
+                            <h6 class="card-category text-danger">
+                              <i class="ni ni-badge"></i> Oxford
+                            </h6>
+                            <h5 class="card-title">
+                              <a href="javascript:;">Looking for accommodation</a>
+                            </h5>
+                            <p class="card-description">
+                              Hi, I enrole in Oxford University in 2021. My college is Crist charch. I am looking for afordable accommodations around Oxford...
+                            </p>
+                          </div>
+                          <div class="card-footer">
+                              <div class="icon-actions">
+                                  <a href="javascript:;" class="like active">
+                                    <i class="ni ni-like-2"></i>
+                                    <span class="text-muted">150</span>
+                                  </a>
+                                  <a href="javascript:;">
+                                    <i class="ni ni-chat-round"></i>
+                                    <span class="text-muted">36</span>
+                                  </a>
+                                  <a href="javascript:;">
+                                    <i class="ni ni-curved-next"></i>
+                                    <span class="text-muted">12</span>
+                                  </a>
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- side bar stats -->
+                  <div class="col-md-2 ml-lg--2 pl-lg-0">
+                    <h4 class="title text-sm-center text-md-left">Tags</h4>
+                    <table class="mx-sm-auto">
+                      <tbody>
+                        <tr>
+                          <td style="width:65%"><a href=""><span class="text-wrap badge badge-md badge-primary mr-2 my-2"  style="max-width:90%">Study</span></a></td>
+                          <td><a href=""><b>10</b></a></td>
+                        </tr>
+                        <tr>
+                          <td style="width:65%"><a href=""><span class="text-wrap badge badge-md badge-primary mr-2 my-2"  style="max-width:90%">Bank</span></a></td>
+                          <td><a href=""><b>6</b></a></td>
+                        </tr>
+                        <tr>
+                          <td style="width:65%"><a href=""><span class="text-wrap badge badge-md badge-primary mr-2 my-2"  style="max-width:90%">Job Hunting in the UK</span></a></td>
+                          <td><a href=""><b>1</b></a></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>
 {% endblock %}
