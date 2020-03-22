@@ -104,3 +104,6 @@ ENV/
 #data
 chotatsushien.csv
 import.py
+
+# staticfiles
+staticfiles/
