@@ -1,0 +1,42 @@
+version: '3.7'
+
+services:
+  web:
+    image: alumate/production:web
+    command: gunicorn alumate.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - static_volume:/home/app/web/staticfiles
+    environment:
+        - DEBUG=1
+        - SECRET_KEY=!f7!huaaiut+_wo+n_zl3jpq&$qp5kv!x^2c&af%8d7&c5k*w)
+        - SQL_ENGINE=django.db.backends.postgresql
+        - SQL_DATABASE=alumate_prod
+        - SQL_USER=alumate
+        - SQL_PASSWORD=StudyAbroad
+        - SQL_HOST=db
+        - SQL_PORT=5432
+        - DATABASE=postgres
+    depends_on:
+      - db
+  
+  db:
+    image: alumate/production:db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment: 
+        - POSTGRES_USER=alumate
+        - POSTGRES_PASSWORD=StudyAbroad
+        - POSTGRES_DB=alumate_prod
+
+  nginx:
+    image: alumate/production:nginx
+    volumes:
+      - static_volume:/home/app/web/staticfiles
+    ports:
+      - 4000:80
+    depends_on:
+      - web
+
+volumes:
+  postgres_data:
+  static_volume:
