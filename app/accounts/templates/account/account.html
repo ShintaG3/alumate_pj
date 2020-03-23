@@ -18,6 +18,18 @@
     border-right: 2px solid #e9ecef
   }
 
+  .timeline2 {
+    position: relative
+  }
+
+  .timeline2:before {
+    position: absolute;
+    top: 0;
+    left: 1rem;
+    height: 100%;
+    content: '';
+  }
+
   [data-timeline-axis-style=dashed]:before {
     border-right-style: dashed !important
   }
@@ -206,28 +218,42 @@
     line-height: 1.7
   }
 
-  /* over write argon-design.min.css */
-  @media (min-width: 1200px) {
-    .sidebar {
-      -ms-flex: 0 0 400px;
-      flex: 0 0 400px;
-    }
-    .blog-card-wrapper:before {
-    content:"";
-    display: block;
-    padding-top: 100%; /* 高さと幅の比を16:9に固定。9/16*100=56.25 */
-    }  
-  }
   /* card style */
   .card-zoom[data-animation=zooming] {
-      transition: all .3s cubic-bezier(.2,1,.22,1);
-      -webkit-transition: all .3s cubic-bezier(.2,1,.22,1);
+    transition: all .3s cubic-bezier(.2, 1, .22, 1);
+    -webkit-transition: all .3s cubic-bezier(.2, 1, .22, 1);
   }
+
   .card-zoom[data-animation=zooming]:hover {
-  transform: scale(1.07);
-  -webkit-transform: scale(1.07);
-  z-index: 2;
+    transform: scale(1.07);
+    -webkit-transform: scale(1.07);
+    z-index: 2;
   }
+
+  /* tagsinput overwrite */
+  .bootstrap-tagsinput .badge-success {
+    background: #2dce89;
+  }
+
+  .bootstrap-tagsinput .badge-danger {
+    background: #f5365c;
+  }
+
+  /* media */
+  @media (min-width: 1200px) {
+    .sidebar {
+      -ms-flex: 0 0 25rem;
+      flex: 0 0 25rem;
+    }
+
+    .blog-card-wrapper:before {
+      content: "";
+      display: block;
+      padding-top: 100%;
+      /* 高さと幅の比を16:9に固定。9/16*100=56.25 */
+    }
+  }
+
 
   @media (min-width: 992px) {}
 
@@ -237,9 +263,34 @@
 </style>
 
 {% endblock %}
+{% block scripts %}
+<script>
+  Tags = function () { 
+    var e = $('[data-toggle="tags"]');
+    e.length && e.each(function () {
+       $(this).tagsinput({
+          tagClass: "badge badge-primary" 
+       }) 
+    })
+    var s = $('[data-toggle="tags-success"]');
+    s.length && s.each(function () {
+       $(this).tagsinput({
+          tagClass: "badge badge-success" 
+       }) 
+    })
+    var d = $('[data-toggle="tags-danger"]');
+    d.length && d.each(function () {
+       $(this).tagsinput({
+          tagClass: "badge badge-danger" 
+       }) 
+    })
+  }();
+</script>
+{% endblock %}
 {% block content %}
 
 <div class="profile-page">
+
 
   <section class="section-profile-cover section-shaped my-0" style="height:300px">
     <!-- Circles background -->
@@ -253,134 +304,555 @@
     </div>
   </section>
 
-  <section class="section bg-secondary">
-    <div class="container-fluid px-5">
-      <div class="row">
-
-        <!-- user info -->
-        <div class="card card-profile shadow mt--200 col-xl-5 sidebar">
-          <div class="px-4">
-            <div class="row justify-content-center">
-              <div class="col-lg-3">
-                <div class="card-profile-image">
-                  <a href="javascript:;">
-                    <img src="{% static 'img/faces/team-4.jpg' %}" class="rounded-circle">
-                  </a>
-                </div>
-              </div>
-              <div class="col-lg-12">
-                <div class="card-profile-actions text-center py-4 mt-8">
-                  <a href="#" class="btn btn-sm btn-info">Follow</a>
-                  <!-- <a href="#" class="btn btn-sm btn-default float-right">Message</a> -->
-                </div>
-              </div>
-              <div class="col-lg-12">
-                <div class="card-profile-stats py-0 d-flex justify-content-center">
-                  <div>
-                    <a href="">
-                      <span class="heading">22</span>
-                    </a>
-                    <span class="description">Followers</span>
-                  </div>
-                  <div>
-                    <a href="">
-                      <span class="heading">10</span>
-                    </a>
-                    <span class="description">Followings</span>
-                  </div>
-
-                </div>
+  <!-- Modals for edit-->
+  <!-- Modal components shall be placed at the same level of the body tag so that modal's z-index is set appropreately -->
+  <!-- Modal "editHeader" -->
+  <div class="modal fade" id="editHeader" tabindex="-1" role="dialog" aria-labelledby="editHeader"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Edit Header</h6>
               </div>
             </div>
-            <div class="text-center mt-2">
-              <h3>Jessica Jones</h3>
-              <div class="h5">Harvard University</div>
-              <div class="font-weight-500">MBA</div>
-              <div class="text-muted font-weight-300"><small> 2020 ~ 2022</small></div>
-              <div class="mt-5 py-4 border-top text-center">
-                <div class="row justify-content-center">
-                  <div class="col-lg-9">
-                    <p>An artist of considerable range, Ryan — the name taken by Melbourne-raised,
-                      Brooklyn-based Nick Murphy — writes, performs and records all of his own music,
-                      giving it a warm, intimate feel with a solid groove structure. An artist of
-                      considerable range.</p>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form role="form">
+                <!--     Name -->
+                <div class="form-group mb-3 focused"><label>Name</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-circle-08"></i></span>
+                    </div>
+                    <input class="form-control" placeholder="Name..." type="text">
                   </div>
                 </div>
-                <div class="pt-4 py-4 border-top text-center">
-                </div>
-                <div class="timeline timeline-one-side" data-timeline-content="axis" data-timeline-axis-style="dashed">
-                  <div class="timeline-block">
-                    <span class="timeline-step badge-success">
-                      <i class="ni ni-briefcase-24"></i>
-                    </span>
-                    <div class="timeline-content">
-                      <div class="d-flex justify-content-between pt-1">
-                        <div class="text-left">
-                          <span class="text-muted text-sm font-weight-bold">World Bank</span>
-                        </div>
-                        <div class="text-right">
-                          <small class="text-muted">Target</small>
-                        </div>
-                      </div>
-                      <h6 class="text-sm text-left mt-1 mb-0">Seek financial officer position</h6>
-                    </div>
+                <!--     Alumate Status -->
+                <div class="form-group focused">
+                  <label>Alumate Status</label>
+                  <div class="custom-control custom-radio mb-3">
+                    <input name="custom-radio-1" class="custom-control-input" id="futureStudent" type="radio">
+                    <label class="custom-control-label" for="futureStudent">Future Student</label>
                   </div>
-                  <div class="timeline-block">
-                    <span class="timeline-step badge-danger">
-                      <i class="ni ni-hat-3"></i>
-                    </span>
-                    <div class="timeline-content">
-                      <div class="d-flex justify-content-between pt-1">
-                        <div class="text-left">
-                          <span class="text-muted text-sm font-weight-bold">Harvard
-                            University</span>
-                        </div>
-                        <div class="text-right">
-                          <small class="text-muted">2020 ~ 2022</small>
-                        </div>
-                      </div>
-                      <h6 class="text-sm text-left mt-1 mb-0">MBA</h6>
-                    </div>
+                  <div class="custom-control custom-radio mb-3">
+                    <input name="custom-radio-1" class="custom-control-input" id="currentStudent" type="radio">
+                    <label class="custom-control-label" for="currentStudent">Current Student</label>
                   </div>
-                  <div class="timeline-block">
-                    <span class="timeline-step badge-info">
-                      <i class="ni ni-briefcase-24"></i>
-                    </span>
-                    <div class="timeline-content">
-                      <div class="d-flex justify-content-between pt-1">
-                        <div class="text-left">
-                          <span class="text-muted text-sm font-weight-bold">PwC</span>
-                        </div>
-                        <div class="text-right">
-                          <small class="text-muted"><i class="fas fa-clock mr-1"></i>2013 ~
-                            2020</small>
-                        </div>
-                      </div>
-                      <h6 class="text-sm text-left mt-1 mb-0">M&A Consultant</h6>
-                    </div>
-                  </div>
-                  <div class="timeline-block">
-                    <span class="timeline-step badge-info">
-                      <i class="ni ni-hat-3"></i>
-                    </span>
-                    <div class="timeline-content">
-                      <div class="d-flex justify-content-between pt-1">
-                        <div class="text-left">
-                          <span class="text-muted text-sm font-weight-bold">University of
-                            Tokyo</span>
-                        </div>
-                        <div class="text-right">
-                          <small class="text-muted">2009 ~ 2013</small>
-                        </div>
-                      </div>
-                      <h6 class="text-sm text-left mt-1 mb-0">Mathmatics</h6>
-                    </div>
+                  <div class="custom-control custom-radio mb-3">
+                    <input name="custom-radio-1" class="custom-control-input" id="alumni" type="radio">
+                    <label class="custom-control-label" for="alumni">Alumni</label>
                   </div>
                 </div>
-              </div>
+                <!--  Country of origin -->
+                <div class="form-group focused">
+                  <label>Country of origin</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-world"></i></span>
+                    </div>
+                    <input class="form-control" placeholder="Country of origin..." type="text">
+                  </div>
+                </div>
+                <!--     Study abroad country -->
+                <div class="form-group focused">
+                  <label>Study abroad country</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-world"></i></span>
+                    </div>
+                    <input class="form-control" placeholder="Study abroad country..." type="text">
+                  </div>
+                </div>
+                <!--     Study abroad school -->
+                <div class="form-group focused">
+                  <label>Study abroad school</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                    </div>
+                    <input class="form-control" placeholder="Study abroad school..." type="text">
+                  </div>
+                </div>
+                <!--     Study abroad course -->
+                <div class="form-group focused">
+                  <label>Course</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                    </div>
+                    <input class="form-control" placeholder="Course..." type="text">
+                  </div>
+                </div>
+                <!--     Study abroad start year -->
+                <div class="form-group focused">
+                  <label>Study from</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                    </div>
+                    <select class="form-control" data-trigger="" name="startYear" id="startYear">
+                      <option disabled="" selected="">Start year</option>
+                      <option value="2020">Still planning</option>
+                      <option value="2020">2020</option>
+                      <option value="2021">2021</option>
+                      <option value="2023">2023</option>
+                    </select>
+                  </div>
+                </div>
+                <!--     Study abroad end year -->
+                <div class="form-group focused">
+                  <label>Study until</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                    </div>
+                    <select class="form-control" data-trigger="" name="startYear" id="startYear">
+                      <option disabled="" selected="">End year</option>
+                      <option value="2020">Still planning</option>
+
+                      <option value="2020">2020</option>
+                      <option value="2021">2021</option>
+                      <option value="2023">2023</option>
+                    </select>
+                  </div>
+                </div>
+                <!--     Living city -->
+                <div class="form-group focused">
+                  <label>Living city</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-pin-3"></i></span>
+                    </div>
+                    <input class="form-control" placeholder="Living city..." type="text">
+                  </div>
+                </div>
+                <!-- Button -->
+                <div class="text-center">
+                  <button type="button" class="btn btn-primary my-4">Save changes</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal "editGoals" -->
+  <div class="modal fade" id="editGoals" tabindex="-1" role="dialog" aria-labelledby="editGoals"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Edit Goals</h6>
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form role="form">
+                <!-- Goals -->
+                <div class="form-group mb-3 focused">
+                  <label>Goals</label>
+                  <input class="form-control" type="text" name="goals" id="goals" value="Economist, UN Officer, International Development" placeholder="Add Goals" data-toggle="tags-success">
+                </div>
+                <!-- Button -->
+                <div class="text-center">
+                  <button type="button" class="btn btn-primary my-4">Save changes</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal "editStudyInterest" -->
+  <div class="modal fade" id="editStudyInterest" tabindex="-1" role="dialog" aria-labelledby="editStudyInterest"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Edit Study Interest</h6>
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form role="form">
+                <!-- Study Interest -->
+                <div class="form-group mb-3 focused">
+                  <label>Study Interest</label>
+                  <input class="form-control" type="text" name="goals" id="goals" value="Finance, Business, Block chain, AI" placeholder="Add Study Interest" data-toggle="tags-danger">
+                </div>
+                <!-- Button -->
+                <div class="text-center">
+                  <button type="button" class="btn btn-primary my-4">Save changes</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal "editAbout" -->
+  <div class="modal fade" id="editAbout" tabindex="-1" role="dialog" aria-labelledby="editAbout"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Edit About</h6>
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form role="form">
+                <!-- Study Interest -->
+                <div class="form-group mb-3 focused">
+                  <label>About</label>
+                  <textarea class="form-control" name="about" id="about" rows="5" placeholder="Please introduce yourself..."></textarea>
+                </div>
+                <!-- Button -->
+                <div class="text-center">
+                  <button type="button" class="btn btn-primary my-4">Save changes</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Page section -->
+  <section class="section bg-secondary">
+    <div class="container-fluid px-5">
+      <div class="row">
+        <div class="col-xl-5 sidebar">
+
+          <!-- User info -->
+          <div class="card card-profile shadow mt--200">
+            <div class="px-4">
+
+              <!-- Photo -->
+              <div class="row justify-content-center">
+                <div class="col-lg-3">
+                  <div class="card-profile-image">
+                    <a href="javascript:;">
+                      <img src="{% static 'img/faces/team-4.jpg' %}" class="rounded-circle">
+                    </a>
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <div class="card-profile-actions text-center py-4 mt-8">
+                    <a href="#" class="btn btn-sm btn-info">Follow</a>
+                    <!-- this is message button  -->
+                    <!-- <a href="#" class="btn btn-sm btn-default float-right">Message</a> -->
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <div class="card-profile-stats py-0 d-flex justify-content-center">
+                    <div>
+                      <a href="">
+                        <span class="heading">22</span>
+                      </a>
+                      <span class="description">Followers</span>
+                    </div>
+                    <div>
+                      <a href="">
+                        <span class="heading">10</span>
+                      </a>
+                      <span class="description">Followings</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Header -->
+              <!-- "editHeader" -->
+              <div class="row justify-content-end">
+                <div class="col text-right">
+                  <!-- Button trigger modal -->
+                  <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                    data-toggle="modal" data-target="#editHeader" data-toggle="tooltip" data-placement="top"
+                    title="Edit header" data-container="body" data-animation="true">
+                    <i class="ni ni-settings-gear-65 text-gray"></i>
+                  </a>
+                </div>
+              </div>
+              <!-- display Header   -->
+              <div class="text-center mt-2">
+                <h3>Jessica Jones<img class="img-fluid rounded shadow ml-2" style="width: 1.75rem;"
+                    src="{% static 'img/brand/logo_current.png' %}"></h3>
+                <!-- future student logo => src="{% static 'img/brand/logo_future.png' %}"-->
+                <!-- alumuni logo => src="{% static 'img/brand/logo_alumni.png' %}"-->
+                <div class="text-muted font-weight-500 mt-3 mb-2">
+                  from Japan to U.S.
+                </div>
+                <div class="h5">Harvard University</div>
+                <div class="font-weight-500">MBA</div>
+                <div class="text-muted font-weight-300"><small> 2020 ~ 2022</small></div>
+                <div class="font-weight-400 mt-4"><i class="ni ni-pin-3 mr-2"></i>Boston, U.S.</div>
+              </div>
+
+              <!-- Goals-->
+              <div class="mt-5 pt-4 border-top"></div>
+              <!-- "editGoals" -->
+              <div class="row justify-content-end">
+                <div class="col text-right">
+                  <!-- Button trigger modal -->
+                  <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                    data-toggle="modal" data-target="#editGoals" data-toggle="tooltip" data-placement="top"
+                    title="Edit goals" data-container="body" data-animation="true">
+                    <i class="ni ni-settings-gear-65 text-gray"></i>
+                  </a>
+                </div>
+              </div>
+              <!-- display Goals -->
+              <div class="row mb-3">
+                <div class="col">
+                  <div class="icon icon-sm icon-shape icon-shape-success shadow rounded-circle mr-2">
+                    <i class="fa fa-flag text-success"></i>
+                  </div>
+                  <span class="h5 font-weight-bold text-muted text-uppercase">Goals</span>
+                </div>
+              </div>
+              <div class="row mb-5">
+                <div class="col">
+                  <a href="">
+                    <span class="badge mr-1 mb-1 badge-success">Economist</span>
+                  </a>
+                  <a href="">
+                    <span class="badge mr-1 mb-1 badge-success">International Development</span>
+                  </a>
+                  <a href="">
+                    <span class="badge mr-1 mb-1 badge-success">UN Officer</span>
+                  </a>
+                </div>
+              </div>
+
+              <!-- Study Interest -->
+              <!-- "editStudyInterest" -->
+              <div class="row justify-content-end">
+                <div class="col text-right">
+                  <!-- Button trigger modal -->
+                  <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                    data-toggle="modal" data-target="#editStudyInterest" data-toggle="tooltip" data-placement="top"
+                    title="Edit study intereste" data-container="body" data-animation="true">
+                    <i class="ni ni-settings-gear-65 text-gray"></i>
+                  </a>
+                </div>
+              </div>
+              <!-- display study interest -->
+              <div class="row mb-3">
+                <div class="col">
+                  <div class="icon icon-sm icon-shape icon-shape-danger shadow rounded-circle mr-2">
+                    <i class="ni ni-books text-danger"></i>
+                  </div>
+                  <span class="h5 font-weight-bold text-muted text-uppercase">Study Interest</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <a href="">
+                    <span class="badge mr-1 mb-1 badge-danger">Finance</span>
+                  </a>
+                  <a href="">
+                    <span class="badge mr-1 mb-1 badge-danger">Business</span>
+                  </a>
+                  <a href="">
+                    <span class="badge mr-1 badge-danger">Block chain</span>
+                  </a>
+                  <a href="">
+                    <span class="badge mr-1 mb-1 badge-danger">AI</span>
+                  </a>
+                </div>
+              </div>
+
+              <!-- About -->
+              <div class="mt-5 pt-4 border-top"></div>
+              <!-- "editAbout" -->
+              <div class="row mb-2 justify-content-end">
+                <div class="col text-right">
+                  <!-- Button trigger modal -->
+                  <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                    data-toggle="modal" data-target="#editAbout" data-toggle="tooltip" data-placement="top"
+                    title="Edit about" data-container="body" data-animation="true">
+                    <i class="ni ni-settings-gear-65 text-gray"></i>
+                  </a>
+                </div>
+              </div>
+              <!-- display about -->
+              <div class="row justify-content-center">
+                <div class="col">
+                  <p>An artist of considerable range, Ryan — the name taken by Melbourne-raised,
+                    Brooklyn-based Nick Murphy — writes, performs and records all of his own music,
+                    giving it a warm, intimate feel with a solid groove structure. An artist of
+                    considerable range.</p>
+                </div>
+              </div>
+
+              <!-- Work & Education -->
+              <div class="mt-4 pt-4 border-top"></div>
+              <div class="row mb-md-2">
+                <div class="col">
+                  <div class="timeline timeline-one-side" data-timeline-content="axis"
+                    data-timeline-axis-style="dashed">
+                    <div class="timeline-block">
+                      <span class="timeline-step badge-success">
+                        <i class="ni ni-briefcase-24"></i>
+                      </span>
+                      <div class="timeline-content">
+                        <div class="d-flex justify-content-between pt-1">
+                          <div class="text-left">
+                            <span class="text-muted text-sm font-weight-bold">World Bank</span>
+                          </div>
+                          <div class="text-right">
+                            <small class="text-muted">Target</small>
+                          </div>
+                        </div>
+                        <h6 class="text-sm text-left mt-1 mb-0">Seek financial officer position</h6>
+                      </div>
+                    </div>
+                    <div class="timeline-block">
+                      <span class="timeline-step badge-danger">
+                        <i class="ni ni-hat-3"></i>
+                      </span>
+                      <div class="timeline-content">
+                        <div class="d-flex justify-content-between pt-1">
+                          <div class="text-left">
+                            <span class="text-muted text-sm font-weight-bold">Harvard
+                              University</span>
+                          </div>
+                          <div class="text-right">
+                            <small class="text-muted">2020 ~ 2022</small>
+                          </div>
+                        </div>
+                        <h6 class="text-sm text-left mt-1 mb-0">MBA</h6>
+                      </div>
+                    </div>
+                    <div class="timeline-block">
+                      <span class="timeline-step badge-info">
+                        <i class="ni ni-briefcase-24"></i>
+                      </span>
+                      <div class="timeline-content">
+                        <div class="d-flex justify-content-between pt-1">
+                          <div class="text-left">
+                            <span class="text-muted text-sm font-weight-bold">PwC</span>
+                          </div>
+                          <div class="text-right">
+                            <small class="text-muted"><i class="fas fa-clock mr-1"></i>2013 ~
+                              2020</small>
+                          </div>
+                        </div>
+                        <h6 class="text-sm text-left mt-1 mb-0">M&A Consultant</h6>
+                      </div>
+                    </div>
+                    <div class="timeline-block">
+                      <span class="timeline-step badge-info">
+                        <i class="ni ni-hat-3"></i>
+                      </span>
+                      <div class="timeline-content">
+                        <div class="d-flex justify-content-between pt-1">
+                          <div class="text-left">
+                            <span class="text-muted text-sm font-weight-bold">University of
+                              Tokyo</span>
+                          </div>
+                          <div class="text-right">
+                            <small class="text-muted">2009 ~ 2013</small>
+                          </div>
+                        </div>
+                        <h6 class="text-sm text-left mt-1 mb-0">Mathmatics</h6>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Scholarship -->
+              <div class="mt-5 pt-4 border-top"></div>
+              <div class="row mb-3">
+                <div class="col">
+                  <div class="icon icon-sm icon-shape icon-shape-danger shadow rounded-circle mr-2">
+                    <i class="ni ni-paper-diploma text-danger"></i>
+                  </div>
+                  <span class="h5 font-weight-bold text-muted text-uppercase">Scholarship</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <div class="text-left">
+                    <span class="text-muted text-sm font-weight-bold">Fulbright Japan</span>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="text-right">
+                    <small class="text-muted">2020</small>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <h6 class="text-sm text-left mt-1">Masters degree program</h6>
+                </div>
+              </div>
+
+              <!-- Social linke -->
+              <div class="mt-5 pt-4 border-top"></div>
+              <div class="row mb-3">
+                <div class="col">
+                  <div class="icon icon-sm icon-shape icon-shape-default shadow rounded-circle mr-2">
+                    <i class="ni ni-world text-default"></i>
+                  </div>
+                  <span class="h5 font-weight-bold text-muted text-uppercase">Social Links</span>
+                </div>
+              </div>
+              <div class="row mb-5">
+                <div class="col">
+                  <a href="">
+                    <h6 class="btn-link">Blog</h6>
+                  </a>
+                  <a href="">
+                    <h6 class="btn-link">Facebook</h6>
+                  </a>
+                </div>
+              </div>
+
+              <!-- Profile -->
+              <div class="mt-5 pt-4 border-top"></div>
+              <div class="row mb-3">
+                <div class="col">
+                  <div class="icon icon-sm icon-shape icon-shape-default shadow rounded-circle mr-2">
+                    <i class="ni ni-single-02 text-default"></i>
+                  </div>
+                  <span class="h5 font-weight-bold text-muted text-uppercase">Profile</span>
+                </div>
+              </div>
+              <div class="row mb-5">
+                <div class="col">
+                  <h6>Female</h6>
+                  <h6>Born in 1992</h6>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
 
         <!-- Collection Area -->
         <div class="col">
@@ -401,8 +873,9 @@
                       Appreciation
                     </a>
                   </li>
-                  <li class="nav-item" style="width:140px">                  
-                    <a class="nav-link" href="#" role="tab" data-toggle="popover" aria-selected="false" data-placement="top" data-content="Oops! This function is coming soon!">
+                  <li class="nav-item" style="width:140px">
+                    <a class="nav-link" href="#" role="tab" data-toggle="popover" aria-selected="false"
+                      data-placement="top" data-content="Oops! This function is coming soon!">
                       <i class="ni ni-collection"></i>
                       Noticle
                     </a>
@@ -435,7 +908,7 @@
                             <small class="d-block text-muted">3 days ago</small>
                           </div>
                         </div>
-                    
+
                       </div>
                       <div class="card-body">
                         <p class="mb-4">
@@ -545,7 +1018,7 @@
                   </div>
                 </div>
               </div>
-              
+
               <!-- noticle -->
               <div class="tab-pane" id="noticle">
                 <div class="row">
@@ -554,88 +1027,96 @@
                     <h4 class="title">Latest Collections</h4>
                     <div class="row collections">
                       <div class="col-md-6">
-                          <div class="card card-background card-blog" data-animation="zooming">
-                            <div class="full-background" style="background-image: url({% static 'img/sections/unsplashs.jpg' %})"></div>     
-                            <div class="card-body d-flex align-items-end text-left">
-                              <div>
-                                <a href="#pablo">
-                                  <h2 class="card-title">Keep striving</h2>
-                                  <p class="card-description text-white">Best practice of learning English is investing time to ...</p>
-                                  <div class="stats stats-left ">
-                                    <span class="mr-3">
-                                      <i class="ni ni-favourite-28 text-danger"></i> 2.4K
-                                    </span>
-                                    <span class="mr-3">
-                                      <i class="ni ni-chat-round text-success"></i> 2.4K
-                                    </span>
-                                  </div>
-                                </a>
-                              </div>
+                        <div class="card card-background card-blog" data-animation="zooming">
+                          <div class="full-background"
+                            style="background-image: url({% static 'img/sections/unsplashs.jpg' %})"></div>
+                          <div class="card-body d-flex align-items-end text-left">
+                            <div>
+                              <a href="#pablo">
+                                <h2 class="card-title">Keep striving</h2>
+                                <p class="card-description text-white">Best practice of learning English is investing
+                                  time to ...</p>
+                                <div class="stats stats-left ">
+                                  <span class="mr-3">
+                                    <i class="ni ni-favourite-28 text-danger"></i> 2.4K
+                                  </span>
+                                  <span class="mr-3">
+                                    <i class="ni ni-chat-round text-success"></i> 2.4K
+                                  </span>
+                                </div>
+                              </a>
                             </div>
-                          </div>                        
+                          </div>
+                        </div>
                       </div>
                       <div class="col-md-6">
-                          <div class="card card-background card-blog" data-animation="zooming">
-                            <div class="full-background" style="background-image: url({% static 'img/sections/unsplashs.jpg' %})"></div>     
-                            <div class="card-body d-flex align-items-end text-left">
-                              <div>
-                                <a href="#pablo">
-                                  <h2 class="card-title">Keep striving</h2>
-                                  <p class="card-description text-white">Best practice of learning English is investing time to ...</p>
-                                  <div class="stats stats-left ">
-                                    <span class="mr-3">
-                                      <i class="ni ni-favourite-28 text-danger"></i> 2.4K
-                                    </span>
-                                    <span class="mr-3">
-                                      <i class="ni ni-chat-round text-success"></i> 2.4K
-                                    </span>
-                                  </div>
-                                </a>
-                              </div>
+                        <div class="card card-background card-blog" data-animation="zooming">
+                          <div class="full-background"
+                            style="background-image: url({% static 'img/sections/unsplashs.jpg' %})"></div>
+                          <div class="card-body d-flex align-items-end text-left">
+                            <div>
+                              <a href="#pablo">
+                                <h2 class="card-title">Keep striving</h2>
+                                <p class="card-description text-white">Best practice of learning English is investing
+                                  time to ...</p>
+                                <div class="stats stats-left ">
+                                  <span class="mr-3">
+                                    <i class="ni ni-favourite-28 text-danger"></i> 2.4K
+                                  </span>
+                                  <span class="mr-3">
+                                    <i class="ni ni-chat-round text-success"></i> 2.4K
+                                  </span>
+                                </div>
+                              </a>
                             </div>
-                          </div>                        
+                          </div>
+                        </div>
                       </div>
                       <div class="col-md-6">
-                          <div class="card card-background card-blog" data-animation="zooming">
-                            <div class="full-background" style="background-image: url({% static 'img/sections/unsplashs.jpg' %})"></div>     
-                            <div class="card-body d-flex align-items-end text-left">
-                              <div>
-                                <a href="#pablo">
-                                  <h2 class="card-title">Keep striving</h2>
-                                  <p class="card-description text-white">Best practice of learning English is investing time to ...</p>
-                                  <div class="stats stats-left ">
-                                    <span class="mr-3">
-                                      <i class="ni ni-favourite-28 text-danger"></i> 2.4K
-                                    </span>
-                                    <span class="mr-3">
-                                      <i class="ni ni-chat-round text-success"></i> 2.4K
-                                    </span>
-                                  </div>
-                                </a>
-                              </div>
+                        <div class="card card-background card-blog" data-animation="zooming">
+                          <div class="full-background"
+                            style="background-image: url({% static 'img/sections/unsplashs.jpg' %})"></div>
+                          <div class="card-body d-flex align-items-end text-left">
+                            <div>
+                              <a href="#pablo">
+                                <h2 class="card-title">Keep striving</h2>
+                                <p class="card-description text-white">Best practice of learning English is investing
+                                  time to ...</p>
+                                <div class="stats stats-left ">
+                                  <span class="mr-3">
+                                    <i class="ni ni-favourite-28 text-danger"></i> 2.4K
+                                  </span>
+                                  <span class="mr-3">
+                                    <i class="ni ni-chat-round text-success"></i> 2.4K
+                                  </span>
+                                </div>
+                              </a>
                             </div>
-                          </div>                        
+                          </div>
+                        </div>
                       </div>
                       <div class="col-md-6">
-                          <div class="card card-background card-blog" data-animation="zooming">
-                            <div class="full-background" style="background-image: url({% static 'img/sections/unsplashs.jpg' %})"></div>     
-                            <div class="card-body d-flex align-items-end text-left">
-                              <div>
-                                <a href="#pablo">
-                                  <h2 class="card-title">Keep striving</h2>
-                                  <p class="card-description text-white">Best practice of learning English is investing time to ...</p>
-                                  <div class="stats stats-left ">
-                                    <span class="mr-3">
-                                      <i class="ni ni-favourite-28 text-danger"></i> 2.4K
-                                    </span>
-                                    <span class="mr-3">
-                                      <i class="ni ni-chat-round text-success"></i> 2.4K
-                                    </span>
-                                  </div>                                  
-                                </a>
-                              </div>
+                        <div class="card card-background card-blog" data-animation="zooming">
+                          <div class="full-background"
+                            style="background-image: url({% static 'img/sections/unsplashs.jpg' %})"></div>
+                          <div class="card-body d-flex align-items-end text-left">
+                            <div>
+                              <a href="#pablo">
+                                <h2 class="card-title">Keep striving</h2>
+                                <p class="card-description text-white">Best practice of learning English is investing
+                                  time to ...</p>
+                                <div class="stats stats-left ">
+                                  <span class="mr-3">
+                                    <i class="ni ni-favourite-28 text-danger"></i> 2.4K
+                                  </span>
+                                  <span class="mr-3">
+                                    <i class="ni ni-chat-round text-success"></i> 2.4K
+                                  </span>
+                                </div>
+                              </a>
                             </div>
-                          </div>                        
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -645,15 +1126,21 @@
                     <table class="mx-sm-auto">
                       <tbody>
                         <tr>
-                          <td style="width:65%"><a href=""><span class="text-wrap badge badge-md badge-primary mr-2 my-2"  style="max-width:90%">Study</span></a></td>
+                          <td style="width:65%"><a href=""><span
+                                class="text-wrap badge badge-md badge-primary mr-2 my-2"
+                                style="max-width:90%">Study</span></a></td>
                           <td><a href=""><b>10</b></a></td>
                         </tr>
                         <tr>
-                          <td style="width:65%"><a href=""><span class="text-wrap badge badge-md badge-primary mr-2 my-2"  style="max-width:90%">Bank</span></a></td>
+                          <td style="width:65%"><a href=""><span
+                                class="text-wrap badge badge-md badge-primary mr-2 my-2"
+                                style="max-width:90%">Bank</span></a></td>
                           <td><a href=""><b>6</b></a></td>
                         </tr>
                         <tr>
-                          <td style="width:65%"><a href=""><span class="text-wrap badge badge-md badge-primary mr-2 my-2"  style="max-width:90%">Job Hunting in the UK</span></a></td>
+                          <td style="width:65%"><a href=""><span
+                                class="text-wrap badge badge-md badge-primary mr-2 my-2" style="max-width:90%">Job
+                                Hunting in the UK</span></a></td>
                           <td><a href=""><b>1</b></a></td>
                         </tr>
                       </tbody>
@@ -661,7 +1148,7 @@
                   </div>
                 </div>
               </div>
-              
+
               <!-- inquiry -->
               <div class="tab-pane" id="appreciation">
                 <div class="row">
@@ -682,24 +1169,25 @@
                               <a href="javascript:;">Looking for accommodation</a>
                             </h5>
                             <p class="card-description">
-                              Hi, I enrole in Oxford University in 2021. My college is Crist charch. I am looking for afordable accommodations around Oxford...
+                              Hi, I enrole in Oxford University in 2021. My college is Crist charch. I am looking for
+                              afordable accommodations around Oxford...
                             </p>
                           </div>
                           <div class="card-footer">
-                              <div class="icon-actions">
-                                  <a href="javascript:;" class="like active">
-                                    <i class="ni ni-like-2"></i>
-                                    <span class="text-muted">150</span>
-                                  </a>
-                                  <a href="javascript:;">
-                                    <i class="ni ni-chat-round"></i>
-                                    <span class="text-muted">36</span>
-                                  </a>
-                                  <a href="javascript:;">
-                                    <i class="ni ni-curved-next"></i>
-                                    <span class="text-muted">12</span>
-                                  </a>
-                              </div>
+                            <div class="icon-actions">
+                              <a href="javascript:;" class="like active">
+                                <i class="ni ni-like-2"></i>
+                                <span class="text-muted">150</span>
+                              </a>
+                              <a href="javascript:;">
+                                <i class="ni ni-chat-round"></i>
+                                <span class="text-muted">36</span>
+                              </a>
+                              <a href="javascript:;">
+                                <i class="ni ni-curved-next"></i>
+                                <span class="text-muted">12</span>
+                              </a>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -716,24 +1204,25 @@
                               <a href="javascript:;">Looking for accommodation</a>
                             </h5>
                             <p class="card-description">
-                              Hi, I enrole in Oxford University in 2021. My college is Crist charch. I am looking for afordable accommodations around Oxford...
+                              Hi, I enrole in Oxford University in 2021. My college is Crist charch. I am looking for
+                              afordable accommodations around Oxford...
                             </p>
                           </div>
                           <div class="card-footer">
-                              <div class="icon-actions">
-                                  <a href="javascript:;" class="like active">
-                                    <i class="ni ni-like-2"></i>
-                                    <span class="text-muted">150</span>
-                                  </a>
-                                  <a href="javascript:;">
-                                    <i class="ni ni-chat-round"></i>
-                                    <span class="text-muted">36</span>
-                                  </a>
-                                  <a href="javascript:;">
-                                    <i class="ni ni-curved-next"></i>
-                                    <span class="text-muted">12</span>
-                                  </a>
-                              </div>
+                            <div class="icon-actions">
+                              <a href="javascript:;" class="like active">
+                                <i class="ni ni-like-2"></i>
+                                <span class="text-muted">150</span>
+                              </a>
+                              <a href="javascript:;">
+                                <i class="ni ni-chat-round"></i>
+                                <span class="text-muted">36</span>
+                              </a>
+                              <a href="javascript:;">
+                                <i class="ni ni-curved-next"></i>
+                                <span class="text-muted">12</span>
+                              </a>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -750,24 +1239,25 @@
                               <a href="javascript:;">Looking for accommodation</a>
                             </h5>
                             <p class="card-description">
-                              Hi, I enrole in Oxford University in 2021. My college is Crist charch. I am looking for afordable accommodations around Oxford...
+                              Hi, I enrole in Oxford University in 2021. My college is Crist charch. I am looking for
+                              afordable accommodations around Oxford...
                             </p>
                           </div>
                           <div class="card-footer">
-                              <div class="icon-actions">
-                                  <a href="javascript:;" class="like active">
-                                    <i class="ni ni-like-2"></i>
-                                    <span class="text-muted">150</span>
-                                  </a>
-                                  <a href="javascript:;">
-                                    <i class="ni ni-chat-round"></i>
-                                    <span class="text-muted">36</span>
-                                  </a>
-                                  <a href="javascript:;">
-                                    <i class="ni ni-curved-next"></i>
-                                    <span class="text-muted">12</span>
-                                  </a>
-                              </div>
+                            <div class="icon-actions">
+                              <a href="javascript:;" class="like active">
+                                <i class="ni ni-like-2"></i>
+                                <span class="text-muted">150</span>
+                              </a>
+                              <a href="javascript:;">
+                                <i class="ni ni-chat-round"></i>
+                                <span class="text-muted">36</span>
+                              </a>
+                              <a href="javascript:;">
+                                <i class="ni ni-curved-next"></i>
+                                <span class="text-muted">12</span>
+                              </a>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -784,24 +1274,25 @@
                               <a href="javascript:;">Looking for accommodation</a>
                             </h5>
                             <p class="card-description">
-                              Hi, I enrole in Oxford University in 2021. My college is Crist charch. I am looking for afordable accommodations around Oxford...
+                              Hi, I enrole in Oxford University in 2021. My college is Crist charch. I am looking for
+                              afordable accommodations around Oxford...
                             </p>
                           </div>
                           <div class="card-footer">
-                              <div class="icon-actions">
-                                  <a href="javascript:;" class="like active">
-                                    <i class="ni ni-like-2"></i>
-                                    <span class="text-muted">150</span>
-                                  </a>
-                                  <a href="javascript:;">
-                                    <i class="ni ni-chat-round"></i>
-                                    <span class="text-muted">36</span>
-                                  </a>
-                                  <a href="javascript:;">
-                                    <i class="ni ni-curved-next"></i>
-                                    <span class="text-muted">12</span>
-                                  </a>
-                              </div>
+                            <div class="icon-actions">
+                              <a href="javascript:;" class="like active">
+                                <i class="ni ni-like-2"></i>
+                                <span class="text-muted">150</span>
+                              </a>
+                              <a href="javascript:;">
+                                <i class="ni ni-chat-round"></i>
+                                <span class="text-muted">36</span>
+                              </a>
+                              <a href="javascript:;">
+                                <i class="ni ni-curved-next"></i>
+                                <span class="text-muted">12</span>
+                              </a>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -814,21 +1305,27 @@
                     <table class="mx-sm-auto">
                       <tbody>
                         <tr>
-                          <td style="width:65%"><a href=""><span class="text-wrap badge badge-md badge-primary mr-2 my-2"  style="max-width:90%">Study</span></a></td>
+                          <td style="width:65%"><a href=""><span
+                                class="text-wrap badge badge-md badge-primary mr-2 my-2"
+                                style="max-width:90%">Study</span></a></td>
                           <td><a href=""><b>10</b></a></td>
                         </tr>
                         <tr>
-                          <td style="width:65%"><a href=""><span class="text-wrap badge badge-md badge-primary mr-2 my-2"  style="max-width:90%">Bank</span></a></td>
+                          <td style="width:65%"><a href=""><span
+                                class="text-wrap badge badge-md badge-primary mr-2 my-2"
+                                style="max-width:90%">Bank</span></a></td>
                           <td><a href=""><b>6</b></a></td>
                         </tr>
                         <tr>
-                          <td style="width:65%"><a href=""><span class="text-wrap badge badge-md badge-primary mr-2 my-2"  style="max-width:90%">Job Hunting in the UK</span></a></td>
+                          <td style="width:65%"><a href=""><span
+                                class="text-wrap badge badge-md badge-primary mr-2 my-2" style="max-width:90%">Job
+                                Hunting in the UK</span></a></td>
                           <td><a href=""><b>1</b></a></td>
                         </tr>
                       </tbody>
                     </table>
                   </div>
-                  
+
                 </div>
               </div>
             </div>
