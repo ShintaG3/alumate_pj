@@ -1,10 +1,13 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from . forms import SignUpForm, BaseInfoForm
+from . forms import SignUpForm, BaseInfoForm, UserLoginForm
 from django.contrib.auth import login, authenticate
 from accounts.models import UserProfile, Follow, BaseInfo
 from django.http import JsonResponse
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import AuthenticationForm
+from django.views.generic.edit import FormView
+
 
 def baseInquiry(request):
     if request.method == 'POST':
@@ -29,6 +32,13 @@ def register(request):
     else:
         form = SignUpForm()
     return render(request, 'auths/register.html', {'form': form})
+
+def login(request, *args, **kwargs):
+    # authentication_form=UserLoginForm
+    if request.method == 'POST':
+        if not request.POST.get('remember_me', None):
+            request.session.set_expiry(0)
+    return auth_views.login(request, *args, **kwargs)
 
 def baseConnect(request):
     user1 = User.objects.get(username=request.user.username)
