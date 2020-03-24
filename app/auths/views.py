@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from . forms import SignUpForm, BaseInfoForm, UserLoginForm
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login as auth_login, authenticate, logout
 from accounts.models import UserProfile, Follow, BaseInfo
 from django.http import JsonResponse
 from django.contrib.auth.models import User
@@ -25,7 +25,7 @@ def register(request):
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
+            raw_password = form.cleaned_data.get('password')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
             return redirect('auths:baseInquiry')
@@ -33,12 +33,31 @@ def register(request):
         form = SignUpForm()
     return render(request, 'auths/register.html', {'form': form})
 
-def login(request, *args, **kwargs):
-    # authentication_form=UserLoginForm
-    if request.method == 'POST':
-        if not request.POST.get('remember_me', None):
+def loginUser(request):
+    next = request.GET.get('next')
+    form = UserLoginForm(request.POST or None)
+    if form.is_valid():
+        username = form.cleaned_data.get('username')
+        password = form.cleaned_data.get('password')
+        remember_me = form.cleaned_data.get('remember_me')
+        if not remember_me:
+            # print(request.session.get_session_cookie_age())
             request.session.set_expiry(0)
-    return auth_views.login(request, *args, **kwargs)
+            # print(request.session.get_session_cookie_age())
+        user = authenticate(username=username, password=password)
+        auth_login(request, user)
+        if next:
+            return redirect(next)
+        return redirect('/')
+
+    context = {
+        'form': form,
+    }
+    return render(request, "auths/login.html", context)
+
+def logoutUser(request):
+    logout(request)
+    return redirect('/')
 
 def baseConnect(request):
     user1 = User.objects.get(username=request.user.username)
