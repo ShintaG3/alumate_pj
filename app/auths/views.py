@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from . forms import SignUpForm, BaseInfoForm, UserLoginForm
-from django.contrib.auth import login as auth_login, authenticate, logout
+from django.contrib.auth import login, authenticate, logout
 from accounts.models import UserProfile, Follow, BaseInfo
 from django.http import JsonResponse
 from django.contrib.auth.models import User
@@ -27,33 +27,33 @@ def register(request):
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password2')
             user = authenticate(username=username, password=raw_password)
-            auth_login(request, user)
+            login(request, user)
             return redirect('auths:baseInquiry')
     else:
         form = SignUpForm()
     return render(request, 'auths/register.html', {'form': form})
 
 def loginUser(request):
-    next = request.GET.get('next')
-    form = UserLoginForm(request.POST or None)
-    if form.is_valid():
-        username = form.cleaned_data.get('username')
-        password = form.cleaned_data.get('password')
-        remember_me = form.cleaned_data.get('remember_me')
-        if not remember_me:
-            # print(request.session.get_session_cookie_age())
-            request.session.set_expiry(0)
-            # print(request.session.get_session_cookie_age())
-        user = authenticate(username=username, password=password)
-        auth_login(request, user)
-        if next:
-            return redirect(next)
-        return redirect('/')
-
-    context = {
-        'form': form,
-    }
-    return render(request, "auths/login.html", context)
+    if request.method == 'POST':
+        next = request.GET.get('next')
+        form = UserLoginForm(request.POST or None)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            remember_me = form.cleaned_data.get('remember_me')
+            if not remember_me:
+                # print(request.session.get_session_cookie_age())
+                request.session.set_expiry(0)
+                # print(request.session.get_session_cookie_age())
+            user = authenticate(username=username, password=password)
+            if (user is not None):
+                login(request, user)
+                if next:
+                    return redirect(next)
+                return redirect('feed:feed')
+    else:
+        form = UserLoginForm()
+    return render(request, "auths/login.html", {'form': form})
 
 def logoutUser(request):
     logout(request)
