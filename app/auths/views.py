@@ -25,9 +25,9 @@ def register(request):
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password')
+            raw_password = form.cleaned_data.get('password2')
             user = authenticate(username=username, password=raw_password)
-            login(request, user)
+            auth_login(request, user)
             return redirect('auths:baseInquiry')
     else:
         form = SignUpForm()
