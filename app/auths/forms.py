@@ -41,9 +41,18 @@ class SignUpForm(UserCreationForm):
         fields = ('email','username', 'password1', 'password2')
 
 class UserLoginForm(forms.Form):
-    username = forms.CharField()
-    password = forms.CharField(
-        widget=forms.PasswordInput)
+    username = forms.CharField(widget=forms.TextInput(
+        attrs={
+            'class': 'form-control',
+            'placeholder': 'Username'
+        }
+    ))
+    password = forms.CharField(widget=forms.PasswordInput(
+        attrs={
+            'class': 'form-control',
+            'placeholder': 'Password'
+        }
+    ))
     remember_me = forms.BooleanField(
         required=False
     )
