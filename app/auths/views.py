@@ -5,8 +5,7 @@ from django.contrib.auth import login, authenticate, logout
 from accounts.models import UserProfile, Follow, BaseInfo
 from django.http import JsonResponse
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import AuthenticationForm
-from django.views.generic.edit import FormView
+from django.views import View
 
 
 def baseInquiry(request):
@@ -33,10 +32,18 @@ def register(request):
         form = SignUpForm()
     return render(request, 'auths/register.html', {'form': form})
 
-def loginUser(request):
-    if request.method == 'POST':
+
+class LoginView(View):
+    template_name = "auths/login.html"
+    form_class = UserLoginForm
+    
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
         next = request.GET.get('next')
-        form = UserLoginForm(request.POST or None)
+        form = self.form_class(request.POST or None)
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
@@ -48,12 +55,11 @@ def loginUser(request):
             user = authenticate(username=username, password=password)
             if (user is not None):
                 login(request, user)
-                if next:
+                if next and next != '/':
                     return redirect(next)
                 return redirect('feed:feed')
-    else:
-        form = UserLoginForm()
-    return render(request, "auths/login.html", {'form': form})
+        return render(request, self.template_name, {'form': form})
+
 
 def logoutUser(request):
     logout(request)
