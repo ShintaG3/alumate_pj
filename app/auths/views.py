@@ -47,7 +47,6 @@ class LoginView(View):
         if form.is_valid():
             cd = form.cleaned_data
             if not cd['remember_me']:
-                print('remember me is false')
                 request.session.set_expiry(0)
             user = authenticate(request, username=cd['username'], password=cd['password'])
             if (user is not None):
