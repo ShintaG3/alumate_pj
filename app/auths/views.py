@@ -43,16 +43,13 @@ class LoginView(View):
 
     def post(self, request, *args, **kwargs):
         next = request.GET.get('next')
-        form = self.form_class(request.POST or None)
+        form = self.form_class(request.POST)
         if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            remember_me = form.cleaned_data.get('remember_me')
-            if not remember_me:
-                # print(request.session.get_session_cookie_age())
+            cd = form.cleaned_data
+            if not cd['remember_me']:
+                print('remember me is false')
                 request.session.set_expiry(0)
-                # print(request.session.get_session_cookie_age())
-            user = authenticate(username=username, password=password)
+            user = authenticate(request, username=cd['username'], password=cd['password'])
             if (user is not None):
                 login(request, user)
                 if next and next != '/':
