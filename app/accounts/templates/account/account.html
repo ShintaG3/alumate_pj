@@ -304,10 +304,10 @@
     </div>
   </section>
 
-  <!-- Modals for edit-->
+  <!-- Modals for Edit-->
   <!-- Modal components shall be placed at the same level of the body tag so that modal's z-index is set appropreately -->
-  <!-- Modal "editHeader" -->
-  <div class="modal fade" id="editHeader" tabindex="-1" role="dialog" aria-labelledby="editHeader"
+  <!-- Modal "editBasicInfo" -->
+  <div class="modal fade" id="editBasicInfo" tabindex="-1" role="dialog" aria-labelledby="editBasicInfo"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
       <div class="modal-content">
@@ -315,7 +315,7 @@
           <div class="card bg-secondary shadow border-0 mb-0">
             <div class="card-header bg-secondary">
               <div class="text-muted text-center">
-                <h6 class="text-muted my-0">Edit Header</h6>
+                <h6 class="text-muted my-0">Edit Basic Info</h6>
               </div>
             </div>
             <div class="card-body px-lg-5 py-lg-5">
@@ -375,14 +375,14 @@
                     <input class="form-control" placeholder="Study abroad school..." type="text">
                   </div>
                 </div>
-                <!--     Study abroad course -->
+                <!--     Study abroad Major -->
                 <div class="form-group focused">
-                  <label>Course</label>
+                  <label>Major</label>
                   <div class="input-group input-group-alternative">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Course..." type="text">
+                    <input class="form-control" placeholder="Major e.g. MSc Economics..." type="text">
                   </div>
                 </div>
                 <!--     Study abroad start year -->
@@ -420,12 +420,12 @@
                 </div>
                 <!--     Living city -->
                 <div class="form-group focused">
-                  <label>Living city</label>
+                  <label>Living city (optional)</label>
                   <div class="input-group input-group-alternative">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-pin-3"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Living city..." type="text">
+                    <input class="form-control" placeholder="Living city e.g. Boston..." type="text">
                   </div>
                 </div>
                 <!-- Button -->
@@ -473,8 +473,8 @@
     </div>
   </div>
 
-  <!-- Modal "editStudyInterest" -->
-  <div class="modal fade" id="editStudyInterest" tabindex="-1" role="dialog" aria-labelledby="editStudyInterest"
+  <!-- Modal "editStudyInterests" -->
+  <div class="modal fade" id="editStudyInterests" tabindex="-1" role="dialog" aria-labelledby="editStudyInterests"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
       <div class="modal-content">
@@ -482,14 +482,14 @@
           <div class="card bg-secondary shadow border-0 mb-0">
             <div class="card-header bg-secondary">
               <div class="text-muted text-center">
-                <h6 class="text-muted my-0">Edit Study Interest</h6>
+                <h6 class="text-muted my-0">Edit Study Interests</h6>
               </div>
             </div>
             <div class="card-body px-lg-5 py-lg-5">
               <form role="form">
-                <!-- Study Interest -->
+                <!-- Study Interests -->
                 <div class="form-group mb-3 focused">
-                  <label>Study Interest</label>
+                  <label>Study Interests</label>
                   <input class="form-control" type="text" name="goals" id="goals" value="Finance, Business, Block chain, AI" placeholder="Add Study Interest" data-toggle="tags-danger">
                 </div>
                 <!-- Button -->
@@ -519,10 +519,393 @@
             </div>
             <div class="card-body px-lg-5 py-lg-5">
               <form role="form">
-                <!-- Study Interest -->
+                <!-- Study Interests -->
                 <div class="form-group mb-3 focused">
                   <label>About</label>
                   <textarea class="form-control" name="about" id="about" rows="5" placeholder="Please introduce yourself..."></textarea>
+                </div>
+                <!-- Button -->
+                <div class="text-center">
+                  <button type="button" class="btn btn-primary my-4">Save changes</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal "addWorkAndEducation" -->
+  <div class="modal fade" id="addWorkAndEducation" tabindex="-1" role="dialog" aria-labelledby="addWorkAndEducation"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Edit Works and Educations</h6>
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form role="form">
+                <!-- Study Interests -->
+                <div class="form-group mb-3 focused">
+                  <label>About</label>
+                  <textarea class="form-control" name="about" id="about" rows="5" placeholder="Please introduce yourself..."></textarea>
+                </div>
+                <!-- Button -->
+                <div class="text-center">
+                  <button type="button" class="btn btn-primary my-4">Save changes</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal "addScholarship" -->
+  <div class="modal fade" id="addScholarship" tabindex="-1" role="dialog" aria-labelledby="addScholarship"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Add Scholarship</h6>
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form role="form">
+                <!-- Scholarship Organization -->
+                <div class="form-group mb-3 focused"><label>Organization</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-university"></i></span>
+                    </div>
+                    <input class="form-control" placeholder="Organization..." type="text">
+                  </div>
+                </div>
+                <!-- Scholarship Start Year -->
+                <div class="form-group focused">
+                  <label>From</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                    </div>
+                    <select class="form-control" data-trigger="" name="startYear" id="startYear">
+                      <option value="2017">2017</option>
+                      <option value="2018" selected="">2018</option>
+                      <option value="2019">2019</option>
+                      <option value="2020">2020</option>
+                      <option value="2021">2021</option>
+                    </select>
+                  </div>
+                </div>
+                <!-- Scholarship End Year -->
+                <div class="form-group focused">
+                  <label>To</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                    </div>
+                    <select class="form-control" data-trigger="" name="endYear" id="endYear">
+                      <option value="2017">2017</option>
+                      <option value="2018" selected="">2018</option>
+                      <option value="2019">2019</option>
+                      <option value="2020">2020</option>
+                      <option value="2021">2021</option>
+                    </select>
+                  </div>
+                </div>
+                <!-- Scholarship program -->
+                <div class="form-group mb-3 focused"><label>Scholarship Title</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-paper-diploma"></i></span>
+                    </div>
+                    <input class="form-control" placeholder="Scholarship Title..." type="text">
+                  </div>
+                </div>
+                <!-- Button -->
+                <div class="text-center">
+                  <button type="button" class="btn btn-primary my-4">Add</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal "editScholarship-1" -->
+  <div class="modal fade" id="editScholarship-1" tabindex="-1" role="dialog" aria-labelledby="editScholarship-1"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Add Scholarship</h6>
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form role="form">
+                <!-- Scholarship Organization -->
+                <div class="form-group mb-3 focused"><label>Organization</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-university"></i></span>
+                    </div>
+                    <input class="form-control" value="Fulbright Japan" placeholder="Organization..." type="text">
+                  </div>
+                </div>
+                <!-- Scholarship Start Year -->
+                <div class="form-group focused">
+                  <label>From</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                    </div>
+                    <select class="form-control" data-trigger="" name="startYear" id="startYear">
+                      <option value="2017">2017</option>
+                      <option value="2018">2018</option>
+                      <option value="2019">2019</option>
+                      <option value="2020" selected="" >2020</option>
+                      <option value="2021">2021</option>
+                    </select>
+                  </div>
+                </div>
+                <!-- Scholarship End Year -->
+                <div class="form-group focused">
+                  <label>To</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                    </div>
+                    <select class="form-control" data-trigger="" name="endYear" id="endYear">
+                      <option value="2017">2017</option>
+                      <option value="2018">2018</option>
+                      <option value="2019">2019</option>
+                      <option value="2020">2020</option>
+                      <option value="2021">2021</option>
+                      <option value="2022">2022</option>
+                      <option value="2023" selected="" >2023</option>
+                    </select>
+                  </div>
+                </div>
+                <!-- Scholarship program -->
+                <div class="form-group mb-3 focused"><label>Scholarship Title</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-paper-diploma"></i></span>
+                    </div>
+                    <input class="form-control" value="Masters degree program" placeholder="Scholarship Title..." type="text">
+                  </div>
+                </div>
+                <!-- Button -->
+                <div class="text-center">
+                  <button type="button" class="btn btn-primary my-4">Save Change</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal "addSocialLink" -->
+  <div class="modal fade" id="addSocialLink" tabindex="-1" role="dialog" aria-labelledby="addSocialLink"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Add Social Link</h6>
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form role="form">
+                <!-- Link title -->
+                <div class="form-group mb-3 focused"><label>Title</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-world"></i></span>
+                    </div>
+                    <input class="form-control" placeholder="Title..." type="text">
+                  </div>
+                </div>
+                <!-- Link url -->
+                <div class="form-group mb-3 focused"><label>URL</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-link"></i></span>
+                    </div>
+                    <input class="form-control" placeholder="URL..." type="text">
+                  </div>
+                </div>
+                <!-- Button -->
+                <div class="text-center">
+                  <button type="button" class="btn btn-primary my-4">Add</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal "editSocialLink-1" -->
+  <div class="modal fade" id="editSocialLink-1" tabindex="-1" role="dialog" aria-labelledby="editSocialLink-1"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Edit Social Link</h6>
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form role="form">
+                <!-- Link title -->
+                <div class="form-group mb-3 focused"><label>Title</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-world"></i></span>
+                    </div>
+                    <input class="form-control" value="Blog" placeholder="Title..." type="text">
+                  </div>
+                </div>
+                <!-- Link url -->
+                <div class="form-group mb-3 focused"><label>URL</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-link"></i></span>
+                    </div>
+                    <input class="form-control" value="#####" placeholder="URL..." type="text">
+                  </div>
+                </div>
+                <!-- Button -->
+                <div class="text-center">
+                  <button type="button" class="btn btn-primary my-4">Save change</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal "editSocialLink-2" -->
+  <div class="modal fade" id="editSocialLink-2" tabindex="-1" role="dialog" aria-labelledby="editSocialLink-2"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Edit Social Link</h6>
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form role="form">
+                <!-- Link title -->
+                <div class="form-group mb-3 focused"><label>Title</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-world"></i></span>
+                    </div>
+                    <input class="form-control" value="Facebook" placeholder="Title..." type="text">
+                  </div>
+                </div>
+                <!-- Link url -->
+                <div class="form-group mb-3 focused"><label>URL</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-link"></i></span>
+                    </div>
+                    <input class="form-control" value="#####" placeholder="URL..." type="text">
+                  </div>
+                </div>
+                <!-- Button -->
+                <div class="text-center">
+                  <button type="button" class="btn btn-primary my-4">Save change</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal "editProfile" -->
+  <div class="modal fade" id="editProfile" tabindex="-1" role="dialog" aria-labelledby="editProfile"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Edit Profile</h6>
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form role="form">
+                <!-- Gender -->
+                <div class="form-group focused">
+                  <label>Gender (optional)</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-single-02"></i></span>
+                    </div>
+                    <select class="form-control" data-trigger="" name="gender" id="gender">
+                      <option value="blank" selected=""></option>
+                      <option value="female">Female</option>
+                      <option value="male">Male</option>
+                      <option value="transgender">Transgender</option>
+                      <option value="nonbinary">Nonbinary</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+                </div>
+                <!--  Birth year -->
+                <div class="form-group focused">
+                  <label>Born in (optional)</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                    </div>
+                    <select class="form-control" data-trigger="" name="birthYear" id="birthYear">
+                      <option value="1989">1989</option>
+                      <option value="1990" selected="">1990</option>
+                      <option value="1991">1991</option>
+                      <option value="1992">1992</option>
+                      <option value="1993">1993</option>
+                    </select>
+                  </div>
                 </div>
                 <!-- Button -->
                 <div class="text-center">
@@ -582,19 +965,22 @@
                 </div>
               </div>
 
-              <!-- Header -->
-              <!-- "editHeader" -->
+              <!-- Basic info -->
+              <!-- "editBasicInfo" -->
               <div class="row justify-content-end">
                 <div class="col text-right">
                   <!-- Button trigger modal -->
-                  <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
-                    data-toggle="modal" data-target="#editHeader" data-toggle="tooltip" data-placement="top"
-                    title="Edit header" data-container="body" data-animation="true">
-                    <i class="ni ni-settings-gear-65 text-gray"></i>
-                  </a>
+                  <span data-toggle="modal" data-target="#editBasicInfo" data-toggle="tooltip" data-placement="top"
+                  data-container="body" data-animation="true">
+                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button" 
+                    data-toggle="tooltip" data-original-title="Edit Basic Info">
+                      <i class="ni ni-settings-gear-65 text-gray"></i>
+                    </a>
+
+                  </span>
                 </div>
               </div>
-              <!-- display Header   -->
+              <!-- display Basic Info   -->
               <div class="text-center mt-2">
                 <h3>Jessica Jones<img class="img-fluid rounded shadow ml-2" style="width: 1.75rem;"
                     src="{% static 'img/brand/logo_current.png' %}"></h3>
@@ -615,11 +1001,12 @@
               <div class="row justify-content-end">
                 <div class="col text-right">
                   <!-- Button trigger modal -->
-                  <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
-                    data-toggle="modal" data-target="#editGoals" data-toggle="tooltip" data-placement="top"
-                    title="Edit goals" data-container="body" data-animation="true">
-                    <i class="ni ni-settings-gear-65 text-gray"></i>
-                  </a>
+                  <span data-toggle="modal" data-target="#editGoals" data-toggle="tooltip" data-placement="top"
+                  data-container="body" data-animation="true">
+                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button" data-toggle="tooltip" data-original-title="Edit Goals">
+                      <i class="ni ni-settings-gear-65 text-gray"></i>
+                    </a>
+                  </span>
                 </div>
               </div>
               <!-- display Goals -->
@@ -645,25 +1032,26 @@
                 </div>
               </div>
 
-              <!-- Study Interest -->
-              <!-- "editStudyInterest" -->
+              <!-- Study Interests -->
+              <!-- "editStudyInterests" -->
               <div class="row justify-content-end">
                 <div class="col text-right">
                   <!-- Button trigger modal -->
-                  <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
-                    data-toggle="modal" data-target="#editStudyInterest" data-toggle="tooltip" data-placement="top"
-                    title="Edit study intereste" data-container="body" data-animation="true">
+                  <span data-toggle="modal" data-target="#editStudyInterests" data-toggle="tooltip" data-placement="top"
+                  title="Edit study intereste" data-container="body" data-animation="true">
+                  <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button" data-toggle="tooltip" data-original-title="Edit Study Interests">
                     <i class="ni ni-settings-gear-65 text-gray"></i>
                   </a>
+                  </span>
                 </div>
               </div>
-              <!-- display study interest -->
+              <!-- display study interests -->
               <div class="row mb-3">
                 <div class="col">
                   <div class="icon icon-sm icon-shape icon-shape-danger shadow rounded-circle mr-2">
                     <i class="ni ni-books text-danger"></i>
                   </div>
-                  <span class="h5 font-weight-bold text-muted text-uppercase">Study Interest</span>
+                  <span class="h5 font-weight-bold text-muted text-uppercase">Study Interests</span>
                 </div>
               </div>
               <div class="row">
@@ -689,11 +1077,12 @@
               <div class="row mb-2 justify-content-end">
                 <div class="col text-right">
                   <!-- Button trigger modal -->
-                  <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
-                    data-toggle="modal" data-target="#editAbout" data-toggle="tooltip" data-placement="top"
-                    title="Edit about" data-container="body" data-animation="true">
-                    <i class="ni ni-settings-gear-65 text-gray"></i>
-                  </a>
+                  <span data-toggle="modal" data-target="#editAbout" data-toggle="tooltip" data-placement="top"
+                  data-container="body" data-animation="true">
+                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button" data-toggle="tooltip" data-original-title="Edit About">
+                      <i class="ni ni-settings-gear-65 text-gray"></i>
+                    </a>
+                  </span>
                 </div>
               </div>
               <!-- display about -->
@@ -706,8 +1095,22 @@
                 </div>
               </div>
 
-              <!-- Work & Education -->
+              <!-- Works & Educations -->
               <div class="mt-4 pt-4 border-top"></div>
+              <!-- "addWorkAndEducation" -->
+              <div class="row mb-2 justify-content-end">
+                <div class="col text-right">
+                  <!-- Button trigger modal -->
+                  <span data-toggle="modal" data-target="#addWorkAndEducation" data-toggle="tooltip" data-placement="top"
+                  data-container="body" data-animation="true">
+                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button" 
+                    data-toggle="tooltip" data-original-title="Add Work & Education">
+                      <i class="fa fa-plus text-gray"></i>
+                    </a>
+                  </span>
+                </div>
+              </div>
+              <!-- display "Works & Educations" -->
               <div class="row mb-md-2">
                 <div class="col">
                   <div class="timeline timeline-one-side" data-timeline-content="axis"
@@ -783,35 +1186,50 @@
                 </div>
               </div>
 
-              <!-- Scholarship -->
+              <!-- Scholarships -->
               <div class="mt-5 pt-4 border-top"></div>
               <div class="row mb-3">
                 <div class="col">
                   <div class="icon icon-sm icon-shape icon-shape-danger shadow rounded-circle mr-2">
                     <i class="ni ni-paper-diploma text-danger"></i>
                   </div>
-                  <span class="h5 font-weight-bold text-muted text-uppercase">Scholarship</span>
+                  <span class="h5 font-weight-bold text-muted text-uppercase">Scholarships</span>
                 </div>
               </div>
+              <!-- "addScholarship" -->
+              <div class="row mb-2 justify-content-end">
+                <div class="col text-right">
+                  <!-- Button trigger modal -->
+                  <span data-toggle="modal" data-target="#addScholarship" data-toggle="tooltip" data-placement="top"
+                  data-container="body" data-animation="true">
+                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button" 
+                    data-toggle="tooltip" data-original-title="Add Scholarship">
+                      <i class="fa fa-plus text-gray"></i>
+                    </a>
+                  </span>
+                </div>
+              </div>
+              <!-- display "Scholasrship" -->
               <div class="row">
                 <div class="col">
-                  <div class="text-left">
+                  <div class="d-flex flex-row justify-content-between">
                     <span class="text-muted text-sm font-weight-bold">Fulbright Japan</span>
+                    <div>
+                      <small class="text-muted">2020 ~ 2023</small>
+                      <!-- Button trigger modal -->
+                      <span data-toggle="modal" data-target="#editScholarship-1" data-toggle="tooltip" data-placement="top"
+                      data-container="body" data-animation="true">
+                        <a class="ml-2" type="button" data-toggle="tooltip" data-original-title="Edit Fulbright Japan">
+                          <i class="fa fa-pencil text-gray"></i>
+                        </a>
+                      </span>
+                    </div>
                   </div>
-                </div>
-                <div class="col">
-                  <div class="text-right">
-                    <small class="text-muted">2020</small>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col">
-                  <h6 class="text-sm text-left mt-1">Masters degree program</h6>
+                  <h6 class="text-sm text-left mt-1">Masters degree program</h6>                  
                 </div>
               </div>
 
-              <!-- Social linke -->
+              <!-- Social Links -->
               <div class="mt-5 pt-4 border-top"></div>
               <div class="row mb-3">
                 <div class="col">
@@ -821,19 +1239,63 @@
                   <span class="h5 font-weight-bold text-muted text-uppercase">Social Links</span>
                 </div>
               </div>
+              <!-- "addSocialLink" -->
+              <div class="row mb-2 justify-content-end">
+                <div class="col text-right">
+                  <!-- Button trigger modal -->
+                  <span data-toggle="modal" data-target="#addSocialLink" data-toggle="tooltip" data-placement="top"
+                  data-container="body" data-animation="true">
+                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button" data-toggle="tooltip" data-original-title="Add Social Link">
+                      <i class="fa fa-plus text-gray"></i>
+                    </a>
+                  </span>
+                </div>
+              </div>
+              <!-- display "Social Links" -->
               <div class="row mb-5">
                 <div class="col">
-                  <a href="">
-                    <h6 class="btn-link">Blog</h6>
-                  </a>
-                  <a href="">
-                    <h6 class="btn-link">Facebook</h6>
-                  </a>
+                  <div class="row justify-content-between px-3">
+                    <a href="">
+                      <h6 class="btn-link">Blog</h6>
+                    </a>
+                    <!-- Button trigger modal -->
+                    <span data-toggle="modal" data-target="#editSocialLink-1" data-toggle="tooltip" data-placement="top"
+                    data-container="body" data-animation="true">
+                      <a type="button" data-toggle="tooltip" data-original-title="Edit Blog">
+                        <i class="fa fa-pencil text-gray"></i>
+                      </a>
+                    </span>
+                  </div>
+                  <div class="row justify-content-between px-3">
+                    <a href="">
+                      <h6 class="btn-link">Facebook</h6>
+                    </a>
+                    <!-- Button trigger modal -->
+                    <span data-toggle="modal" data-target="#editSocialLink-2" data-toggle="tooltip" data-placement="top"
+                    data-container="body" data-animation="true">
+                      <a type="button" data-toggle="tooltip" data-original-title="Edit Facebook">
+                        <i class="fa fa-pencil text-gray"></i>
+                      </a>
+                    </span>
+                  </div>
                 </div>
               </div>
 
               <!-- Profile -->
               <div class="mt-5 pt-4 border-top"></div>
+               <!-- "editProfile" -->
+               <div class="row mb-2 justify-content-end">
+                <div class="col text-right">
+                  <!-- Button trigger modal -->
+                  <span data-toggle="modal" data-target="#editProfile" data-toggle="tooltip" data-placement="top"
+                  data-container="body" data-animation="true">
+                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button" data-toggle="tooltip" data-original-title="Edit Profile">
+                      <i class="ni ni-settings-gear-65 text-gray"></i>
+                    </a>
+                  </span>
+                </div>
+              </div>
+              <!-- display "Profile" -->
               <div class="row mb-3">
                 <div class="col">
                   <div class="icon icon-sm icon-shape icon-shape-default shadow rounded-circle mr-2">
