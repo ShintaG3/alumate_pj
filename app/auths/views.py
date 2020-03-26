@@ -6,12 +6,13 @@ from accounts.models import UserProfile, Follow, BaseInfo
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.views.generic.edit import FormView
+from django.urls import reverse_lazy
 
 
 class BaseInquiryView(FormView):
     template_name = "auths/base-inquiry.html"
     form_class = BaseInfoForm
-    success_url = 'auths:baseConnect'
+    success_url = reverse_lazy('auths:baseConnect')
     
     def form_valid(self, form):
         form.save()
@@ -21,19 +22,19 @@ class BaseInquiryView(FormView):
 class SignupView(FormView):
     template_name = "auths/register.html"
     form_class = SignUpForm
-    success_url = 'auths:baseInquiry'
+    success_url = reverse_lazy('auths:baseInquiry')
     
     def form_valid(self, form):
         form.save()
         cd = form.cleaned_data
         user = authenticate(username=cd['username'], password=cd['password1'])
-        login(user)
+        login(self.request, user)
         return super().form_valid(form)
 
 class LoginView(FormView):
     template_name = "auths/login.html"
     form_class = UserLoginForm
-    success_url = 'feed'
+    success_url = '/feed/'
 
     def form_valid(self, form):
         next = self.request.GET.get('next')
