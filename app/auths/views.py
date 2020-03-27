@@ -1,34 +1,57 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from . forms import SignUpForm, BaseInfoForm
-from django.contrib.auth import login, authenticate
+from .forms import SignUpForm, BaseInfoForm, UserLoginForm, SignUpForm
+from django.contrib.auth import login, authenticate, logout
 from accounts.models import UserProfile, Follow, BaseInfo
 from django.http import JsonResponse
 from django.contrib.auth.models import User
+from django.views.generic.edit import FormView
+from django.urls import reverse_lazy
 
-def baseInquiry(request):
-    if request.method == 'POST':
-        form = BaseInfoForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('auths:baseConnect')
-    else:
-        form = BaseInfoForm()
-    return render (request, 'auths/base-inquiry.html', {'form': form})
 
-def register(request):
-    if request.method == 'POST':
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
-            login(request, user)
-            return redirect('auths:baseInquiry')
-    else:
-        form = SignUpForm()
-    return render(request, 'auths/register.html', {'form': form})
+class BaseInquiryView(FormView):
+    template_name = "auths/base-inquiry.html"
+    form_class = BaseInfoForm
+    success_url = reverse_lazy('auths:baseConnect')
+    
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
+
+class SignupView(FormView):
+    template_name = "auths/register.html"
+    form_class = SignUpForm
+    success_url = reverse_lazy('auths:baseInquiry')
+    
+    def form_valid(self, form):
+        form.save()
+        cd = form.cleaned_data
+        user = authenticate(username=cd['username'], password=cd['password1'])
+        login(self.request, user)
+        return super().form_valid(form)
+
+class LoginView(FormView):
+    template_name = "auths/login.html"
+    form_class = UserLoginForm
+    success_url = '/feed/'
+
+    def form_valid(self, form):
+        next = self.request.GET.get('next')
+        cd = form.cleaned_data
+        if not cd['remember_me']:
+            self.request.session.set_expiry(0)
+        user = authenticate(self.request, username=cd['username'], password=cd['password'])
+        if (user is not None):
+            login(self.request, user)
+            if next and next != '/':
+                return redirect(next)
+        return super().form_valid(form)
+
+
+def logoutUser(request):
+    logout(request)
+    return redirect('/')
 
 def baseConnect(request):
     user1 = User.objects.get(username=request.user.username)
