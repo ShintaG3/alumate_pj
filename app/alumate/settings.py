@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.facebook',
     'django.contrib.staticfiles',
+    'django_cleanup.apps.CleanupConfig',
     'widget_tweaks',
     'demo',
     'landingpage',
@@ -126,8 +127,6 @@ SESSION_COOKIE_AGE = 60 * 60 * 24 * 30 # One month
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
