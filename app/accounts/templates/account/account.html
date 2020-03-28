@@ -18,6 +18,18 @@
     border-right: 2px solid #e9ecef
   }
 
+  .timeline2 {
+    position: relative
+  }
+
+  .timeline2:before {
+    position: absolute;
+    top: 0;
+    left: 1rem;
+    height: 100%;
+    content: '';
+  }
+
   [data-timeline-axis-style=dashed]:before {
     border-right-style: dashed !important
   }
@@ -206,28 +218,104 @@
     line-height: 1.7
   }
 
-  /* over write argon-design.min.css */
-  @media (min-width: 1200px) {
-    .sidebar {
-      -ms-flex: 0 0 400px;
-      flex: 0 0 400px;
-    }
-    .blog-card-wrapper:before {
-    content:"";
-    display: block;
-    padding-top: 100%; /* 高さと幅の比を16:9に固定。9/16*100=56.25 */
-    }  
-  }
   /* card style */
   .card-zoom[data-animation=zooming] {
-      transition: all .3s cubic-bezier(.2,1,.22,1);
-      -webkit-transition: all .3s cubic-bezier(.2,1,.22,1);
+    transition: all .3s cubic-bezier(.2, 1, .22, 1);
+    -webkit-transition: all .3s cubic-bezier(.2, 1, .22, 1);
   }
+
   .card-zoom[data-animation=zooming]:hover {
-  transform: scale(1.07);
-  -webkit-transform: scale(1.07);
-  z-index: 2;
+    transform: scale(1.07);
+    -webkit-transform: scale(1.07);
+    z-index: 2;
   }
+
+  /* tagsinput overwrite */
+  .bootstrap-tagsinput .badge-success {
+    background: #2dce89;
+  }
+
+  .bootstrap-tagsinput .badge-danger {
+    background: #f5365c;
+  }
+
+  /* picture edit button */
+  .tile {
+    opacity: .99;
+    position: relative;
+    text-align: center;
+  }
+
+  .tile:before {
+    content: '';
+    width: 100%;
+    height: 20%;
+    opacity: 0;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 2;
+    -webkit-transition-property: top, opacity;
+    transition-property: top, opacity;
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+  }
+
+  .tile .details {
+    position: absolute;
+    top:50px;
+    left: 50%;
+    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    margin: auto;
+    z-index: 3;
+  }
+
+  .tile .details span {
+    display: block;
+    opacity: 0;
+    position: relative;
+    top: 100px;
+    -webkit-transition-property: top, opacity;
+    transition-property: top, opacity;
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-transition-delay: 0s;
+    transition-delay: 0s;
+  }
+
+  .tile:focus:before,
+  .tile:focus span,
+  .tile:hover:before,
+  .tile:hover span {
+    opacity: 1;
+  }
+
+  .tile:focus:before,
+  .tile:hover:before {
+    top: 20%;
+  }
+
+  .tile:focus span,
+  .tile:hover span {
+    top: 30%;
+  }
+
+  /* media */
+  @media (min-width: 1200px) {
+    .sidebar {
+      -ms-flex: 0 0 25rem;
+      flex: 0 0 25rem;
+    }
+
+    .blog-card-wrapper:before {
+      content: "";
+      display: block;
+      padding-top: 100%;
+      /* 高さと幅の比を16:9に固定。9/16*100=56.25 */
+    }
+  }
+
 
   @media (min-width: 992px) {}
 
@@ -237,9 +325,70 @@
 </style>
 
 {% endblock %}
+{% block scripts %}
+<!-- Tags -->
+<script>
+  Tags = function () {
+    var e = $('[data-toggle="tags"]');
+    e.length && e.each(function () {
+      $(this).tagsinput({
+        tagClass: "badge badge-primary"
+      })
+    })
+    var s = $('[data-toggle="tags-success"]');
+    s.length && s.each(function () {
+      $(this).tagsinput({
+        tagClass: "badge badge-success"
+      })
+    })
+    var d = $('[data-toggle="tags-danger"]');
+    d.length && d.each(function () {
+      $(this).tagsinput({
+        tagClass: "badge badge-danger"
+      })
+    })
+  }();
+</script>
+<!-- Work Year Options -->
+<script>
+  function workYearFunction(e) {
+    if (e.dataset.status == "previousCompany" && e.checked == true) {
+      $('.year-prv').css('display', 'block');
+    } else {
+      $('.year-prv').css('display', 'none');
+    }
+    if (e.dataset.status == "currentCompany" && e.checked == true) {
+      $('.year-cur').css('display', 'block');
+    } else {
+      $('.year-cur').css('display', 'none');
+    }
+    if (e.dataset.status == "targetCompany" && e.checked == true) {
+      $('.year-trg').css('display', 'block');
+    } else {
+      $('.year-trg').css('display', 'none');
+    }
+  }
+</script>
+<!-- Education Year Options -->
+<script>
+  function educationYearFunction(e) {
+    if (e.dataset.status == "actualSchool" && e.checked == true) {
+      $('.year-act').css('display', 'block');
+    } else {
+      $('.year-act').css('display', 'none');
+    }
+    if (e.dataset.status == "targetSchool" && e.checked == true) {
+      $('.year-trg').css('display', 'block');
+    } else {
+      $('.year-trg').css('display', 'none');
+    }
+  }
+</script>
+{% endblock %}
 {% block content %}
 
 <div class="profile-page">
+
 
   <section class="section-profile-cover section-shaped my-0" style="height:300px">
     <!-- Circles background -->
@@ -253,134 +402,1886 @@
     </div>
   </section>
 
-  <section class="section bg-secondary">
-    <div class="container-fluid px-5">
-      <div class="row">
-
-        <!-- user info -->
-        <div class="card card-profile shadow mt--200 col-xl-5 sidebar">
-          <div class="px-4">
-            <div class="row justify-content-center">
-              <div class="col-lg-3">
-                <div class="card-profile-image">
-                  <a href="javascript:;">
-                    <img src="{% static 'img/faces/team-4.jpg' %}" class="rounded-circle">
-                  </a>
-                </div>
-              </div>
-              <div class="col-lg-12">
-                <div class="card-profile-actions text-center py-4 mt-8">
-                  <a href="#" class="btn btn-sm btn-info">Follow</a>
-                  <!-- <a href="#" class="btn btn-sm btn-default float-right">Message</a> -->
-                </div>
-              </div>
-              <div class="col-lg-12">
-                <div class="card-profile-stats py-0 d-flex justify-content-center">
-                  <div>
-                    <a href="">
-                      <span class="heading">22</span>
-                    </a>
-                    <span class="description">Followers</span>
-                  </div>
-                  <div>
-                    <a href="">
-                      <span class="heading">10</span>
-                    </a>
-                    <span class="description">Followings</span>
-                  </div>
-
-                </div>
+  <!-- Modals for Edit-->
+  <!-- Modal components shall be placed at the same level of the body tag so that modal's z-index is set appropreately -->
+  <!-- Modal "editBasicInfo" -->
+  <div class="modal fade" id="editBasicInfo" tabindex="-1" role="dialog" aria-labelledby="editBasicInfo"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Edit Basic Info</h6>
               </div>
             </div>
-            <div class="text-center mt-2">
-              <h3>Jessica Jones</h3>
-              <div class="h5">Harvard University</div>
-              <div class="font-weight-500">MBA</div>
-              <div class="text-muted font-weight-300"><small> 2020 ~ 2022</small></div>
-              <div class="mt-5 py-4 border-top text-center">
-                <div class="row justify-content-center">
-                  <div class="col-lg-9">
-                    <p>An artist of considerable range, Ryan — the name taken by Melbourne-raised,
-                      Brooklyn-based Nick Murphy — writes, performs and records all of his own music,
-                      giving it a warm, intimate feel with a solid groove structure. An artist of
-                      considerable range.</p>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form role="form">
+                <!--     Name -->
+                <div class="form-group mb-3 focused"><label>Name</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-circle-08"></i></span>
+                    </div>
+                    <input class="form-control" placeholder="Name..." type="text">
                   </div>
                 </div>
-                <div class="pt-4 py-4 border-top text-center">
-                </div>
-                <div class="timeline timeline-one-side" data-timeline-content="axis" data-timeline-axis-style="dashed">
-                  <div class="timeline-block">
-                    <span class="timeline-step badge-success">
-                      <i class="ni ni-briefcase-24"></i>
-                    </span>
-                    <div class="timeline-content">
-                      <div class="d-flex justify-content-between pt-1">
-                        <div class="text-left">
-                          <span class="text-muted text-sm font-weight-bold">World Bank</span>
-                        </div>
-                        <div class="text-right">
-                          <small class="text-muted">Target</small>
-                        </div>
-                      </div>
-                      <h6 class="text-sm text-left mt-1 mb-0">Seek financial officer position</h6>
-                    </div>
+                <!--     Alumate Status -->
+                <div class="form-group focused">
+                  <label>Alumate Status</label>
+                  <div class="custom-control custom-radio mb-3">
+                    <input name="custom-radio-1" class="custom-control-input" id="futureStudent" type="radio">
+                    <label class="custom-control-label" for="futureStudent">Future Student</label>
                   </div>
-                  <div class="timeline-block">
-                    <span class="timeline-step badge-danger">
-                      <i class="ni ni-hat-3"></i>
-                    </span>
-                    <div class="timeline-content">
-                      <div class="d-flex justify-content-between pt-1">
-                        <div class="text-left">
-                          <span class="text-muted text-sm font-weight-bold">Harvard
-                            University</span>
-                        </div>
-                        <div class="text-right">
-                          <small class="text-muted">2020 ~ 2022</small>
-                        </div>
-                      </div>
-                      <h6 class="text-sm text-left mt-1 mb-0">MBA</h6>
-                    </div>
+                  <div class="custom-control custom-radio mb-3">
+                    <input name="custom-radio-1" class="custom-control-input" id="currentStudent" type="radio">
+                    <label class="custom-control-label" for="currentStudent">Current Student</label>
                   </div>
-                  <div class="timeline-block">
-                    <span class="timeline-step badge-info">
-                      <i class="ni ni-briefcase-24"></i>
-                    </span>
-                    <div class="timeline-content">
-                      <div class="d-flex justify-content-between pt-1">
-                        <div class="text-left">
-                          <span class="text-muted text-sm font-weight-bold">PwC</span>
-                        </div>
-                        <div class="text-right">
-                          <small class="text-muted"><i class="fas fa-clock mr-1"></i>2013 ~
-                            2020</small>
-                        </div>
-                      </div>
-                      <h6 class="text-sm text-left mt-1 mb-0">M&A Consultant</h6>
-                    </div>
-                  </div>
-                  <div class="timeline-block">
-                    <span class="timeline-step badge-info">
-                      <i class="ni ni-hat-3"></i>
-                    </span>
-                    <div class="timeline-content">
-                      <div class="d-flex justify-content-between pt-1">
-                        <div class="text-left">
-                          <span class="text-muted text-sm font-weight-bold">University of
-                            Tokyo</span>
-                        </div>
-                        <div class="text-right">
-                          <small class="text-muted">2009 ~ 2013</small>
-                        </div>
-                      </div>
-                      <h6 class="text-sm text-left mt-1 mb-0">Mathmatics</h6>
-                    </div>
+                  <div class="custom-control custom-radio mb-3">
+                    <input name="custom-radio-1" class="custom-control-input" id="alumni" type="radio">
+                    <label class="custom-control-label" for="alumni">Alumni</label>
                   </div>
                 </div>
-              </div>
+                <!--  Country of origin -->
+                <div class="form-group focused">
+                  <label>Country of origin</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-world"></i></span>
+                    </div>
+                    <input class="form-control" placeholder="Country of origin..." type="text">
+                  </div>
+                </div>
+                <!--     Study abroad country -->
+                <div class="form-group focused">
+                  <label>Study abroad country</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-world"></i></span>
+                    </div>
+                    <input class="form-control" placeholder="Study abroad country..." type="text">
+                  </div>
+                </div>
+                <!--     Study abroad school -->
+                <div class="form-group focused">
+                  <label>Study abroad school</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                    </div>
+                    <input class="form-control" placeholder="Study abroad school..." type="text">
+                  </div>
+                </div>
+                <!--     Study abroad Major -->
+                <div class="form-group focused">
+                  <label>Major</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                    </div>
+                    <input class="form-control" placeholder="Major e.g. MSc Economics..." type="text">
+                  </div>
+                </div>
+                <!--     Study abroad start year -->
+                <div class="form-group focused">
+                  <label>Study from</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                    </div>
+                    <select class="form-control" data-trigger="" name="startYear" id="startYear">
+                      <option disabled="" selected="">Start year</option>
+                      <option value="2020">Still planning</option>
+                      <option value="2020">2020</option>
+                      <option value="2021">2021</option>
+                      <option value="2023">2023</option>
+                    </select>
+                  </div>
+                </div>
+                <!--     Study abroad end year -->
+                <div class="form-group focused">
+                  <label>Study until</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                    </div>
+                    <select class="form-control" data-trigger="" name="startYear" id="startYear">
+                      <option disabled="" selected="">End year</option>
+                      <option value="2020">Still planning</option>
+
+                      <option value="2020">2020</option>
+                      <option value="2021">2021</option>
+                      <option value="2023">2023</option>
+                    </select>
+                  </div>
+                </div>
+                <!--     Living city -->
+                <div class="form-group focused">
+                  <label>Living city (optional)</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-pin-3"></i></span>
+                    </div>
+                    <input class="form-control" placeholder="Living city e.g. Boston..." type="text">
+                  </div>
+                </div>
+                <!-- Button -->
+                <div class="text-center">
+                  <button type="button" class="btn btn-primary my-4">Save changes</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal "editGoals" -->
+  <div class="modal fade" id="editGoals" tabindex="-1" role="dialog" aria-labelledby="editGoals" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Edit Goals</h6>
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form role="form">
+                <!-- Goals -->
+                <div class="form-group mb-3 focused">
+                  <label>Goals</label>
+                  <input class="form-control" type="text" name="goals" id="goals"
+                    value="Economist, UN Officer, International Development" placeholder="Add Goals"
+                    data-toggle="tags-success">
+                </div>
+                <!-- Button -->
+                <div class="text-center">
+                  <button type="button" class="btn btn-primary my-4">Save changes</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal "editStudyInterests" -->
+  <div class="modal fade" id="editStudyInterests" tabindex="-1" role="dialog" aria-labelledby="editStudyInterests"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Edit Study Interests</h6>
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form role="form">
+                <!-- Study Interests -->
+                <div class="form-group mb-3 focused">
+                  <label>Study Interests</label>
+                  <input class="form-control" type="text" name="studyInterests" id="studyInterests"
+                    value="Finance, Business, Block chain, AI" placeholder="Add Study Interest"
+                    data-toggle="tags-danger">
+                </div>
+                <!-- Button -->
+                <div class="text-center">
+                  <button type="button" class="btn btn-primary my-4">Save changes</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal "editAbout" -->
+  <div class="modal fade" id="editAbout" tabindex="-1" role="dialog" aria-labelledby="editAbout" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Edit About</h6>
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form role="form">
+                <!-- About -->
+                <div class="form-group mb-3 focused">
+                  <label>About</label>
+                  <textarea class="form-control" name="about" id="about" rows="5"
+                    placeholder="Please introduce yourself..."></textarea>
+                </div>
+                <!-- Button -->
+                <div class="text-center">
+                  <button type="button" class="btn btn-primary my-4">Save changes</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal "addWork" -->
+  <div class="modal fade" id="addWork" tabindex="-1" role="dialog" aria-labelledby="addWork" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Add Work</h6>
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form role="form">
+                <!-- Company -->
+                <div class="form-group mb-3 focused"><label>Company</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-building"></i></span>
+                    </div>
+                    <input class="form-control" placeholder="Company..." type="text">
+                  </div>
+                </div>
+                <!-- Work Title -->
+                <div class="form-group mb-3 focused">
+                  <label>Title</label>
+                  <input class="form-control" placeholder="Title e.g. Ratail Sales Manager..." type="text">
+                </div>
+                <!--  Work Status -->
+                <div class="form-group focused">
+                  <div class="custom-control custom-radio mb-3">
+                    <input name="addWork" class="custom-control-input" id="addWork-prv" data-status="previousCompany"
+                      type="radio" checked="" onclick="workYearFunction(this)">
+                    <label class="custom-control-label" for="addWork-prv">I worked in this company</label>
+                  </div>
+                  <div class="custom-control custom-radio mb-3">
+                    <input name="addWork" class="custom-control-input" id="addWork-cur" data-status="currentCompany"
+                      type="radio" onclick="workYearFunction(this)">
+                    <label class="custom-control-label" for="addWork-cur">I am currently working in this company</label>
+                  </div>
+                  <div class="custom-control custom-radio mb-3">
+                    <input name="addWork" class="custom-control-input" id="addWork-trg" data-status="targetCompany"
+                      type="radio" onclick="workYearFunction(this)">
+                    <label class="custom-control-label" for="addWork-trg"">This is my target company</label>
+                  </div>
+                </div>
+                
+                <!-- Work Year for " previousCompany" -->
+                      <div class="year-prv" style="height: 12rem;">
+                        <!-- Start Year for "previousCompany" -->
+                        <div class="form-group focused">
+                          <label>Work from</label>
+                          <div class="input-group input-group-alternative">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                            </div>
+                            <select class="form-control" data-trigger="" name="startYearPrv">
+                              <option value="1990">1990</option>
+                              <option disabled="" selected="">Start year</option>
+                              <option value="1991">1991</option>
+                              <option value="1992">1992</option>
+                              <option value="1993">1993</option>
+                            </select>
+                          </div>
+                        </div>
+                        <!-- End Year for "previousCompany"-->
+                        <div class="form-group focused">
+                          <label>Work until</label>
+                          <div class="input-group input-group-alternative">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                            </div>
+                            <select class="form-control" data-trigger="" name="endYearPrv">
+                              <option value="1990">1990</option>
+                              <option disabled="" selected="">End year</option>
+                              <option value="1991">1991</option>
+                              <option value="1992">1992</option>
+                              <option value="1993">1993</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Work Year for "currentCompany" -->
+                      <div class="year-cur" style="height: 12rem; display: none;">
+                        <!-- Start Year for "previousCompany" -->
+                        <div class="form-group focused">
+                          <label>Work from</label>
+                          <div class="input-group input-group-alternative">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                            </div>
+                            <select class="form-control" data-trigger="" name="startYearCur">
+                              <option value="1990">1990</option>
+                              <option disabled="" selected="">Start year</option>
+                              <option value="1991">1991</option>
+                              <option value="1992">1992</option>
+                              <option value="1993">1993</option>
+                            </select>
+                          </div>
+                        </div>
+                        <!-- End Year for "previousCompany"-->
+                        <div class="form-group focused">
+                          <label>Work until</label>
+                          <div class="input-group input-group-alternative">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                            </div>
+                            <input class="form-control" type="text" disabled value="Present">
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Work Year for "targetCompany" -->
+                      <div class="year-trg" style="height: 12rem; display: none;">
+                        <!-- Start Year for "previousCompany" -->
+                        <div class="form-group focused">
+                          <label>Work from (optional)</label>
+                          <div class="input-group input-group-alternative">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                            </div>
+                            <select class="form-control" data-trigger="" name="startYearTrg">
+                              <option value="1990">1990</option>
+                              <option value="blank" selected="">Start year</option>
+                              <option value="1991">1991</option>
+                              <option value="1992">1992</option>
+                              <option value="1993">1993</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Button -->
+                      <div class="text-center">
+                        <button type="button" class="btn btn-primary my-4">Add</button>
+                        <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                      </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal "editWork-1" -->
+  <div class="modal fade" id="editWork-1" tabindex="-1" role="dialog" aria-labelledby="editWork-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Edit Work</h6>
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form role="form">
+                <!-- Company -->
+                <div class="form-group mb-3 focused"><label>Company</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-building"></i></span>
+                    </div>
+                    <input class="form-control" value="World Bank" placeholder="Company..." type="text">
+                  </div>
+                </div>
+                <!-- Work Title -->
+                <div class="form-group mb-3 focused">
+                  <label>Title</label>
+                  <input class="form-control" value="Seek financial officer position, considering JPO as well"
+                    placeholder="Title e.g. Ratail Sales Manager..." type="text">
+                </div>
+                <!--  Work Status -->
+                <div class="form-group focused">
+                  <div class="custom-control custom-radio mb-3">
+                    <input name="editWork-1" class="custom-control-input" id="editWork-1-prv"
+                      data-status="previousCompany" type="radio" onclick="workYearFunction(this)">
+                    <label class="custom-control-label" for="editWork-1-prv">I worked in this company</label>
+                  </div>
+                  <div class="custom-control custom-radio mb-3">
+                    <input name="editWork-1" class="custom-control-input" id="editWork-1-cur"
+                      data-status="currentCompany" type="radio" onclick="workYearFunction(this)">
+                    <label class="custom-control-label" for="editWork-1-cur">I am currently working in this
+                      company</label>
+                  </div>
+                  <div class="custom-control custom-radio mb-3">
+                    <input name="editWork-1" class="custom-control-input" id="editWork-1-trg"
+                      data-status="targetCompany" type="radio" checked="" onclick="workYearFunction(this)">
+                    <label class="custom-control-label" for="editWork-1-trg">This is my target company</label>
+                  </div>
+                </div>
+
+                <!-- Work Year for "previousCompany" -->
+                <div class="year-prv" style="height: 12rem; display: none;">
+                  <!-- Start Year for "previousCompany" -->
+                  <div class="form-group focused">
+                    <label>Work from</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      </div>
+                      <select class="form-control" data-trigger="" name="startYearPrv">
+                        <option value="1990">1990</option>
+                        <option disabled="" selected="">Start year</option>
+                        <option value="1991">1991</option>
+                        <option value="1992">1992</option>
+                        <option value="1993">1993</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- End Year for "previousCompany"-->
+                  <div class="form-group focused">
+                    <label>Work until</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      </div>
+                      <select class="form-control" data-trigger="" name="endYearPrv">
+                        <option value="1990">1990</option>
+                        <option disabled="" selected="">End year</option>
+                        <option value="1991">1991</option>
+                        <option value="1992">1992</option>
+                        <option value="1993">1993</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <!-- Work Year for "currentCompany" -->
+                <div class="year-cur" style="height: 12rem; display: none;">
+                  <!-- Start Year for "previousCompany" -->
+                  <div class="form-group focused">
+                    <label>Work from</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      </div>
+                      <select class="form-control" data-trigger="" name="startYearCur">
+                        <option value="1990">1990</option>
+                        <option disabled="" selected="">Start year</option>
+                        <option value="1991">1991</option>
+                        <option value="1992">1992</option>
+                        <option value="1993">1993</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- End Year for "previousCompany"-->
+                  <div class="form-group focused">
+                    <label>Work until</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      </div>
+                      <input class="form-control" type="text" disabled value="Present">
+                    </div>
+                  </div>
+                </div>
+                <!-- Work Year for "targetCompany" -->
+                <div class="year-trg" style="height: 12rem; display: block;">
+                  <!-- Start Year for "previousCompany" -->
+                  <div class="form-group focused">
+                    <label>Work from (optional)</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      </div>
+                      <select class="form-control" data-trigger="" name="startYearTrg">
+                        <option value="2019">2019</option>
+                        <option value="blank">Start year</option>
+                        <option value="2020">2020</option>
+                        <option value="2021">2021</option>
+                        <option value="2022" selected="">2022</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <!-- Button -->
+                <div class="text-center">
+                  <button type="button" class="btn btn-primary my-4">Save Change</button>
+                  <button type="button" class="btn btn-danger my-4">Delete</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal "editWork-2" -->
+  <div class="modal fade" id="editWork-2" tabindex="-1" role="dialog" aria-labelledby="editWork-2" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Edit Work</h6>
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form role="form">
+                <!-- Company -->
+                <div class="form-group mb-3 focused"><label>Company</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-building"></i></span>
+                    </div>
+                    <input class="form-control" value="`PwC" placeholder="Company..." type="text">
+                  </div>
+                </div>
+                <!-- Work Title -->
+                <div class="form-group mb-3 focused">
+                  <label>Title</label>
+                  <input class="form-control" value="M&A Consultant" placeholder="Title e.g. Ratail Sales Manager..."
+                    type="text">
+                </div>
+                <!--  Work Status -->
+                <div class="form-group focused">
+                  <div class="custom-control custom-radio mb-3">
+                    <input name="editWork-2" class="custom-control-input" id="editWork-2-prv"
+                      data-status="previousCompany" type="radio" checked="" onclick="workYearFunction(this)">
+                    <label class="custom-control-label" for="editWork-2-prv">I worked in this company</label>
+                  </div>
+                  <div class="custom-control custom-radio mb-3">
+                    <input name="editWork-2" class="custom-control-input" id="editWork-2-cur"
+                      data-status="currentCompany" type="radio" onclick="workYearFunction(this)">
+                    <label class="custom-control-label" for="editWork-2-cur">I am currently working in this
+                      company</label>
+                  </div>
+                  <div class="custom-control custom-radio mb-3">
+                    <input name="editWork-2" class="custom-control-input" id="editWork-2-trg"
+                      data-status="targetCompany" type="radio" onclick="workYearFunction(this)">
+                    <label class="custom-control-label" for="editWork-2-trg">This is my target company</label>
+                  </div>
+                </div>
+
+                <!-- Work Year for "previousCompany" -->
+                <div class="year-prv" style="height: 12rem; display: block;">
+                  <!-- Start Year for "previousCompany" -->
+                  <div class="form-group focused">
+                    <label>Work from</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      </div>
+                      <select class="form-control" data-trigger="" name="startYearPrv">
+                        <option value="2013" selected="">2013</option>
+                        <option disabled="">Start year</option>
+                        <option value="2014">2014</option>
+                        <option value="2015">2015</option>
+                        <option value="2016">2016</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- End Year for "previousCompany"-->
+                  <div class="form-group focused">
+                    <label>Work until</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      </div>
+                      <select class="form-control" data-trigger="" name="endYearPrv">
+                        <option value="2019">2019</option>
+                        <option disabled="">End year</option>
+                        <option value="2020" selected="">2020</option>
+                        <option value="2021">2021</option>
+                        <option value="2022">2022</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <!-- Work Year for "currentCompany" -->
+                <div class="year-cur" style="height: 12rem; display: none;">
+                  <!-- Start Year for "previousCompany" -->
+                  <div class="form-group focused">
+                    <label>Work from</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      </div>
+                      <select class="form-control" data-trigger="" name="startYearCur">
+                        <option value="1990">1990</option>
+                        <option disabled="" selected="">Start year</option>
+                        <option value="1991">1991</option>
+                        <option value="1992">1992</option>
+                        <option value="1993">1993</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- End Year for "previousCompany"-->
+                  <div class="form-group focused">
+                    <label>Work until</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      </div>
+                      <input class="form-control" type="text" disabled value="Present">
+                    </div>
+                  </div>
+                </div>
+                <!-- Work Year for "targetCompany" -->
+                <div class="year-trg" style="height: 12rem; display: none;">
+                  <!-- Start Year for "previousCompany" -->
+                  <div class="form-group focused">
+                    <label>Work from (optional)</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      </div>
+                      <select class="form-control" data-trigger="" name="startYearTrg">
+                        <option value="2019">2019</option>
+                        <option value="blank" selected="">Start year</option>
+                        <option value="2020">2020</option>
+                        <option value="2021">2021</option>
+                        <option value="2022">2022</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <!-- Button -->
+                <div class="text-center">
+                  <button type="button" class="btn btn-primary my-4">Save Change</button>
+                  <button type="button" class="btn btn-danger my-4">Delete</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal "addEducation" -->
+  <div class="modal fade" id="addEducation" tabindex="-1" role="dialog" aria-labelledby="addEducation"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Add Education</h6>
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form role="form">
+                <!-- School -->
+                <div class="form-group mb-3 focused"><label>School</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                    </div>
+                    <input class="form-control" placeholder="School..." type="text">
+                  </div>
+                </div>
+                <!-- Major -->
+                <div class="form-group mb-3 focused">
+                  <label>Major</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                    </div>
+                    <input class="form-control" placeholder="Major e.g. MSc Economics..." type="text">
+                  </div>
+                </div>
+                <!--  Education Status -->
+                <div class="form-group focused">
+                  <div class="custom-control custom-radio mb-3">
+                    <input name="addEducation" class="custom-control-input" id="addEducation-act" type="radio"
+                      checked="" data-status="actualSchool" onclick="educationYearFunction(this)">
+                    <label class="custom-control-label" for="addEducation-act">I studied or I am going to study in this
+                      school</label>
+                  </div>
+                  <div class="custom-control custom-radio mb-3">
+                    <input name="addEducation" class="custom-control-input" id="addEducation-trg" type="radio"
+                      data-status="targetSchool" onclick="educationYearFunction(this)">
+                    <label class="custom-control-label" for="addEducation-trg">This is my target school</label>
+                  </div>
+                </div>
+
+                <!-- Education Year for "actualSchool" -->
+                <div class="year-act" style="height: 12rem; display: block;">
+                  <!-- Start Year for "actualSchool" -->
+                  <div class="form-group focused">
+                    <label>Study from</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      </div>
+                      <select class="form-control" data-trigger="" name="startYearAct">
+                        <option value="1990">1990</option>
+                        <option disabled="" selected="">Start year</option>
+                        <option value="1991">1991</option>
+                        <option value="1992">1992</option>
+                        <option value="1993">1993</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- End Year for "actualSchool"-->
+                  <div class="form-group focused">
+                    <label>Study until</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      </div>
+                      <select class="form-control" data-trigger="" name="endYearAct">
+                        <option value="1990">1990</option>
+                        <option disabled="" selected="">End year</option>
+                        <option value="1991">1991</option>
+                        <option value="1992">1992</option>
+                        <option value="1993">1993</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Education Year for "targetSchool" -->
+                <div class="year-trg" style="height: 12rem; display: none;">
+                  <!-- Start Year for "previousCompany" -->
+                  <div class="form-group focused">
+                    <label>Study from (optional)</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      </div>
+                      <select class="form-control" data-trigger="" name="startYearTrg">
+                        <option value="1990">1990</option>
+                        <option value="blank" selected="">Start year</option>
+                        <option value="1991">1991</option>
+                        <option value="1992">1992</option>
+                        <option value="1993">1993</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- End Year for "targetSchool"-->
+                  <div class="form-group focused">
+                    <label>Study until (optional)</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      </div>
+                      <select class="form-control" data-trigger="" name="endYearTrg">
+                        <option value="1990">1990</option>
+                        <option value="blank" selected="">End year</option>
+                        <option value="1991">1991</option>
+                        <option value="1992">1992</option>
+                        <option value="1993">1993</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Button -->
+                <div class="text-center">
+                  <button type="button" class="btn btn-primary my-4">Add</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal "editEducation-1" -->
+  <div class="modal fade" id="editEducation-1" tabindex="-1" role="dialog" aria-labelledby="editEducation-1"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Edit Education</h6>
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form role="form">
+                <!-- School -->
+                <div class="form-group mb-3 focused"><label>School</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                    </div>
+                    <input class="form-control" value="Harvard University" placeholder="School..." type="text">
+                  </div>
+                </div>
+                <!-- Major -->
+                <div class="form-group mb-3 focused">
+                  <label>Major</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                    </div>
+                    <input class="form-control" value="MBA" placeholder="Major e.g. MSc Economics..." type="text">
+                  </div>
+                </div>
+                <!--  Education Status -->
+                <div class="form-group focused">
+                  <div class="custom-control custom-radio mb-3">
+                    <input name="editEducation-1" class="custom-control-input" id="editEducation-1-act" type="radio"
+                      checked="" data-status="actualSchool" onclick="educationYearFunction(this)">
+                    <label class="custom-control-label" for="editEducation-1-act">I studied or I am going to study in
+                      this school</label>
+                  </div>
+                  <div class="custom-control custom-radio mb-3">
+                    <input name="editEducation-1" class="custom-control-input" id="editEducation-1-trg" type="radio"
+                      data-status="targetSchool" onclick="educationYearFunction(this)">
+                    <label class="custom-control-label" for="editEducation-1-trg">This is my target school</label>
+                  </div>
+                </div>
+
+                <!-- Education Year for "actualSchool" -->
+                <div class="year-act" style="height: 12rem; display: block;">
+                  <!-- Start Year for "actualSchool" -->
+                  <div class="form-group focused">
+                    <label>Study from</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      </div>
+                      <select class="form-control" data-trigger="" name="startYearAct">
+                        <option value="2019">2019</option>
+                        <option disabled="">Start year</option>
+                        <option value="2020" selected="">2020</option>
+                        <option value="2021">2021</option>
+                        <option value="2022">2022</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- End Year for "actualSchool"-->
+                  <div class="form-group focused">
+                    <label>Study until</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      </div>
+                      <select class="form-control" data-trigger="" name="endYearAct">
+                        <option value="2019">2019</option>
+                        <option disabled="">End year</option>
+                        <option value="2020">2020</option>
+                        <option value="2021">2021</option>
+                        <option value="2022" selected="">2022</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Education Year for "targetSchool" -->
+                <div class="year-trg" style="height: 12rem; display: none;">
+                  <!-- Start Year for "previousCompany" -->
+                  <div class="form-group focused">
+                    <label>Study from (optional)</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      </div>
+                      <select class="form-control" data-trigger="" name="startYearTrg">
+                        <option value="1990">1990</option>
+                        <option value="blank" selected="">Start year</option>
+                        <option value="1991">1991</option>
+                        <option value="1992">1992</option>
+                        <option value="1993">1993</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- End Year for "targetSchool"-->
+                  <div class="form-group focused">
+                    <label>Study until (optional)</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      </div>
+                      <select class="form-control" data-trigger="" name="endYearTrg">
+                        <option value="1990">1990</option>
+                        <option value="blank" selected="">End year</option>
+                        <option value="1991">1991</option>
+                        <option value="1992">1992</option>
+                        <option value="1993">1993</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Button -->
+                <div class="text-center">
+                  <button type="button" class="btn btn-primary my-4">Save Change</button>
+                  <button type="button" class="btn btn-danger my-4">Delete</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal "editEducation-2" -->
+  <div class="modal fade" id="editEducation-2" tabindex="-1" role="dialog" aria-labelledby="editEducation-2"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Edit Education</h6>
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form role="form">
+                <!-- School -->
+                <div class="form-group mb-3 focused"><label>School</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                    </div>
+                    <input class="form-control" value="University of Tokyo" placeholder="School..." type="text">
+                  </div>
+                </div>
+                <!-- Major -->
+                <div class="form-group mb-3 focused">
+                  <label>Major</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                    </div>
+                    <input class="form-control" value="Mathematics" placeholder="Major e.g. MSc Economics..."
+                      type="text">
+                  </div>
+                </div>
+                <!--  Education Status -->
+                <div class="form-group focused">
+                  <div class="custom-control custom-radio mb-3">
+                    <input name="editEducation-2" class="custom-control-input" id="editEducation-2-act" type="radio"
+                      checked="" data-status="actualSchool" onclick="educationYearFunction(this)">
+                    <label class="custom-control-label" for="editEducation-2-act">I studied or I am going to study in
+                      this school</label>
+                  </div>
+                  <div class="custom-control custom-radio mb-3">
+                    <input name="editEducation-2" class="custom-control-input" id="editEducation-2-trg" type="radio"
+                      data-status="targetSchool" onclick="educationYearFunction(this)">
+                    <label class="custom-control-label" for="editEducation-2-trg">This is my target school</label>
+                  </div>
+                </div>
+
+                <!-- Education Year for "actualSchool" -->
+                <div class="year-act" style="height: 12rem; display: block;">
+                  <!-- Start Year for "actualSchool" -->
+                  <div class="form-group focused">
+                    <label>Study from</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      </div>
+                      <select class="form-control" data-trigger="" name="startYearAct">
+                        <option value="2008">2008</option>
+                        <option disabled="">Start year</option>
+                        <option value="2009" selected="">2009</option>
+                        <option value="2010">2010</option>
+                        <option value="2011">2011</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- End Year for "actualSchool"-->
+                  <div class="form-group focused">
+                    <label>Study until</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      </div>
+                      <select class="form-control" data-trigger="" name="endYearAct">
+                        <option value="2010">2010</option>
+                        <option disabled="">End year</option>
+                        <option value="2011">2011</option>
+                        <option value="2012">2012</option>
+                        <option value="2013" selected="">2013</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Education Year for "targetSchool" -->
+                <div class="year-trg" style="height: 12rem; display: none;">
+                  <!-- Start Year for "previousCompany" -->
+                  <div class="form-group focused">
+                    <label>Study from (optional)</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      </div>
+                      <select class="form-control" data-trigger="" name="startYearTrg">
+                        <option value="1990">1990</option>
+                        <option value="blank" selected="">Start year</option>
+                        <option value="1991">1991</option>
+                        <option value="1992">1992</option>
+                        <option value="1993">1993</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- End Year for "targetSchool"-->
+                  <div class="form-group focused">
+                    <label>Study until (optional)</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      </div>
+                      <select class="form-control" data-trigger="" name="endYearTrg">
+                        <option value="1990">1990</option>
+                        <option value="blank" selected="">End year</option>
+                        <option value="1991">1991</option>
+                        <option value="1992">1992</option>
+                        <option value="1993">1993</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Button -->
+                <div class="text-center">
+                  <button type="button" class="btn btn-primary my-4">Save Change</button>
+                  <button type="button" class="btn btn-danger my-4">Delete</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal "addScholarship" -->
+  <div class="modal fade" id="addScholarship" tabindex="-1" role="dialog" aria-labelledby="addScholarship"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Add Scholarship</h6>
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form role="form">
+                <!-- Scholarship Organization -->
+                <div class="form-group mb-3 focused"><label>Organization</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-university"></i></span>
+                    </div>
+                    <input class="form-control" placeholder="Organization..." type="text">
+                  </div>
+                </div>
+                <!-- Scholarship Start Year -->
+                <div class="form-group focused">
+                  <label>From</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                    </div>
+                    <select class="form-control" data-trigger="" name="startYear">
+                      <option value="2017">2017</option>
+                      <option value="2018" selected="">2018</option>
+                      <option value="2019">2019</option>
+                      <option value="2020">2020</option>
+                      <option value="2021">2021</option>
+                    </select>
+                  </div>
+                </div>
+                <!-- Scholarship End Year -->
+                <div class="form-group focused">
+                  <label>To</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                    </div>
+                    <select class="form-control" data-trigger="" name="endYear">
+                      <option value="2017">2017</option>
+                      <option value="2018" selected="">2018</option>
+                      <option value="2019">2019</option>
+                      <option value="2020">2020</option>
+                      <option value="2021">2021</option>
+                    </select>
+                  </div>
+                </div>
+                <!-- Scholarship program -->
+                <div class="form-group mb-3 focused"><label>Scholarship Title</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-paper-diploma"></i></span>
+                    </div>
+                    <input class="form-control" placeholder="Scholarship Title..." type="text">
+                  </div>
+                </div>
+                <!-- Button -->
+                <div class="text-center">
+                  <button type="button" class="btn btn-primary my-4">Add</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal "editScholarship-1" -->
+  <div class="modal fade" id="editScholarship-1" tabindex="-1" role="dialog" aria-labelledby="editScholarship-1"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Add Scholarship</h6>
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form role="form">
+                <!-- Scholarship Organization -->
+                <div class="form-group mb-3 focused"><label>Organization</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-university"></i></span>
+                    </div>
+                    <input class="form-control" value="Fulbright Japan" placeholder="Organization..." type="text">
+                  </div>
+                </div>
+                <!-- Scholarship Start Year -->
+                <div class="form-group focused">
+                  <label>From</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                    </div>
+                    <select class="form-control" data-trigger="" name="startYear">
+                      <option value="2017">2017</option>
+                      <option value="2018">2018</option>
+                      <option value="2019">2019</option>
+                      <option value="2020" selected="">2020</option>
+                      <option value="2021">2021</option>
+                    </select>
+                  </div>
+                </div>
+                <!-- Scholarship End Year -->
+                <div class="form-group focused">
+                  <label>To</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                    </div>
+                    <select class="form-control" data-trigger="" name="endYear">
+                      <option value="2017">2017</option>
+                      <option value="2018">2018</option>
+                      <option value="2019">2019</option>
+                      <option value="2020">2020</option>
+                      <option value="2021">2021</option>
+                      <option value="2022">2022</option>
+                      <option value="2023" selected="">2023</option>
+                    </select>
+                  </div>
+                </div>
+                <!-- Scholarship program -->
+                <div class="form-group mb-3 focused"><label>Scholarship Title</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-paper-diploma"></i></span>
+                    </div>
+                    <input class="form-control" value="Masters degree program" placeholder="Scholarship Title..."
+                      type="text">
+                  </div>
+                </div>
+                <!-- Button -->
+                <div class="text-center">
+                  <button type="button" class="btn btn-primary my-4">Save Change</button>
+                  <button type="button" class="btn btn-danger my-4">Delete</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal "addSocialLink" -->
+  <div class="modal fade" id="addSocialLink" tabindex="-1" role="dialog" aria-labelledby="addSocialLink"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Add Social Link</h6>
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form role="form">
+                <!-- Link title -->
+                <div class="form-group mb-3 focused"><label>Title</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-world"></i></span>
+                    </div>
+                    <input class="form-control" placeholder="Title..." type="text">
+                  </div>
+                </div>
+                <!-- Link url -->
+                <div class="form-group mb-3 focused"><label>URL</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-link"></i></span>
+                    </div>
+                    <input class="form-control" placeholder="URL..." type="text">
+                  </div>
+                </div>
+                <!-- Button -->
+                <div class="text-center">
+                  <button type="button" class="btn btn-primary my-4">Add</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal "editSocialLink-1" -->
+  <div class="modal fade" id="editSocialLink-1" tabindex="-1" role="dialog" aria-labelledby="editSocialLink-1"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Edit Social Link</h6>
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form role="form">
+                <!-- Link title -->
+                <div class="form-group mb-3 focused"><label>Title</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-world"></i></span>
+                    </div>
+                    <input class="form-control" value="Blog" placeholder="Title..." type="text">
+                  </div>
+                </div>
+                <!-- Link url -->
+                <div class="form-group mb-3 focused"><label>URL</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-link"></i></span>
+                    </div>
+                    <input class="form-control" value="#####" placeholder="URL..." type="text">
+                  </div>
+                </div>
+                <!-- Button -->
+                <div class="text-center">
+                  <button type="button" class="btn btn-primary my-4">Save change</button>
+                  <button type="button" class="btn btn-danger my-4">Delete</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal "editSocialLink-2" -->
+  <div class="modal fade" id="editSocialLink-2" tabindex="-1" role="dialog" aria-labelledby="editSocialLink-2"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Edit Social Link</h6>
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form role="form">
+                <!-- Link title -->
+                <div class="form-group mb-3 focused"><label>Title</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-world"></i></span>
+                    </div>
+                    <input class="form-control" value="Facebook" placeholder="Title..." type="text">
+                  </div>
+                </div>
+                <!-- Link url -->
+                <div class="form-group mb-3 focused"><label>URL</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-link"></i></span>
+                    </div>
+                    <input class="form-control" value="#####" placeholder="URL..." type="text">
+                  </div>
+                </div>
+                <!-- Button -->
+                <div class="text-center">
+                  <button type="button" class="btn btn-primary my-4">Save change</button>
+                  <button type="button" class="btn btn-danger my-4">Delete</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal "editProfile" -->
+  <div class="modal fade" id="editProfile" tabindex="-1" role="dialog" aria-labelledby="editProfile" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Edit Profile</h6>
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form role="form">
+                <!-- Gender -->
+                <div class="form-group focused">
+                  <label>Gender (optional)</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-single-02"></i></span>
+                    </div>
+                    <select class="form-control" data-trigger="" name="gender" id="gender">
+                      <option value="blank" selected=""></option>
+                      <option value="female">Female</option>
+                      <option value="male">Male</option>
+                      <option value="transgender">Transgender</option>
+                      <option value="nonbinary">Nonbinary</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+                </div>
+                <!--  Birth year -->
+                <div class="form-group focused">
+                  <label>Born in (optional)</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                    </div>
+                    <select class="form-control" data-trigger="" name="birthYear" id="birthYear">
+                      <option value="1989">1989</option>
+                      <option value="1990" selected="">1990</option>
+                      <option value="1991">1991</option>
+                      <option value="1992">1992</option>
+                      <option value="1993">1993</option>
+                    </select>
+                  </div>
+                </div>
+                <!-- Button -->
+                <div class="text-center">
+                  <button type="button" class="btn btn-primary my-4">Save changes</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Page section -->
+  <section class="section bg-secondary">
+    <div class="container-fluid px-5">
+      <div class="row">
+        <div class="col-xl-5 sidebar">
+
+          <!-- User info -->
+          <div class="card card-profile shadow mt--200">
+            <div class="px-4">
+
+              <!-- Photo -->
+              <div class="row justify-content-center">
+                <div class="col-lg-12" style="z-index:2;">
+                  <div class="card-profile-image tile">
+                    <a href="javascript:;">
+                      <img src="{% static 'img/faces/team-4.jpg' %}" class="rounded-circle" style="z-index: inherit 2;">
+                    </a>
+                    <!-- picture edit button -->
+                    <div class="details">
+                      <span>
+                        <span class="btn btn-file btn-sm btn-secondary mx-auto mt-3">
+                          <span class="fileinput-new"><i class="align-text-bottom ni ni-cloud-upload-96"></i>&nbsp;Change</span>
+                          <input type="hidden" value="" name="..."><input type="file" name="">
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <div class="card-profile-actions text-center py-4 mt-8">
+                    <a href="#" class="btn btn-sm btn-info">Follow</a>
+                    <!-- this is message button  -->
+                    <!-- <a href="#" class="btn btn-sm btn-default float-right">Message</a> -->
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <div class="card-profile-stats py-0 d-flex justify-content-center">
+                    <div>
+                      <a href="">
+                        <span class="heading">22</span>
+                      </a>
+                      <span class="description">Followers</span>
+                    </div>
+                    <div>
+                      <a href="">
+                        <span class="heading">10</span>
+                      </a>
+                      <span class="description">Followings</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Basic info -->
+              <!-- "editBasicInfo" -->
+              <div class="row justify-content-end">
+                <div class="col text-right">
+                  <!-- Button trigger modal -->
+                  <span data-toggle="modal" data-target="#editBasicInfo" data-toggle="tooltip" data-placement="top"
+                    data-container="body" data-animation="true">
+                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                      data-toggle="tooltip" data-original-title="Edit Basic Info">
+                      <i class="ni ni-settings-gear-65 text-gray"></i>
+                    </a>
+
+                  </span>
+                </div>
+              </div>
+              <!-- display Basic Info   -->
+              <div class="text-center mt-2">
+                <h3>Jessica Jones<img class="img-fluid rounded shadow ml-2" style="width: 1.75rem;"
+                    src="{% static 'img/brand/logo_current.png' %}"></h3>
+                <!-- future student logo => src="{% static 'img/brand/logo_future.png' %}"-->
+                <!-- alumuni logo => src="{% static 'img/brand/logo_alumni.png' %}"-->
+                <div class="text-muted font-weight-500 mt-3 mb-2">
+                  from Japan to U.S.
+                </div>
+                <div class="h5">Harvard University</div>
+                <div class="font-weight-500">MBA</div>
+                <div class="text-muted font-weight-300"><small> 2020 ~ 2022</small></div>
+                <div class="font-weight-400 mt-4"><i class="ni ni-pin-3 mr-2"></i>Boston, U.S.</div>
+              </div>
+
+              <!-- Goals-->
+              <div class="mt-5 pt-4 border-top"></div>
+              <!-- "editGoals" -->
+              <div class="row justify-content-end">
+                <div class="col text-right">
+                  <!-- Button trigger modal -->
+                  <span data-toggle="modal" data-target="#editGoals" data-toggle="tooltip" data-placement="top"
+                    data-container="body" data-animation="true">
+                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                      data-toggle="tooltip" data-original-title="Edit Goals">
+                      <i class="ni ni-settings-gear-65 text-gray"></i>
+                    </a>
+                  </span>
+                </div>
+              </div>
+              <!-- display Goals -->
+              <div class="row mb-3">
+                <div class="col">
+                  <div class="icon icon-sm icon-shape icon-shape-success shadow rounded-circle mr-2">
+                    <i class="fa fa-flag text-success"></i>
+                  </div>
+                  <span class="h5 font-weight-bold text-muted text-uppercase">Goals</span>
+                </div>
+              </div>
+              <div class="row mb-5">
+                <div class="col">
+                  <a href="">
+                    <span class="badge mr-1 mb-1 badge-success">Economist</span>
+                  </a>
+                  <a href="">
+                    <span class="badge mr-1 mb-1 badge-success">International Development</span>
+                  </a>
+                  <a href="">
+                    <span class="badge mr-1 mb-1 badge-success">UN Officer</span>
+                  </a>
+                </div>
+              </div>
+
+              <!-- Study Interests -->
+              <!-- "editStudyInterests" -->
+              <div class="row justify-content-end">
+                <div class="col text-right">
+                  <!-- Button trigger modal -->
+                  <span data-toggle="modal" data-target="#editStudyInterests" data-toggle="tooltip" data-placement="top"
+                    title="Edit study intereste" data-container="body" data-animation="true">
+                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                      data-toggle="tooltip" data-original-title="Edit Study Interests">
+                      <i class="ni ni-settings-gear-65 text-gray"></i>
+                    </a>
+                  </span>
+                </div>
+              </div>
+              <!-- display study interests -->
+              <div class="row mb-3">
+                <div class="col">
+                  <div class="icon icon-sm icon-shape icon-shape-danger shadow rounded-circle mr-2">
+                    <i class="ni ni-books text-danger"></i>
+                  </div>
+                  <span class="h5 font-weight-bold text-muted text-uppercase">Study Interests</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <a href="">
+                    <span class="badge mr-1 mb-1 badge-danger">Finance</span>
+                  </a>
+                  <a href="">
+                    <span class="badge mr-1 mb-1 badge-danger">Business</span>
+                  </a>
+                  <a href="">
+                    <span class="badge mr-1 badge-danger">Block chain</span>
+                  </a>
+                  <a href="">
+                    <span class="badge mr-1 mb-1 badge-danger">AI</span>
+                  </a>
+                </div>
+              </div>
+
+              <!-- About -->
+              <div class="mt-5 pt-4 border-top"></div>
+              <!-- "editAbout" -->
+              <div class="row mb-2 justify-content-end">
+                <div class="col text-right">
+                  <!-- Button trigger modal -->
+                  <span data-toggle="modal" data-target="#editAbout" data-toggle="tooltip" data-placement="top"
+                    data-container="body" data-animation="true">
+                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                      data-toggle="tooltip" data-original-title="Edit About">
+                      <i class="ni ni-settings-gear-65 text-gray"></i>
+                    </a>
+                  </span>
+                </div>
+              </div>
+              <!-- display about -->
+              <div class="row justify-content-center">
+                <div class="col">
+                  <p>An artist of considerable range, Ryan — the name taken by Melbourne-raised,
+                    Brooklyn-based Nick Murphy — writes, performs and records all of his own music,
+                    giving it a warm, intimate feel with a solid groove structure. An artist of
+                    considerable range.</p>
+                </div>
+              </div>
+
+              <!-- Works & Educations -->
+              <div class="mt-4 pt-4 border-top"></div>
+              <!-- "add Work add Education" -->
+              <div class="row mb-2 justify-content-end">
+                <div class="col text-right">
+                  <!-- Button trigger modal for Work-->
+                  <span data-toggle="modal" data-target="#addWork" data-toggle="tooltip" data-placement="top"
+                    data-container="body" data-animation="true">
+                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                      data-toggle="tooltip" data-original-title="Add Work">
+                      <i class="ni ni-briefcase-24 text-gray"></i>
+                    </a>
+                  </span>
+                  <!-- Button trigger modal for Education-->
+                  <span class="ml-2" data-toggle="modal" data-target="#addEducation" data-toggle="tooltip"
+                    data-placement="top" data-container="body" data-animation="true">
+                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                      data-toggle="tooltip" data-original-title="Add Education">
+                      <i class="ni ni-hat-3 text-gray"></i>
+                    </a>
+                  </span>
+                </div>
+              </div>
+              <!-- display "Works & Educations" -->
+              <div class="row mb-md-2">
+                <div class="col">
+                  <div class="timeline timeline-one-side" data-timeline-content="axis"
+                    data-timeline-axis-style="dashed">
+                    <div class="timeline-block">
+                      <span class="timeline-step badge-success">
+                        <i class="ni ni-briefcase-24"></i>
+                      </span>
+                      <div class="timeline-content">
+                        <div class="d-flex justify-content-between pt-1">
+                          <div class="text-left">
+                            <span class="text-muted text-sm font-weight-bold">World Bank</span>
+                          </div>
+                          <div class="text-right">
+                            <small class="text-muted">Target 2022 ~</small>
+                          </div>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                          <h6 class="text-sm text-left mt-1 mb-0">Seek financial officer position, considering JPO as
+                            well</h6>
+                          <!-- Button trigger modal for Work-->
+                          <span data-toggle="modal" data-target="#editWork-1" data-toggle="tooltip" data-placement="top"
+                            data-container="body" data-animation="true">
+                            <a class="ml-2" type="button" data-toggle="tooltip" data-original-title="Edit World Bank">
+                              <i class="fa fa-pencil text-gray"></i>
+                            </a>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="timeline-block">
+                      <span class="timeline-step badge-danger">
+                        <i class="ni ni-hat-3"></i>
+                      </span>
+                      <div class="timeline-content">
+                        <div class="d-flex justify-content-between pt-1">
+                          <div class="text-left">
+                            <span class="text-muted text-sm font-weight-bold">Harvard
+                              University</span>
+                          </div>
+                          <div class="text-right">
+                            <small class="text-muted">2020 ~ 2022</small>
+                          </div>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                          <h6 class="text-sm text-left mt-1 mb-0">MBA</h6>
+                          <!-- Button trigger modal for Work-->
+                          <span data-toggle="modal" data-target="#editEducation-1" data-toggle="tooltip"
+                            data-placement="top" data-container="body" data-animation="true">
+                            <a class="ml-2" type="button" data-toggle="tooltip"
+                              data-original-title="Edit Harvard University">
+                              <i class="fa fa-pencil text-gray"></i>
+                            </a>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="timeline-block">
+                      <span class="timeline-step badge-info">
+                        <i class="ni ni-briefcase-24"></i>
+                      </span>
+                      <div class="timeline-content">
+                        <div class="d-flex justify-content-between pt-1">
+                          <div class="text-left">
+                            <span class="text-muted text-sm font-weight-bold">PwC</span>
+                          </div>
+                          <div class="text-right">
+                            <small class="text-muted"><i class="fas fa-clock mr-1"></i>2013 ~
+                              2020</small>
+                          </div>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                          <h6 class="text-sm text-left mt-1 mb-0">M&A Consultant</h6>
+                          <!-- Button trigger modal for Work-->
+                          <span data-toggle="modal" data-target="#editWork-2" data-toggle="tooltip" data-placement="top"
+                            data-container="body" data-animation="true">
+                            <a class="ml-2" type="button" data-toggle="tooltip" data-original-title="Edit PwC">
+                              <i class="fa fa-pencil text-gray"></i>
+                            </a>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="timeline-block">
+                      <span class="timeline-step badge-info">
+                        <i class="ni ni-hat-3"></i>
+                      </span>
+                      <div class="timeline-content">
+                        <div class="d-flex justify-content-between pt-1">
+                          <div class="text-left">
+                            <span class="text-muted text-sm font-weight-bold">University of
+                              Tokyo</span>
+                          </div>
+                          <div class="text-right">
+                            <small class="text-muted">2009 ~ 2013</small>
+                          </div>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                          <h6 class="text-sm text-left mt-1 mb-0">Mathematics</h6>
+                          <!-- Button trigger modal for Work-->
+                          <span data-toggle="modal" data-target="#editEducation-2" data-toggle="tooltip"
+                            data-placement="top" data-container="body" data-animation="true">
+                            <a class="ml-2" type="button" data-toggle="tooltip"
+                              data-original-title="Edit University of Tokyo">
+                              <i class="fa fa-pencil text-gray"></i>
+                            </a>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Scholarships -->
+              <div class="mt-5 pt-4 border-top"></div>
+              <div class="row mb-3">
+                <div class="col">
+                  <div class="icon icon-sm icon-shape icon-shape-danger shadow rounded-circle mr-2">
+                    <i class="ni ni-paper-diploma text-danger"></i>
+                  </div>
+                  <span class="h5 font-weight-bold text-muted text-uppercase">Scholarships</span>
+                </div>
+              </div>
+              <!-- "addScholarship" -->
+              <div class="row mb-2 justify-content-end">
+                <div class="col text-right">
+                  <!-- Button trigger modal -->
+                  <span data-toggle="modal" data-target="#addScholarship" data-toggle="tooltip" data-placement="top"
+                    data-container="body" data-animation="true">
+                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                      data-toggle="tooltip" data-original-title="Add Scholarship">
+                      <i class="fa fa-plus text-gray"></i>
+                    </a>
+                  </span>
+                </div>
+              </div>
+              <!-- display "Scholasrship" -->
+              <div class="row">
+                <div class="col">
+                  <div class="d-flex flex-row justify-content-between">
+                    <span class="text-muted text-sm font-weight-bold">Fulbright Japan</span>
+                    <div>
+                      <small class="text-muted">2020 ~ 2023</small>
+                      <!-- Button trigger modal -->
+                      <span data-toggle="modal" data-target="#editScholarship-1" data-toggle="tooltip"
+                        data-placement="top" data-container="body" data-animation="true">
+                        <a class="ml-2" type="button" data-toggle="tooltip" data-original-title="Edit Fulbright Japan">
+                          <i class="fa fa-pencil text-gray"></i>
+                        </a>
+                      </span>
+                    </div>
+                  </div>
+                  <h6 class="text-sm text-left mt-1">Masters degree program</h6>
+                </div>
+              </div>
+
+              <!-- Social Links -->
+              <div class="mt-5 pt-4 border-top"></div>
+              <div class="row mb-3">
+                <div class="col">
+                  <div class="icon icon-sm icon-shape icon-shape-default shadow rounded-circle mr-2">
+                    <i class="ni ni-world text-default"></i>
+                  </div>
+                  <span class="h5 font-weight-bold text-muted text-uppercase">Social Links</span>
+                </div>
+              </div>
+              <!-- "addSocialLink" -->
+              <div class="row mb-2 justify-content-end">
+                <div class="col text-right">
+                  <!-- Button trigger modal -->
+                  <span data-toggle="modal" data-target="#addSocialLink" data-toggle="tooltip" data-placement="top"
+                    data-container="body" data-animation="true">
+                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                      data-toggle="tooltip" data-original-title="Add Social Link">
+                      <i class="fa fa-plus text-gray"></i>
+                    </a>
+                  </span>
+                </div>
+              </div>
+              <!-- display "Social Links" -->
+              <div class="row mb-5">
+                <div class="col">
+                  <div class="row justify-content-between px-3">
+                    <a href="">
+                      <h6 class="btn-link">Blog</h6>
+                    </a>
+                    <!-- Button trigger modal -->
+                    <span data-toggle="modal" data-target="#editSocialLink-1" data-toggle="tooltip" data-placement="top"
+                      data-container="body" data-animation="true">
+                      <a type="button" data-toggle="tooltip" data-original-title="Edit Blog">
+                        <i class="fa fa-pencil text-gray"></i>
+                      </a>
+                    </span>
+                  </div>
+                  <div class="row justify-content-between px-3">
+                    <a href="">
+                      <h6 class="btn-link">Facebook</h6>
+                    </a>
+                    <!-- Button trigger modal -->
+                    <span data-toggle="modal" data-target="#editSocialLink-2" data-toggle="tooltip" data-placement="top"
+                      data-container="body" data-animation="true">
+                      <a type="button" data-toggle="tooltip" data-original-title="Edit Facebook">
+                        <i class="fa fa-pencil text-gray"></i>
+                      </a>
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Profile -->
+              <div class="mt-5 pt-4 border-top"></div>
+              <!-- "editProfile" -->
+              <div class="row mb-2 justify-content-end">
+                <div class="col text-right">
+                  <!-- Button trigger modal -->
+                  <span data-toggle="modal" data-target="#editProfile" data-toggle="tooltip" data-placement="top"
+                    data-container="body" data-animation="true">
+                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                      data-toggle="tooltip" data-original-title="Edit Profile">
+                      <i class="ni ni-settings-gear-65 text-gray"></i>
+                    </a>
+                  </span>
+                </div>
+              </div>
+              <!-- display "Profile" -->
+              <div class="row mb-3">
+                <div class="col">
+                  <div class="icon icon-sm icon-shape icon-shape-default shadow rounded-circle mr-2">
+                    <i class="ni ni-single-02 text-default"></i>
+                  </div>
+                  <span class="h5 font-weight-bold text-muted text-uppercase">Profile</span>
+                </div>
+              </div>
+              <div class="row mb-5">
+                <div class="col">
+                  <h6>Female</h6>
+                  <h6>Born in 1992</h6>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
 
         <!-- Collection Area -->
         <div class="col">
@@ -401,8 +2302,9 @@
                       Appreciation
                     </a>
                   </li>
-                  <li class="nav-item" style="width:140px">                  
-                    <a class="nav-link" href="#" role="tab" data-toggle="popover" aria-selected="false" data-placement="top" data-content="Oops! This function is coming soon!">
+                  <li class="nav-item" style="width:140px">
+                    <a class="nav-link" href="#" role="tab" data-toggle="popover" aria-selected="false"
+                      data-placement="top" data-content="Oops! This function is coming soon!">
                       <i class="ni ni-collection"></i>
                       Noticle
                     </a>
@@ -416,6 +2318,7 @@
               </div>
             </div>
           </div>
+
 
           <!-- Post -->
           <div class="row">
@@ -435,7 +2338,7 @@
                             <small class="d-block text-muted">3 days ago</small>
                           </div>
                         </div>
-                    
+
                       </div>
                       <div class="card-body">
                         <p class="mb-4">
@@ -545,7 +2448,7 @@
                   </div>
                 </div>
               </div>
-              
+
               <!-- noticle -->
               <div class="tab-pane" id="noticle">
                 <div class="row">
@@ -554,88 +2457,96 @@
                     <h4 class="title">Latest Collections</h4>
                     <div class="row collections">
                       <div class="col-md-6">
-                          <div class="card card-background card-blog" data-animation="zooming">
-                            <div class="full-background" style="background-image: url({% static 'img/sections/unsplashs.jpg' %})"></div>     
-                            <div class="card-body d-flex align-items-end text-left">
-                              <div>
-                                <a href="#pablo">
-                                  <h2 class="card-title">Keep striving</h2>
-                                  <p class="card-description text-white">Best practice of learning English is investing time to ...</p>
-                                  <div class="stats stats-left ">
-                                    <span class="mr-3">
-                                      <i class="ni ni-favourite-28 text-danger"></i> 2.4K
-                                    </span>
-                                    <span class="mr-3">
-                                      <i class="ni ni-chat-round text-success"></i> 2.4K
-                                    </span>
-                                  </div>
-                                </a>
-                              </div>
+                        <div class="card card-background card-blog" data-animation="zooming">
+                          <div class="full-background"
+                            style="background-image: url({% static 'img/sections/unsplashs.jpg' %})"></div>
+                          <div class="card-body d-flex align-items-end text-left">
+                            <div>
+                              <a href="#pablo">
+                                <h2 class="card-title">Keep striving</h2>
+                                <p class="card-description text-white">Best practice of learning English is investing
+                                  time to ...</p>
+                                <div class="stats stats-left ">
+                                  <span class="mr-3">
+                                    <i class="ni ni-favourite-28 text-danger"></i> 2.4K
+                                  </span>
+                                  <span class="mr-3">
+                                    <i class="ni ni-chat-round text-success"></i> 2.4K
+                                  </span>
+                                </div>
+                              </a>
                             </div>
-                          </div>                        
+                          </div>
+                        </div>
                       </div>
                       <div class="col-md-6">
-                          <div class="card card-background card-blog" data-animation="zooming">
-                            <div class="full-background" style="background-image: url({% static 'img/sections/unsplashs.jpg' %})"></div>     
-                            <div class="card-body d-flex align-items-end text-left">
-                              <div>
-                                <a href="#pablo">
-                                  <h2 class="card-title">Keep striving</h2>
-                                  <p class="card-description text-white">Best practice of learning English is investing time to ...</p>
-                                  <div class="stats stats-left ">
-                                    <span class="mr-3">
-                                      <i class="ni ni-favourite-28 text-danger"></i> 2.4K
-                                    </span>
-                                    <span class="mr-3">
-                                      <i class="ni ni-chat-round text-success"></i> 2.4K
-                                    </span>
-                                  </div>
-                                </a>
-                              </div>
+                        <div class="card card-background card-blog" data-animation="zooming">
+                          <div class="full-background"
+                            style="background-image: url({% static 'img/sections/unsplashs.jpg' %})"></div>
+                          <div class="card-body d-flex align-items-end text-left">
+                            <div>
+                              <a href="#pablo">
+                                <h2 class="card-title">Keep striving</h2>
+                                <p class="card-description text-white">Best practice of learning English is investing
+                                  time to ...</p>
+                                <div class="stats stats-left ">
+                                  <span class="mr-3">
+                                    <i class="ni ni-favourite-28 text-danger"></i> 2.4K
+                                  </span>
+                                  <span class="mr-3">
+                                    <i class="ni ni-chat-round text-success"></i> 2.4K
+                                  </span>
+                                </div>
+                              </a>
                             </div>
-                          </div>                        
+                          </div>
+                        </div>
                       </div>
                       <div class="col-md-6">
-                          <div class="card card-background card-blog" data-animation="zooming">
-                            <div class="full-background" style="background-image: url({% static 'img/sections/unsplashs.jpg' %})"></div>     
-                            <div class="card-body d-flex align-items-end text-left">
-                              <div>
-                                <a href="#pablo">
-                                  <h2 class="card-title">Keep striving</h2>
-                                  <p class="card-description text-white">Best practice of learning English is investing time to ...</p>
-                                  <div class="stats stats-left ">
-                                    <span class="mr-3">
-                                      <i class="ni ni-favourite-28 text-danger"></i> 2.4K
-                                    </span>
-                                    <span class="mr-3">
-                                      <i class="ni ni-chat-round text-success"></i> 2.4K
-                                    </span>
-                                  </div>
-                                </a>
-                              </div>
+                        <div class="card card-background card-blog" data-animation="zooming">
+                          <div class="full-background"
+                            style="background-image: url({% static 'img/sections/unsplashs.jpg' %})"></div>
+                          <div class="card-body d-flex align-items-end text-left">
+                            <div>
+                              <a href="#pablo">
+                                <h2 class="card-title">Keep striving</h2>
+                                <p class="card-description text-white">Best practice of learning English is investing
+                                  time to ...</p>
+                                <div class="stats stats-left ">
+                                  <span class="mr-3">
+                                    <i class="ni ni-favourite-28 text-danger"></i> 2.4K
+                                  </span>
+                                  <span class="mr-3">
+                                    <i class="ni ni-chat-round text-success"></i> 2.4K
+                                  </span>
+                                </div>
+                              </a>
                             </div>
-                          </div>                        
+                          </div>
+                        </div>
                       </div>
                       <div class="col-md-6">
-                          <div class="card card-background card-blog" data-animation="zooming">
-                            <div class="full-background" style="background-image: url({% static 'img/sections/unsplashs.jpg' %})"></div>     
-                            <div class="card-body d-flex align-items-end text-left">
-                              <div>
-                                <a href="#pablo">
-                                  <h2 class="card-title">Keep striving</h2>
-                                  <p class="card-description text-white">Best practice of learning English is investing time to ...</p>
-                                  <div class="stats stats-left ">
-                                    <span class="mr-3">
-                                      <i class="ni ni-favourite-28 text-danger"></i> 2.4K
-                                    </span>
-                                    <span class="mr-3">
-                                      <i class="ni ni-chat-round text-success"></i> 2.4K
-                                    </span>
-                                  </div>                                  
-                                </a>
-                              </div>
+                        <div class="card card-background card-blog" data-animation="zooming">
+                          <div class="full-background"
+                            style="background-image: url({% static 'img/sections/unsplashs.jpg' %})"></div>
+                          <div class="card-body d-flex align-items-end text-left">
+                            <div>
+                              <a href="#pablo">
+                                <h2 class="card-title">Keep striving</h2>
+                                <p class="card-description text-white">Best practice of learning English is investing
+                                  time to ...</p>
+                                <div class="stats stats-left ">
+                                  <span class="mr-3">
+                                    <i class="ni ni-favourite-28 text-danger"></i> 2.4K
+                                  </span>
+                                  <span class="mr-3">
+                                    <i class="ni ni-chat-round text-success"></i> 2.4K
+                                  </span>
+                                </div>
+                              </a>
                             </div>
-                          </div>                        
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -645,15 +2556,21 @@
                     <table class="mx-sm-auto">
                       <tbody>
                         <tr>
-                          <td style="width:65%"><a href=""><span class="text-wrap badge badge-md badge-primary mr-2 my-2"  style="max-width:90%">Study</span></a></td>
+                          <td style="width:65%"><a href=""><span
+                                class="text-wrap badge badge-md badge-primary mr-2 my-2"
+                                style="max-width:90%">Study</span></a></td>
                           <td><a href=""><b>10</b></a></td>
                         </tr>
                         <tr>
-                          <td style="width:65%"><a href=""><span class="text-wrap badge badge-md badge-primary mr-2 my-2"  style="max-width:90%">Bank</span></a></td>
+                          <td style="width:65%"><a href=""><span
+                                class="text-wrap badge badge-md badge-primary mr-2 my-2"
+                                style="max-width:90%">Bank</span></a></td>
                           <td><a href=""><b>6</b></a></td>
                         </tr>
                         <tr>
-                          <td style="width:65%"><a href=""><span class="text-wrap badge badge-md badge-primary mr-2 my-2"  style="max-width:90%">Job Hunting in the UK</span></a></td>
+                          <td style="width:65%"><a href=""><span
+                                class="text-wrap badge badge-md badge-primary mr-2 my-2" style="max-width:90%">Job
+                                Hunting in the UK</span></a></td>
                           <td><a href=""><b>1</b></a></td>
                         </tr>
                       </tbody>
@@ -661,7 +2578,7 @@
                   </div>
                 </div>
               </div>
-              
+
               <!-- inquiry -->
               <div class="tab-pane" id="appreciation">
                 <div class="row">
@@ -682,24 +2599,25 @@
                               <a href="javascript:;">Looking for accommodation</a>
                             </h5>
                             <p class="card-description">
-                              Hi, I enrole in Oxford University in 2021. My college is Crist charch. I am looking for afordable accommodations around Oxford...
+                              Hi, I enrole in Oxford University in 2021. My college is Crist charch. I am looking for
+                              afordable accommodations around Oxford...
                             </p>
                           </div>
                           <div class="card-footer">
-                              <div class="icon-actions">
-                                  <a href="javascript:;" class="like active">
-                                    <i class="ni ni-like-2"></i>
-                                    <span class="text-muted">150</span>
-                                  </a>
-                                  <a href="javascript:;">
-                                    <i class="ni ni-chat-round"></i>
-                                    <span class="text-muted">36</span>
-                                  </a>
-                                  <a href="javascript:;">
-                                    <i class="ni ni-curved-next"></i>
-                                    <span class="text-muted">12</span>
-                                  </a>
-                              </div>
+                            <div class="icon-actions">
+                              <a href="javascript:;" class="like active">
+                                <i class="ni ni-like-2"></i>
+                                <span class="text-muted">150</span>
+                              </a>
+                              <a href="javascript:;">
+                                <i class="ni ni-chat-round"></i>
+                                <span class="text-muted">36</span>
+                              </a>
+                              <a href="javascript:;">
+                                <i class="ni ni-curved-next"></i>
+                                <span class="text-muted">12</span>
+                              </a>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -716,24 +2634,25 @@
                               <a href="javascript:;">Looking for accommodation</a>
                             </h5>
                             <p class="card-description">
-                              Hi, I enrole in Oxford University in 2021. My college is Crist charch. I am looking for afordable accommodations around Oxford...
+                              Hi, I enrole in Oxford University in 2021. My college is Crist charch. I am looking for
+                              afordable accommodations around Oxford...
                             </p>
                           </div>
                           <div class="card-footer">
-                              <div class="icon-actions">
-                                  <a href="javascript:;" class="like active">
-                                    <i class="ni ni-like-2"></i>
-                                    <span class="text-muted">150</span>
-                                  </a>
-                                  <a href="javascript:;">
-                                    <i class="ni ni-chat-round"></i>
-                                    <span class="text-muted">36</span>
-                                  </a>
-                                  <a href="javascript:;">
-                                    <i class="ni ni-curved-next"></i>
-                                    <span class="text-muted">12</span>
-                                  </a>
-                              </div>
+                            <div class="icon-actions">
+                              <a href="javascript:;" class="like active">
+                                <i class="ni ni-like-2"></i>
+                                <span class="text-muted">150</span>
+                              </a>
+                              <a href="javascript:;">
+                                <i class="ni ni-chat-round"></i>
+                                <span class="text-muted">36</span>
+                              </a>
+                              <a href="javascript:;">
+                                <i class="ni ni-curved-next"></i>
+                                <span class="text-muted">12</span>
+                              </a>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -750,24 +2669,25 @@
                               <a href="javascript:;">Looking for accommodation</a>
                             </h5>
                             <p class="card-description">
-                              Hi, I enrole in Oxford University in 2021. My college is Crist charch. I am looking for afordable accommodations around Oxford...
+                              Hi, I enrole in Oxford University in 2021. My college is Crist charch. I am looking for
+                              afordable accommodations around Oxford...
                             </p>
                           </div>
                           <div class="card-footer">
-                              <div class="icon-actions">
-                                  <a href="javascript:;" class="like active">
-                                    <i class="ni ni-like-2"></i>
-                                    <span class="text-muted">150</span>
-                                  </a>
-                                  <a href="javascript:;">
-                                    <i class="ni ni-chat-round"></i>
-                                    <span class="text-muted">36</span>
-                                  </a>
-                                  <a href="javascript:;">
-                                    <i class="ni ni-curved-next"></i>
-                                    <span class="text-muted">12</span>
-                                  </a>
-                              </div>
+                            <div class="icon-actions">
+                              <a href="javascript:;" class="like active">
+                                <i class="ni ni-like-2"></i>
+                                <span class="text-muted">150</span>
+                              </a>
+                              <a href="javascript:;">
+                                <i class="ni ni-chat-round"></i>
+                                <span class="text-muted">36</span>
+                              </a>
+                              <a href="javascript:;">
+                                <i class="ni ni-curved-next"></i>
+                                <span class="text-muted">12</span>
+                              </a>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -784,24 +2704,25 @@
                               <a href="javascript:;">Looking for accommodation</a>
                             </h5>
                             <p class="card-description">
-                              Hi, I enrole in Oxford University in 2021. My college is Crist charch. I am looking for afordable accommodations around Oxford...
+                              Hi, I enrole in Oxford University in 2021. My college is Crist charch. I am looking for
+                              afordable accommodations around Oxford...
                             </p>
                           </div>
                           <div class="card-footer">
-                              <div class="icon-actions">
-                                  <a href="javascript:;" class="like active">
-                                    <i class="ni ni-like-2"></i>
-                                    <span class="text-muted">150</span>
-                                  </a>
-                                  <a href="javascript:;">
-                                    <i class="ni ni-chat-round"></i>
-                                    <span class="text-muted">36</span>
-                                  </a>
-                                  <a href="javascript:;">
-                                    <i class="ni ni-curved-next"></i>
-                                    <span class="text-muted">12</span>
-                                  </a>
-                              </div>
+                            <div class="icon-actions">
+                              <a href="javascript:;" class="like active">
+                                <i class="ni ni-like-2"></i>
+                                <span class="text-muted">150</span>
+                              </a>
+                              <a href="javascript:;">
+                                <i class="ni ni-chat-round"></i>
+                                <span class="text-muted">36</span>
+                              </a>
+                              <a href="javascript:;">
+                                <i class="ni ni-curved-next"></i>
+                                <span class="text-muted">12</span>
+                              </a>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -814,21 +2735,27 @@
                     <table class="mx-sm-auto">
                       <tbody>
                         <tr>
-                          <td style="width:65%"><a href=""><span class="text-wrap badge badge-md badge-primary mr-2 my-2"  style="max-width:90%">Study</span></a></td>
+                          <td style="width:65%"><a href=""><span
+                                class="text-wrap badge badge-md badge-primary mr-2 my-2"
+                                style="max-width:90%">Study</span></a></td>
                           <td><a href=""><b>10</b></a></td>
                         </tr>
                         <tr>
-                          <td style="width:65%"><a href=""><span class="text-wrap badge badge-md badge-primary mr-2 my-2"  style="max-width:90%">Bank</span></a></td>
+                          <td style="width:65%"><a href=""><span
+                                class="text-wrap badge badge-md badge-primary mr-2 my-2"
+                                style="max-width:90%">Bank</span></a></td>
                           <td><a href=""><b>6</b></a></td>
                         </tr>
                         <tr>
-                          <td style="width:65%"><a href=""><span class="text-wrap badge badge-md badge-primary mr-2 my-2"  style="max-width:90%">Job Hunting in the UK</span></a></td>
+                          <td style="width:65%"><a href=""><span
+                                class="text-wrap badge badge-md badge-primary mr-2 my-2" style="max-width:90%">Job
+                                Hunting in the UK</span></a></td>
                           <td><a href=""><b>1</b></a></td>
                         </tr>
                       </tbody>
                     </table>
                   </div>
-                  
+
                 </div>
               </div>
             </div>
