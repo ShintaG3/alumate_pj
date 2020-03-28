@@ -239,6 +239,68 @@
     background: #f5365c;
   }
 
+  /* picture edit button */
+  .tile {
+    opacity: .99;
+    position: relative;
+    text-align: center;
+  }
+
+  .tile:before {
+    content: '';
+    width: 100%;
+    height: 20%;
+    opacity: 0;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 2;
+    -webkit-transition-property: top, opacity;
+    transition-property: top, opacity;
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+  }
+
+  .tile .details {
+    position: absolute;
+    top:50px;
+    left: 50%;
+    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    margin: auto;
+    z-index: 3;
+  }
+
+  .tile .details span {
+    display: block;
+    opacity: 0;
+    position: relative;
+    top: 100px;
+    -webkit-transition-property: top, opacity;
+    transition-property: top, opacity;
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-transition-delay: 0s;
+    transition-delay: 0s;
+  }
+
+  .tile:focus:before,
+  .tile:focus span,
+  .tile:hover:before,
+  .tile:hover span {
+    opacity: 1;
+  }
+
+  .tile:focus:before,
+  .tile:hover:before {
+    top: 20%;
+  }
+
+  .tile:focus span,
+  .tile:hover span {
+    top: 30%;
+  }
+
   /* media */
   @media (min-width: 1200px) {
     .sidebar {
@@ -266,41 +328,41 @@
 {% block scripts %}
 <!-- Tags -->
 <script>
-  Tags = function () { 
+  Tags = function () {
     var e = $('[data-toggle="tags"]');
     e.length && e.each(function () {
-       $(this).tagsinput({
-          tagClass: "badge badge-primary" 
-       }) 
+      $(this).tagsinput({
+        tagClass: "badge badge-primary"
+      })
     })
     var s = $('[data-toggle="tags-success"]');
     s.length && s.each(function () {
-       $(this).tagsinput({
-          tagClass: "badge badge-success" 
-       }) 
+      $(this).tagsinput({
+        tagClass: "badge badge-success"
+      })
     })
     var d = $('[data-toggle="tags-danger"]');
     d.length && d.each(function () {
-       $(this).tagsinput({
-          tagClass: "badge badge-danger" 
-       }) 
+      $(this).tagsinput({
+        tagClass: "badge badge-danger"
+      })
     })
   }();
 </script>
 <!-- Work Year Options -->
 <script>
   function workYearFunction(e) {
-    if (e.dataset.status == "previousCompany" && e.checked == true){
+    if (e.dataset.status == "previousCompany" && e.checked == true) {
       $('.year-prv').css('display', 'block');
     } else {
       $('.year-prv').css('display', 'none');
     }
-    if (e.dataset.status == "currentCompany" && e.checked == true){
+    if (e.dataset.status == "currentCompany" && e.checked == true) {
       $('.year-cur').css('display', 'block');
     } else {
       $('.year-cur').css('display', 'none');
     }
-    if (e.dataset.status == "targetCompany" && e.checked == true){
+    if (e.dataset.status == "targetCompany" && e.checked == true) {
       $('.year-trg').css('display', 'block');
     } else {
       $('.year-trg').css('display', 'none');
@@ -310,35 +372,17 @@
 <!-- Education Year Options -->
 <script>
   function educationYearFunction(e) {
-    if (e.dataset.status == "actualSchool" && e.checked == true){
+    if (e.dataset.status == "actualSchool" && e.checked == true) {
       $('.year-act').css('display', 'block');
     } else {
       $('.year-act').css('display', 'none');
     }
-    if (e.dataset.status == "targetSchool" && e.checked == true){
+    if (e.dataset.status == "targetSchool" && e.checked == true) {
       $('.year-trg').css('display', 'block');
     } else {
       $('.year-trg').css('display', 'none');
     }
-
-      // var checkBoxActSch = document.getElementById("actualSchool")
-      // var yearActCom = document.getElementById("yearActSchShow")
-      // var checkBoxTrgSch = document.getElementById("targetSchool")
-      // var yearTrgSch = document.getElementById("yearTrgSchShow")
-      // if (checkBoxActSch.checked == true){
-      //   yearActCom.style.display = "block";
-      // } else {
-      //   yearActCom.style.display = "none";
-      // }
-      // if (checkBoxTrgSch.checked == true){
-      //   yearTrgSch.style.display = "block";
-      // } else {
-      //   yearTrgSch.style.display = "none";
-      // }
-    }
-  // $(document).ready(
-  //   educationYearFunction()
-  // )
+  }
 </script>
 {% endblock %}
 {% block content %}
@@ -496,8 +540,7 @@
   </div>
 
   <!-- Modal "editGoals" -->
-  <div class="modal fade" id="editGoals" tabindex="-1" role="dialog" aria-labelledby="editGoals"
-    aria-hidden="true">
+  <div class="modal fade" id="editGoals" tabindex="-1" role="dialog" aria-labelledby="editGoals" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
       <div class="modal-content">
         <div class="modal-body p-0">
@@ -512,7 +555,9 @@
                 <!-- Goals -->
                 <div class="form-group mb-3 focused">
                   <label>Goals</label>
-                  <input class="form-control" type="text" name="goals" id="goals" value="Economist, UN Officer, International Development" placeholder="Add Goals" data-toggle="tags-success">
+                  <input class="form-control" type="text" name="goals" id="goals"
+                    value="Economist, UN Officer, International Development" placeholder="Add Goals"
+                    data-toggle="tags-success">
                 </div>
                 <!-- Button -->
                 <div class="text-center">
@@ -544,7 +589,9 @@
                 <!-- Study Interests -->
                 <div class="form-group mb-3 focused">
                   <label>Study Interests</label>
-                  <input class="form-control" type="text" name="studyInterests" id="studyInterests" value="Finance, Business, Block chain, AI" placeholder="Add Study Interest" data-toggle="tags-danger">
+                  <input class="form-control" type="text" name="studyInterests" id="studyInterests"
+                    value="Finance, Business, Block chain, AI" placeholder="Add Study Interest"
+                    data-toggle="tags-danger">
                 </div>
                 <!-- Button -->
                 <div class="text-center">
@@ -560,8 +607,7 @@
   </div>
 
   <!-- Modal "editAbout" -->
-  <div class="modal fade" id="editAbout" tabindex="-1" role="dialog" aria-labelledby="editAbout"
-    aria-hidden="true">
+  <div class="modal fade" id="editAbout" tabindex="-1" role="dialog" aria-labelledby="editAbout" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
       <div class="modal-content">
         <div class="modal-body p-0">
@@ -576,7 +622,8 @@
                 <!-- About -->
                 <div class="form-group mb-3 focused">
                   <label>About</label>
-                  <textarea class="form-control" name="about" id="about" rows="5" placeholder="Please introduce yourself..."></textarea>
+                  <textarea class="form-control" name="about" id="about" rows="5"
+                    placeholder="Please introduce yourself..."></textarea>
                 </div>
                 <!-- Button -->
                 <div class="text-center">
@@ -592,8 +639,7 @@
   </div>
 
   <!-- Modal "addWork" -->
-  <div class="modal fade" id="addWork" tabindex="-1" role="dialog" aria-labelledby="addWork"
-    aria-hidden="true">
+  <div class="modal fade" id="addWork" tabindex="-1" role="dialog" aria-labelledby="addWork" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
       <div class="modal-content">
         <div class="modal-body p-0">
@@ -622,110 +668,110 @@
                 <!--  Work Status -->
                 <div class="form-group focused">
                   <div class="custom-control custom-radio mb-3">
-                    <input name="addWork" class="custom-control-input" id="addWork-prv"
-                    data-status="previousCompany" type="radio" checked="" onclick="workYearFunction(this)">
+                    <input name="addWork" class="custom-control-input" id="addWork-prv" data-status="previousCompany"
+                      type="radio" checked="" onclick="workYearFunction(this)">
                     <label class="custom-control-label" for="addWork-prv">I worked in this company</label>
                   </div>
                   <div class="custom-control custom-radio mb-3">
-                    <input name="addWork" class="custom-control-input" id="addWork-cur" 
-                    data-status="currentCompany" type="radio" onclick="workYearFunction(this)">
+                    <input name="addWork" class="custom-control-input" id="addWork-cur" data-status="currentCompany"
+                      type="radio" onclick="workYearFunction(this)">
                     <label class="custom-control-label" for="addWork-cur">I am currently working in this company</label>
                   </div>
                   <div class="custom-control custom-radio mb-3">
-                    <input name="addWork" class="custom-control-input" id="addWork-trg" 
-                    data-status="targetCompany" type="radio" onclick="workYearFunction(this)">
+                    <input name="addWork" class="custom-control-input" id="addWork-trg" data-status="targetCompany"
+                      type="radio" onclick="workYearFunction(this)">
                     <label class="custom-control-label" for="addWork-trg"">This is my target company</label>
                   </div>
                 </div>
                 
-                <!-- Work Year for "previousCompany" -->
-                <div class="year-prv" style="height: 12rem;">
-                  <!-- Start Year for "previousCompany" -->
-                  <div class="form-group focused">
-                    <label>Work from</label>
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                <!-- Work Year for " previousCompany" -->
+                      <div class="year-prv" style="height: 12rem;">
+                        <!-- Start Year for "previousCompany" -->
+                        <div class="form-group focused">
+                          <label>Work from</label>
+                          <div class="input-group input-group-alternative">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                            </div>
+                            <select class="form-control" data-trigger="" name="startYearPrv">
+                              <option value="1990">1990</option>
+                              <option disabled="" selected="">Start year</option>
+                              <option value="1991">1991</option>
+                              <option value="1992">1992</option>
+                              <option value="1993">1993</option>
+                            </select>
+                          </div>
+                        </div>
+                        <!-- End Year for "previousCompany"-->
+                        <div class="form-group focused">
+                          <label>Work until</label>
+                          <div class="input-group input-group-alternative">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                            </div>
+                            <select class="form-control" data-trigger="" name="endYearPrv">
+                              <option value="1990">1990</option>
+                              <option disabled="" selected="">End year</option>
+                              <option value="1991">1991</option>
+                              <option value="1992">1992</option>
+                              <option value="1993">1993</option>
+                            </select>
+                          </div>
+                        </div>
                       </div>
-                      <select class="form-control" data-trigger="" name="startYearPrv">
-                        <option value="1990">1990</option>
-                        <option disabled="" selected="">Start year</option>
-                        <option value="1991">1991</option>
-                        <option value="1992">1992</option>
-                        <option value="1993">1993</option>
-                      </select>
-                    </div>
-                  </div>
-                  <!-- End Year for "previousCompany"-->
-                  <div class="form-group focused">
-                    <label>Work until</label>
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      <!-- Work Year for "currentCompany" -->
+                      <div class="year-cur" style="height: 12rem; display: none;">
+                        <!-- Start Year for "previousCompany" -->
+                        <div class="form-group focused">
+                          <label>Work from</label>
+                          <div class="input-group input-group-alternative">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                            </div>
+                            <select class="form-control" data-trigger="" name="startYearCur">
+                              <option value="1990">1990</option>
+                              <option disabled="" selected="">Start year</option>
+                              <option value="1991">1991</option>
+                              <option value="1992">1992</option>
+                              <option value="1993">1993</option>
+                            </select>
+                          </div>
+                        </div>
+                        <!-- End Year for "previousCompany"-->
+                        <div class="form-group focused">
+                          <label>Work until</label>
+                          <div class="input-group input-group-alternative">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                            </div>
+                            <input class="form-control" type="text" disabled value="Present">
+                          </div>
+                        </div>
                       </div>
-                      <select class="form-control" data-trigger="" name="endYearPrv">
-                        <option value="1990">1990</option>
-                        <option disabled="" selected="">End year</option>
-                        <option value="1991">1991</option>
-                        <option value="1992">1992</option>
-                        <option value="1993">1993</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <!-- Work Year for "currentCompany" -->
-                <div class="year-cur" style="height: 12rem; display: none;">
-                  <!-- Start Year for "previousCompany" -->
-                  <div class="form-group focused">
-                    <label>Work from</label>
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      <!-- Work Year for "targetCompany" -->
+                      <div class="year-trg" style="height: 12rem; display: none;">
+                        <!-- Start Year for "previousCompany" -->
+                        <div class="form-group focused">
+                          <label>Work from (optional)</label>
+                          <div class="input-group input-group-alternative">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                            </div>
+                            <select class="form-control" data-trigger="" name="startYearTrg">
+                              <option value="1990">1990</option>
+                              <option value="blank" selected="">Start year</option>
+                              <option value="1991">1991</option>
+                              <option value="1992">1992</option>
+                              <option value="1993">1993</option>
+                            </select>
+                          </div>
+                        </div>
                       </div>
-                      <select class="form-control" data-trigger="" name="startYearCur">
-                        <option value="1990">1990</option>
-                        <option disabled="" selected="">Start year</option>
-                        <option value="1991">1991</option>
-                        <option value="1992">1992</option>
-                        <option value="1993">1993</option>
-                      </select>
-                    </div>
-                  </div>
-                  <!-- End Year for "previousCompany"-->
-                  <div class="form-group focused">
-                    <label>Work until</label>
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      <!-- Button -->
+                      <div class="text-center">
+                        <button type="button" class="btn btn-primary my-4">Add</button>
+                        <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
                       </div>
-                      <input class="form-control" type="text" disabled value="Present">
-                    </div>
-                  </div>
-                </div>
-                <!-- Work Year for "targetCompany" -->
-                <div class="year-trg" style="height: 12rem; display: none;">
-                  <!-- Start Year for "previousCompany" -->
-                  <div class="form-group focused">
-                    <label>Work from (optional)</label>
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                      </div>
-                      <select class="form-control" data-trigger="" name="startYearTrg">
-                        <option value="1990">1990</option>
-                        <option value="blank" selected="">Start year</option>
-                        <option value="1991">1991</option>
-                        <option value="1992">1992</option>
-                        <option value="1993">1993</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <!-- Button -->
-                <div class="text-center">
-                  <button type="button" class="btn btn-primary my-4">Add</button>
-                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
-                </div>
               </form>
             </div>
           </div>
@@ -735,8 +781,7 @@
   </div>
 
   <!-- Modal "editWork-1" -->
-  <div class="modal fade" id="editWork-1" tabindex="-1" role="dialog" aria-labelledby="editWork-1"
-    aria-hidden="true">
+  <div class="modal fade" id="editWork-1" tabindex="-1" role="dialog" aria-labelledby="editWork-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
       <div class="modal-content">
         <div class="modal-body p-0">
@@ -760,27 +805,29 @@
                 <!-- Work Title -->
                 <div class="form-group mb-3 focused">
                   <label>Title</label>
-                  <input class="form-control" value="Seek financial officer position, considering JPO as well" placeholder="Title e.g. Ratail Sales Manager..." type="text">
+                  <input class="form-control" value="Seek financial officer position, considering JPO as well"
+                    placeholder="Title e.g. Ratail Sales Manager..." type="text">
                 </div>
                 <!--  Work Status -->
                 <div class="form-group focused">
                   <div class="custom-control custom-radio mb-3">
                     <input name="editWork-1" class="custom-control-input" id="editWork-1-prv"
-                    data-status="previousCompany" type="radio" onclick="workYearFunction(this)">
+                      data-status="previousCompany" type="radio" onclick="workYearFunction(this)">
                     <label class="custom-control-label" for="editWork-1-prv">I worked in this company</label>
                   </div>
                   <div class="custom-control custom-radio mb-3">
                     <input name="editWork-1" class="custom-control-input" id="editWork-1-cur"
-                    data-status="currentCompany" type="radio" onclick="workYearFunction(this)">
-                    <label class="custom-control-label" for="editWork-1-cur">I am currently working in this company</label>
+                      data-status="currentCompany" type="radio" onclick="workYearFunction(this)">
+                    <label class="custom-control-label" for="editWork-1-cur">I am currently working in this
+                      company</label>
                   </div>
                   <div class="custom-control custom-radio mb-3">
                     <input name="editWork-1" class="custom-control-input" id="editWork-1-trg"
-                    data-status="targetCompany" type="radio" checked="" onclick="workYearFunction(this)">
+                      data-status="targetCompany" type="radio" checked="" onclick="workYearFunction(this)">
                     <label class="custom-control-label" for="editWork-1-trg">This is my target company</label>
                   </div>
                 </div>
-                
+
                 <!-- Work Year for "previousCompany" -->
                 <div class="year-prv" style="height: 12rem; display: none;">
                   <!-- Start Year for "previousCompany" -->
@@ -879,8 +926,7 @@
   </div>
 
   <!-- Modal "editWork-2" -->
-  <div class="modal fade" id="editWork-2" tabindex="-1" role="dialog" aria-labelledby="editWork-2"
-    aria-hidden="true">
+  <div class="modal fade" id="editWork-2" tabindex="-1" role="dialog" aria-labelledby="editWork-2" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
       <div class="modal-content">
         <div class="modal-body p-0">
@@ -904,27 +950,29 @@
                 <!-- Work Title -->
                 <div class="form-group mb-3 focused">
                   <label>Title</label>
-                  <input class="form-control" value="M&A Consultant" placeholder="Title e.g. Ratail Sales Manager..." type="text">
+                  <input class="form-control" value="M&A Consultant" placeholder="Title e.g. Ratail Sales Manager..."
+                    type="text">
                 </div>
                 <!--  Work Status -->
                 <div class="form-group focused">
                   <div class="custom-control custom-radio mb-3">
                     <input name="editWork-2" class="custom-control-input" id="editWork-2-prv"
-                    data-status="previousCompany" type="radio" checked="" onclick="workYearFunction(this)">
+                      data-status="previousCompany" type="radio" checked="" onclick="workYearFunction(this)">
                     <label class="custom-control-label" for="editWork-2-prv">I worked in this company</label>
                   </div>
                   <div class="custom-control custom-radio mb-3">
                     <input name="editWork-2" class="custom-control-input" id="editWork-2-cur"
-                    data-status="currentCompany" type="radio" onclick="workYearFunction(this)">
-                    <label class="custom-control-label" for="editWork-2-cur">I am currently working in this company</label>
+                      data-status="currentCompany" type="radio" onclick="workYearFunction(this)">
+                    <label class="custom-control-label" for="editWork-2-cur">I am currently working in this
+                      company</label>
                   </div>
                   <div class="custom-control custom-radio mb-3">
                     <input name="editWork-2" class="custom-control-input" id="editWork-2-trg"
-                    data-status="targetCompany" type="radio" onclick="workYearFunction(this)">
+                      data-status="targetCompany" type="radio" onclick="workYearFunction(this)">
                     <label class="custom-control-label" for="editWork-2-trg">This is my target company</label>
                   </div>
                 </div>
-                
+
                 <!-- Work Year for "previousCompany" -->
                 <div class="year-prv" style="height: 12rem; display: block;">
                   <!-- Start Year for "previousCompany" -->
@@ -1058,17 +1106,18 @@
                 <!--  Education Status -->
                 <div class="form-group focused">
                   <div class="custom-control custom-radio mb-3">
-                    <input name="addEducation" class="custom-control-input" id="addEducation-act" type="radio" checked="" 
-                    data-status="actualSchool" onclick="educationYearFunction(this)">
-                    <label class="custom-control-label" for="addEducation-act">I studied or I am going to study in this school</label>
+                    <input name="addEducation" class="custom-control-input" id="addEducation-act" type="radio"
+                      checked="" data-status="actualSchool" onclick="educationYearFunction(this)">
+                    <label class="custom-control-label" for="addEducation-act">I studied or I am going to study in this
+                      school</label>
                   </div>
                   <div class="custom-control custom-radio mb-3">
-                    <input name="addEducation" class="custom-control-input" id="addEducation-trg" type="radio" 
-                    data-status="targetSchool" onclick="educationYearFunction(this)">
+                    <input name="addEducation" class="custom-control-input" id="addEducation-trg" type="radio"
+                      data-status="targetSchool" onclick="educationYearFunction(this)">
                     <label class="custom-control-label" for="addEducation-trg">This is my target school</label>
                   </div>
                 </div>
-                
+
                 <!-- Education Year for "actualSchool" -->
                 <div class="year-act" style="height: 12rem; display: block;">
                   <!-- Start Year for "actualSchool" -->
@@ -1190,17 +1239,18 @@
                 <!--  Education Status -->
                 <div class="form-group focused">
                   <div class="custom-control custom-radio mb-3">
-                    <input name="editEducation-1" class="custom-control-input" id="editEducation-1-act" type="radio" checked="" 
-                    data-status="actualSchool" onclick="educationYearFunction(this)">
-                    <label class="custom-control-label" for="editEducation-1-act">I studied or I am going to study in this school</label>
+                    <input name="editEducation-1" class="custom-control-input" id="editEducation-1-act" type="radio"
+                      checked="" data-status="actualSchool" onclick="educationYearFunction(this)">
+                    <label class="custom-control-label" for="editEducation-1-act">I studied or I am going to study in
+                      this school</label>
                   </div>
                   <div class="custom-control custom-radio mb-3">
-                    <input name="editEducation-1" class="custom-control-input" id="editEducation-1-trg" type="radio" 
-                    data-status="targetSchool" onclick="educationYearFunction(this)">
+                    <input name="editEducation-1" class="custom-control-input" id="editEducation-1-trg" type="radio"
+                      data-status="targetSchool" onclick="educationYearFunction(this)">
                     <label class="custom-control-label" for="editEducation-1-trg">This is my target school</label>
                   </div>
                 </div>
-                
+
                 <!-- Education Year for "actualSchool" -->
                 <div class="year-act" style="height: 12rem; display: block;">
                   <!-- Start Year for "actualSchool" -->
@@ -1317,23 +1367,25 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                     </div>
-                    <input class="form-control" value="Mathematics" placeholder="Major e.g. MSc Economics..." type="text">
+                    <input class="form-control" value="Mathematics" placeholder="Major e.g. MSc Economics..."
+                      type="text">
                   </div>
                 </div>
                 <!--  Education Status -->
                 <div class="form-group focused">
                   <div class="custom-control custom-radio mb-3">
-                    <input name="editEducation-2" class="custom-control-input" id="editEducation-2-act" type="radio" checked="" 
-                    data-status="actualSchool" onclick="educationYearFunction(this)">
-                    <label class="custom-control-label" for="editEducation-2-act">I studied or I am going to study in this school</label>
+                    <input name="editEducation-2" class="custom-control-input" id="editEducation-2-act" type="radio"
+                      checked="" data-status="actualSchool" onclick="educationYearFunction(this)">
+                    <label class="custom-control-label" for="editEducation-2-act">I studied or I am going to study in
+                      this school</label>
                   </div>
                   <div class="custom-control custom-radio mb-3">
-                    <input name="editEducation-2" class="custom-control-input" id="editEducation-2-trg" type="radio" 
-                    data-status="targetSchool" onclick="educationYearFunction(this)">
+                    <input name="editEducation-2" class="custom-control-input" id="editEducation-2-trg" type="radio"
+                      data-status="targetSchool" onclick="educationYearFunction(this)">
                     <label class="custom-control-label" for="editEducation-2-trg">This is my target school</label>
                   </div>
                 </div>
-                
+
                 <!-- Education Year for "actualSchool" -->
                 <div class="year-act" style="height: 12rem; display: block;">
                   <!-- Start Year for "actualSchool" -->
@@ -1531,7 +1583,7 @@
                       <option value="2017">2017</option>
                       <option value="2018">2018</option>
                       <option value="2019">2019</option>
-                      <option value="2020" selected="" >2020</option>
+                      <option value="2020" selected="">2020</option>
                       <option value="2021">2021</option>
                     </select>
                   </div>
@@ -1550,7 +1602,7 @@
                       <option value="2020">2020</option>
                       <option value="2021">2021</option>
                       <option value="2022">2022</option>
-                      <option value="2023" selected="" >2023</option>
+                      <option value="2023" selected="">2023</option>
                     </select>
                   </div>
                 </div>
@@ -1560,7 +1612,8 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-paper-diploma"></i></span>
                     </div>
-                    <input class="form-control" value="Masters degree program" placeholder="Scholarship Title..." type="text">
+                    <input class="form-control" value="Masters degree program" placeholder="Scholarship Title..."
+                      type="text">
                   </div>
                 </div>
                 <!-- Button -->
@@ -1715,8 +1768,7 @@
   </div>
 
   <!-- Modal "editProfile" -->
-  <div class="modal fade" id="editProfile" tabindex="-1" role="dialog" aria-labelledby="editProfile"
-    aria-hidden="true">
+  <div class="modal fade" id="editProfile" tabindex="-1" role="dialog" aria-labelledby="editProfile" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
       <div class="modal-content">
         <div class="modal-body p-0">
@@ -1787,11 +1839,20 @@
 
               <!-- Photo -->
               <div class="row justify-content-center">
-                <div class="col-lg-3">
-                  <div class="card-profile-image">
+                <div class="col-lg-12" style="z-index:2;">
+                  <div class="card-profile-image tile">
                     <a href="javascript:;">
-                      <img src="{% static 'img/faces/team-4.jpg' %}" class="rounded-circle">
+                      <img src="{% static 'img/faces/team-4.jpg' %}" class="rounded-circle" style="z-index: inherit 2;">
                     </a>
+                    <!-- picture edit button -->
+                    <div class="details">
+                      <span>
+                        <span class="btn btn-file btn-sm btn-secondary mx-auto mt-3">
+                          <span class="fileinput-new"><i class="align-text-bottom ni ni-cloud-upload-96"></i>&nbsp;Change</span>
+                          <input type="hidden" value="" name="..."><input type="file" name="">
+                        </span>
+                      </span>
+                    </div>
                   </div>
                 </div>
                 <div class="col-lg-12">
@@ -1825,9 +1886,9 @@
                 <div class="col text-right">
                   <!-- Button trigger modal -->
                   <span data-toggle="modal" data-target="#editBasicInfo" data-toggle="tooltip" data-placement="top"
-                  data-container="body" data-animation="true">
-                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button" 
-                    data-toggle="tooltip" data-original-title="Edit Basic Info">
+                    data-container="body" data-animation="true">
+                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                      data-toggle="tooltip" data-original-title="Edit Basic Info">
                       <i class="ni ni-settings-gear-65 text-gray"></i>
                     </a>
 
@@ -1856,8 +1917,9 @@
                 <div class="col text-right">
                   <!-- Button trigger modal -->
                   <span data-toggle="modal" data-target="#editGoals" data-toggle="tooltip" data-placement="top"
-                  data-container="body" data-animation="true">
-                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button" data-toggle="tooltip" data-original-title="Edit Goals">
+                    data-container="body" data-animation="true">
+                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                      data-toggle="tooltip" data-original-title="Edit Goals">
                       <i class="ni ni-settings-gear-65 text-gray"></i>
                     </a>
                   </span>
@@ -1892,10 +1954,11 @@
                 <div class="col text-right">
                   <!-- Button trigger modal -->
                   <span data-toggle="modal" data-target="#editStudyInterests" data-toggle="tooltip" data-placement="top"
-                  title="Edit study intereste" data-container="body" data-animation="true">
-                  <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button" data-toggle="tooltip" data-original-title="Edit Study Interests">
-                    <i class="ni ni-settings-gear-65 text-gray"></i>
-                  </a>
+                    title="Edit study intereste" data-container="body" data-animation="true">
+                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                      data-toggle="tooltip" data-original-title="Edit Study Interests">
+                      <i class="ni ni-settings-gear-65 text-gray"></i>
+                    </a>
                   </span>
                 </div>
               </div>
@@ -1932,8 +1995,9 @@
                 <div class="col text-right">
                   <!-- Button trigger modal -->
                   <span data-toggle="modal" data-target="#editAbout" data-toggle="tooltip" data-placement="top"
-                  data-container="body" data-animation="true">
-                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button" data-toggle="tooltip" data-original-title="Edit About">
+                    data-container="body" data-animation="true">
+                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                      data-toggle="tooltip" data-original-title="Edit About">
                       <i class="ni ni-settings-gear-65 text-gray"></i>
                     </a>
                   </span>
@@ -1956,17 +2020,17 @@
                 <div class="col text-right">
                   <!-- Button trigger modal for Work-->
                   <span data-toggle="modal" data-target="#addWork" data-toggle="tooltip" data-placement="top"
-                  data-container="body" data-animation="true">
-                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button" 
-                    data-toggle="tooltip" data-original-title="Add Work">
+                    data-container="body" data-animation="true">
+                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                      data-toggle="tooltip" data-original-title="Add Work">
                       <i class="ni ni-briefcase-24 text-gray"></i>
                     </a>
                   </span>
                   <!-- Button trigger modal for Education-->
-                  <span class="ml-2" data-toggle="modal" data-target="#addEducation" data-toggle="tooltip" data-placement="top"
-                  data-container="body" data-animation="true">
-                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button" 
-                    data-toggle="tooltip" data-original-title="Add Education">
+                  <span class="ml-2" data-toggle="modal" data-target="#addEducation" data-toggle="tooltip"
+                    data-placement="top" data-container="body" data-animation="true">
+                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                      data-toggle="tooltip" data-original-title="Add Education">
                       <i class="ni ni-hat-3 text-gray"></i>
                     </a>
                   </span>
@@ -1991,10 +2055,11 @@
                           </div>
                         </div>
                         <div class="d-flex justify-content-between">
-                          <h6 class="text-sm text-left mt-1 mb-0">Seek financial officer position, considering JPO as well</h6>
+                          <h6 class="text-sm text-left mt-1 mb-0">Seek financial officer position, considering JPO as
+                            well</h6>
                           <!-- Button trigger modal for Work-->
                           <span data-toggle="modal" data-target="#editWork-1" data-toggle="tooltip" data-placement="top"
-                          data-container="body" data-animation="true">
+                            data-container="body" data-animation="true">
                             <a class="ml-2" type="button" data-toggle="tooltip" data-original-title="Edit World Bank">
                               <i class="fa fa-pencil text-gray"></i>
                             </a>
@@ -2019,9 +2084,10 @@
                         <div class="d-flex justify-content-between">
                           <h6 class="text-sm text-left mt-1 mb-0">MBA</h6>
                           <!-- Button trigger modal for Work-->
-                          <span data-toggle="modal" data-target="#editEducation-1" data-toggle="tooltip" data-placement="top"
-                          data-container="body" data-animation="true">
-                            <a class="ml-2" type="button" data-toggle="tooltip" data-original-title="Edit Harvard University">
+                          <span data-toggle="modal" data-target="#editEducation-1" data-toggle="tooltip"
+                            data-placement="top" data-container="body" data-animation="true">
+                            <a class="ml-2" type="button" data-toggle="tooltip"
+                              data-original-title="Edit Harvard University">
                               <i class="fa fa-pencil text-gray"></i>
                             </a>
                           </span>
@@ -2046,7 +2112,7 @@
                           <h6 class="text-sm text-left mt-1 mb-0">M&A Consultant</h6>
                           <!-- Button trigger modal for Work-->
                           <span data-toggle="modal" data-target="#editWork-2" data-toggle="tooltip" data-placement="top"
-                          data-container="body" data-animation="true">
+                            data-container="body" data-animation="true">
                             <a class="ml-2" type="button" data-toggle="tooltip" data-original-title="Edit PwC">
                               <i class="fa fa-pencil text-gray"></i>
                             </a>
@@ -2071,9 +2137,10 @@
                         <div class="d-flex justify-content-between">
                           <h6 class="text-sm text-left mt-1 mb-0">Mathematics</h6>
                           <!-- Button trigger modal for Work-->
-                          <span data-toggle="modal" data-target="#editEducation-2" data-toggle="tooltip" data-placement="top"
-                          data-container="body" data-animation="true">
-                            <a class="ml-2" type="button" data-toggle="tooltip" data-original-title="Edit University of Tokyo">
+                          <span data-toggle="modal" data-target="#editEducation-2" data-toggle="tooltip"
+                            data-placement="top" data-container="body" data-animation="true">
+                            <a class="ml-2" type="button" data-toggle="tooltip"
+                              data-original-title="Edit University of Tokyo">
                               <i class="fa fa-pencil text-gray"></i>
                             </a>
                           </span>
@@ -2099,9 +2166,9 @@
                 <div class="col text-right">
                   <!-- Button trigger modal -->
                   <span data-toggle="modal" data-target="#addScholarship" data-toggle="tooltip" data-placement="top"
-                  data-container="body" data-animation="true">
-                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button" 
-                    data-toggle="tooltip" data-original-title="Add Scholarship">
+                    data-container="body" data-animation="true">
+                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                      data-toggle="tooltip" data-original-title="Add Scholarship">
                       <i class="fa fa-plus text-gray"></i>
                     </a>
                   </span>
@@ -2115,15 +2182,15 @@
                     <div>
                       <small class="text-muted">2020 ~ 2023</small>
                       <!-- Button trigger modal -->
-                      <span data-toggle="modal" data-target="#editScholarship-1" data-toggle="tooltip" data-placement="top"
-                      data-container="body" data-animation="true">
+                      <span data-toggle="modal" data-target="#editScholarship-1" data-toggle="tooltip"
+                        data-placement="top" data-container="body" data-animation="true">
                         <a class="ml-2" type="button" data-toggle="tooltip" data-original-title="Edit Fulbright Japan">
                           <i class="fa fa-pencil text-gray"></i>
                         </a>
                       </span>
                     </div>
                   </div>
-                  <h6 class="text-sm text-left mt-1">Masters degree program</h6>                  
+                  <h6 class="text-sm text-left mt-1">Masters degree program</h6>
                 </div>
               </div>
 
@@ -2142,8 +2209,9 @@
                 <div class="col text-right">
                   <!-- Button trigger modal -->
                   <span data-toggle="modal" data-target="#addSocialLink" data-toggle="tooltip" data-placement="top"
-                  data-container="body" data-animation="true">
-                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button" data-toggle="tooltip" data-original-title="Add Social Link">
+                    data-container="body" data-animation="true">
+                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                      data-toggle="tooltip" data-original-title="Add Social Link">
                       <i class="fa fa-plus text-gray"></i>
                     </a>
                   </span>
@@ -2158,7 +2226,7 @@
                     </a>
                     <!-- Button trigger modal -->
                     <span data-toggle="modal" data-target="#editSocialLink-1" data-toggle="tooltip" data-placement="top"
-                    data-container="body" data-animation="true">
+                      data-container="body" data-animation="true">
                       <a type="button" data-toggle="tooltip" data-original-title="Edit Blog">
                         <i class="fa fa-pencil text-gray"></i>
                       </a>
@@ -2170,7 +2238,7 @@
                     </a>
                     <!-- Button trigger modal -->
                     <span data-toggle="modal" data-target="#editSocialLink-2" data-toggle="tooltip" data-placement="top"
-                    data-container="body" data-animation="true">
+                      data-container="body" data-animation="true">
                       <a type="button" data-toggle="tooltip" data-original-title="Edit Facebook">
                         <i class="fa fa-pencil text-gray"></i>
                       </a>
@@ -2181,13 +2249,14 @@
 
               <!-- Profile -->
               <div class="mt-5 pt-4 border-top"></div>
-               <!-- "editProfile" -->
-               <div class="row mb-2 justify-content-end">
+              <!-- "editProfile" -->
+              <div class="row mb-2 justify-content-end">
                 <div class="col text-right">
                   <!-- Button trigger modal -->
                   <span data-toggle="modal" data-target="#editProfile" data-toggle="tooltip" data-placement="top"
-                  data-container="body" data-animation="true">
-                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button" data-toggle="tooltip" data-original-title="Edit Profile">
+                    data-container="body" data-animation="true">
+                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                      data-toggle="tooltip" data-original-title="Edit Profile">
                       <i class="ni ni-settings-gear-65 text-gray"></i>
                     </a>
                   </span>
@@ -2249,6 +2318,7 @@
               </div>
             </div>
           </div>
+
 
           <!-- Post -->
           <div class="row">
