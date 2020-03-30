@@ -20,11 +20,25 @@ class Post(models.Model):
         ordering = ('-created_at',)
     
     def __str__(self):
-        return self.user + "'s post: " + self.body[:10] + "..."
+        return self.user.username + "'s post: " + self.body[:10] + "..."
     
     def get_absolute_url(self):
         return reverse("post_detail", args=[str(self.id)])
-
+    
+class PostComment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
+    body = models.CharField(max_length=500)
+    image = models.ImageField(upload_to='images/', blank=True, null=True)
+    likes = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ('created_at',)
+    
+    def __str__(self):
+        return self.user.username + "'s comment on: " + self.post + ": " + self.body[:10] + "..."
+    
 
 class Query(models.Model):
     query_creator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
