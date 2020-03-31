@@ -5,8 +5,81 @@
 {% endblock %}
 
 {% block style %}
+<style>
+    .sticky-header {
+        /* display: flex; */
+        background-color: #fff;
+        position: relative;
+        width: 100%;
+    }
+
+    .sticky-header.fixed {
+        padding-top: 5em;
+        position: fixed;
+        top: 0;
+        z-index: 2;
+    }
+
+    /* media */
+    @media (min-width: 576px) {
+        .sticky-header.fixed {
+            width: calc(540px * 0.75 - 10rem);
+        }
+    }
+
+    @media (min-width: 768px) {
+        .sticky-header.fixed {
+            width: calc(720px * 0.75 - 6rem);
+        }
+    }
+
+    @media (min-width: 992px) {
+        .sticky-header.fixed {
+            width: calc(960px * 0.75 - 6rem);
+        }
+    }
+
+    @media (min-width: 1200px) {
+        .sticky-header.fixed {
+            width: calc(1040px * 0.75 - 8rem);
+        }
+    }
+</style>
 {% endblock %}
 {% block scripts %}
+
+<!-- Sticky header -->
+<script>
+    var _window = $(window),
+        _header = $('.sticky-header'),
+        imgBottom;
+
+    _window.on('scroll', function () {
+        imgBottom = $('.img').height() * 0.51;
+        if (_window.scrollTop() > imgBottom) {
+            _header.addClass('fixed');
+        }
+        else {
+            _header.removeClass('fixed');
+        }
+    });
+
+    _window.trigger('scroll');
+</script>
+
+<script>
+    // show reply section
+    $(document).on('click', '.rep-window', function () {
+        var repWindow = $(this).closest('.media-body').find('.media-post');
+        if (repWindow.css('display') == "none") {
+            repWindow.css('display', 'block')
+        } else {
+            repWindow.css('display', 'none')
+        };
+
+    });
+</script>
+
 {% endblock %}
 
 {% block content %}
@@ -16,53 +89,106 @@
             <div class="row justify-content-center">
                 <div class="col-9">
                     <div class="card card-blog">
-                        <a href="javascript:;">
-                            <img class="img pattern rounded" src="{% static 'img/ill/presentation_bg.png' %}" style="margin-top: -51%;">
-                        </a>
-                        <div class="card-body p-5">
-                            <h6 class="card-category text-danger">
-                                <i class="ni ni-badge"></i> Oxford
-                            </h6>
-                            <div class="d-flex flex-row justify-content-between align-items-center mb-4">
-                                <h3 class="card-title">
-                                    Looking for accommodation
-                                </h3>
-                                <div>
-                                    <a href="" class="btn btn-info btn-primary btn-sm">
-                                        follow
+                        <img class="img pattern rounded" src="{% static 'img/ill/presentation_bg.png' %}"
+                            style="margin-top: -51%;">
+                        <div class="card-body px-5">
+                            <!-- Tags -->
+                            <!-- for backend devlopment, only show the tags that are used. Tag components are equivalant to basic info.-->
+                            <div class="d-flex flex-row flex-wrap font-weight-300 small mb-2">
+                                <div class="text-muted mr-3">
+                                    <i class="ni ni-tag mr-1 align-middle"></i><span class="align-middle">Home Country</span>
+                                    <a href="">
+                                      <span class="badge mr-1 mb-1 badge-secondary">Japan</span>
+                                    </a>
+                                    <a href="">
+                                      <span class="badge mr-1 mb-1 badge-secondary">U.S.</span>
+                                    </a>
+                                </div>
+                                <div class="text-muted mr-3">
+                                    <i class="ni ni-tag mr-1 align-middle"></i><span class="align-middle">Study Abroad Country</span>
+                                    <a href="">
+                                      <span class="badge mr-1 mb-1 badge-secondary">United Kingdom</span>
+                                    </a>
+                                </div>
+                                <div class="text-muted mr-3">
+                                    <i class="ni ni-tag mr-1 align-middle"></i><span class="align-middle">Study Abroad School</span>
+                                    <a href="">
+                                      <span class="badge mr-1 mb-1 badge-secondary">University of Oxford</span>
+                                    </a>
+                                </div>
+                                <div class="text-muted mr-3">
+                                    <i class="ni ni-tag mr-1 align-middle"></i><span class="align-middle">Start Year</span>
+                                    <a href="">
+                                      <span class="badge mr-1 mb-1 badge-secondary">2019~</span>
+                                    </a>
+                                </div>
+                                <div class="text-muted mr-3">
+                                    <i class="ni ni-tag mr-1 align-middle"></i><span class="align-middle">End Year</span>
+                                    <a href="">
+                                      <span class="badge mr-1 mb-1 badge-secondary">~2022</span>
+                                    </a>
+                                </div>
+                                <div class="text-muted mr-3">
+                                    <i class="ni ni-tag mr-1 align-middle"></i><span class="align-middle">Living City</span>
+                                    <a href="">
+                                      <span class="badge mr-1 mb-1 badge-secondary">Oxford</span>
                                     </a>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-lg-4">
-                                    <div class="row justify-content-sm-center justify-content-md-center">
-                                        <div class="col-sm-4 col-md-4 col-lg-12 text-lg-center">
-                                            <a href="">
-                                                <img src="{% static 'img/faces/team-4.jpg' %}"
-                                                    class="img-fluid rounded-circle shadow-lg" style="width: 100px;">
-                                            </a>
-                                        </div>
-                                        <div class="col-sm-8 col-md-8 col-lg-12 text-lg-center mt-lg-2">
-                                            <h5>Jessica Jones<img class="img-fluid rounded shadow ml-2"
-                                                    style="width: 1.25rem;"
-                                                    src="{% static 'img/brand/logo_current.png' %}"></h5>
-
-                                            <div class="h6 font-weight-bold mb-0">Harvard University</div>
-                                            <div class="text-muted small font-weight-500">MBA <span
-                                                    class="text-muted font-weight-300"><small>(2020 ~
-                                                        2022)</small></span></div>
-                                            <div class="font-weight-400"><small><i class="ni ni-pin-3 mr-2"></i>Boston,
-                                                    U.S.</small></div>
-                                        </div>
+                            
+                            <!-- replace follwoing div open tag with the next div open tag, when you want sticky question section    -->
+                            <!-- <div class="sticky-header"> -->
+                            <div>
+                                <div class="d-flex flex-row justify-content-between align-items-center mb-4">
+                                    <h3 class="card-title">
+                                        Looking for accommodation
+                                    </h3>
+                                    <div>
+                                        <a href="" class="btn btn-info btn-primary btn-sm">
+                                            follow
+                                        </a>
                                     </div>
                                 </div>
-                                <div class="col-lg-8 mt-sm-3 mt-md-3 mt-lg-0 mt-xl-0">
-                                    <p class="lead my-0">
-                                        Hi, I enrole in Oxford University in 2021. My college is Crist charch. I am
-                                        looking for afordable accommodations around Oxford. It would be appreciated if
-                                        anyone kindly suggest accommodation or website/grounp that I can find
-                                        accoumodations. Thank you inadvance!!
-                                    </p>
+
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="row justify-content-sm-center justify-content-md-center">
+                                            <div class="col-sm-4 col-md-4 col-lg-12 text-lg-center">
+                                                <a href="">
+                                                    <img src="{% static 'img/faces/team-4.jpg' %}"
+                                                        class="img-fluid rounded-circle shadow-lg"
+                                                        style="width: 100px;">
+                                                </a>
+                                            </div>
+                                            <div class="col-sm-8 col-md-8 col-lg-12 text-lg-center mt-lg-2">
+                                                <h5>Jessica Jones
+                                                    <img class="img-fluid rounded shadow ml-2"
+                                                        style="width: 1.25rem;"
+                                                        src="{% static 'img/brand/logo_current.png' %}">
+                                                </h5>
+                                                <div class="text-muted font-weight-500 small">
+                                                    from Japan to U.S.
+                                                </div>
+
+                                                <div class="h6 font-weight-bold mb-0">Harvard University</div>
+                                                <div class="text-muted small font-weight-500">MBA <span
+                                                        class="text-muted font-weight-300"><small>(2020 ~
+                                                            2022)</small></span></div>
+                                                <div class="font-weight-400"><small><i
+                                                            class="ni ni-pin-3 mr-2"></i>Boston,
+                                                        U.S.</small></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8 mt-sm-3 mt-md-3 mt-lg-0 mt-xl-0">
+                                        <p class="lead my-0">
+                                            Hi, I enrole in Oxford University in 2021. My college is Crist charch. I am
+                                            looking for afordable accommodations around Oxford. It would be appreciated
+                                            if
+                                            anyone kindly suggest accommodation or website/grounp that I can find
+                                            accoumodations. Thank you inadvance!!
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
 
@@ -91,18 +217,45 @@
                                                     foundation in truth I stand with
                                                     the most humility. We are so blessed!</p>
                                                 <div class="d-flex flex-row justify-content-end">
-                                                    <a href="" class="mr-4 text-danger">
+                                                    <a href="javascript:;" class="mr-4 text-danger">
                                                         <small>
                                                             <i class="ni ni-diamond"></i>
                                                             &nbsp;20
                                                         </small>
                                                     </a>
-                                                    <a href="" class="text-primary">
+                                                    <a href="javascript:;" class="text-primary rep-window">
                                                         <small>
                                                             <i class="fa fa-reply"></i>
                                                             &nbsp;Reply
                                                         </small>
                                                     </a>
+                                                </div>
+                                                <!-- Replay section -->
+                                                <div class="media-post" style="display: none;">
+                                                    <form>
+                                                        <div class="media align-items-center mt-5">
+                                                            <img alt="Image placeholder"
+                                                                class="avatar avatar-lg rounded-circle mb-4"
+                                                                src="{% static 'img/faces/card-profile6-square.jpg' %}">
+                                                            <div class="media-body">
+                                                                <textarea class="form-control"
+                                                                    placeholder="Write your comment"
+                                                                    rows="3"></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="text-right ml-auto">
+                                                            <div class="text-right">
+                                                                <button type="button"
+                                                                    class="btn btn-md btn-transparent btn-icon rounded">
+                                                                    <span class="btn-inner--icon icon-big"><i
+                                                                            class="fa fa-image"></i></span>
+                                                                </button>
+                                                                <button class="btn btn-primary btn-sm btn-round">
+                                                                    Post comment
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
@@ -124,18 +277,45 @@
                                                     keep you posted for the latest news.</p>
                                                 <p> Don't forget, You're Awesome!</p>
                                                 <div class="d-flex flex-row justify-content-end">
-                                                    <a href="" class="mr-4 text-danger">
+                                                    <a href="javascript:;" class="mr-4 text-danger">
                                                         <small>
                                                             <i class="ni ni-diamond"></i>
                                                             &nbsp;25
                                                         </small>
                                                     </a>
-                                                    <a href="" class="text-primary">
+                                                    <a href="javasctipt:;" class="text-primary rep-window">
                                                         <small>
                                                             <i class="fa fa-reply"></i>
                                                             &nbsp;Reply
                                                         </small>
                                                     </a>
+                                                </div>
+                                                <!-- Replay section -->
+                                                <div class="media-post" style="display: none;">
+                                                    <form>
+                                                        <div class="media align-items-center mt-5">
+                                                            <img alt="Image placeholder"
+                                                                class="avatar avatar-lg rounded-circle mb-4"
+                                                                src="{% static 'img/faces/card-profile6-square.jpg' %}">
+                                                            <div class="media-body">
+                                                                <textarea class="form-control"
+                                                                    placeholder="Write your comment"
+                                                                    rows="3"></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="text-right ml-auto">
+                                                            <div class="text-right">
+                                                                <button type="button"
+                                                                    class="btn btn-md btn-transparent btn-icon rounded">
+                                                                    <span class="btn-inner--icon icon-big"><i
+                                                                            class="fa fa-image"></i></span>
+                                                                </button>
+                                                                <button class="btn btn-primary btn-sm btn-round">
+                                                                    Post comment
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
                                                 </div>
                                                 <div class="media mt-5">
                                                     <a class="float-left" href="">
@@ -154,44 +334,46 @@
                                                             We will keep you posted for the latest news.</p>
                                                         <p> Don't forget, You're Awesome!</p>
                                                         <div class="d-flex flex-row justify-content-end">
-                                                            <a href="" class="mr-4 text-gray">
+                                                            <a href="javascript:;" class="text-gray">
                                                                 <small>
                                                                     <i class="ni ni-diamond"></i>
                                                                     &nbsp;2
                                                                 </small>
                                                             </a>
-                                                            <a href="" class="text-primary">
-                                                                <small>
-                                                                    <i class="fa fa-reply"></i>
-                                                                    &nbsp;Reply
-                                                                </small>
-                                                            </a>
+
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <h3 class="title text-center">Post your comment</h3>
+                                    <h3 class="mt-5 mb-4 display-4 text-center">Post your comment</h3>
                                     <div class="media media-post">
-                                        <a class="author float-left" href="#pablo">
-                                            <div class="avatar">
-                                                <img class="media-object" alt="64x64"
-                                                    src="{% static 'img/faces/card-profile6-square.jpg' %}">
-                                            </div>
-                                        </a>
                                         <div class="media-body">
-                                            <div class="form-group label-floating bmd-form-group">
-                                                <label class="form-control-label bmd-label-floating"
-                                                    for="exampleBlogPost"> Write some nice stuff or
-                                                    nothing...</label>
-                                                <textarea class="form-control" rows="5" id="exampleBlogPost"></textarea>
-                                            </div>
-                                            <div class="media-footer">
-                                                <a href="#pablo"
-                                                    class="btn btn-primary btn-round btn-wd float-right">Post
-                                                    Comment</a>
-                                            </div>
+                                            <!-- Can this form be markdown style? -->
+                                            <form>
+                                                <div class="media align-items-center mt-5">
+                                                    <img alt="Image placeholder"
+                                                        class="avatar avatar-lg rounded-circle mb-4"
+                                                        src="{% static 'img/faces/card-profile6-square.jpg' %}">
+                                                    <div class="media-body">
+                                                        <textarea class="form-control" placeholder="Write your comment"
+                                                            rows="3"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="text-right ml-auto">
+                                                    <div class="text-right">
+                                                        <button type="button"
+                                                            class="btn btn-md btn-transparent btn-icon rounded">
+                                                            <span class="btn-inner--icon icon-big"><i
+                                                                    class="fa fa-image"></i></span>
+                                                        </button>
+                                                        <button class="btn btn-primary btn-sm btn-round">
+                                                            Post comment
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div> <!-- end media-post -->
                                 </div>
