@@ -15,7 +15,7 @@ gender_choices = [
     ('NA', 'Prefer not to disclose')
 ]
 
-class BaseInfo(models.Model):
+class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
     gender = models.CharField(max_length=30, choices=gender_choices, default='NA')
     birthday = models.DateField(null=True)
@@ -28,7 +28,7 @@ current_status = [
     ('FU', 'Future Student'), ('CU', 'Current Student'), ('AL', 'Alumni')
 ]
 
-class UserProfile(models.Model):
+class BasicInfo(models.Model):
     # Many field are optional as a User may be a student 
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     name = models.CharField(max_length=20, default='anonymous')
@@ -82,15 +82,17 @@ class WorkExperience(models.Model):
     def __str__(self):
         return self.name + ' worked at ' + self.company + ' as ' + self.position 
     
+class Scholarship(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    organization = models.CharField(max_length=100)
+    year_from = models.IntegerField()
+    year_to = models.IntegerField()
+    title = models.CharField(max_length=100)
 
-social_link_type = [
-    ('FB', 'Facebook'), ('TW', 'Twitter'), ('LN', 'LinkedIn'), ('IG', 'Instagram'),
-    ('BL', 'Blog')
-]
 
 class SocialLink(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    link_type = models.CharField(max_length=20, choices=social_link_type)
+    title = models.CharField(max_length=20)
     url = models.URLField()
 
     def __str__(self):
@@ -117,8 +119,8 @@ class City(models.Model):
         return self.city_name + ', ' + self.country.country_name
 
 class Follow(models.Model):
-    follower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    followed = models.ForeignKey(User, related_name='followed_user', on_delete=models.SET_NULL, null=True)
+    follower = models.ForeignKey(User, on_delete=models.CASCADE)
+    followed = models.ForeignKey(User, related_name='followed_user', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.follower.username + ' following ' + self.followed.username

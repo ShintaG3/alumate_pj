@@ -1,9 +1,11 @@
 from django import forms
-from .models import UserProfile, Goal
+from .models import BasicInfo, current_status
 
-class ProfileForm(forms.ModelForm):
+class BasicInfoForm(forms.ModelForm):
+    status = forms.RadioSelect(choices=current_status)
+    
     class Meta:
-        model = UserProfile
+        model = BasicInfo
         fields = (
             'name',
             'status',

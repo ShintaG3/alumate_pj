@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import ModelForm
-from accounts.models import UserProfile, current_status, BaseInfo
+from accounts.models import current_status, BasicInfo
 from django.contrib.auth import authenticate
 
 def status_select():
@@ -138,5 +138,5 @@ class BaseInfoForm(forms.ModelForm):
     )
 
     class Meta:
-        model = BaseInfo
+        model = BasicInfo
         fields = ('status', 'country', 'school', 'course', 'year_of_abroad_study', 'job_before_abroad_study', 'job_after_abroad_study')

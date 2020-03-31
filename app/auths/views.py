@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .forms import SignUpForm, BaseInfoForm, UserLoginForm, SignUpForm
 from django.contrib.auth import login, authenticate, logout
-from accounts.models import UserProfile, Follow, BaseInfo
+from accounts.models import Follow, BasicInfo
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.views.generic.edit import FormView
@@ -55,9 +55,9 @@ def logoutUser(request):
 
 def baseConnect(request):
     user1 = User.objects.get(username=request.user.username)
-    futures = BaseInfo.objects.filter(status='future')[:4]
-    students = BaseInfo.objects.filter(status='student')[:4]
-    alumnis = BaseInfo.objects.filter(status='alumni')[:4]
+    futures = BasicInfo.objects.filter(status='future')[:4]
+    students = BasicInfo.objects.filter(status='student')[:4]
+    alumnis = BasicInfo.objects.filter(status='alumni')[:4]
     context = {
         'futures': futures,
         'students': students,
@@ -67,7 +67,7 @@ def baseConnect(request):
 
 def follow(request):
     followed_id = request.GET.get('follow', None)
-    followed = BaseInfo.objects.get(id=followed_id).user
+    followed = BasicInfo.objects.get(id=followed_id).user
     follower = User.objects.get(username=request.user.username)
     follow = Follow.objects.create(follower=follower, followed=followed)
     data = {

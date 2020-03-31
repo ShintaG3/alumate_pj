@@ -1,9 +1,9 @@
 from django.contrib import admin
-from .models import UserProfile, School, Country, City, Follow, BaseInfo
+from .models import Profile, School, Country, City, Follow, BasicInfo
 # Register your models here.
-admin.site.register(UserProfile)
+admin.site.register(Profile)
 admin.site.register(School)
 admin.site.register(Country)
 admin.site.register(City)
 admin.site.register(Follow)
-admin.site.register(BaseInfo)
+admin.site.register(BasicInfo)
