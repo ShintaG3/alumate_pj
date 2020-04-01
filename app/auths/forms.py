@@ -2,11 +2,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import ModelForm
-from accounts.models import current_status, BasicInfo
+from accounts.models import CurrentStatus, BasicInfo
 from django.contrib.auth import authenticate
-
-def status_select():
-    return current_status
 
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(widget=forms.EmailInput(
@@ -97,7 +94,7 @@ class BaseInfoForm(forms.ModelForm):
     ))
 
     status = forms.ChoiceField(
-        choices=status_select,
+        choices=CurrentStatus.choices,
         widget=forms.RadioSelect(
             attrs={
                 'class': 'form-control',

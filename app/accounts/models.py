@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 import datetime
 from django.core.validators import MaxValueValidator, MinValueValidator
 from datetime import date
+from django.utils.translation import gettext_lazy as _
 # Create your models here.
 
 
@@ -23,48 +24,43 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
 
-
-current_status = [
-    ('FU', 'Future Student'), ('CU', 'Current Student'), ('AL', 'Alumni')
-]
+class CurrentStatus(models.TextChoices):
+    FUTURE_STUDENT = 'FU', _('Future Student'),
+    CURRENT_STUDENT = 'CU', _('Current Student'),
+    ALUMNI = 'AL', _('Alumni')
 
 class BasicInfo(models.Model):
-    # Many field are optional as a User may be a student 
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    name = models.CharField(max_length=20, default='anonymous')
-    status = models.CharField(max_length=20, choices=current_status, default='CU')
+    name = models.CharField(max_length=40)
+    status = models.CharField(max_length=20, choices=CurrentStatus.choices, default=CurrentStatus.CURRENT_STUDENT)
     country_origin = models.CharField(max_length=50, null=True, blank=True)
     country_study_abroad = models.CharField(max_length=50, null=True, blank=True)
     school = models.CharField(max_length=50, null=True, blank=True)
     major = models.CharField(max_length=50, null=True, blank=True)
     school_start_year = models.IntegerField(
-        validators = [MaxValueValidator(current_year+2), MinValueValidator(1940)],
         null=True, blank=True
     )
     school_end_year = models.IntegerField(
-        validators = [MaxValueValidator(current_year+10), MinValueValidator(1940)],
         null=True, blank=True
     )
-    living_city = models.ForeignKey('City', on_delete=models.SET_NULL, null=True)
-    
+    living_city = models.ForeignKey('City', on_delete=models.SET_NULL, null=True, blank=True)
+
     def __str__(self):
         return self.user.username
-
-
+    
 class Goal(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    goal = models.CharField(max_length=30)
+    body = models.CharField(max_length=30)
 
     def __str__(self):
         return self.user.username + "'s goal: " + self.goal
 
 class StudyInterest(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    field = models.CharField(max_length=30)
+    body = models.CharField(max_length=30)
     
     def __str__(self):
         return self.user.username + "'s study interest: " + self.goal
-    
 
 class WorkExperience(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

@@ -1,5 +1,6 @@
 {% extends 'base-authpage.html' %}
 {% load static %}
+{% load widget_tweaks  %}
 {% block navbar %}
 {% include 'include/nav-authpage.html' %}
 {% endblock %}
@@ -384,6 +385,45 @@
     }
   }
 </script>
+
+<script>
+  function csrfSafeMethod(method) {
+      // these HTTP methods do not require CSRF protection
+      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+  }
+
+  function sendGoals() {
+    var csrftoken = Cookies.get('csrftoken');
+    $.ajaxSetup({
+      beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+      }
+    });
+    $.ajax({
+      url: 'update/goals',
+      method: 'POST',
+      data: {goals: $('#goals').val()},
+    });
+  }
+
+  function sendStudyInterests() {
+    var csrftoken = Cookies.get('csrftoken');
+    $.ajaxSetup({
+      beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+      }
+    });
+    $.ajax({
+      url: 'update/study-interests',
+      method: 'POST',
+      data: {studyInterests: $('#studyInterests').val()}
+    });
+  }
+</script>
 {% endblock %}
 {% block content %}
 
@@ -417,31 +457,26 @@
               </div>
             </div>
             <div class="card-body px-lg-5 py-lg-5">
-              <form role="form">
+              <form action="{% url "accounts:update-basic-info" user.username %}" method="POST" >
+                {% csrf_token %}
                 <!--     Name -->
                 <div class="form-group mb-3 focused"><label>Name</label>
                   <div class="input-group input-group-alternative">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-circle-08"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Name..." type="text">
+                    {% render_field basic_info_form.name class+="form-control" placeholder="Name..." %}
+                    {% comment %} <input class="form-control" placeholder="Name..." type="text"> {% endcomment %}
                   </div>
                 </div>
                 <!--     Alumate Status -->
                 <div class="form-group focused">
                   <label>Alumate Status</label>
+                  {% for choice in basic_info_form.status %}
                   <div class="custom-control custom-radio mb-3">
-                    <input name="custom-radio-1" class="custom-control-input" id="futureStudent" type="radio">
-                    <label class="custom-control-label" for="futureStudent">Future Student</label>
+                    {{ choice }}
                   </div>
-                  <div class="custom-control custom-radio mb-3">
-                    <input name="custom-radio-1" class="custom-control-input" id="currentStudent" type="radio">
-                    <label class="custom-control-label" for="currentStudent">Current Student</label>
-                  </div>
-                  <div class="custom-control custom-radio mb-3">
-                    <input name="custom-radio-1" class="custom-control-input" id="alumni" type="radio">
-                    <label class="custom-control-label" for="alumni">Alumni</label>
-                  </div>
+                  {% endfor %}
                 </div>
                 <!--  Country of origin -->
                 <div class="form-group focused">
@@ -450,7 +485,8 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-world"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Country of origin..." type="text">
+                    {% render_field basic_info_form.country_origin class+="form-control" placeholder="Country of origin..." %}
+                    {% comment %} <input class="form-control" placeholder="Country of origin..." type="text"> {% endcomment %}
                   </div>
                 </div>
                 <!--     Study abroad country -->
@@ -460,7 +496,8 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-world"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Study abroad country..." type="text">
+                    {% render_field basic_info_form.country_study_abroad class+="form-control" placeholder="Study abroad country..." %}
+                    {% comment %} <input class="form-control" placeholder="Study abroad country..." type="text"> {% endcomment %}
                   </div>
                 </div>
                 <!--     Study abroad school -->
@@ -470,7 +507,8 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Study abroad school..." type="text">
+                    {% render_field basic_info_form.school class+="form-control" placeholder="Study abroad school..." %}
+                    {% comment %} <input class="form-control" placeholder="Study abroad school..." type="text"> {% endcomment %}
                   </div>
                 </div>
                 <!--     Study abroad Major -->
@@ -480,7 +518,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Major e.g. MSc Economics..." type="text">
+                    {% render_field basic_info_form.major class+="form-control" placeholder="Major e.g. MSc Economics..." %}
                   </div>
                 </div>
                 <!--     Study abroad start year -->
@@ -490,13 +528,14 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                     </div>
-                    <select class="form-control" data-trigger="" name="startYear" id="startYear">
+                    {% render_field basic_info_form.school_start_year class+="form-control" name="Start year" %}
+                    {% comment %} <select class="form-control" data-trigger="" name="startYear" id="startYear">
                       <option disabled="" selected="">Start year</option>
                       <option value="2020">Still planning</option>
                       <option value="2020">2020</option>
                       <option value="2021">2021</option>
                       <option value="2023">2023</option>
-                    </select>
+                    </select> {% endcomment %}
                   </div>
                 </div>
                 <!--     Study abroad end year -->
@@ -506,14 +545,15 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                     </div>
-                    <select class="form-control" data-trigger="" name="startYear" id="startYear">
+                    {% render_field basic_info_form.school_end_year class+="form-control" name="Graduate year" %}
+                    {% comment %} <select class="form-control" data-trigger="" name="startYear" id="startYear">
                       <option disabled="" selected="">End year</option>
                       <option value="2020">Still planning</option>
 
                       <option value="2020">2020</option>
                       <option value="2021">2021</option>
                       <option value="2023">2023</option>
-                    </select>
+                    </select> {% endcomment %}
                   </div>
                 </div>
                 <!--     Living city -->
@@ -523,12 +563,13 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-pin-3"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Living city e.g. Boston..." type="text">
+                    {% render_field basic_info_form.living_city class+="form-control" placeholder="Living city e.g. Boston..." %}
+                    {% comment %} <input class="form-control" placeholder="Living city e.g. Boston..." type="text"> {% endcomment %}
                   </div>
                 </div>
                 <!-- Button -->
                 <div class="text-center">
-                  <button type="button" class="btn btn-primary my-4">Save changes</button>
+                  <button type="submit" class="btn btn-primary my-4">Save changes</button>
                   <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
                 </div>
               </form>
@@ -551,17 +592,18 @@
               </div>
             </div>
             <div class="card-body px-lg-5 py-lg-5">
-              <form role="form">
+              <form>
+              {% csrf_token %}
                 <!-- Goals -->
                 <div class="form-group mb-3 focused">
                   <label>Goals</label>
                   <input class="form-control" type="text" name="goals" id="goals"
-                    value="Economist, UN Officer, International Development" placeholder="Add Goals"
+                    value="{{ goals_values }}" placeholder="Add Goals"
                     data-toggle="tags-success">
                 </div>
                 <!-- Button -->
                 <div class="text-center">
-                  <button type="button" class="btn btn-primary my-4">Save changes</button>
+                  <button onclick="sendGoals()" type="submit" class="btn btn-primary my-4">Save changes</button>
                   <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
                 </div>
               </form>
@@ -585,17 +627,18 @@
               </div>
             </div>
             <div class="card-body px-lg-5 py-lg-5">
-              <form role="form">
+              <form>
+              {% csrf_token %}
                 <!-- Study Interests -->
                 <div class="form-group mb-3 focused">
                   <label>Study Interests</label>
                   <input class="form-control" type="text" name="studyInterests" id="studyInterests"
-                    value="Finance, Business, Block chain, AI" placeholder="Add Study Interest"
+                    value="{{ study_interests_values }}" placeholder="Add Study Interest"
                     data-toggle="tags-danger">
                 </div>
                 <!-- Button -->
                 <div class="text-center">
-                  <button type="button" class="btn btn-primary my-4">Save changes</button>
+                  <button onclick="sendStudyInterests()" type="submit" class="btn btn-primary my-4">Save changes</button>
                   <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
                 </div>
               </form>
@@ -604,7 +647,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> 
 
   <!-- Modal "editAbout" -->
   <div class="modal fade" id="editAbout" tabindex="-1" role="dialog" aria-labelledby="editAbout" aria-hidden="true">
@@ -1891,23 +1934,22 @@
                       data-toggle="tooltip" data-original-title="Edit Basic Info">
                       <i class="ni ni-settings-gear-65 text-gray"></i>
                     </a>
-
                   </span>
                 </div>
               </div>
               <!-- display Basic Info   -->
               <div class="text-center mt-2">
-                <h3>Jessica Jones<img class="img-fluid rounded shadow ml-2" style="width: 1.75rem;"
+                <h3>{{ basic_info.name }}<img class="img-fluid rounded shadow ml-2" style="width: 1.75rem;"
                     src="{% static 'img/brand/logo_current.png' %}"></h3>
                 <!-- future student logo => src="{% static 'img/brand/logo_future.png' %}"-->
                 <!-- alumuni logo => src="{% static 'img/brand/logo_alumni.png' %}"-->
                 <div class="text-muted font-weight-500 mt-3 mb-2">
-                  from Japan to U.S.
+                  from {{ basic_info.country_origin }} to {{ basic_info.country_study_abroad }}
                 </div>
-                <div class="h5">Harvard University</div>
-                <div class="font-weight-500">MBA</div>
-                <div class="text-muted font-weight-300"><small> 2020 ~ 2022</small></div>
-                <div class="font-weight-400 mt-4"><i class="ni ni-pin-3 mr-2"></i>Boston, U.S.</div>
+                <div class="h5">{{ basic_info.school }}</div>
+                <div class="font-weight-500">{{ basic_info.major}}</div>
+                <div class="text-muted font-weight-300"><small>{{ basic_info.school_start_year }} ~ {{ basic_info.school_end_year }}</small></div>
+                <div class="font-weight-400 mt-4"><i class="ni ni-pin-3 mr-2"></i>{{ basic_info.living_city }}</div>
               </div>
 
               <!-- Goals-->
@@ -1936,15 +1978,11 @@
               </div>
               <div class="row mb-5">
                 <div class="col">
-                  <a href="">
-                    <span class="badge mr-1 mb-1 badge-success">Economist</span>
-                  </a>
-                  <a href="">
-                    <span class="badge mr-1 mb-1 badge-success">International Development</span>
-                  </a>
-                  <a href="">
-                    <span class="badge mr-1 mb-1 badge-success">UN Officer</span>
-                  </a>
+                  {% for goal in goals %}
+                    <a href="">
+                      <span class="badge mr-1 mb-1 badge-success">{{ goal }}</span>
+                    </a>
+                  {% endfor %}
                 </div>
               </div>
 
@@ -1973,20 +2011,13 @@
               </div>
               <div class="row">
                 <div class="col">
+                  {% for study_interest in study_interests %}
                   <a href="">
-                    <span class="badge mr-1 mb-1 badge-danger">Finance</span>
+                    <span class="badge mr-1 mb-1 badge-danger">{{ study_interest }}</span>
                   </a>
-                  <a href="">
-                    <span class="badge mr-1 mb-1 badge-danger">Business</span>
-                  </a>
-                  <a href="">
-                    <span class="badge mr-1 badge-danger">Block chain</span>
-                  </a>
-                  <a href="">
-                    <span class="badge mr-1 mb-1 badge-danger">AI</span>
-                  </a>
+                  {% endfor %}
                 </div>
-              </div>
+              </div> 
 
               <!-- About -->
               <div class="mt-5 pt-4 border-top"></div>
