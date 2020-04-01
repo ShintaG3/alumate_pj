@@ -6,44 +6,63 @@
 
 {% block style %}
 <style>
-    .sticky-header {
-        /* display: flex; */
-        background-color: #fff;
-        position: relative;
-        width: 100%;
-    }
+.sticky-header {
+    /* display: flex; */
+    background-color: #fff;
+    position: relative;
+    width: 100%;
+}
 
+.sticky-header.fixed {
+    padding-top: 5em;
+    position: fixed;
+    top: 0;
+    z-index: 2;
+}
+
+/* Overwrite argon */
+.media .avatar {
+    width: 38px;
+    height: 38px;
+}
+
+/* media */
+@media (min-width: 576px) {
     .sticky-header.fixed {
-        padding-top: 5em;
-        position: fixed;
-        top: 0;
-        z-index: 2;
+        width: calc(540px * 0.75 - 10rem);
     }
 
-    /* media */
-    @media (min-width: 576px) {
-        .sticky-header.fixed {
-            width: calc(540px * 0.75 - 10rem);
-        }
-    }
+}
 
-    @media (min-width: 768px) {
-        .sticky-header.fixed {
-            width: calc(720px * 0.75 - 6rem);
-        }
+@media (min-width: 768px) {
+    .sticky-header.fixed {
+        width: calc(720px * 0.75 - 6rem);
     }
+    .media .avatar {
+        width: 48px;
+        height: 48px;
+    }
+}
 
-    @media (min-width: 992px) {
-        .sticky-header.fixed {
-            width: calc(960px * 0.75 - 6rem);
-        }
+@media (min-width: 992px) {
+    .sticky-header.fixed {
+        width: calc(960px * 0.75 - 6rem);
     }
+    .media .avatar {
+        width: 64px;
+        height: 64px;
+    }
+}
 
-    @media (min-width: 1200px) {
-        .sticky-header.fixed {
-            width: calc(1040px * 0.75 - 8rem);
-        }
+@media (min-width: 1200px) {
+    .sticky-header.fixed {
+        width: calc(1040px * 0.75 - 8rem);
     }
+    .media .avatar {
+        width: 64px;
+        height: 64px;
+    }
+}
 </style>
 {% endblock %}
 {% block scripts %}
@@ -83,18 +102,16 @@
 {% endblock %}
 
 {% block content %}
-<div class="main pt-5">
-    <div class="container">
-        <div class="section">
+    <div class="container pt-lg">
             <div class="row justify-content-center">
-                <div class="col-9">
+                <div class="col-sm-9 col-12">
                     <div class="card card-blog">
                         <img class="img pattern rounded" src="{% static 'img/ill/presentation_bg.png' %}"
                             style="margin-top: -51%;">
                         <div class="card-body px-5">
                             <!-- Tags -->
                             <!-- for backend devlopment, only show the tags that are used. Tag components are equivalant to basic info.-->
-                            <div class="d-flex flex-row flex-wrap font-weight-300 small mb-2">
+                            <div class="d-flex flex-row flex-wrap font-weight-300 small mb-3">
                                 <div class="text-muted mr-3">
                                     <i class="ni ni-tag mr-1 align-middle"></i><span class="align-middle">Home Country</span>
                                     <a href="">
@@ -139,7 +156,7 @@
                             <!-- replace follwoing div open tag with the next div open tag, when you want sticky question section    -->
                             <!-- <div class="sticky-header"> -->
                             <div>
-                                <div class="d-flex flex-row justify-content-between align-items-center mb-4">
+                                <div class="d-flex flex-row justify-content-between mb-3">
                                     <h3 class="card-title">
                                         Looking for accommodation
                                     </h3>
@@ -153,14 +170,14 @@
                                 <div class="row">
                                     <div class="col-lg-4">
                                         <div class="row justify-content-sm-center justify-content-md-center">
-                                            <div class="col-sm-4 col-md-4 col-lg-12 text-lg-center">
+                                            <div class="col-4 col-lg-12 text-lg-center">
                                                 <a href="">
                                                     <img src="{% static 'img/faces/team-4.jpg' %}"
                                                         class="img-fluid rounded-circle shadow-lg"
                                                         style="width: 100px;">
                                                 </a>
                                             </div>
-                                            <div class="col-sm-8 col-md-8 col-lg-12 text-lg-center mt-lg-2">
+                                            <div class="col-8 col-lg-12 text-lg-center mt-lg-2">
                                                 <h5>Jessica Jones
                                                     <img class="img-fluid rounded shadow ml-2"
                                                         style="width: 1.25rem;"
@@ -180,7 +197,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-8 mt-sm-3 mt-md-3 mt-lg-0 mt-xl-0">
+                                    <div class="col-lg-8 mt-3 mt-lg-0">
                                         <p class="lead my-0">
                                             Hi, I enrole in Oxford University in 2021. My college is Crist charch. I am
                                             looking for afordable accommodations around Oxford. It would be appreciated
@@ -382,8 +399,6 @@
                     </div>
                 </div>
             </div>
-        </div>
     </div>
-</div>
 
 {% endblock %}
