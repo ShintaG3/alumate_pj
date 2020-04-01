@@ -13,6 +13,7 @@ class AccountView(TemplateView):
     
     def get_context_data(self, **kwargs):
         user = get_object_or_404(User, username=kwargs['username'])
+        has_edit_permission = self.request.user = user
 
         try:
             basic_info = BasicInfo.objects.get(user=user)
@@ -31,6 +32,7 @@ class AccountView(TemplateView):
         
         context = {
             'user': user,
+            'has_edit_permission': has_edit_permission,
             'basic_info': basic_info,
             'basic_info_form': BasicInfoForm(instance=basic_info),
             'goals': goals,
