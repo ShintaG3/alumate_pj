@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect, render
-from .forms import BasicInfoForm
-from .models import BasicInfo, Goal, StudyInterest
+from .forms import BasicInfoForm, AboutForm
+from .models import BasicInfo, Goal, StudyInterest, About
 from django.views.generic.base import TemplateView
 from django.contrib.auth.models import User
 from django.views import View
@@ -13,14 +13,21 @@ class AccountView(TemplateView):
     
     def get_context_data(self, **kwargs):
         user = get_object_or_404(User, username=kwargs['username'])
+
         try:
             basic_info = BasicInfo.objects.get(user=user)
         except BasicInfo.DoesNotExist:
             basic_info = None
+        
         goals = Goal.objects.filter(user=user).values_list('body', flat=True)
         study_interests = StudyInterest.objects.filter(user=user).values_list('body', flat=True)
         goals_str = ",".join(list(goals))
         study_interests_str = ",".join(list(study_interests))
+        
+        try:
+            about = About.objects.get(user=user)
+        except About.DoesNotExist:
+            about = None
         
         context = {
             'user': user,
@@ -30,6 +37,8 @@ class AccountView(TemplateView):
             'goals_values': goals_str,
             'study_interests': study_interests,
             'study_interests_values': study_interests_str,
+            'about': about,
+            'about_form': AboutForm(instance=about),
         }
         return context
 
@@ -113,7 +122,7 @@ class StudyInterestUpdateView(View):
 
 
 class AboutUpdateView(View):
-    form_class = BasicInfoForm
+    form_class = AboutForm
     
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)

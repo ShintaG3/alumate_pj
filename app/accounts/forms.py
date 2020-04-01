@@ -1,6 +1,6 @@
 from django import forms
 from datetime import date
-from .models import BasicInfo, CurrentStatus
+from .models import BasicInfo, CurrentStatus, About
 
 class BasicInfoForm(forms.ModelForm):
     current_year = date.today().year
@@ -21,3 +21,10 @@ class BasicInfoForm(forms.ModelForm):
             'school_end_year', 
             'living_city'
         )
+        
+class AboutForm(forms.ModelForm):
+    body = forms.CharField(widget=forms.Textarea())
+    
+    class Meta:
+        model = About
+        fields = ('body',)

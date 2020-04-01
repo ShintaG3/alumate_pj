@@ -53,14 +53,41 @@ class Goal(models.Model):
     body = models.CharField(max_length=30)
 
     def __str__(self):
-        return self.user.username + "'s goal: " + self.goal
+        return self.user.username + "'s goal: " + self.body
 
 class StudyInterest(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     body = models.CharField(max_length=30)
     
     def __str__(self):
-        return self.user.username + "'s study interest: " + self.goal
+        return self.user.username + "'s study interest: " + self.body
+
+
+class About(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    body = models.CharField(max_length=500, null=True, blank=True)
+    
+    def __str__(self):
+        return self.user.username + "'s about: " + self.body
+      
+    
+
+# class EducationStatus(models.TextChoices):
+#     CURRENT = 'C', _('I am studying at this school now'),
+#     PAST = 'P', _('I studied at this school'),
+#     FUTURE = 'F', _('I am going to study at this school'),
+#     TARGET = 'T', _('This is my target school'),
+
+# class Education(models.Model):
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     school = models.CharField(max_length=50)
+#     major = models.CharField(max_length=50)
+#     status = models.CharField(max_length=30, choices=EducationStatus.choices, default=EducationStatus.CURRENT)
+#     start_year =  models.CharField(max_length=20, null=True, blank=True)
+#     end_year = models.CharField(max_length=20, null=True, blank=True)
+    
+#     def __str__(self):
+#         return self.name + ' worked at ' + self.company + ' as ' + self.position 
 
 class WorkExperience(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

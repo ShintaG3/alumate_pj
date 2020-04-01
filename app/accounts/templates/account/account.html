@@ -661,16 +661,16 @@
               </div>
             </div>
             <div class="card-body px-lg-5 py-lg-5">
-              <form role="form">
+              <form action="{% url 'accounts:update-about' user.username %}" method="POST">
+                {% csrf_token %}
                 <!-- About -->
                 <div class="form-group mb-3 focused">
                   <label>About</label>
-                  <textarea class="form-control" name="about" id="about" rows="5"
-                    placeholder="Please introduce yourself..."></textarea>
+                  {% render_field about_form.body class+="form-control" name="about" id="about" rows="5" placeholder="Please introduce yourself..." %}
                 </div>
                 <!-- Button -->
                 <div class="text-center">
-                  <button type="button" class="btn btn-primary my-4">Save changes</button>
+                  <button type="submit" class="btn btn-primary my-4">Save changes</button>
                   <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
                 </div>
               </form>
@@ -2037,10 +2037,7 @@
               <!-- display about -->
               <div class="row justify-content-center">
                 <div class="col">
-                  <p>An artist of considerable range, Ryan — the name taken by Melbourne-raised,
-                    Brooklyn-based Nick Murphy — writes, performs and records all of his own music,
-                    giving it a warm, intimate feel with a solid groove structure. An artist of
-                    considerable range.</p>
+                  <p>{{ about.body }}</p>
                 </div>
               </div>
 
