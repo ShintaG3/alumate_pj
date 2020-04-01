@@ -1,8 +1,12 @@
 from django import forms
-from .models import BasicInfo, current_status
+from datetime import date
+from .models import BasicInfo, CurrentStatus
 
 class BasicInfoForm(forms.ModelForm):
-    status = forms.RadioSelect(choices=current_status)
+    current_year = date.today().year
+    status = forms.CharField(widget=forms.RadioSelect(choices=CurrentStatus.choices))
+    school_start_year = forms.ChoiceField(choices=[("*", "Still planning")]  + [(x, x) for x in range(1940, current_year+4)])
+    school_end_year = forms.ChoiceField(choices=[("*", "Still planning")] + [(x, x) for x in range(1940, current_year+10)])
     
     class Meta:
         model = BasicInfo
