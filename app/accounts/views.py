@@ -8,6 +8,17 @@ from django.views.generic import FormView
 
 
 # Create your views here.
+class BaseInquiryView(FormView):
+    template_name = 'account/base-inquiry.html'
+    form_class = BasicInfoForm
+    success_url = '/feed/'
+    
+    def form_valid(self, form):
+        basic_info = form.save(commit=False)
+        basic_info.user = self.request.user
+        basic_info.save()
+        return super().form_valid(form)
+
 class AccountView(TemplateView):
     template_name = 'account/account.html'
     

@@ -9,20 +9,10 @@ from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
 
 
-class BaseInquiryView(FormView):
-    template_name = "auths/base-inquiry.html"
-    form_class = BaseInfoForm
-    success_url = reverse_lazy('auths:baseConnect')
-    
-    def form_valid(self, form):
-        form.save()
-        return super().form_valid(form)
-
-
 class SignupView(FormView):
     template_name = "auths/register.html"
     form_class = SignUpForm
-    success_url = reverse_lazy('auths:baseInquiry')
+    success_url = reverse_lazy('accounts:base-inquiry')
     
     def form_valid(self, form):
         form.save()

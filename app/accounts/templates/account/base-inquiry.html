@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load widget_tweaks  %}
 {% block navbar %}
 {% include 'include/nav-trans.html' %}
 {% endblock %}
@@ -28,7 +29,7 @@
               </div>
               <div class="card-body px-lg-5 py-lg-5">
                 
-                <form action="{% url 'auths:baseInquiry' %}" method="POST">
+                <form action="" method="POST">
                   {% if form.errors %}
                 {% for error in form.errors %}
                 <div class="alert alert-danger">
@@ -41,6 +42,14 @@
                 {% endif %}
                   {% csrf_token %}
                   <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                      </div>
+                      {% render_field form.name class+="form-control" placeholder="Name..." %}
+                    </div>
+                  </div>
+                  <div class="form-group">
                     <div class="input-group input-group-alternative mb-3" style="background-color: #fff;">
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
@@ -49,7 +58,12 @@
                           <legend class="col-form-label">
                             Status
                           </legend>
-                          {% for choice in form.status.field.choices %}
+                          {% for choice in form.status %}
+                          <div class="form-check form-check-radio">
+                            {{ choice }}
+                          </div>
+                          {% endfor %}
+                          {% comment %} {% for choice in form.status %}
                           <div class="form-check form-check-radio form-check-inline">
                             <label class="form-check-label">
                               <input class="form-check-input" type="radio" name="status" id="id_status" value="{{choice.0}}">
@@ -59,7 +73,7 @@
                               </span>
                             </label>
                           </div>
-                          {% endfor %}
+                          {% endfor %} {% endcomment %}
                       </fieldset>
                       </div>
                   </div>
@@ -69,7 +83,7 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                       </div>
-                      {{ form.school }}
+                      {% render_field form.country_origin class+="form-control" placeholder="Country of origin..." %}
                     </div>
                   </div>
                   <div class="form-group">
@@ -77,7 +91,7 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                       </div>
-                      {{ form.country }}
+                      {% render_field form.country_study_abroad class+="form-control" placeholder="Study abroad country..." %}
                     </div>
                   </div>
                   <div class="form-group">
@@ -85,7 +99,7 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                       </div>
-                      {{ form.course }}
+                      {% render_field form.school class+="form-control" placeholder="Study abroad school..." %}
                     </div>
                   </div>
                   <div class="form-group">
@@ -93,23 +107,34 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                       </div>
-                      {{ form.year_of_abroad_study }}
+                      {% render_field form.major class+="form-control" placeholder="Major e.g. MSc Economics..." %}
                     </div>
                   </div>
                   <div class="form-group">
+                    <label>Start year</label>
                     <div class="input-group input-group-alternative mb-3">
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                       </div>
-                      {{ form.job_before_abroad_study }}
+                      {% render_field form.school_start_year class+="form-control" placeholder="Start year" %}
                     </div>
                   </div>
                   <div class="form-group">
+                    <label>Graduate year</label>
                     <div class="input-group input-group-alternative mb-3">
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                       </div>
-                      {{ form.job_after_abroad_study }}
+                      {% render_field form.school_end_year class+="form-control" placeholder="Graduate year" %}
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>Living city</label>
+                    <div class="input-group input-group-alternative mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                      </div>
+                      {% render_field form.living_city class+="form-control" placeholder="Living city e.g. Boston..." %}
                     </div>
                   </div>
                   
