@@ -26,12 +26,20 @@
     height: 38px;
 }
 
+.media p {
+    line-height: 1.61em;
+    font-size: .85em;
+}
+.lead {
+    line-height: 1.61em;
+    font-size: 1rem;
+}
+
 /* media */
 @media (min-width: 576px) {
     .sticky-header.fixed {
         width: calc(540px * 0.75 - 10rem);
     }
-
 }
 
 @media (min-width: 768px) {
@@ -42,6 +50,15 @@
         width: 48px;
         height: 48px;
     }
+    .media p {
+        line-height: 1.7em;
+        font-size: 1rem;
+    }
+    .lead {
+        line-height: 1.7em;
+        font-size: 1.25rem;
+    }
+}
 }
 
 @media (min-width: 992px) {
@@ -52,6 +69,14 @@
         width: 64px;
         height: 64px;
     }
+    .media p {
+    line-height: 1.7em;
+    font-size: 1rem;
+    }
+    .lead {
+        line-height: 1.7em;
+        font-size: 1.25rem;
+    }
 }
 
 @media (min-width: 1200px) {
@@ -61,6 +86,14 @@
     .media .avatar {
         width: 64px;
         height: 64px;
+    }
+    .media p {
+    line-height: 1.7em;
+    font-size: 1rem;
+    }
+    .lead {
+        line-height: 1.7em;
+        font-size: 1.25rem;
     }
 }
 </style>
@@ -104,7 +137,7 @@
 {% block content %}
     <div class="container pt-lg">
             <div class="row justify-content-center">
-                <div class="col-sm-9 col-12">
+                <div class="col-sm-10 col-12">
                     <div class="card card-blog">
                         <img class="img pattern rounded" src="{% static 'img/ill/presentation_bg.png' %}"
                             style="margin-top: -51%;">
@@ -228,7 +261,7 @@
                                                         class="text-muted">7 minutes ago</small>
                                                 </div>
                                                 <h6 class="text-muted"></h6>
-                                                <p>Chance too good. God level bars. I'm so proud of @LifeOfDesiigner #1
+                                                <p class="font-size">Chance too good. God level bars. I'm so proud of @LifeOfDesiigner #1
                                                     song in the country. Panda!
                                                     Don't be scared of the truth because we need to restart the human
                                                     foundation in truth I stand with
