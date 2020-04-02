@@ -471,10 +471,11 @@
                 <!--     Alumate Status -->
                 <div class="form-group focused">
                   <label>Alumate Status</label>
-                  {% for choice in basic_info_form.status %}
-                  <div class="custom-control custom-radio mb-3">
-                    {{ choice }}
-                  </div>
+                  {% for radio in basic_info_form.status %}
+                    <div class="custom-control custom-radio mb-3">
+                      {{ radio.tag }}
+                      <label class="custom-control-label" for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                    </div>
                   {% endfor %}
                 </div>
                 <!--  Country of origin -->

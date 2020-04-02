@@ -58,22 +58,12 @@
                           <legend class="col-form-label">
                             Status
                           </legend>
-                          {% for choice in form.status %}
-                          <div class="form-check form-check-radio">
-                            {{ choice }}
-                          </div>
+                          {% for radio in form.status %}
+                            <div class="custom-control custom-radio mb-3">
+                              {{ radio.tag }}
+                              <label class="custom-control-label" for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                            </div>
                           {% endfor %}
-                          {% comment %} {% for choice in form.status %}
-                          <div class="form-check form-check-radio form-check-inline">
-                            <label class="form-check-label">
-                              <input class="form-check-input" type="radio" name="status" id="id_status" value="{{choice.0}}">
-                              {{choice.0}}
-                              <span class="circle">
-                                <span class="check"></span>
-                              </span>
-                            </label>
-                          </div>
-                          {% endfor %} {% endcomment %}
                       </fieldset>
                       </div>
                   </div>
