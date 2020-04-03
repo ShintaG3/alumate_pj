@@ -154,6 +154,13 @@ class BasicInfoUpdateView(View):
     form_class = BasicInfoForm
     
     def post(self, request, *args, **kwargs):
+        user = request.user
+        try:
+            basic_info = BasicInfo.objects.get(user=user)
+        except BasicInfo.DoesNotExist:
+            basic_info = None
+        form = self.form_class(request.POST, instance=basic_info)
+        
         form = self.form_class(request.POST)
         if form.is_valid:
             basic_info = form.save(commit=False)
@@ -349,7 +356,7 @@ class ProfileView(View):
         user = request.user
         
         try:
-            profile = Profile.objects.get(pk=pk)
+            profile = Profile.objects.get(user=user)
             if request.POST.get('delete') is not None:
                 profile.delete()
                 return redirect('/accounts/' + user.username)
