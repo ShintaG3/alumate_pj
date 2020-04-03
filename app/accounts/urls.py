@@ -1,6 +1,6 @@
 from django.urls import path, include
 from django.views.generic import TemplateView
-from .views import BaseInquiryView, AccountView, BasicInfoUpdateView, GoalUpdateView, StudyInterestUpdateView, AboutUpdateView
+from .views import *
 
 app_name="accounts"
 
@@ -12,6 +12,11 @@ urlpatterns = [
     path('<str:username>/update/goals', GoalUpdateView.as_view(), name="update-goals"),
     path('<str:username>/update/study-interests', StudyInterestUpdateView.as_view(), name="update-study-interests"),
     path('<str:username>/update/about', AboutUpdateView.as_view(), name="update-about"),
+    path('<str:username>/update/education', EducationUpdateView.as_view(), name="update-education"),
+    path('<str:username>/update/education/<int:pk>', EducationUpdateView.as_view(), name="update-education"),
+    path('<str:username>/update/work', WorkExperienceUpdateView.as_view(), name="update-work"),
+    path('<str:username>/update/work/<int:pk>', WorkExperienceUpdateView.as_view(), name="update-work"),
+    
     path('<str:username>/', AccountView.as_view(), name="account-page"),
 ]
 

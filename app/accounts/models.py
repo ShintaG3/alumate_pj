@@ -72,38 +72,44 @@ class About(models.Model):
       
     
 
-# class EducationStatus(models.TextChoices):
-#     CURRENT = 'C', _('I am studying at this school now'),
-#     PAST = 'P', _('I studied at this school'),
-#     FUTURE = 'F', _('I am going to study at this school'),
-#     TARGET = 'T', _('This is my target school'),
-
-# class Education(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     school = models.CharField(max_length=50)
-#     major = models.CharField(max_length=50)
-#     status = models.CharField(max_length=30, choices=EducationStatus.choices, default=EducationStatus.CURRENT)
-#     start_year =  models.CharField(max_length=20, null=True, blank=True)
-#     end_year = models.CharField(max_length=20, null=True, blank=True)
+class EducationStatus(models.TextChoices):
+    CURRENT = 'C', _('I am currently studying at this school'),
+    PAST = 'P', _('I studied at this school'),
+    FUTURE = 'F', _('I am going to study at this school'),
+    TARGET = 'T', _('This is my target school'),
     
-#     def __str__(self):
-#         return self.name + ' worked at ' + self.company + ' as ' + self.position 
 
-class WorkExperience(models.Model):
+class History(models.Model):
+    start_year =  models.CharField(max_length=20, null=True, blank=True)
+    end_year = models.CharField(max_length=20, null=True, blank=True)
+    
+    class Meta:
+        abstract = True
+        ordering= ['-end_year',]
+    
+class Education(History):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    school = models.CharField(max_length=50)
+    major = models.CharField(max_length=50)
+    # status = models.CharField(max_length=30, choices=EducationStatus.choices, default=EducationStatus.CURRENT)
+    
+    def __str__(self):
+        return self.user.username + "'s education at " + self.school
+
+
+class WorkStatus(models.TextChoices):
+    PAST = 'P', _('I worked at this company'),
+    CURRENT = 'C', _('I am currently working at this company'),
+    TARGET = 'T', _('This is my target company'),
+
+class WorkExperience(History):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     company = models.CharField(max_length=30) 
     position = models.CharField(max_length=30)
-    start_year = models.IntegerField(
-        validators = [MaxValueValidator(current_year), MinValueValidator(1970)]
-    )
-    end_year = models.IntegerField(
-        validators = [MaxValueValidator(current_year), MinValueValidator(1970)],
-        null=True, blank=True
-    )
-    is_present = models.BooleanField()
+    # status = models.CharField(max_length=30, choices=WorkStatus.choices, default=WorkStatus.PAST)
     
     def __str__(self):
-        return self.name + ' worked at ' + self.company + ' as ' + self.position 
+        return self.user.username + ' worked at ' + self.company + ' as ' + self.position 
     
 class Scholarship(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

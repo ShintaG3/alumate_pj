@@ -1,6 +1,8 @@
 from django import forms
 from datetime import date
-from .models import BasicInfo, CurrentStatus, About
+from .models import BasicInfo, CurrentStatus, About, Education, WorkExperience, EducationStatus, WorkStatus
+
+current_year = date.today().year
 
 class BasicInfoForm(forms.ModelForm):
     current_year = date.today().year
@@ -28,3 +30,21 @@ class AboutForm(forms.ModelForm):
     class Meta:
         model = About
         fields = ('body',)
+        
+class EducationForm(forms.ModelForm):
+    # status = forms.CharField(widget=forms.RadioSelect(attrs={'class': 'custom-control-input'}, choices=EducationStatus.choices))
+    start_year = forms.ChoiceField(choices=[("*", "Still planning")]  + [(x, x) for x in range(1940, current_year+4)])
+    end_year = forms.ChoiceField(choices=[("*", "Still planning")] + [(x, x) for x in range(1940, current_year+10)])
+
+    class Meta:
+        model = Education
+        fields = ('school', 'major', 'start_year', 'end_year')
+        
+class WorkExperienceForm(forms.ModelForm):
+    # status = forms.CharField(widget=forms.RadioSelect(attrs={'class': 'custom-control-input'}, choices=WorkStatus.choices))
+    start_year = forms.ChoiceField(choices=[("*", "Still planning")]  + [(x, x) for x in range(1940, current_year+4)])
+    end_year = forms.ChoiceField(choices=[("*", "Still planning")] + [(x, x) for x in range(1940, current_year+10)])
+
+    class Meta:
+        model = WorkExperience
+        fields = ('company', 'position', 'start_year', 'end_year')
