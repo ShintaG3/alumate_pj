@@ -124,6 +124,20 @@
   <script>
     let agree_to_policy = document.getElementById('customCheckRegister');
     let registerUser = document.getElementById('registerUser');
+    const password2 = document.getElementById('id_password2');
+    const password1 = document.getElementById('id_password1');
+    password2.addEventListener('input', checkPasswordMatch);
+
+    function checkPasswordMatch(e) {
+      //let pwd1 = password1.target.value;
+      if (e.target.value == password1.value) {
+        password2.style.backgroundColor = '#4dff4d';
+      }
+      else {
+        password2.style.backgroundColor = '#ffc2b3';
+      }
+    }
+
     agree_to_policy.onclick = function (){
       if (agree_to_policy.checked == true) {
         registerUser.disabled = false;
