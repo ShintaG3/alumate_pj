@@ -526,7 +526,11 @@
   <!-- Modals for editStudyAbroad -->
   <div class="modal fade" id="editStudyAbroad" tabindex="-1" role="dialog" aria-labelledby="editStudyAbroad"
     aria-hidden="true">
+    {% if education_already_added %}
+    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+    {% else %}
     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    {% endif %}
       <div class="modal-content">
         <div class="modal-body p-0">
           <div class="card bg-secondary shadow border-0 mb-0">
