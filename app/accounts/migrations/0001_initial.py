@@ -133,11 +133,7 @@ class Migration(migrations.Migration):
                 ('status', models.CharField(choices=[('FU', 'Future Student'), ('CU', 'Current Student'), ('AL', 'Alumni')], default='CU', max_length=20)),
                 ('country_origin', models.CharField(blank=True, max_length=50, null=True)),
                 ('country_study_abroad', models.CharField(blank=True, max_length=50, null=True)),
-                ('school', models.CharField(blank=True, max_length=50, null=True)),
-                ('major', models.CharField(blank=True, max_length=50, null=True)),
-                ('school_start_year', models.IntegerField(blank=True, null=True)),
-                ('school_end_year', models.IntegerField(blank=True, null=True)),
-                ('living_city', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='accounts.City')),
+                # ('living_city', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='accounts.City')),
             ],
         ),
         migrations.CreateModel(

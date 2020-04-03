@@ -35,15 +35,7 @@ class BasicInfo(models.Model):
     status = models.CharField(max_length=20, choices=CurrentStatus.choices, default=CurrentStatus.CURRENT_STUDENT)
     country_origin = models.CharField(max_length=50, null=True, blank=True)
     country_study_abroad = models.CharField(max_length=50, null=True, blank=True)
-    school = models.CharField(max_length=50, null=True, blank=True)
-    major = models.CharField(max_length=50, null=True, blank=True)
-    school_start_year = models.IntegerField(
-        null=True, blank=True
-    )
-    school_end_year = models.IntegerField(
-        null=True, blank=True
-    )
-    living_city = models.ForeignKey('City', on_delete=models.SET_NULL, null=True, blank=True)
+    # living_city = models.ForeignKey('City', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.user.username

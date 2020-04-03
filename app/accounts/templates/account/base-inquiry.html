@@ -22,23 +22,22 @@
         <div class="row justify-content-center">
           <div class="col-lg-5">
             <div class="card bg-secondary shadow border-0">
-              <div class="card-header bg-white pb-5">
+              <div class="card-header bg-white pb-3">
                 <div class="text-center">
-                  <h3>Tell me your study abroad</h3>
+                  <h3>Tell us about yourself</h3>
                 </div>
               </div>
               <div class="card-body px-lg-5 py-lg-5">
-                
                 <form action="" method="POST">
-                  {% if form.errors %}
-                {% for error in form.errors %}
-                <div class="alert alert-danger">
-                  <div class="container">
-                    <b>Error Alert:</b>
-                    {{ error }} 
+                {% if form.errors %}
+                  {% for error in form.errors %}
+                  <div class="alert alert-danger">
+                    <div class="container">
+                      <b>Error Alert:</b>
+                      {{ error }} 
+                    </div>
                   </div>
-                </div>
-                {% endfor %}
+                  {% endfor %}
                 {% endif %}
                   {% csrf_token %}
                   <div class="form-group">
@@ -85,52 +84,6 @@
                       {% render_field form.country_study_abroad class+="form-control" placeholder="Study abroad country..." %}
                     </div>
                   </div>
-                  <div class="form-group">
-                    <label>School for study abroad</label>
-                    <div class="input-group input-group-alternative mb-3">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
-                      </div>
-                      {% render_field form.school class+="form-control" placeholder="Study abroad school..." %}
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label>Major</label>
-                    <div class="input-group input-group-alternative mb-3">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
-                      </div>
-                      {% render_field form.major class+="form-control" placeholder="Major e.g. MSc Economics..." %}
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label>Start year</label>
-                    <div class="input-group input-group-alternative mb-3">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
-                      </div>
-                      {% render_field form.school_start_year class+="form-control" placeholder="Start year" %}
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label>Graduate year</label>
-                    <div class="input-group input-group-alternative mb-3">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
-                      </div>
-                      {% render_field form.school_end_year class+="form-control" placeholder="Graduate year" %}
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label>Living city</label>
-                    <div class="input-group input-group-alternative mb-3">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
-                      </div>
-                      {% render_field form.living_city class+="form-control" placeholder="Living city e.g. Boston..." %}
-                    </div>
-                  </div>
-                  
                   <div class="text-center">
                     <button type="submit" class="btn btn-primary mt-4">Next</button>
                   </div>

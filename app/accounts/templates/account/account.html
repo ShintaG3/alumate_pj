@@ -500,48 +500,7 @@
                     {% comment %} <input class="form-control" placeholder="Study abroad country..." type="text"> {% endcomment %}
                   </div>
                 </div>
-                <!--     Study abroad school -->
-                <div class="form-group focused">
-                  <label>Study abroad school</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
-                    </div>
-                    {% render_field basic_info_form.school class+="form-control" placeholder="Study abroad school..." %}
-                    {% comment %} <input class="form-control" placeholder="Study abroad school..." type="text"> {% endcomment %}
-                  </div>
-                </div>
-                <!--     Study abroad Major -->
-                <div class="form-group focused">
-                  <label>Major</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
-                    </div>
-                    {% render_field basic_info_form.major class+="form-control" placeholder="Major e.g. MSc Economics..." %}
-                  </div>
-                </div>
-                <!--     Study abroad start year -->
-                <div class="form-group focused">
-                  <label>Study from</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                    </div>
-                    {% render_field basic_info_form.school_start_year class+="form-control" name="Start year" %}
-                  </div>
-                </div>
-                <!--     Study abroad end year -->
-                <div class="form-group focused">
-                  <label>Study until</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                    </div>
-                    {% render_field basic_info_form.school_end_year class+="form-control" name="Graduate year" %}
-                  </div>
-                </div>
-                <!--     Living city -->
+                {% comment %} <!--     Living city -->
                 <div class="form-group focused">
                   <label>Living city (optional)</label>
                   <div class="input-group input-group-alternative">
@@ -550,7 +509,7 @@
                     </div>
                     {% render_field basic_info_form.living_city class+="form-control" placeholder="Living city e.g. Boston..." %}
                   </div>
-                </div>
+                </div> {% endcomment %}
                 <!-- Button -->
                 <div class="text-center">
                   <button type="submit" class="btn btn-primary my-4">Save changes</button>
@@ -1318,7 +1277,7 @@
                 <div class="h5">{{ basic_info.school }}</div>
                 <div class="font-weight-500">{{ basic_info.major}}</div>
                 <div class="text-muted font-weight-300"><small>{{ basic_info.school_start_year }} ~ {{ basic_info.school_end_year }}</small></div>
-                <div class="font-weight-400 mt-4"><i class="ni ni-pin-3 mr-2"></i>{{ basic_info.living_city }}</div>
+                {% comment %} <div class="font-weight-400 mt-4"><i class="ni ni-pin-3 mr-2"></i>{{ basic_info.living_city }}</div> {% endcomment %}
               </div>
 
               <!-- About -->
