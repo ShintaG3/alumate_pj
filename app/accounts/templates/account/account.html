@@ -1311,106 +1311,6 @@
                 <div class="font-weight-400 mt-4"><i class="ni ni-pin-3 mr-2"></i>{{ basic_info.living_city }}</div>
               </div>
 
-              <!-- Goals-->
-              <div class="mt-5 pt-4 border-top"></div>
-              <!-- "editGoals" -->
-              {% if has_edit_permission and goals %}
-              <div class="row justify-content-end">
-                <div class="col text-right">
-                  <!-- Button trigger modal -->
-                  <span data-toggle="modal" data-target="#editGoals" data-toggle="tooltip" data-placement="top"
-                    data-container="body" data-animation="true">
-                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
-                      data-toggle="tooltip" data-original-title="Edit Goals">
-                      <i class="ni ni-settings-gear-65 text-gray"></i>
-                    </a>
-                  </span>
-                </div>
-              </div>
-              {% endif %}
-              <!-- display Goals -->
-              <div class="row mb-3">
-                <div class="col">
-                  <div class="icon icon-sm icon-shape icon-shape-success shadow rounded-circle mr-2">
-                    <i class="fa fa-flag text-success"></i>
-                  </div>
-                  <span class="h5 font-weight-bold text-muted text-uppercase">Goals</span>
-                </div>
-              </div>
-              {% if not goals %}
-                <div class="row mb-2 justify-content-end">
-                  <div class="col text-right">
-                    <!-- Button trigger modal -->
-                    <span data-toggle="modal" data-target="#editGoals" data-toggle="tooltip" data-placement="top"
-                      data-container="body" data-animation="true">
-                      <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
-                        data-toggle="tooltip" data-original-title="Add Goals">
-                        <i class="fa fa-plus text-gray"></i>
-                      </a>
-                    </span>
-                  </div>
-                </div>
-              {% endif %}
-              <div class="row mb-5">
-                <div class="col">
-                  {% for goal in goals %}
-                    <a href="">
-                      <span class="badge mr-1 mb-1 badge-success">{{ goal }}</span>
-                    </a>
-                  {% endfor %}
-                </div>
-              </div>
-              
-
-              <!-- Study Interests -->
-              <!-- "editStudyInterests" -->
-              {% if has_edit_permission and study_interests %}
-              <div class="row justify-content-end">
-                <div class="col text-right">
-                  <!-- Button trigger modal -->
-                  <span data-toggle="modal" data-target="#editStudyInterests" data-toggle="tooltip" data-placement="top"
-                    title="Edit Study Interests" data-container="body" data-animation="true">
-                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
-                      data-toggle="tooltip" data-original-title="Edit Study Interests">
-                      <i class="ni ni-settings-gear-65 text-gray"></i>
-                    </a>
-                  </span>
-                </div>
-              </div>
-              {% endif %}
-              <!-- display study interests -->
-              <div class="row mb-3">
-                <div class="col">
-                  <div class="icon icon-sm icon-shape icon-shape-danger shadow rounded-circle mr-2">
-                    <i class="ni ni-books text-danger"></i>
-                  </div>
-                  <span class="h5 font-weight-bold text-muted text-uppercase">Study Interests</span>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col">
-                  {% for study_interest in study_interests %}
-                  <a href="">
-                    <span class="badge mr-1 mb-1 badge-danger">{{ study_interest }}</span>
-                  </a>
-                  {% endfor %}
-                </div>
-              </div> 
-              {% if not study_interests %}
-                <div class="row mb-2 justify-content-end">
-                  <div class="col text-right">
-                    <!-- Button trigger modal -->
-                    <span data-toggle="modal" data-target="#editStudyInterests" data-toggle="tooltip" data-placement="top"
-                      data-container="body" data-animation="true">
-                      <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
-                        data-toggle="tooltip" data-original-title="Add Study Interests">
-                        <i class="fa fa-plus text-gray"></i>
-                      </a>
-                    </span>
-                  </div>
-                </div>
-              {% endif %}
-
               <!-- About -->
               <div class="mt-5 pt-4 border-top"></div>
               <!-- "editAbout" -->
@@ -1457,7 +1357,6 @@
                 </div>
               </div>
               
-
               <!-- Works & Educations -->
               <div class="mt-4 pt-4 border-top"></div>
                 {% if has_edit_permission and not exp_history %}
@@ -1563,6 +1462,108 @@
                   </div>
                 </div>
               </div>
+
+              <!-- Goals-->
+              <div class="mt-5 pt-4 border-top"></div>
+              <!-- "editGoals" -->
+              {% if has_edit_permission and goals %}
+              <div class="row justify-content-end">
+                <div class="col text-right">
+                  <!-- Button trigger modal -->
+                  <span data-toggle="modal" data-target="#editGoals" data-toggle="tooltip" data-placement="top"
+                    data-container="body" data-animation="true">
+                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                      data-toggle="tooltip" data-original-title="Edit Goals">
+                      <i class="ni ni-settings-gear-65 text-gray"></i>
+                    </a>
+                  </span>
+                </div>
+              </div>
+              {% endif %}
+              <!-- display Goals -->
+              <div class="row mb-3">
+                <div class="col">
+                  <div class="icon icon-sm icon-shape icon-shape-success shadow rounded-circle mr-2">
+                    <i class="fa fa-flag text-success"></i>
+                  </div>
+                  <span class="h5 font-weight-bold text-muted text-uppercase">Goals</span>
+                </div>
+              </div>
+              {% if not goals %}
+                <div class="row mb-2 justify-content-end">
+                  <div class="col text-right">
+                    <!-- Button trigger modal -->
+                    <span data-toggle="modal" data-target="#editGoals" data-toggle="tooltip" data-placement="top"
+                      data-container="body" data-animation="true">
+                      <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                        data-toggle="tooltip" data-original-title="Add Goals">
+                        <i class="fa fa-plus text-gray"></i>
+                      </a>
+                    </span>
+                  </div>
+                </div>
+              {% endif %}
+              <div class="row mb-5">
+                <div class="col">
+                  {% for goal in goals %}
+                    <a href="">
+                      <span class="badge mr-1 mb-1 badge-success">{{ goal }}</span>
+                    </a>
+                  {% endfor %}
+                </div>
+              </div>
+              
+
+              <!-- Study Interests -->
+              <!-- "editStudyInterests" -->
+              {% if has_edit_permission and study_interests %}
+              <div class="row justify-content-end">
+                <div class="col text-right">
+                  <!-- Button trigger modal -->
+                  <span data-toggle="modal" data-target="#editStudyInterests" data-toggle="tooltip" data-placement="top"
+                    title="Edit Study Interests" data-container="body" data-animation="true">
+                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                      data-toggle="tooltip" data-original-title="Edit Study Interests">
+                      <i class="ni ni-settings-gear-65 text-gray"></i>
+                    </a>
+                  </span>
+                </div>
+              </div>
+              {% endif %}
+              <!-- display study interests -->
+              <div class="row mb-3">
+                <div class="col">
+                  <div class="icon icon-sm icon-shape icon-shape-danger shadow rounded-circle mr-2">
+                    <i class="ni ni-books text-danger"></i>
+                  </div>
+                  <span class="h5 font-weight-bold text-muted text-uppercase">Study Interests</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  {% for study_interest in study_interests %}
+                  <a href="">
+                    <span class="badge mr-1 mb-1 badge-danger">{{ study_interest }}</span>
+                  </a>
+                  {% endfor %}
+                </div>
+              </div> 
+              {% if not study_interests %}
+                <div class="row mb-2 justify-content-end">
+                  <div class="col text-right">
+                    <!-- Button trigger modal -->
+                    <span data-toggle="modal" data-target="#editStudyInterests" data-toggle="tooltip" data-placement="top"
+                      data-container="body" data-animation="true">
+                      <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                        data-toggle="tooltip" data-original-title="Add Study Interests">
+                        <i class="fa fa-plus text-gray"></i>
+                      </a>
+                    </span>
+                  </div>
+                </div>
+              {% endif %}
+
+              
 
               <!-- Scholarships -->
               <div class="mt-5 pt-4 border-top"></div>
