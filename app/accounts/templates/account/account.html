@@ -1268,8 +1268,19 @@
               <!-- display Basic Info   -->
               {% if basic_info %}
                <div class="text-center mt-2">
-                <h3>{{ basic_info.name }}<img class="img-fluid rounded shadow ml-2" style="width: 1.75rem;"
-                    src="{% static 'img/brand/logo_current.png' %}"></h3>
+                <h3>
+                  {{ basic_info.name }}
+                  {% if basic_info.status == "FU"%}
+                   <img class="img-fluid rounded shadow ml-2" style="width: 1.75rem;"
+                    src="{% static 'img/brand/logo_future.png' %}" >
+                  {% elif basic_info.status == "CU" %}
+                  <img class="img-fluid rounded shadow ml-2" style="width: 1.75rem;"
+                    src="{% static 'img/brand/logo_current.png' %}">
+                  {% elif basic_info.status == "AL" %}
+                  <img class="img-fluid rounded shadow ml-2" style="width: 1.75rem;"
+                    src="{% static 'img/brand/logo_alumni.png' %}">
+                  {% endif %}
+                </h3>
                 <!-- future student logo => src="{% static 'img/brand/logo_future.png' %}"-->
                 <!-- alumuni logo => src="{% static 'img/brand/logo_alumni.png' %}"-->
                 <div class="text-muted font-weight-500 mt-3 mb-2">
