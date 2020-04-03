@@ -693,7 +693,7 @@
               </div>
             </div>
             <div class="card-body px-lg-5 py-lg-5">
-              <form action="{% url 'accounts:update-work' user.username %}" method="POST">
+              <form action="{% url 'accounts:add-work' user.username %}" method="POST">
                 {% csrf_token %}
                 <!-- Company -->
                 <div class="form-group mb-3 focused">
@@ -756,7 +756,7 @@
               </div>
             </div>
             <div class="card-body px-lg-5 py-lg-5">
-              <form action="{% url 'accounts:update-education' user.username %}" method="POST">
+              <form action="{% url 'accounts:add-education' user.username %}" method="POST">
                 {% csrf_token %}
                 <!-- School -->
                 <div class="form-group mb-3">
@@ -1440,14 +1440,16 @@
               </div>
             </div>
             <div class="card-body px-lg-5 py-lg-5">
-              <form role="form">
+              <form action="{% url 'accounts:add-social-link' user.username %}" method="POST">
+                {% csrf_token %}
                 <!-- Link title -->
-                <div class="form-group mb-3 focused"><label>Title</label>
+                <div class="form-group mb-3 focused">
+                  <label>Title</label>
                   <div class="input-group input-group-alternative">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-world"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Title..." type="text">
+                    {% render_field new_social_link_form.title class+="form-control" placeholder="Title..." %}
                   </div>
                 </div>
                 <!-- Link url -->
@@ -1456,12 +1458,12 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fa fa-link"></i></span>
                     </div>
-                    <input class="form-control" placeholder="URL..." type="text">
+                    {% render_field new_social_link_form.url class+="form-control" placeholder="URL..."  %}
                   </div>
                 </div>
                 <!-- Button -->
                 <div class="text-center">
-                  <button type="button" class="btn btn-primary my-4">Add</button>
+                  <button type="submit" class="btn btn-primary my-4">Add Social Link</button>
                   <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
                 </div>
               </form>
@@ -1472,51 +1474,58 @@
     </div>
   </div>
 
-  <!-- Modal "editSocialLink-1" -->
-  <div class="modal fade" id="editSocialLink-1" tabindex="-1" role="dialog" aria-labelledby="editSocialLink-1"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-      <div class="modal-content">
-        <div class="modal-body p-0">
-          <div class="card bg-secondary shadow border-0 mb-0">
-            <div class="card-header bg-secondary">
-              <div class="text-muted text-center">
-                <h6 class="text-muted my-0">Edit Social Link</h6>
+  <!-- Modal "editSocialLink" -->
+  {% for social_link in social_links %}
+    <div class="modal fade" id="editSocialLink-{{ social_link.value.id }}" tabindex="-1" role="dialog" aria-labelledby="editSocialLink-{{ social_link.value.id }}"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+          <div class="modal-body p-0">
+            <div class="card bg-secondary shadow border-0 mb-0">
+              <div class="card-header bg-secondary">
+                <div class="text-muted text-center">
+                  <h6 class="text-muted my-0">Edit Social Link</h6>
+                </div>
               </div>
-            </div>
-            <div class="card-body px-lg-5 py-lg-5">
-              <form role="form">
-                <!-- Link title -->
-                <div class="form-group mb-3 focused"><label>Title</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-world"></i></span>
+              <div class="card-body px-lg-5 py-lg-5">
+                <form action="{% url 'accounts:update-social-link' user.username social_link.value.id %}" method="POST">
+                  {% csrf_token %}
+                  <!-- Link title -->
+                  <div class="form-group mb-3 focused">
+                    <label>Title</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-world"></i></span>
+                      </div>
+                      {% render_field social_link.form.title class="form-control" placeholder="Title..." %}
                     </div>
-                    <input class="form-control" value="Blog" placeholder="Title..." type="text">
                   </div>
-                </div>
-                <!-- Link url -->
-                <div class="form-group mb-3 focused"><label>URL</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="fa fa-link"></i></span>
+                  <!-- Link url -->
+                  <div class="form-group mb-3 focused">
+                    <label>URL</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-link"></i></span>
+                      </div>
+                      {% render_field social_link.form.url class="form-control" placeholder="URL..." %}
                     </div>
-                    <input class="form-control" value="#####" placeholder="URL..." type="text">
                   </div>
-                </div>
-                <!-- Button -->
-                <div class="text-center">
-                  <button type="button" class="btn btn-primary my-4">Save change</button>
-                  <button type="button" class="btn btn-danger my-4">Delete</button>
-                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
-                </div>
-              </form>
+                  <!-- Button -->
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-primary my-4">Save change</button>
+                    <button type="submit" name="delete" class="btn btn-danger my-4">Delete</button>
+                    <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  {% endfor %}
+
+  
 
   <!-- Modal "editSocialLink-2" -->
   <div class="modal fade" id="editSocialLink-2" tabindex="-1" role="dialog" aria-labelledby="editSocialLink-2"
@@ -2109,34 +2118,22 @@
               <!-- display "Social Links" -->
               <div class="row mb-5">
                 <div class="col">
-                  <div class="row justify-content-between px-3">
-                    <a href="">
-                      <h6 class="btn-link">Blog</h6>
-                    </a>
-                    {% if has_edit_permission %}
-                    <!-- Button trigger modal -->
-                    <span data-toggle="modal" data-target="#editSocialLink-1" data-toggle="tooltip" data-placement="top"
-                      data-container="body" data-animation="true">
-                      <a type="button" data-toggle="tooltip" data-original-title="Edit Blog">
-                        <i class="fa fa-pencil text-gray"></i>
+                  {% for social_link in social_links %}
+                    <div class="row justify-content-between px-3">
+                      <a href="{{ social_link.value.url }}">
+                        <h6 class="btn-link">{{ social_link.value.title }}</h6>
                       </a>
-                    </span>
-                    {% endif %}
-                  </div>
-                  <div class="row justify-content-between px-3">
-                    <a href="">
-                      <h6 class="btn-link">Facebook</h6>
-                    </a>
-                    {% if has_edit_permission %}
-                    <!-- Button trigger modal -->
-                    <span data-toggle="modal" data-target="#editSocialLink-2" data-toggle="tooltip" data-placement="top"
-                      data-container="body" data-animation="true">
-                      <a type="button" data-toggle="tooltip" data-original-title="Edit Facebook">
-                        <i class="fa fa-pencil text-gray"></i>
-                      </a>
-                    </span>
-                    {% endif %}
-                  </div>
+                      {% if has_edit_permission %}
+                      <!-- Button trigger modal -->
+                      <span data-toggle="modal" data-target="#editSocialLink-{{ social_link.value.id }}" data-toggle="tooltip" data-placement="top"
+                        data-container="body" data-animation="true">
+                        <a type="button" data-toggle="tooltip" data-original-title="Edit Blog">
+                          <i class="fa fa-pencil text-gray"></i>
+                        </a>
+                      </span>
+                      {% endif %}
+                    </div>
+                  {% endfor %}
                 </div>
               </div>
 

@@ -56,3 +56,9 @@ class ScholarshipForm(forms.ModelForm):
     class Meta:
         model = Scholarship
         fields = ('organization', 'title', 'start_year', 'end_year')
+
+
+class SocialLinkForm(forms.ModelForm):
+    class Meta:
+        model = SocialLink
+        fields = ('title', 'url')

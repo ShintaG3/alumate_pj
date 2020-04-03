@@ -12,13 +12,14 @@ urlpatterns = [
     path('<str:username>/update/goals', GoalUpdateView.as_view(), name="update-goals"),
     path('<str:username>/update/study-interests', StudyInterestUpdateView.as_view(), name="update-study-interests"),
     path('<str:username>/update/about', AboutUpdateView.as_view(), name="update-about"),
-    path('<str:username>/update/education', EducationUpdateView.as_view(), name="update-education"),
+    path('<str:username>/add/education', EducationUpdateView.as_view(), name="add-education"),
     path('<str:username>/update/education/<int:pk>', EducationUpdateView.as_view(), name="update-education"),
-    path('<str:username>/update/work', WorkExperienceUpdateView.as_view(), name="update-work"),
+    path('<str:username>/add/work', WorkExperienceUpdateView.as_view(), name="add-work"),
     path('<str:username>/update/work/<int:pk>', WorkExperienceUpdateView.as_view(), name="update-work"),
-    path('<str:username>/update/scholarship/', ScholarShipView.as_view(), name="add-scholarship"),
+    path('<str:username>/add/scholarship/', ScholarShipView.as_view(), name="add-scholarship"),
     path('<str:username>/update/scholarship/<int:pk>', ScholarShipView.as_view(), name="update-scholarship"),
+    path('<str:username>/add/social-link', SocialLinkView.as_view(), name="add-social-link"),
+    path('<str:username>/update/social-link/<int:pk>', SocialLinkView.as_view(), name="update-social-link"),
     path('<str:username>/', AccountView.as_view(), name="account-page"),
-
 ]
 

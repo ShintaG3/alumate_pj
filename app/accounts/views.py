@@ -48,6 +48,9 @@ class AccountView(TemplateView):
         scholarships = Scholarship.objects.filter(user=user)
         scholarship_history = self.get_scholarship_history(scholarships)
         
+        social_links = SocialLink.objects.filter(user=user)
+        social_link_lists = self.get_social_link_lists(social_links)
+        
         context = {
             'user': user,
             'has_edit_permission': has_edit_permission,
@@ -64,6 +67,8 @@ class AccountView(TemplateView):
             'exp_history': exp_history,
             'scholarship_history': scholarship_history,
             'new_scholarship_form': ScholarshipForm(),
+            'social_links': social_link_lists,
+            'new_social_link_form': SocialLinkForm(),
         }
         return context
     
@@ -110,8 +115,15 @@ class AccountView(TemplateView):
                 'form': ScholarshipForm(instance=scholarship)
             })
         return history
-        
-        
+    
+    def get_social_link_lists(self, social_links):
+        social_link_lists = []
+        for social_link in social_links:
+            social_link_lists.append({
+                'value': social_link,
+                'form': SocialLinkForm(instance=social_link)
+            })
+        return social_link_lists
                                 
 class BasicInfoUpdateView(View):
     form_class = BasicInfoForm
@@ -277,5 +289,30 @@ class ScholarShipView(View):
             scholarship = form.save(commit=False)
             scholarship.user = request.user
             scholarship.save()
+        
+        return redirect('/accounts/' + user.username)
+
+
+class SocialLinkView(View):
+    form_class = SocialLinkForm
+    
+    def post(self, request, pk=None, *args, **kwargs):
+        user = request.user
+        
+        try:
+            social_link = SocialLink.objects.get(pk=pk)
+            if request.POST.get('delete') is not None:
+                social_link.delete()
+                return redirect('/accounts/' + user.username)
+            
+        except SocialLink.DoesNotExist:
+            social_link = None
+        
+        form = self.form_class(request.POST, instance=social_link)
+       
+        if form.is_valid:
+            social_link = form.save(commit=False)
+            social_link.user = request.user
+            social_link.save()
         
         return redirect('/accounts/' + user.username)
