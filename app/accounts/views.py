@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, redirect, render
-from .forms import BasicInfoForm, AboutForm, EducationForm, WorkExperienceForm
+from .forms import *
 from .models import BasicInfo, Goal, StudyInterest, About, Education, WorkExperience
 from django.views.generic.base import TemplateView
 from django.contrib.auth.models import User
@@ -43,7 +43,10 @@ class AccountView(TemplateView):
         
         educations = Education.objects.filter(user=user)
         workexperiences = WorkExperience.objects.filter(user=user)
-        history = self.get_history_list(educations=educations, workexperiences=workexperiences)
+        exp_history = self.get_exp_history(educations, workexperiences)
+        
+        scholarships = Scholarship.objects.filter(user=user)
+        scholarship_history = self.get_scholarship_history(scholarships)
         
         context = {
             'user': user,
@@ -58,11 +61,13 @@ class AccountView(TemplateView):
             'about_form': AboutForm(instance=about),
             'new_education_form': EducationForm(),
             'new_work_form': WorkExperienceForm(),
-            'history': history
+            'exp_history': exp_history,
+            'scholarship_history': scholarship_history,
+            'new_scholarship_form': ScholarshipForm(),
         }
         return context
     
-    def get_history_list(self, educations, workexperiences):
+    def get_exp_history(self, educations, workexperiences):
         m = len(educations)
         n = len(workexperiences)
         i= 0
@@ -96,10 +101,18 @@ class AccountView(TemplateView):
 
         return history
     
+    def get_scholarship_history(self, scholarships):
+        history = []
+        for scholarship in scholarships:
+            history.append(
+            {
+                'value': scholarship,
+                'form': ScholarshipForm(instance=scholarship)
+            })
+        return history
+        
+        
                                 
-            
-
-
 class BasicInfoUpdateView(View):
     form_class = BasicInfoForm
     
@@ -239,5 +252,30 @@ class WorkExperienceUpdateView(View):
             workexp = form.save(commit=False)
             workexp.user = request.user
             workexp.save()
+        
+        return redirect('/accounts/' + user.username)
+    
+
+class ScholarShipView(View):
+    form_class = ScholarshipForm
+    
+    def post(self, request, pk=None, *args, **kwargs):
+        user = request.user
+        
+        try:
+            scholarship = Scholarship.objects.get(pk=pk)
+            if request.POST.get('delete') is not None:
+                scholarship.delete()
+                return redirect('/accounts/' + user.username)
+            
+        except Scholarship.DoesNotExist:
+            scholarship = None
+        
+        form = self.form_class(request.POST, instance=scholarship)
+       
+        if form.is_valid:
+            scholarship = form.save(commit=False)
+            scholarship.user = request.user
+            scholarship.save()
         
         return redirect('/accounts/' + user.username)

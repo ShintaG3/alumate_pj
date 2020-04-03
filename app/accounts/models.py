@@ -69,8 +69,6 @@ class About(models.Model):
     
     def __str__(self):
         return self.user.username + "'s about: " + self.body
-      
-    
 
 class EducationStatus(models.TextChoices):
     CURRENT = 'C', _('I am currently studying at this school'),
@@ -85,7 +83,7 @@ class History(models.Model):
     
     class Meta:
         abstract = True
-        ordering= ['-end_year',]
+        ordering= ['-end_year', '-start_year']
     
 class Education(History):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -111,11 +109,9 @@ class WorkExperience(History):
     def __str__(self):
         return self.user.username + ' worked at ' + self.company + ' as ' + self.position 
     
-class Scholarship(models.Model):
+class Scholarship(History):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     organization = models.CharField(max_length=100)
-    year_from = models.IntegerField()
-    year_to = models.IntegerField()
     title = models.CharField(max_length=100)
 
 

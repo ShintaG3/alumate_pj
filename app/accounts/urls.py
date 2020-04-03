@@ -16,7 +16,9 @@ urlpatterns = [
     path('<str:username>/update/education/<int:pk>', EducationUpdateView.as_view(), name="update-education"),
     path('<str:username>/update/work', WorkExperienceUpdateView.as_view(), name="update-work"),
     path('<str:username>/update/work/<int:pk>', WorkExperienceUpdateView.as_view(), name="update-work"),
-    
+    path('<str:username>/update/scholarship/', ScholarShipView.as_view(), name="add-scholarship"),
+    path('<str:username>/update/scholarship/<int:pk>', ScholarShipView.as_view(), name="update-scholarship"),
     path('<str:username>/', AccountView.as_view(), name="account-page"),
+
 ]
 

@@ -1,6 +1,6 @@
 from django import forms
 from datetime import date
-from .models import BasicInfo, CurrentStatus, About, Education, WorkExperience, EducationStatus, WorkStatus
+from .models import *
 
 current_year = date.today().year
 
@@ -48,3 +48,11 @@ class WorkExperienceForm(forms.ModelForm):
     class Meta:
         model = WorkExperience
         fields = ('company', 'position', 'start_year', 'end_year')
+        
+class ScholarshipForm(forms.ModelForm):
+    start_year = forms.ChoiceField(choices=[(x, x) for x in range(1940, current_year+4)])
+    end_year = forms.ChoiceField(choices=[(x, x) for x in range(1940, current_year+10)])
+
+    class Meta:
+        model = Scholarship
+        fields = ('organization', 'title', 'start_year', 'end_year')

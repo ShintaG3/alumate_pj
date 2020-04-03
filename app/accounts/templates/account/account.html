@@ -816,7 +816,7 @@
   </div>
 
   <!-- Modal "edit work experience and education" -->
-  {% for exp in history %}
+  {% for exp in exp_history %}
     {% if exp.is_work %}
       <!-- Modal "editWork" -->
       <div class="modal fade" id="editWork-{{exp.value.id}}" tabindex="-1" role="dialog" aria-labelledby="editWork-{{exp.value.id}}" aria-hidden="true">
@@ -1300,14 +1300,25 @@
               </div>
             </div>
             <div class="card-body px-lg-5 py-lg-5">
-              <form role="form">
+              <form action="{% url 'accounts:add-scholarship' user.username %}" method="POST">
+                {% csrf_token %}
                 <!-- Scholarship Organization -->
-                <div class="form-group mb-3 focused"><label>Organization</label>
+                <div class="form-group mb-3 focused">
+                  <label>Organization</label>
                   <div class="input-group input-group-alternative">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fa fa-university"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Organization..." type="text">
+                    {% render_field new_scholarship_form.organization class+="form-control" placeholder="Organization..." %}
+                  </div>
+                </div>
+                <!-- Scholarship program -->
+                <div class="form-group mb-3 focused"><label>Scholarship Title</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-paper-diploma"></i></span>
+                    </div>
+                    {% render_field new_scholarship_form.title class+="form-control" placeholder="Scholarship Title..."  %}
                   </div>
                 </div>
                 <!-- Scholarship Start Year -->
@@ -1317,13 +1328,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                     </div>
-                    <select class="form-control" data-trigger="" name="startYear">
-                      <option value="2017">2017</option>
-                      <option value="2018" selected="">2018</option>
-                      <option value="2019">2019</option>
-                      <option value="2020">2020</option>
-                      <option value="2021">2021</option>
-                    </select>
+                    {% render_field new_scholarship_form.start_year class+="form-control" %}
                   </div>
                 </div>
                 <!-- Scholarship End Year -->
@@ -1333,27 +1338,12 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                     </div>
-                    <select class="form-control" data-trigger="" name="endYear">
-                      <option value="2017">2017</option>
-                      <option value="2018" selected="">2018</option>
-                      <option value="2019">2019</option>
-                      <option value="2020">2020</option>
-                      <option value="2021">2021</option>
-                    </select>
-                  </div>
-                </div>
-                <!-- Scholarship program -->
-                <div class="form-group mb-3 focused"><label>Scholarship Title</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-paper-diploma"></i></span>
-                    </div>
-                    <input class="form-control" placeholder="Scholarship Title..." type="text">
+                    {% render_field new_scholarship_form.end_year class+="form-control" %}
                   </div>
                 </div>
                 <!-- Button -->
                 <div class="text-center">
-                  <button type="button" class="btn btn-primary my-4">Add</button>
+                  <button type="submit" class="btn btn-primary my-4">Add</button>
                   <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
                 </div>
               </form>
@@ -1364,87 +1354,79 @@
     </div>
   </div>
 
-  <!-- Modal "editScholarship-1" -->
-  <div class="modal fade" id="editScholarship-1" tabindex="-1" role="dialog" aria-labelledby="editScholarship-1"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-      <div class="modal-content">
-        <div class="modal-body p-0">
-          <div class="card bg-secondary shadow border-0 mb-0">
-            <div class="card-header bg-secondary">
-              <div class="text-muted text-center">
-                <h6 class="text-muted my-0">Add Scholarship</h6>
+  <!-- Modal "editScholarship" -->
+  {% for scholarship in scholarship_history %}
+    <!-- Modal "editScholarship-1" -->
+    <div class="modal fade" id="editScholarship-{{ scholarship.value.id }}" tabindex="-1" role="dialog" aria-labelledby="editScholarship-{{ scholarship.value.id }}"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+          <div class="modal-body p-0">
+            <div class="card bg-secondary shadow border-0 mb-0">
+              <div class="card-header bg-secondary">
+                <div class="text-muted text-center">
+                  <h6 class="text-muted my-0">Add Scholarship</h6>
+                </div>
+              </div>
+              <div class="card-body px-lg-5 py-lg-5">
+                <form action="{% url 'accounts:update-scholarship' user.username scholarship.value.id %}" method="POST">
+                  {% csrf_token %}
+                  <!-- Scholarship Organization -->
+                  <div class="form-group mb-3 focused">
+                    <label>Organization</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-university"></i></span>
+                      </div>
+                      {% render_field scholarship.form.organization class+="form-control" placeholder="Organization..." %}
+                    </div>
+                  </div>
+                  <!-- Scholarship program -->
+                  <div class="form-group mb-3 focused"><label>Scholarship Title</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-paper-diploma"></i></span>
+                      </div>
+                      {% render_field scholarship.form.title class+="form-control" placeholder="Organization..." %}
+                    </div>
+                  </div>
+                  <!-- Scholarship Start Year -->
+                  <div class="form-group focused">
+                    <label>From</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      </div>
+                      {% render_field scholarship.form.start_year class+="form-control" %}
+                    </div>
+                  </div>
+                  <!-- Scholarship End Year -->
+                  <div class="form-group focused">
+                    <label>To</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      </div>
+                      {% render_field scholarship.form.end_year class+="form-control" %}
+                    </div>
+                  </div>
+                  
+                  <!-- Button -->
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-primary my-4">Save Change</button>
+                    <button type="submit" name="delete" class="btn btn-danger my-4">Delete</button>
+                    <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                  </div>
+                </form>
               </div>
             </div>
-            <div class="card-body px-lg-5 py-lg-5">
-              <form role="form">
-                <!-- Scholarship Organization -->
-                <div class="form-group mb-3 focused"><label>Organization</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="fa fa-university"></i></span>
-                    </div>
-                    <input class="form-control" value="Fulbright Japan" placeholder="Organization..." type="text">
-                  </div>
-                </div>
-                <!-- Scholarship Start Year -->
-                <div class="form-group focused">
-                  <label>From</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                    </div>
-                    <select class="form-control" data-trigger="" name="startYear">
-                      <option value="2017">2017</option>
-                      <option value="2018">2018</option>
-                      <option value="2019">2019</option>
-                      <option value="2020" selected="">2020</option>
-                      <option value="2021">2021</option>
-                    </select>
-                  </div>
-                </div>
-                <!-- Scholarship End Year -->
-                <div class="form-group focused">
-                  <label>To</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                    </div>
-                    <select class="form-control" data-trigger="" name="endYear">
-                      <option value="2017">2017</option>
-                      <option value="2018">2018</option>
-                      <option value="2019">2019</option>
-                      <option value="2020">2020</option>
-                      <option value="2021">2021</option>
-                      <option value="2022">2022</option>
-                      <option value="2023" selected="">2023</option>
-                    </select>
-                  </div>
-                </div>
-                <!-- Scholarship program -->
-                <div class="form-group mb-3 focused"><label>Scholarship Title</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-paper-diploma"></i></span>
-                    </div>
-                    <input class="form-control" value="Masters degree program" placeholder="Scholarship Title..."
-                      type="text">
-                  </div>
-                </div>
-                <!-- Button -->
-                <div class="text-center">
-                  <button type="button" class="btn btn-primary my-4">Save Change</button>
-                  <button type="button" class="btn btn-danger my-4">Delete</button>
-                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
-                </div>
-              </form>
-            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  {% endfor %}
 
+  
   <!-- Modal "addSocialLink" -->
   <div class="modal fade" id="addSocialLink" tabindex="-1" role="dialog" aria-labelledby="addSocialLink"
     aria-hidden="true">
@@ -1852,7 +1834,7 @@
                 <div class="col">
                   <div class="timeline timeline-one-side" data-timeline-content="axis"
                     data-timeline-axis-style="dashed">
-                    {% for exp in history %}
+                    {% for exp in exp_history %}
                       {% if exp.is_work %} <!-- work experience -->
                         <div class="timeline-block">
                           <span class="timeline-step badge-success">
@@ -2074,26 +2056,29 @@
               </div>
               {% endif %}
               <!-- display "Scholasrship" -->
-              <div class="row">
-                <div class="col">
-                  <div class="d-flex flex-row justify-content-between">
-                    <span class="text-muted text-sm font-weight-bold">Fulbright Japan</span>
-                    <div>
-                      <small class="text-muted">2020 ~ 2023</small>
-                      {% if has_edit_permission %}
-                      <!-- Button trigger modal -->
-                      <span data-toggle="modal" data-target="#editScholarship-1" data-toggle="tooltip"
-                        data-placement="top" data-container="body" data-animation="true">
-                        <a class="ml-2" type="button" data-toggle="tooltip" data-original-title="Edit Fulbright Japan">
-                          <i class="fa fa-pencil text-gray"></i>
-                        </a>
-                      </span>
-                      {% endif %}
+              {% for scholarship in scholarship_history %}
+                <div class="row">
+                  <div class="col">
+                    <div class="d-flex flex-row justify-content-between">
+                      <span class="text-muted text-sm font-weight-bold">{{ scholarship.value.organization }}</span>
+                      <div>
+                        <small class="text-muted">{{ scholarship.value.start_year }} - {{ scholarship.value.end_year }}</small>
+                        {% if has_edit_permission %}
+                        <!-- Button trigger modal -->
+                        <span data-toggle="modal" data-target="#editScholarship-{{ scholarship.value.id }}" data-toggle="tooltip"
+                          data-placement="top" data-container="body" data-animation="true">
+                          <a class="ml-2" type="button" data-toggle="tooltip" data-original-title="Edit {{ scholarship.value.organization }}">
+                            <i class="fa fa-pencil text-gray"></i>
+                          </a>
+                        </span>
+                        {% endif %}
+                      </div>
                     </div>
+                    <h6 class="text-sm text-left mt-1">{{ scholarship.value.title }}</h6>
                   </div>
-                  <h6 class="text-sm text-left mt-1">Masters degree program</h6>
                 </div>
-              </div>
+              {% endfor %}
+              
 
               <!-- Social Links -->
               <div class="mt-5 pt-4 border-top"></div>
