@@ -42,6 +42,10 @@ class AccountView(TemplateView):
             about = None
         
         educations = Education.objects.filter(user=account)
+        if educations:
+            last_education = educations[0]
+        else:
+            last_education = None
         workexperiences = WorkExperience.objects.filter(user=account)
         exp_history = self.get_exp_history(educations, workexperiences)
         
@@ -69,6 +73,7 @@ class AccountView(TemplateView):
             'user': account,
             'has_edit_permission': has_edit_permission,
             'basic_info': basic_info,
+            'last_education': last_education,
             'basic_info_form': BasicInfoForm(instance=basic_info),
             'goals': goals,
             'goals_values': goals_str,
