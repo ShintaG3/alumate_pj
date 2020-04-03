@@ -51,6 +51,11 @@ class AccountView(TemplateView):
         social_links = SocialLink.objects.filter(user=user)
         social_link_lists = self.get_social_link_lists(social_links)
         
+        try:
+            profile = Profile.objects.get(user=user)
+        except Profile.DoesNotExist:
+            profile = None
+        
         context = {
             'user': user,
             'has_edit_permission': has_edit_permission,
@@ -69,6 +74,8 @@ class AccountView(TemplateView):
             'new_scholarship_form': ScholarshipForm(),
             'social_links': social_link_lists,
             'new_social_link_form': SocialLinkForm(),
+            'profile': profile,
+            'profile_form': ProfileForm(),
         }
         return context
     
@@ -316,3 +323,28 @@ class SocialLinkView(View):
             social_link.save()
         
         return redirect('/accounts/' + user.username)
+
+class ProfileView(View):
+    form_class = ProfileForm
+    
+    def post(self, request, pk=None, *args, **kwargs):
+        user = request.user
+        
+        try:
+            profile = Profile.objects.get(pk=pk)
+            if request.POST.get('delete') is not None:
+                profile.delete()
+                return redirect('/accounts/' + user.username)
+            
+        except Profile.DoesNotExist:
+            profile = None
+        
+        form = self.form_class(request.POST, instance=profile)
+       
+        if form.is_valid:
+            profile = form.save(commit=False)
+            profile.user = request.user
+            profile.save()
+        
+        return redirect('/accounts/' + user.username)
+

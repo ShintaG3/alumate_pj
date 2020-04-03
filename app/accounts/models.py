@@ -9,17 +9,17 @@ from django.utils.translation import gettext_lazy as _
 
 current_year = date.today().year
 
-gender_choices = [
-    ('M', 'Male'),
-    ('F', 'Female'),
-    ('NB', 'Genderqueer/Non-Binary'),
-    ('NA', 'Prefer not to disclose')
-]
+class Gender(models.TextChoices):
+    MALE = 'M', _('Male'),
+    FEMALE = 'F', _('Female'),
+    NON_BINARY = 'NB', _('Genderqueer/Non-Binary'),
+    NO_ANSWER = 'NA', _('Prefer not to disclose')
+    
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
-    gender = models.CharField(max_length=30, choices=gender_choices, default='NA')
-    birthday = models.DateField(null=True)
+    gender = models.CharField(max_length=30, choices=Gender.choices, default=Gender.NO_ANSWER)
+    birthday = models.IntegerField(null=True)
 
     def __str__(self):
         return self.user.username

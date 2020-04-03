@@ -20,6 +20,7 @@ urlpatterns = [
     path('<str:username>/update/scholarship/<int:pk>', ScholarShipView.as_view(), name="update-scholarship"),
     path('<str:username>/add/social-link', SocialLinkView.as_view(), name="add-social-link"),
     path('<str:username>/update/social-link/<int:pk>', SocialLinkView.as_view(), name="update-social-link"),
+    path('<str:username>/update/profile', ProfileView.as_view(), name="update-profile"),
     path('<str:username>/', AccountView.as_view(), name="account-page"),
 ]
 

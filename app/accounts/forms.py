@@ -62,3 +62,10 @@ class SocialLinkForm(forms.ModelForm):
     class Meta:
         model = SocialLink
         fields = ('title', 'url')
+        
+class ProfileForm(forms.ModelForm):
+    birthday = forms.ChoiceField(choices=[(x, x) for x in range(1940, current_year)])
+    
+    class Meta:
+        model = Profile
+        fields = ('gender', 'birthday')
