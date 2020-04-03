@@ -1707,7 +1707,7 @@
               {% if profile %}
               <div class="row mb-5">
                 <div class="col">
-                  <h6>{{ profile.gender }}</h6>
+                  <h6>{{ profile.get_gender_display }}</h6>
                   {% if profile.birthday %}
                   <h6>Born in {{ profile.birthday }}</h6>
                   {% endif %}
