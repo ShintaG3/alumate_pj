@@ -1,6 +1,7 @@
 from django import forms
 from datetime import date
 from .models import *
+from django.utils.translation import gettext_lazy as _
 
 current_year = date.today().year
 
@@ -23,11 +24,28 @@ class AboutForm(forms.ModelForm):
     class Meta:
         model = About
         fields = ('body',)
-        
+
+
+def get_year_choices(plus=0):
+    choices = [(x, x) for x in range(1940, current_year+1+plus)]
+    choices.reverse()
+    choices.insert(0, ('NA', _('Still planning')))
+    choices.insert(1, ("Target", _("Target")))
+    return choices
+
+def get_start_year_choices(plus=0):
+    choices = get_year_choices(plus)
+    return choices
+
+def get_end_year_choices(plus=0):
+    choices = get_year_choices(plus)
+    choices.insert(1, ('Present', _('Present')))
+    return choices
+
 class EducationForm(forms.ModelForm):
     # status = forms.CharField(widget=forms.RadioSelect(attrs={'class': 'custom-control-input'}, choices=EducationStatus.choices))
-    start_year = forms.ChoiceField(choices=[("*", "Still planning")]  + [(x, x) for x in range(1940, current_year+4)])
-    end_year = forms.ChoiceField(choices=[("*", "Still planning")] + [(x, x) for x in range(1940, current_year+10)])
+    start_year = forms.ChoiceField(choices=get_start_year_choices())
+    end_year = forms.ChoiceField(choices=get_end_year_choices(10))
 
     class Meta:
         model = Education
@@ -35,8 +53,8 @@ class EducationForm(forms.ModelForm):
         
 class WorkExperienceForm(forms.ModelForm):
     # status = forms.CharField(widget=forms.RadioSelect(attrs={'class': 'custom-control-input'}, choices=WorkStatus.choices))
-    start_year = forms.ChoiceField(choices=[("*", "Still planning")]  + [(x, x) for x in range(1940, current_year+4)])
-    end_year = forms.ChoiceField(choices=[("*", "Still planning")] + [(x, x) for x in range(1940, current_year+10)])
+    start_year = forms.ChoiceField(choices=get_start_year_choices())
+    end_year = forms.ChoiceField(choices=get_end_year_choices())
 
     class Meta:
         model = WorkExperience

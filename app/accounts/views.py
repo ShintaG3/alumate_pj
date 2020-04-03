@@ -112,7 +112,31 @@ class AccountView(TemplateView):
                     'form': WorkExperienceForm(instance=workexperiences[j])
                 })
                 j += 1
-            elif j >= n or educations[i].end_year > workexperiences[j].end_year:
+            elif j >= n:
+                history.append(
+                {
+                    'is_work': False,
+                    'value': educations[i],
+                    'form': EducationForm(instance=educations[i])
+                })
+                i += 1
+            elif educations[i].start_year == 'Target':
+                history.insert(0, 
+                {
+                    'is_work': False,
+                    'value': educations[i],
+                    'form': EducationForm(instance=educations[i])
+                })
+                i += 1
+            elif workexperiences[i].start_year == 'Target':
+                history.insert(0, 
+                {
+                    'is_work': True,
+                    'value': workexperiences[i],
+                    'form': WorkExperienceForm(instance=workexperiences[i])
+                })
+                j += 1
+            elif educations[i].end_year > workexperiences[j].end_year:
                 history.append(
                 {
                     'is_work': False,
@@ -271,6 +295,8 @@ class EducationUpdateView(View):
         if form.is_valid:
             education = form.save(commit=False)
             education.user = request.user
+            if education.start_year == "Target":
+                education.end_year = "Target"
             education.save()
         
         return redirect('/accounts/' + user.username)
@@ -295,6 +321,8 @@ class WorkExperienceUpdateView(View):
         if form.is_valid:
             workexp = form.save(commit=False)
             workexp.user = request.user
+            if workexp.start_year == "Target":
+                workexp.end_year = "Target"
             workexp.save()
         
         return redirect('/accounts/' + user.username)
