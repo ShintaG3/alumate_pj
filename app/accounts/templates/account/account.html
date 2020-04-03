@@ -385,7 +385,7 @@
     }
   }
 </script> {% endcomment %}
-
+<!-- Send goals and study interests -->
 <script>
   function csrfSafeMethod(method) {
       // these HTTP methods do not require CSRF protection
@@ -425,8 +425,8 @@
   }
 </script>
 {% endblock %}
-{% block content %}
 
+{% block content %}
 <div class="profile-page">
 
 
@@ -442,7 +442,7 @@
     </div>
   </section>
 
-  <!-- Modals for Edit-->
+  <!-- Modals for Basic Info Edit-->
   <!-- Modal components shall be placed at the same level of the body tag so that modal's z-index is set appropreately -->
   <!-- Modal "editBasicInfo" -->
   <div class="modal fade" id="editBasicInfo" tabindex="-1" role="dialog" aria-labelledby="editBasicInfo"
@@ -529,13 +529,6 @@
                       <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                     </div>
                     {% render_field basic_info_form.school_start_year class+="form-control" name="Start year" %}
-                    {% comment %} <select class="form-control" data-trigger="" name="startYear" id="startYear">
-                      <option disabled="" selected="">Start year</option>
-                      <option value="2020">Still planning</option>
-                      <option value="2020">2020</option>
-                      <option value="2021">2021</option>
-                      <option value="2023">2023</option>
-                    </select> {% endcomment %}
                   </div>
                 </div>
                 <!--     Study abroad end year -->
@@ -546,14 +539,6 @@
                       <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                     </div>
                     {% render_field basic_info_form.school_end_year class+="form-control" name="Graduate year" %}
-                    {% comment %} <select class="form-control" data-trigger="" name="startYear" id="startYear">
-                      <option disabled="" selected="">End year</option>
-                      <option value="2020">Still planning</option>
-
-                      <option value="2020">2020</option>
-                      <option value="2021">2021</option>
-                      <option value="2023">2023</option>
-                    </select> {% endcomment %}
                   </div>
                 </div>
                 <!--     Living city -->
@@ -564,7 +549,6 @@
                       <span class="input-group-text"><i class="ni ni-pin-3"></i></span>
                     </div>
                     {% render_field basic_info_form.living_city class+="form-control" placeholder="Living city e.g. Boston..." %}
-                    {% comment %} <input class="form-control" placeholder="Living city e.g. Boston..." type="text"> {% endcomment %}
                   </div>
                 </div>
                 <!-- Button -->
@@ -847,26 +831,6 @@
                       <label>Position</label>
                       {% render_field exp.form.position class+="form-control" placeholder="Title e.g. Ratail Sales Manager..." %}
                     </div>
-                    <!--  Work Status -->
-                    {% comment %} <div class="form-group focused">
-                      <div class="custom-control custom-radio mb-3">
-                        <input name="editWork-1" class="custom-control-input" id="editWork-1-prv"
-                          data-status="previousCompany" type="radio" onclick="workYearFunction(this)">
-                        <label class="custom-control-label" for="editWork-1-prv">I worked in this company</label>
-                      </div>
-                      <div class="custom-control custom-radio mb-3">
-                        <input name="editWork-1" class="custom-control-input" id="editWork-1-cur"
-                          data-status="currentCompany" type="radio" onclick="workYearFunction(this)">
-                        <label class="custom-control-label" for="editWork-1-cur">I am currently working in this
-                          company</label>
-                      </div>
-                      <div class="custom-control custom-radio mb-3">
-                        <input name="editWork-1" class="custom-control-input" id="editWork-1-trg"
-                          data-status="targetCompany" type="radio" checked="" onclick="workYearFunction(this)">
-                        <label class="custom-control-label" for="editWork-1-trg">This is my target company</label>
-                      </div>
-                    </div> {% endcomment %}
-
                     <!-- Start Year for "previousCompany" -->
                     <div class="form-group focused">
                       <label>Work from</label>
@@ -875,13 +839,6 @@
                           <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                         </div>
                         {% render_field exp.form.start_year class+="form-control" %}
-                        {% comment %} <select class="form-control" data-trigger="" name="startYearPrv">
-                          <option value="1990">1990</option>
-                          <option disabled="" selected="">Start year</option>
-                          <option value="1991">1991</option>
-                          <option value="1992">1992</option>
-                          <option value="1993">1993</option>
-                        </select> {% endcomment %}
                       </div>
                     </div>
                     <!-- End Year for "previousCompany"-->
@@ -892,13 +849,6 @@
                           <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                         </div>
                         {% render_field exp.form.end_year class+="form-control" %}
-                        {% comment %} <select class="form-control" data-trigger="" name="endYearPrv">
-                          <option value="1990">1990</option>
-                          <option disabled="" selected="">End year</option>
-                          <option value="1991">1991</option>
-                          <option value="1992">1992</option>
-                          <option value="1993">1993</option>
-                        </select> {% endcomment %}
                       </div>
                     </div>
                     <!-- Button -->
@@ -950,23 +900,6 @@
                         {% render_field exp.form.major class+="form-control" placeholder="Major e.g. MSc Economics..." %}
                       </div>
                     </div>
-                    {% comment %} 
-                      <!--  Education Status -->
-                      <div class="form-group focused">
-                        <div class="custom-control custom-radio mb-3">
-                          <input name="editEducation-1" class="custom-control-input" id="editEducation-1-act" type="radio"
-                            checked="" data-status="actualSchool" onclick="educationYearFunction(this)">
-                          <label class="custom-control-label" for="editEducation-1-act">I studied or I am going to study in
-                            this school</label>
-                        </div>
-                        <div class="custom-control custom-radio mb-3">
-                          <input name="editEducation-1" class="custom-control-input" id="editEducation-1-trg" type="radio"
-                            data-status="targetSchool" onclick="educationYearFunction(this)">
-                          <label class="custom-control-label" for="editEducation-1-trg">This is my target school</label>
-                        </div>
-                      </div> 
-                    {% endcomment %}
-
                     <!-- Education Year for "actualSchool" -->
                     <div class="year-act" style="height: 12rem; display: block;">
                       <!-- Start Year for "actualSchool" -->
@@ -1005,286 +938,6 @@
       </div>
     {% endif %}
   {% endfor %}
-
-  {% comment %} 
-  <!-- Modal "editWork-1" -->
-  <div class="modal fade" id="editWork-1" tabindex="-1" role="dialog" aria-labelledby="editWork-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-      <div class="modal-content">
-        <div class="modal-body p-0">
-          <div class="card bg-secondary shadow border-0 mb-0">
-            <div class="card-header bg-secondary">
-              <div class="text-muted text-center">
-                <h6 class="text-muted my-0">Edit Work</h6>
-              </div>
-            </div>
-            <div class="card-body px-lg-5 py-lg-5">
-              <form role="form">
-                <!-- Company -->
-                <div class="form-group mb-3 focused"><label>Company</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-building"></i></span>
-                    </div>
-                    <input class="form-control" value="World Bank" placeholder="Company..." type="text">
-                  </div>
-                </div>
-                <!-- Work Title -->
-                <div class="form-group mb-3 focused">
-                  <label>Title</label>
-                  <input class="form-control" value="Seek financial officer position, considering JPO as well"
-                    placeholder="Title e.g. Ratail Sales Manager..." type="text">
-                </div>
-                <!--  Work Status -->
-                <div class="form-group focused">
-                  <div class="custom-control custom-radio mb-3">
-                    <input name="editWork-1" class="custom-control-input" id="editWork-1-prv"
-                      data-status="previousCompany" type="radio" onclick="workYearFunction(this)">
-                    <label class="custom-control-label" for="editWork-1-prv">I worked in this company</label>
-                  </div>
-                  <div class="custom-control custom-radio mb-3">
-                    <input name="editWork-1" class="custom-control-input" id="editWork-1-cur"
-                      data-status="currentCompany" type="radio" onclick="workYearFunction(this)">
-                    <label class="custom-control-label" for="editWork-1-cur">I am currently working in this
-                      company</label>
-                  </div>
-                  <div class="custom-control custom-radio mb-3">
-                    <input name="editWork-1" class="custom-control-input" id="editWork-1-trg"
-                      data-status="targetCompany" type="radio" checked="" onclick="workYearFunction(this)">
-                    <label class="custom-control-label" for="editWork-1-trg">This is my target company</label>
-                  </div>
-                </div>
-
-                <!-- Work Year for "previousCompany" -->
-                <div class="year-prv" style="height: 12rem; display: none;">
-                  <!-- Start Year for "previousCompany" -->
-                  <div class="form-group focused">
-                    <label>Work from</label>
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                      </div>
-                      <select class="form-control" data-trigger="" name="startYearPrv">
-                        <option value="1990">1990</option>
-                        <option disabled="" selected="">Start year</option>
-                        <option value="1991">1991</option>
-                        <option value="1992">1992</option>
-                        <option value="1993">1993</option>
-                      </select>
-                    </div>
-                  </div>
-                  <!-- End Year for "previousCompany"-->
-                  <div class="form-group focused">
-                    <label>Work until</label>
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                      </div>
-                      <select class="form-control" data-trigger="" name="endYearPrv">
-                        <option value="1990">1990</option>
-                        <option disabled="" selected="">End year</option>
-                        <option value="1991">1991</option>
-                        <option value="1992">1992</option>
-                        <option value="1993">1993</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <!-- Work Year for "currentCompany" -->
-                <div class="year-cur" style="height: 12rem; display: none;">
-                  <!-- Start Year for "previousCompany" -->
-                  <div class="form-group focused">
-                    <label>Work from</label>
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                      </div>
-                      <select class="form-control" data-trigger="" name="startYearCur">
-                        <option value="1990">1990</option>
-                        <option disabled="" selected="">Start year</option>
-                        <option value="1991">1991</option>
-                        <option value="1992">1992</option>
-                        <option value="1993">1993</option>
-                      </select>
-                    </div>
-                  </div>
-                  <!-- End Year for "previousCompany"-->
-                  <div class="form-group focused">
-                    <label>Work until</label>
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                      </div>
-                      <input class="form-control" type="text" disabled value="Present">
-                    </div>
-                  </div>
-                </div>
-                <!-- Work Year for "targetCompany" -->
-                <div class="year-trg" style="height: 12rem; display: block;">
-                  <!-- Start Year for "previousCompany" -->
-                  <div class="form-group focused">
-                    <label>Work from (optional)</label>
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                      </div>
-                      <select class="form-control" data-trigger="" name="startYearTrg">
-                        <option value="2019">2019</option>
-                        <option value="blank">Start year</option>
-                        <option value="2020">2020</option>
-                        <option value="2021">2021</option>
-                        <option value="2022" selected="">2022</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <!-- Button -->
-                <div class="text-center">
-                  <button type="button" class="btn btn-primary my-4">Save Change</button>
-                  <button type="button" class="btn btn-danger my-4">Delete</button>
-                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> 
-  <!-- Modal "editEducation-1" -->
-  <div class="modal fade" id="editEducation-1" tabindex="-1" role="dialog" aria-labelledby="editEducation-1"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-      <div class="modal-content">
-        <div class="modal-body p-0">
-          <div class="card bg-secondary shadow border-0 mb-0">
-            <div class="card-header bg-secondary">
-              <div class="text-muted text-center">
-                <h6 class="text-muted my-0">Edit Education</h6>
-              </div>
-            </div>
-            <div class="card-body px-lg-5 py-lg-5">
-              <form role="form">
-                <!-- School -->
-                <div class="form-group mb-3 focused"><label>School</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
-                    </div>
-                    <input class="form-control" value="Harvard University" placeholder="School..." type="text">
-                  </div>
-                </div>
-                <!-- Major -->
-                <div class="form-group mb-3 focused">
-                  <label>Major</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
-                    </div>
-                    <input class="form-control" value="MBA" placeholder="Major e.g. MSc Economics..." type="text">
-                  </div>
-                </div>
-                <!--  Education Status -->
-                <div class="form-group focused">
-                  <div class="custom-control custom-radio mb-3">
-                    <input name="editEducation-1" class="custom-control-input" id="editEducation-1-act" type="radio"
-                      checked="" data-status="actualSchool" onclick="educationYearFunction(this)">
-                    <label class="custom-control-label" for="editEducation-1-act">I studied or I am going to study in
-                      this school</label>
-                  </div>
-                  <div class="custom-control custom-radio mb-3">
-                    <input name="editEducation-1" class="custom-control-input" id="editEducation-1-trg" type="radio"
-                      data-status="targetSchool" onclick="educationYearFunction(this)">
-                    <label class="custom-control-label" for="editEducation-1-trg">This is my target school</label>
-                  </div>
-                </div>
-
-                <!-- Education Year for "actualSchool" -->
-                <div class="year-act" style="height: 12rem; display: block;">
-                  <!-- Start Year for "actualSchool" -->
-                  <div class="form-group focused">
-                    <label>Study from</label>
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                      </div>
-                      <select class="form-control" data-trigger="" name="startYearAct">
-                        <option value="2019">2019</option>
-                        <option disabled="">Start year</option>
-                        <option value="2020" selected="">2020</option>
-                        <option value="2021">2021</option>
-                        <option value="2022">2022</option>
-                      </select>
-                    </div>
-                  </div>
-                  <!-- End Year for "actualSchool"-->
-                  <div class="form-group focused">
-                    <label>Study until</label>
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                      </div>
-                      <select class="form-control" data-trigger="" name="endYearAct">
-                        <option value="2019">2019</option>
-                        <option disabled="">End year</option>
-                        <option value="2020">2020</option>
-                        <option value="2021">2021</option>
-                        <option value="2022" selected="">2022</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Education Year for "targetSchool" -->
-                <div class="year-trg" style="height: 12rem; display: none;">
-                  <!-- Start Year for "previousCompany" -->
-                  <div class="form-group focused">
-                    <label>Study from (optional)</label>
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                      </div>
-                      <select class="form-control" data-trigger="" name="startYearTrg">
-                        <option value="1990">1990</option>
-                        <option value="blank" selected="">Start year</option>
-                        <option value="1991">1991</option>
-                        <option value="1992">1992</option>
-                        <option value="1993">1993</option>
-                      </select>
-                    </div>
-                  </div>
-                  <!-- End Year for "targetSchool"-->
-                  <div class="form-group focused">
-                    <label>Study until (optional)</label>
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                      </div>
-                      <select class="form-control" data-trigger="" name="endYearTrg">
-                        <option value="1990">1990</option>
-                        <option value="blank" selected="">End year</option>
-                        <option value="1991">1991</option>
-                        <option value="1992">1992</option>
-                        <option value="1993">1993</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Button -->
-                <div class="text-center">
-                  <button type="button" class="btn btn-primary my-4">Save Change</button>
-                  <button type="button" class="btn btn-danger my-4">Delete</button>
-                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  {% endcomment %}
 
 
   <!-- Modal "addScholarship" -->
@@ -1525,53 +1178,6 @@
     </div>
   {% endfor %}
 
-  
-
-  <!-- Modal "editSocialLink-2" -->
-  <div class="modal fade" id="editSocialLink-2" tabindex="-1" role="dialog" aria-labelledby="editSocialLink-2"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-      <div class="modal-content">
-        <div class="modal-body p-0">
-          <div class="card bg-secondary shadow border-0 mb-0">
-            <div class="card-header bg-secondary">
-              <div class="text-muted text-center">
-                <h6 class="text-muted my-0">Edit Social Link</h6>
-              </div>
-            </div>
-            <div class="card-body px-lg-5 py-lg-5">
-              <form role="form">
-                <!-- Link title -->
-                <div class="form-group mb-3 focused"><label>Title</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-world"></i></span>
-                    </div>
-                    <input class="form-control" value="Facebook" placeholder="Title..." type="text">
-                  </div>
-                </div>
-                <!-- Link url -->
-                <div class="form-group mb-3 focused"><label>URL</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="fa fa-link"></i></span>
-                    </div>
-                    <input class="form-control" value="#####" placeholder="URL..." type="text">
-                  </div>
-                </div>
-                <!-- Button -->
-                <div class="text-center">
-                  <button type="button" class="btn btn-primary my-4">Save change</button>
-                  <button type="button" class="btn btn-danger my-4">Delete</button>
-                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- Modal "editProfile" -->
   <div class="modal fade" id="editProfile" tabindex="-1" role="dialog" aria-labelledby="editProfile" aria-hidden="true">
@@ -1677,20 +1283,19 @@
               <!-- Basic info -->
               <!-- "editBasicInfo" -->
               {% if has_edit_permission %}
-              <div class="row justify-content-end">
-                <div class="col text-right">
-                  <!-- Button trigger modal -->
-                  <span data-toggle="modal" data-target="#editBasicInfo" data-toggle="tooltip" data-placement="top"
-                    data-container="body" data-animation="true">
-                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
-                      data-toggle="tooltip" data-original-title="Edit Basic Info">
-                      <i class="ni ni-settings-gear-65 text-gray"></i>
-                    </a>
-                  </span>
+                <div class="row justify-content-end">
+                  <div class="col text-right">
+                    <!-- Button trigger modal -->
+                    <span data-toggle="modal" data-target="#editBasicInfo" data-toggle="tooltip" data-placement="top"
+                      data-container="body" data-animation="true">
+                      <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                        data-toggle="tooltip" data-original-title="Edit Basic Info">
+                        <i class="ni ni-settings-gear-65 text-gray"></i>
+                      </a>
+                    </span>
+                  </div>
                 </div>
-              </div>
               {% endif %}
-              
               <!-- display Basic Info   -->
               <div class="text-center mt-2">
                 <h3>{{ basic_info.name }}<img class="img-fluid rounded shadow ml-2" style="width: 1.75rem;"
@@ -1764,7 +1369,7 @@
                 <div class="col text-right">
                   <!-- Button trigger modal -->
                   <span data-toggle="modal" data-target="#editStudyInterests" data-toggle="tooltip" data-placement="top"
-                    title="Edit study intereste" data-container="body" data-animation="true">
+                    title="Edit Study Interests" data-container="body" data-animation="true">
                     <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
                       data-toggle="tooltip" data-original-title="Edit Study Interests">
                       <i class="ni ni-settings-gear-65 text-gray"></i>
@@ -1824,15 +1429,15 @@
                 </div>
               {% endif %}
               <!-- display about -->
-              <div class="row mb-3">
-                <div class="col">
-                  <div class="icon icon-sm icon-shape icon-shape-danger shadow rounded-circle mr-2">
-                    <i class="ni ni-books text-danger"></i>
+              {% if not about %}
+                <div class="row mb-3">
+                  <div class="col">
+                    <div class="icon icon-sm icon-shape icon-shape-danger shadow rounded-circle mr-2">
+                      <i class="ni ni-books text-danger"></i>
+                    </div>
+                    <span class="h5 font-weight-bold text-muted text-uppercase">About</span>
                   </div>
-                  <span class="h5 font-weight-bold text-muted text-uppercase">About</span>
                 </div>
-              </div>
-              {% if about is None %}
                 <div class="row mb-2 justify-content-end">
                   <div class="col text-right">
                     <!-- Button trigger modal -->
@@ -1853,9 +1458,9 @@
               </div>
               
 
-            <!-- Works & Educations -->
+              <!-- Works & Educations -->
               <div class="mt-4 pt-4 border-top"></div>
-                {% if has_edit_permission %}
+                {% if has_edit_permission and not exp_history %}
                 <div class="row mb-3">
                     <div class="col">
                       <div class="icon icon-sm icon-shape icon-shape-danger shadow rounded-circle mr-2">
@@ -1905,12 +1510,6 @@
                               <div class="text-right">
                                 <small class="text-muted">
                                 {{ exp.value.start_year }} - {{ exp.value.end_year }}
-                                {% comment %} {% if exp.value.status == 'T' %}-
-                                {% elif exp.value.status == 'C' %}
-                                  {{ exp.value.start_year }} - Present
-                                {% else %}
-                                  {{ exp.value.start_year }} - {{ exp.value.end_year }}
-                                {% endif %} {% endcomment %}
                                 </small>
                               </div>
                             </div>
@@ -1941,13 +1540,6 @@
                               <div class="text-right">
                                 <small class="text-muted">
                                 {{ exp.value.start_year }} - {{ exp.value.end_year }}
-                                {% comment %} {% if exp.value.status == 'T' %}
-                                  Target {{ exp.value.start_year }} -
-                                {% elif exp.value.status == 'C' %}
-                                  {{ exp.value.start_year }} - Present
-                                {% else %}
-                                  {{ exp.value.start_year }} - {{ exp.value.end_year }}
-                                {% endif %} {% endcomment %}
                                 </small>
                               </div>
                             </div>
@@ -1971,121 +1563,6 @@
                   </div>
                 </div>
               </div>
-                    {% comment %} 
-                    <div class="timeline-block">
-                      <span class="timeline-step badge-success">
-                        <i class="ni ni-briefcase-24"></i>
-                      </span>
-                      <div class="timeline-content">
-                        <div class="d-flex justify-content-between pt-1">
-                          <div class="text-left">
-                            <span class="text-muted text-sm font-weight-bold">World Bank</span>
-                          </div>
-                          <div class="text-right">
-                            <small class="text-muted">Target 2022 ~</small>
-                          </div>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                          <h6 class="text-sm text-left mt-1 mb-0">Seek financial officer position, considering JPO as
-                            well</h6>
-                          {% if has_edit_permission %}
-                          <!-- Button trigger modal for Work-->
-                          <span data-toggle="modal" data-target="#editWork-1" data-toggle="tooltip" data-placement="top"
-                            data-container="body" data-animation="true">
-                            <a class="ml-2" type="button" data-toggle="tooltip" data-original-title="Edit World Bank">
-                              <i class="fa fa-pencil text-gray"></i>
-                            </a>
-                          </span>
-                          {% endif %}
-                        </div>
-                      </div>
-                    </div>
-                    <div class="timeline-block">
-                      <span class="timeline-step badge-danger">
-                        <i class="ni ni-hat-3"></i>
-                      </span>
-                      <div class="timeline-content">
-                        <div class="d-flex justify-content-between pt-1">
-                          <div class="text-left">
-                            <span class="text-muted text-sm font-weight-bold">Harvard
-                              University</span>
-                          </div>
-                          <div class="text-right">
-                            <small class="text-muted">2020 ~ 2022</small>
-                          </div>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                          <h6 class="text-sm text-left mt-1 mb-0">MBA</h6>
-                          {% if has_edit_permission %}
-                          <!-- Button trigger modal for Work-->
-                          <span data-toggle="modal" data-target="#editEducation-1" data-toggle="tooltip"
-                            data-placement="top" data-container="body" data-animation="true">
-                            <a class="ml-2" type="button" data-toggle="tooltip"
-                              data-original-title="Edit Harvard University">
-                              <i class="fa fa-pencil text-gray"></i>
-                            </a>
-                          </span>
-                          {% endif %}
-                        </div>
-                      </div>
-                    </div>
-                    <div class="timeline-block">
-                      <span class="timeline-step badge-info">
-                        <i class="ni ni-briefcase-24"></i>
-                      </span>
-                      <div class="timeline-content">
-                        <div class="d-flex justify-content-between pt-1">
-                          <div class="text-left">
-                            <span class="text-muted text-sm font-weight-bold">PwC</span>
-                          </div>
-                          <div class="text-right">
-                            <small class="text-muted"><i class="fas fa-clock mr-1"></i>2013 ~
-                              2020</small>
-                          </div>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                          <h6 class="text-sm text-left mt-1 mb-0">M&A Consultant</h6>
-                          {% if has_edit_permission %}
-                          <!-- Button trigger modal for Work-->
-                          <span data-toggle="modal" data-target="#editWork-2" data-toggle="tooltip" data-placement="top"
-                            data-container="body" data-animation="true">
-                            <a class="ml-2" type="button" data-toggle="tooltip" data-original-title="Edit PwC">
-                              <i class="fa fa-pencil text-gray"></i>
-                            </a>
-                          </span>
-                          {% endif %}
-                        </div>
-                      </div>
-                    </div>
-                    <div class="timeline-block">
-                      <span class="timeline-step badge-info">
-                        <i class="ni ni-hat-3"></i>
-                      </span>
-                      <div class="timeline-content">
-                        <div class="d-flex justify-content-between pt-1">
-                          <div class="text-left">
-                            <span class="text-muted text-sm font-weight-bold">University of
-                              Tokyo</span>
-                          </div>
-                          <div class="text-right">
-                            <small class="text-muted">2009 ~ 2013</small>
-                          </div>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                          <h6 class="text-sm text-left mt-1 mb-0">Mathematics</h6>
-                          {% if has_edit_permission %}
-                          <!-- Button trigger modal for Work-->
-                          <span data-toggle="modal" data-target="#editEducation-2" data-toggle="tooltip"
-                            data-placement="top" data-container="body" data-animation="true">
-                            <a class="ml-2" type="button" data-toggle="tooltip"
-                              data-original-title="Edit University of Tokyo">
-                              <i class="fa fa-pencil text-gray"></i>
-                            </a>
-                          </span>
-                          {% endif %}
-                        </div>
-                      </div>
-                    </div> {% endcomment %}
 
               <!-- Scholarships -->
               <div class="mt-5 pt-4 border-top"></div>
@@ -2147,21 +1624,20 @@
                   <span class="h5 font-weight-bold text-muted text-uppercase">Social Links</span>
                 </div>
               </div>
-
-              {% if has_edit_permission %}
               <!-- "addSocialLink" -->
-              <div class="row mb-2 justify-content-end">
-                <div class="col text-right">
-                  <!-- Button trigger modal -->
-                  <span data-toggle="modal" data-target="#addSocialLink" data-toggle="tooltip" data-placement="top"
-                    data-container="body" data-animation="true">
-                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
-                      data-toggle="tooltip" data-original-title="Add Social Link">
-                      <i class="fa fa-plus text-gray"></i>
-                    </a>
-                  </span>
+              {% if has_edit_permission %}
+                <div class="row mb-2 justify-content-end">
+                  <div class="col text-right">
+                    <!-- Button trigger modal -->
+                    <span data-toggle="modal" data-target="#addSocialLink" data-toggle="tooltip" data-placement="top"
+                      data-container="body" data-animation="true">
+                      <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                        data-toggle="tooltip" data-original-title="Add Social Link">
+                        <i class="fa fa-plus text-gray"></i>
+                      </a>
+                    </span>
+                  </div>
                 </div>
-              </div>
               {% endif %}
               <!-- display "Social Links" -->
               <div class="row mb-5">
@@ -2188,19 +1664,19 @@
               <!-- Profile -->
               <div class="mt-5 pt-4 border-top"></div>
               {% if has_edit_permission and profile %}
-              <!-- "editProfile" -->
-              <div class="row mb-2 justify-content-end">
-                <div class="col text-right">
-                  <!-- Button trigger modal -->
-                  <span data-toggle="modal" data-target="#editProfile" data-toggle="tooltip" data-placement="top"
-                    data-container="body" data-animation="true">
-                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
-                      data-toggle="tooltip" data-original-title="Edit Profile">
-                      <i class="ni ni-settings-gear-65 text-gray"></i>
-                    </a>
-                  </span>
+                <!-- "editProfile" -->
+                <div class="row mb-2 justify-content-end">
+                  <div class="col text-right">
+                    <!-- Button trigger modal -->
+                    <span data-toggle="modal" data-target="#editProfile" data-toggle="tooltip" data-placement="top"
+                      data-container="body" data-animation="true">
+                      <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                        data-toggle="tooltip" data-original-title="Edit Profile">
+                        <i class="ni ni-settings-gear-65 text-gray"></i>
+                      </a>
+                    </span>
+                  </div>
                 </div>
-              </div>
               {% endif %}
               <!-- display "Profile" -->
               <div class="row mb-3">
@@ -2211,6 +1687,7 @@
                   <span class="h5 font-weight-bold text-muted text-uppercase">Profile</span>
                 </div>
               </div>
+              <!-- "addProfile" -->
               {% if not profile %}
                 <div class="row mb-2 justify-content-end">
                   <div class="col text-right">
