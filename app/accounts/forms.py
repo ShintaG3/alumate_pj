@@ -5,27 +5,6 @@ from django.utils.translation import gettext_lazy as _
 
 current_year = date.today().year
 
-class BasicInfoForm(forms.ModelForm):
-    status = forms.CharField(widget=forms.RadioSelect(attrs={'class': 'custom-control-input'}, choices=CurrentStatus.choices))
-    
-    class Meta:
-        model = BasicInfo
-        fields = (
-            'name',
-            'status',
-            'country_origin', 
-            'country_study_abroad',
-            # 'living_city'
-        )
-        
-class AboutForm(forms.ModelForm):
-    body = forms.CharField(widget=forms.Textarea())
-    
-    class Meta:
-        model = About
-        fields = ('body',)
-
-
 def get_year_choices(plus=0):
     choices = [(x, x) for x in range(1940, current_year+1+plus)]
     choices.reverse()
@@ -42,7 +21,29 @@ def get_end_year_choices(plus=0):
     choices.insert(1, ('Present', _('Present')))
     return choices
 
-class EducationForm(forms.ModelForm):
+class BasicInfoForm(forms.ModelForm):
+    status = forms.CharField(widget=forms.RadioSelect(attrs={'class': 'custom-control-input'}, choices=CurrentStatus.choices))
+    
+    class Meta:
+        model = BasicInfo
+        fields = (
+            'name',
+            'status',
+            'country_origin', 
+            'country_study_abroad',
+            # 'living_city'
+        )
+
+class StudyAbroadForm(forms.ModelForm):
+    education = forms.ModelChoiceField(
+        queryset=Education.objects.filter(is_study_abroad=True)
+    )
+
+    class Meta:
+        model = StudyAbroad
+        fields = ('education',)
+    
+class StudyAbroadEducationForm(forms.ModelForm):
     # status = forms.CharField(widget=forms.RadioSelect(attrs={'class': 'custom-control-input'}, choices=EducationStatus.choices))
     start_year = forms.ChoiceField(choices=get_start_year_choices())
     end_year = forms.ChoiceField(choices=get_end_year_choices(10))
@@ -50,6 +51,22 @@ class EducationForm(forms.ModelForm):
     class Meta:
         model = Education
         fields = ('school', 'major', 'start_year', 'end_year')
+
+class AboutForm(forms.ModelForm):
+    body = forms.CharField(widget=forms.Textarea())
+    
+    class Meta:
+        model = About
+        fields = ('body',)
+
+class EducationForm(forms.ModelForm):
+    # status = forms.CharField(widget=forms.RadioSelect(attrs={'class': 'custom-control-input'}, choices=EducationStatus.choices))
+    start_year = forms.ChoiceField(choices=get_start_year_choices())
+    end_year = forms.ChoiceField(choices=get_end_year_choices(10))
+
+    class Meta:
+        model = Education
+        fields = ('is_study_abroad', 'school', 'major', 'start_year', 'end_year')
         
 class WorkExperienceForm(forms.ModelForm):
     # status = forms.CharField(widget=forms.RadioSelect(attrs={'class': 'custom-control-input'}, choices=WorkStatus.choices))

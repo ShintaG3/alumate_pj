@@ -81,11 +81,16 @@ class Education(History):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     school = models.CharField(max_length=50)
     major = models.CharField(max_length=50)
+    is_study_abroad = models.BooleanField(default=False)
     # status = models.CharField(max_length=30, choices=EducationStatus.choices, default=EducationStatus.CURRENT)
     
     def __str__(self):
-        return self.user.username + "'s education at " + self.school
+        return self.school + " (" + self.start_year + " - " + self.end_year + ")"
 
+
+class StudyAbroad(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    education = models.OneToOneField(Education, on_delete=models.CASCADE)
 
 class WorkStatus(models.TextChoices):
     PAST = 'P', _('I worked at this company'),

@@ -30,6 +30,7 @@ class AccountView(TemplateView):
             basic_info = BasicInfo.objects.get(user=account)
         except BasicInfo.DoesNotExist:
             basic_info = None
+            
         
         goals = Goal.objects.filter(user=account).values_list('body', flat=True)
         study_interests = StudyInterest.objects.filter(user=account).values_list('body', flat=True)
@@ -42,10 +43,6 @@ class AccountView(TemplateView):
             about = None
         
         educations = Education.objects.filter(user=account)
-        if educations:
-            last_education = educations[0]
-        else:
-            last_education = None
         workexperiences = WorkExperience.objects.filter(user=account)
         exp_history = self.get_exp_history(educations, workexperiences)
         
@@ -68,12 +65,19 @@ class AccountView(TemplateView):
         followers = Follow.objects.filter(followed=account)
         followings = Follow.objects.filter(follower=account)
         
-                
+        try:
+            study_abroad = StudyAbroad.objects.get(user=account)
+        except StudyAbroad.DoesNotExist:
+            study_abroad = None
+        
         context = {
             'user': account,
             'has_edit_permission': has_edit_permission,
             'basic_info': basic_info,
-            'last_education': last_education,
+            'education_already_added': educations,
+            'study_abroad': study_abroad,
+            'study_abroad_choice_form': StudyAbroadForm(),
+            'study_abroad_new_form': StudyAbroadEducationForm(),
             'basic_info_form': BasicInfoForm(instance=basic_info),
             'goals': goals,
             'goals_values': goals_str,
@@ -192,6 +196,48 @@ class BasicInfoUpdateView(View):
             basic_info.save()
         return redirect('/accounts/' + request.user.username)
 
+
+class CreateStudyAbroad(View):
+    form_class = EducationForm
+    
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        form = self.form_class(request.POST)
+        
+        if form.is_valid:
+            education = form.save(commit=False)
+            education.user = user
+            education.is_study_abroad = True
+            education.save()
+            
+            try:
+                study_abroad = StudyAbroad.objects.get(user=user)
+                study_abroad.education = education
+            except StudyAbroad.DoesNotExist:
+                study_abroad = StudyAbroad(user=user, education=education)
+            study_abroad.save()
+                
+            study_abroad.save()
+        
+        return redirect('/accounts/' + user.username)
+
+
+class SelectStudyAbroad(View):
+    form_class = StudyAbroadForm
+    
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        try:
+            study_abroad_info = StudyAbroad.objects.get(user=user)
+        except StudyAbroad.DoesNotExist:
+            study_abroad_info = None
+        form = self.form_class(request.POST, instance=study_abroad_info)
+        
+        if form.is_valid:
+            study_abroad_info = form.save(commit=False)
+            study_abroad_info.user = user
+            study_abroad_info.save()
+        return redirect('/accounts/' + user.username)
 
 class GoalUpdateView(View):
     def post(self, request, *args, **kwargs):

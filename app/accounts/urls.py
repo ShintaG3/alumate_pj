@@ -23,6 +23,8 @@ urlpatterns = [
     path('<str:username>/add/social-link', SocialLinkView.as_view(), name="add-social-link"),
     path('<str:username>/update/social-link/<int:pk>', SocialLinkView.as_view(), name="update-social-link"),
     path('<str:username>/update/profile', ProfileView.as_view(), name="update-profile"),
+    path('<str:username>/add/study-abroad', CreateStudyAbroad.as_view(), name="add-study-abroad"),
+    path('<str:username>/update/study-abroad', SelectStudyAbroad.as_view(), name="update-study-abroad"),
     path('<str:username>/', AccountView.as_view(), name="account-page"),
 ]
 
