@@ -1266,7 +1266,8 @@
                 </div>
               {% endif %}
               <!-- display Basic Info   -->
-              <div class="text-center mt-2">
+              {% if basic_info %}
+               <div class="text-center mt-2">
                 <h3>{{ basic_info.name }}<img class="img-fluid rounded shadow ml-2" style="width: 1.75rem;"
                     src="{% static 'img/brand/logo_current.png' %}"></h3>
                 <!-- future student logo => src="{% static 'img/brand/logo_future.png' %}"-->
@@ -1274,14 +1275,20 @@
                 <div class="text-muted font-weight-500 mt-3 mb-2">
                   from {{ basic_info.country_origin }} to {{ basic_info.country_study_abroad }}
                 </div>
+                {% if last_education %}
                 <div class="h5">{{ last_education.school }}</div>
                 <div class="font-weight-500">{{ last_education.major}}</div>
                 <div class="text-muted font-weight-300"><small>{{ last_education.start_year }} ~ {{ last_education.end_year }}</small></div>
+                {% endif %}
                 {% comment %} <div class="font-weight-400 mt-4"><i class="ni ni-pin-3 mr-2"></i>{{ basic_info.living_city }}</div> {% endcomment %}
               </div>
+              {% endif %}
+             
 
               <!-- About -->
+              {% if about or has_edit_permission %}
               <div class="mt-5 pt-4 border-top"></div>
+              {% endif %}
               <!-- "editAbout" -->
               {% if has_edit_permission and about is not None %}
                 <div class="row mb-2 justify-content-end">
@@ -1298,7 +1305,7 @@
                 </div>
               {% endif %}
               <!-- display about -->
-              {% if not about %}
+              {% if has_edit_permission and not about %}
                 <div class="row mb-3">
                   <div class="col">
                     <div class="icon icon-sm icon-shape icon-shape-danger shadow rounded-circle mr-2">
@@ -1320,45 +1327,52 @@
                   </div>
                 </div>
               {% endif %}
+              {% if about %}
               <div class="row justify-content-center">
                 <div class="col">
                   <p>{{ about.body }}</p>
                 </div>
               </div>
+              {% endif %}
+              
               
               <!-- Works & Educations -->
+              {% if exp_history or has_edit_permission %}
               <div class="mt-4 pt-4 border-top"></div>
-                {% if has_edit_permission and not exp_history %}
-                <div class="row mb-3">
-                    <div class="col">
-                      <div class="icon icon-sm icon-shape icon-shape-danger shadow rounded-circle mr-2">
-                        <i class="ni ni-paper-diploma text-danger"></i>
-                      </div>
-                      <span class="h5 font-weight-bold text-muted text-uppercase">Work Experiences & Educations</span>
+              {% endif %}
+              {% if has_edit_permission and not exp_history %}
+              <div class="row mb-3">
+                  <div class="col">
+                    <div class="icon icon-sm icon-shape icon-shape-danger shadow rounded-circle mr-2">
+                      <i class="ni ni-paper-diploma text-danger"></i>
                     </div>
-                </div>
-                <!-- "add Work add Education" -->
-                <div class="row mb-2 justify-content-end">
-                  <div class="col text-right">
-                    <!-- Button trigger modal for Work-->
-                    <span data-toggle="modal" data-target="#addWork" data-toggle="tooltip" data-placement="top"
-                      data-container="body" data-animation="true">
-                      <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
-                        data-toggle="tooltip" data-original-title="Add Work">
-                        <i class="ni ni-briefcase-24 text-gray"></i>
-                      </a>
-                    </span>
-                    <!-- Button trigger modal for Education-->
-                    <span class="ml-2" data-toggle="modal" data-target="#addEducation" data-toggle="tooltip"
-                      data-placement="top" data-container="body" data-animation="true">
-                      <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
-                        data-toggle="tooltip" data-original-title="Add Education">
-                        <i class="ni ni-hat-3 text-gray"></i>
-                      </a>
-                    </span>
+                    <span class="h5 font-weight-bold text-muted text-uppercase">Work Experiences & Educations</span>
                   </div>
+              </div>
+              {% endif %}
+              <!-- "add Work add Education" -->
+              {% if has_edit_permission %}
+              <div class="row mb-2 justify-content-end">
+                <div class="col text-right">
+                  <!-- Button trigger modal for Work-->
+                  <span data-toggle="modal" data-target="#addWork" data-toggle="tooltip" data-placement="top"
+                    data-container="body" data-animation="true">
+                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                      data-toggle="tooltip" data-original-title="Add Work">
+                      <i class="ni ni-briefcase-24 text-gray"></i>
+                    </a>
+                  </span>
+                  <!-- Button trigger modal for Education-->
+                  <span class="ml-2" data-toggle="modal" data-target="#addEducation" data-toggle="tooltip"
+                    data-placement="top" data-container="body" data-animation="true">
+                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                      data-toggle="tooltip" data-original-title="Add Education">
+                      <i class="ni ni-hat-3 text-gray"></i>
+                    </a>
+                  </span>
                 </div>
-                {% endif %}
+              </div>
+              {% endif %}
               <!-- display "Works & Educations" -->
               <div class="row mb-md-2">
                 <div class="col">
@@ -1433,7 +1447,9 @@
               </div>
 
               <!-- Goals-->
+              {% if has_edit_permission or goals %}
               <div class="mt-5 pt-4 border-top"></div>
+              {% endif %}
               <!-- "editGoals" -->
               {% if has_edit_permission and goals %}
               <div class="row justify-content-end">
@@ -1450,6 +1466,7 @@
               </div>
               {% endif %}
               <!-- display Goals -->
+              {% if has_edit_permission or goals %}
               <div class="row mb-3">
                 <div class="col">
                   <div class="icon icon-sm icon-shape icon-shape-success shadow rounded-circle mr-2">
@@ -1458,7 +1475,8 @@
                   <span class="h5 font-weight-bold text-muted text-uppercase">Goals</span>
                 </div>
               </div>
-              {% if not goals %}
+              {% endif %}
+              {% if has_edit_permission and not goals %}
                 <div class="row mb-2 justify-content-end">
                   <div class="col text-right">
                     <!-- Button trigger modal -->
@@ -1472,6 +1490,7 @@
                   </div>
                 </div>
               {% endif %}
+              {% if goals %}
               <div class="row mb-5">
                 <div class="col">
                   {% for goal in goals %}
@@ -1481,7 +1500,7 @@
                   {% endfor %}
                 </div>
               </div>
-              
+              {% endif %}
 
               <!-- Study Interests -->
               <!-- "editStudyInterests" -->
@@ -1500,6 +1519,7 @@
               </div>
               {% endif %}
               <!-- display study interests -->
+              {% if has_edit_permission or study_interests %}
               <div class="row mb-3">
                 <div class="col">
                   <div class="icon icon-sm icon-shape icon-shape-danger shadow rounded-circle mr-2">
@@ -1508,6 +1528,8 @@
                   <span class="h5 font-weight-bold text-muted text-uppercase">Study Interests</span>
                 </div>
               </div>
+              {% endif %}
+              {% if study_interests %}
               <div class="row">
                 <div class="col">
                   {% for study_interest in study_interests %}
@@ -1517,7 +1539,8 @@
                   {% endfor %}
                 </div>
               </div> 
-              {% if not study_interests %}
+              {% endif %}
+              {% if has_edit_permission and not study_interests %}
                 <div class="row mb-2 justify-content-end">
                   <div class="col text-right">
                     <!-- Button trigger modal -->
@@ -1535,6 +1558,7 @@
               
 
               <!-- Scholarships -->
+              {% if has_edit_permission or scholarship_history %}
               <div class="mt-5 pt-4 border-top"></div>
               <div class="row mb-3">
                 <div class="col">
@@ -1544,6 +1568,7 @@
                   <span class="h5 font-weight-bold text-muted text-uppercase">Scholarships</span>
                 </div>
               </div>
+              {% endif %}
               {% if has_edit_permission %}
               <!-- "addScholarship" -->
               <div class="row mb-2 justify-content-end">
@@ -1585,6 +1610,7 @@
               
 
               <!-- Social Links -->
+              {% if has_edit_permission or social_links %}
               <div class="mt-5 pt-4 border-top"></div>
               <div class="row mb-3">
                 <div class="col">
@@ -1594,6 +1620,7 @@
                   <span class="h5 font-weight-bold text-muted text-uppercase">Social Links</span>
                 </div>
               </div>
+              {% endif %}
               <!-- "addSocialLink" -->
               {% if has_edit_permission %}
                 <div class="row mb-2 justify-content-end">
@@ -1610,6 +1637,7 @@
                 </div>
               {% endif %}
               <!-- display "Social Links" -->
+              {% if social_links %}
               <div class="row mb-5">
                 <div class="col">
                   {% for social_link in social_links %}
@@ -1630,6 +1658,8 @@
                   {% endfor %}
                 </div>
               </div>
+              {% endif %}
+              
 
               <!-- Profile -->
               <div class="mt-5 pt-4 border-top"></div>
@@ -1649,6 +1679,7 @@
                 </div>
               {% endif %}
               <!-- display "Profile" -->
+              {% if has_edit_permission or profile %}
               <div class="row mb-3">
                 <div class="col">
                   <div class="icon icon-sm icon-shape icon-shape-default shadow rounded-circle mr-2">
@@ -1657,8 +1688,9 @@
                   <span class="h5 font-weight-bold text-muted text-uppercase">Profile</span>
                 </div>
               </div>
+              {% endif %}
               <!-- "addProfile" -->
-              {% if not profile %}
+              {% if has_edit_permission and not profile %}
                 <div class="row mb-2 justify-content-end">
                   <div class="col text-right">
                     <!-- Button trigger modal -->
@@ -1672,6 +1704,7 @@
                   </div>
                 </div>
               {% endif %}
+              {% if profile %}
               <div class="row mb-5">
                 <div class="col">
                   <h6>{{ profile.gender }}</h6>
@@ -1680,7 +1713,10 @@
                   {% endif %}
                 </div>
               </div>
-
+              {% endif %}
+              {% if not profile and has_edit_permission %}
+              <div class="mb-5"></div>
+              {% endif %}
             </div>
           </div>
         </div>
