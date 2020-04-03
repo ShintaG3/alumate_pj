@@ -23,41 +23,50 @@ class AccountView(TemplateView):
     template_name = 'account/account.html'
    
     def get_context_data(self, **kwargs):
-        user = get_object_or_404(User, username=kwargs['username'])
-        has_edit_permission = self.request.user == user
+        account = get_object_or_404(User, username=kwargs['username'])
+        has_edit_permission = self.request.user == account
 
         try:
-            basic_info = BasicInfo.objects.get(user=user)
+            basic_info = BasicInfo.objects.get(user=account)
         except BasicInfo.DoesNotExist:
             basic_info = None
         
-        goals = Goal.objects.filter(user=user).values_list('body', flat=True)
-        study_interests = StudyInterest.objects.filter(user=user).values_list('body', flat=True)
+        goals = Goal.objects.filter(user=account).values_list('body', flat=True)
+        study_interests = StudyInterest.objects.filter(user=account).values_list('body', flat=True)
         goals_str = ",".join(list(goals))
         study_interests_str = ",".join(list(study_interests))
         
         try:
-            about = About.objects.get(user=user)
+            about = About.objects.get(user=account)
         except About.DoesNotExist:
             about = None
         
-        educations = Education.objects.filter(user=user)
-        workexperiences = WorkExperience.objects.filter(user=user)
+        educations = Education.objects.filter(user=account)
+        workexperiences = WorkExperience.objects.filter(user=account)
         exp_history = self.get_exp_history(educations, workexperiences)
         
-        scholarships = Scholarship.objects.filter(user=user)
+        scholarships = Scholarship.objects.filter(user=account)
         scholarship_history = self.get_scholarship_history(scholarships)
         
-        social_links = SocialLink.objects.filter(user=user)
+        social_links = SocialLink.objects.filter(user=account)
         social_link_lists = self.get_social_link_lists(social_links)
         
         try:
-            profile = Profile.objects.get(user=user)
+            profile = Profile.objects.get(user=account)
         except Profile.DoesNotExist:
             profile = None
         
+        try:
+            following = Follow.objects.get(follower=self.request.user, followed=account)
+        except Follow.DoesNotExist:
+            following = None
+        
+        followers = Follow.objects.filter(followed=account)
+        followings = Follow.objects.filter(follower=account)
+        
+                
         context = {
-            'user': user,
+            'user': account,
             'has_edit_permission': has_edit_permission,
             'basic_info': basic_info,
             'basic_info_form': BasicInfoForm(instance=basic_info),
@@ -76,6 +85,10 @@ class AccountView(TemplateView):
             'new_social_link_form': SocialLinkForm(),
             'profile': profile,
             'profile_form': ProfileForm(),
+            'is_following': following,
+            'followers': followers,
+            'followings': followings,
+            
         }
         return context
     
@@ -348,3 +361,27 @@ class ProfileView(View):
         
         return redirect('/accounts/' + user.username)
 
+class FollowView(View):
+    def post(self, request, pk=None, *args, **kwargs):
+        follower = request.user
+        account_to_follow = get_object_or_404(User, username=kwargs['username'])
+        
+        follow = Follow(follower=follower, followed=account_to_follow)
+        follow.save()
+        
+        return redirect('/accounts/' + account_to_follow.username)
+
+
+class UnfollowView(View):
+    def post(self, request, pk=None, *args, **kwargs):
+        follower = request.user
+        account_to_unfollow = get_object_or_404(User, username=kwargs['username'])
+        
+        try:
+            follow = get_object_or_404(Follow, follower=follower, followed=account_to_unfollow)
+            follow.delete()
+            return redirect('/accounts/' + account_to_unfollow.username)
+        except Follow.DoesNotExist:
+            return redirect('/accounts/' + account_to_unfollow.username)
+            
+        

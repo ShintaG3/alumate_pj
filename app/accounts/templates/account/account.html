@@ -1257,8 +1257,16 @@
                 </div>
                 <div class="col-lg-12">
                   <div class="card-profile-actions text-center py-4 mt-8">
-                    {% if not has_edit_permission %}
-                    <a href="#" class="btn btn-sm btn-info">Follow</a>
+                    {% if not has_edit_permission and not is_following %}
+                    <form action="{% url 'accounts:follow' user.username %}" method="POST">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-sm btn-info">Follow</button>
+                    </form>
+                    {% elif is_following %}
+                    <form action="{% url 'accounts:unfollow' user.username %}" method="POST">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-sm btn-info">Following</button>
+                    </form>
                     {% endif %}
                     <!-- this is message button  -->
                     <!-- <a href="#" class="btn btn-sm btn-default float-right">Message</a> -->
@@ -1268,13 +1276,13 @@
                   <div class="card-profile-stats py-0 d-flex justify-content-center">
                     <div>
                       <a href="">
-                        <span class="heading">22</span>
+                        <span class="heading">{{ followers.count }}</span>
                       </a>
                       <span class="description">Followers</span>
                     </div>
                     <div>
                       <a href="">
-                        <span class="heading">10</span>
+                        <span class="heading">{{ followings.count }}</span>
                       </a>
                       <span class="description">Followings</span>
                     </div>
