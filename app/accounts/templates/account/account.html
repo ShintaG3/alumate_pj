@@ -1585,7 +1585,8 @@
               </div>
             </div>
             <div class="card-body px-lg-5 py-lg-5">
-              <form role="form">
+              <form action="{% url 'accounts:update-profile' user.username %}" method="POST">
+                {% csrf_token %}
                 <!-- Gender -->
                 <div class="form-group focused">
                   <label>Gender (optional)</label>
@@ -1593,14 +1594,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-single-02"></i></span>
                     </div>
-                    <select class="form-control" data-trigger="" name="gender" id="gender">
-                      <option value="blank" selected=""></option>
-                      <option value="female">Female</option>
-                      <option value="male">Male</option>
-                      <option value="transgender">Transgender</option>
-                      <option value="nonbinary">Nonbinary</option>
-                      <option value="other">Other</option>
-                    </select>
+                    {% render_field profile_form.gender class+="form-control" %}
                   </div>
                 </div>
                 <!--  Birth year -->
@@ -1610,18 +1604,12 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                     </div>
-                    <select class="form-control" data-trigger="" name="birthYear" id="birthYear">
-                      <option value="1989">1989</option>
-                      <option value="1990" selected="">1990</option>
-                      <option value="1991">1991</option>
-                      <option value="1992">1992</option>
-                      <option value="1993">1993</option>
-                    </select>
+                    {% render_field profile_form.birthday class+="form-control" %}
                   </div>
                 </div>
                 <!-- Button -->
                 <div class="text-center">
-                  <button type="button" class="btn btn-primary my-4">Save changes</button>
+                  <button type="submit" class="btn btn-primary my-4">Save changes</button>
                   <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
                 </div>
               </form>
@@ -1721,7 +1709,7 @@
               <!-- Goals-->
               <div class="mt-5 pt-4 border-top"></div>
               <!-- "editGoals" -->
-              {% if has_edit_permission %}
+              {% if has_edit_permission and goals %}
               <div class="row justify-content-end">
                 <div class="col text-right">
                   <!-- Button trigger modal -->
@@ -1744,6 +1732,20 @@
                   <span class="h5 font-weight-bold text-muted text-uppercase">Goals</span>
                 </div>
               </div>
+              {% if not goals %}
+                <div class="row mb-2 justify-content-end">
+                  <div class="col text-right">
+                    <!-- Button trigger modal -->
+                    <span data-toggle="modal" data-target="#editGoals" data-toggle="tooltip" data-placement="top"
+                      data-container="body" data-animation="true">
+                      <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                        data-toggle="tooltip" data-original-title="Add Goals">
+                        <i class="fa fa-plus text-gray"></i>
+                      </a>
+                    </span>
+                  </div>
+                </div>
+              {% endif %}
               <div class="row mb-5">
                 <div class="col">
                   {% for goal in goals %}
@@ -1753,10 +1755,11 @@
                   {% endfor %}
                 </div>
               </div>
+              
 
               <!-- Study Interests -->
               <!-- "editStudyInterests" -->
-              {% if has_edit_permission %}
+              {% if has_edit_permission and study_interests %}
               <div class="row justify-content-end">
                 <div class="col text-right">
                   <!-- Button trigger modal -->
@@ -1788,56 +1791,101 @@
                   {% endfor %}
                 </div>
               </div> 
+              {% if not study_interests %}
+                <div class="row mb-2 justify-content-end">
+                  <div class="col text-right">
+                    <!-- Button trigger modal -->
+                    <span data-toggle="modal" data-target="#editStudyInterests" data-toggle="tooltip" data-placement="top"
+                      data-container="body" data-animation="true">
+                      <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                        data-toggle="tooltip" data-original-title="Add Study Interests">
+                        <i class="fa fa-plus text-gray"></i>
+                      </a>
+                    </span>
+                  </div>
+                </div>
+              {% endif %}
 
               <!-- About -->
               <div class="mt-5 pt-4 border-top"></div>
               <!-- "editAbout" -->
-              {% if has_edit_permission %}
-              <div class="row mb-2 justify-content-end">
-                <div class="col text-right">
-                  <!-- Button trigger modal -->
-                  <span data-toggle="modal" data-target="#editAbout" data-toggle="tooltip" data-placement="top"
-                    data-container="body" data-animation="true">
-                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
-                      data-toggle="tooltip" data-original-title="Edit About">
-                      <i class="ni ni-settings-gear-65 text-gray"></i>
-                    </a>
-                  </span>
+              {% if has_edit_permission and about is not None %}
+                <div class="row mb-2 justify-content-end">
+                  <div class="col text-right">
+                    <!-- Button trigger modal -->
+                    <span data-toggle="modal" data-target="#editAbout" data-toggle="tooltip" data-placement="top"
+                      data-container="body" data-animation="true">
+                      <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                        data-toggle="tooltip" data-original-title="Edit About">
+                        <i class="ni ni-settings-gear-65 text-gray"></i>
+                      </a>
+                    </span>
+                  </div>
                 </div>
-              </div>
               {% endif %}
               <!-- display about -->
+              <div class="row mb-3">
+                <div class="col">
+                  <div class="icon icon-sm icon-shape icon-shape-danger shadow rounded-circle mr-2">
+                    <i class="ni ni-books text-danger"></i>
+                  </div>
+                  <span class="h5 font-weight-bold text-muted text-uppercase">About</span>
+                </div>
+              </div>
+              {% if about is None %}
+                <div class="row mb-2 justify-content-end">
+                  <div class="col text-right">
+                    <!-- Button trigger modal -->
+                    <span data-toggle="modal" data-target="#editAbout" data-toggle="tooltip" data-placement="top"
+                      data-container="body" data-animation="true">
+                      <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                        data-toggle="tooltip" data-original-title="Add About">
+                        <i class="fa fa-plus text-gray"></i>
+                      </a>
+                    </span>
+                  </div>
+                </div>
+              {% endif %}
               <div class="row justify-content-center">
                 <div class="col">
                   <p>{{ about.body }}</p>
                 </div>
               </div>
+              
 
-              <!-- Works & Educations -->
+            <!-- Works & Educations -->
               <div class="mt-4 pt-4 border-top"></div>
-              <!-- "add Work add Education" -->
-              {% if has_edit_permission %}
-              <div class="row mb-2 justify-content-end">
-                <div class="col text-right">
-                  <!-- Button trigger modal for Work-->
-                  <span data-toggle="modal" data-target="#addWork" data-toggle="tooltip" data-placement="top"
-                    data-container="body" data-animation="true">
-                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
-                      data-toggle="tooltip" data-original-title="Add Work">
-                      <i class="ni ni-briefcase-24 text-gray"></i>
-                    </a>
-                  </span>
-                  <!-- Button trigger modal for Education-->
-                  <span class="ml-2" data-toggle="modal" data-target="#addEducation" data-toggle="tooltip"
-                    data-placement="top" data-container="body" data-animation="true">
-                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
-                      data-toggle="tooltip" data-original-title="Add Education">
-                      <i class="ni ni-hat-3 text-gray"></i>
-                    </a>
-                  </span>
+                {% if has_edit_permission %}
+                <div class="row mb-3">
+                    <div class="col">
+                      <div class="icon icon-sm icon-shape icon-shape-danger shadow rounded-circle mr-2">
+                        <i class="ni ni-paper-diploma text-danger"></i>
+                      </div>
+                      <span class="h5 font-weight-bold text-muted text-uppercase">Work Experiences & Educations</span>
+                    </div>
                 </div>
-              </div>
-              {% endif %}
+                <!-- "add Work add Education" -->
+                <div class="row mb-2 justify-content-end">
+                  <div class="col text-right">
+                    <!-- Button trigger modal for Work-->
+                    <span data-toggle="modal" data-target="#addWork" data-toggle="tooltip" data-placement="top"
+                      data-container="body" data-animation="true">
+                      <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                        data-toggle="tooltip" data-original-title="Add Work">
+                        <i class="ni ni-briefcase-24 text-gray"></i>
+                      </a>
+                    </span>
+                    <!-- Button trigger modal for Education-->
+                    <span class="ml-2" data-toggle="modal" data-target="#addEducation" data-toggle="tooltip"
+                      data-placement="top" data-container="body" data-animation="true">
+                      <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                        data-toggle="tooltip" data-original-title="Add Education">
+                        <i class="ni ni-hat-3 text-gray"></i>
+                      </a>
+                    </span>
+                  </div>
+                </div>
+                {% endif %}
               <!-- display "Works & Educations" -->
               <div class="row mb-md-2">
                 <div class="col">
@@ -1920,6 +1968,9 @@
                         </div>
                       {% endif %}
                     {% endfor %}
+                  </div>
+                </div>
+              </div>
                     {% comment %} 
                     <div class="timeline-block">
                       <span class="timeline-step badge-success">
@@ -2035,9 +2086,6 @@
                         </div>
                       </div>
                     </div> {% endcomment %}
-                  </div>
-                </div>
-              </div>
 
               <!-- Scholarships -->
               <div class="mt-5 pt-4 border-top"></div>
@@ -2139,7 +2187,7 @@
 
               <!-- Profile -->
               <div class="mt-5 pt-4 border-top"></div>
-              {% if has_edit_permission %}
+              {% if has_edit_permission and profile %}
               <!-- "editProfile" -->
               <div class="row mb-2 justify-content-end">
                 <div class="col text-right">
@@ -2163,10 +2211,26 @@
                   <span class="h5 font-weight-bold text-muted text-uppercase">Profile</span>
                 </div>
               </div>
+              {% if not profile %}
+                <div class="row mb-2 justify-content-end">
+                  <div class="col text-right">
+                    <!-- Button trigger modal -->
+                    <span data-toggle="modal" data-target="#editProfile" data-toggle="tooltip" data-placement="top"
+                      data-container="body" data-animation="true">
+                      <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                        data-toggle="tooltip" data-original-title="Add Profile">
+                        <i class="fa fa-plus text-gray"></i>
+                      </a>
+                    </span>
+                  </div>
+                </div>
+              {% endif %}
               <div class="row mb-5">
                 <div class="col">
-                  <h6>Female</h6>
-                  <h6>Born in 1992</h6>
+                  <h6>{{ profile.gender }}</h6>
+                  {% if profile.birthday %}
+                  <h6>Born in {{ profile.birthday }}</h6>
+                  {% endif %}
                 </div>
               </div>
 
