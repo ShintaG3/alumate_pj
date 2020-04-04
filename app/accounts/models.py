@@ -57,10 +57,10 @@ class StudyInterest(models.Model):
 
 class About(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    body = models.CharField(max_length=500, null=True, blank=True)
+    body = models.CharField(max_length=2000, null=True, blank=True)
     
     def __str__(self):
-        return self.user.username + "'s about: " + self.body
+        return self.user.username + "'s about: " + self.body[:10]
 
 class EducationStatus(models.TextChoices):
     CURRENT = 'C', _('I am currently studying at this school'),
