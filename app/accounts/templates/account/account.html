@@ -833,15 +833,14 @@
                     {% render_field new_education_form.major class+="form-control" placeholder="Major e.g. MSc Economics..." %}
                   </div>
                 </div>
-                <!-- Major -->
+                <!-- Is Study Abroad -->
                 <div class="form-group mb-3">
-                <div class="custom-control custom-checkbox mb-4 mt-4">
-                  {% render_field new_education_form.is_study_abroad class+="custom-control-input" %}
-                  <label for="id_is_study_abroad" class="custom-control-label">
-                    <span>This is study abroad</span>
-                  </label>
-                </div>
-                  
+                  <div class="custom-control custom-checkbox mb-4 mt-4">
+                    {% render_field new_education_form.is_study_abroad class+="custom-control-input" %}
+                    <label for="id_is_study_abroad" class="custom-control-label">
+                      <span>This is study abroad</span>
+                    </label>
+                  </div>
                 </div>
                 <!-- Education Year for "actualSchool" -->
                 <div class="year-act" style="height: 12rem; display: block;">
@@ -980,7 +979,15 @@
                         {% render_field exp.form.major class+="form-control" placeholder="Major e.g. MSc Economics..." %}
                       </div>
                     </div>
-                    <!-- Education Year for "actualSchool" -->
+                    <div class="form-group mb-3">
+                      <div class="custom-control custom-checkbox mb-4 mt-4">
+                        {% render_field exp.form.is_study_abroad class+="custom-control-input" %}
+                        <label for="id_is_study_abroad" class="custom-control-label">
+                          <span>This is study abroad</span>
+                        </label>
+                      </div>
+                    </div>
+                    <!-- Start Year -->
                     <div class="year-act" style="height: 12rem; display: block;">
                       <!-- Start Year for "actualSchool" -->
                       <div class="form-group focused">
@@ -992,7 +999,7 @@
                         {% render_field exp.form.start_year class+="form-control" %}
                         </div>
                       </div>
-                      <!-- End Year for "actualSchool"-->
+                      <!-- End Year -->
                       <div class="form-group focused">
                         <label>Study until</label>
                         <div class="input-group input-group-alternative">
