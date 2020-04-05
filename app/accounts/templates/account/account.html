@@ -1,5 +1,6 @@
 {% extends 'base-authpage.html' %}
 {% load static %}
+{% load widget_tweaks  %}
 {% block navbar %}
 {% include 'include/nav-authpage.html' %}
 {% endblock %}
@@ -350,7 +351,7 @@
   }();
 </script>
 <!-- Work Year Options -->
-<script>
+{% comment %} <script>
   function workYearFunction(e) {
     if (e.dataset.status == "previousCompany" && e.checked == true) {
       $('.year-prv').css('display', 'block');
@@ -368,8 +369,8 @@
       $('.year-trg').css('display', 'none');
     }
   }
-</script>
-<!-- Education Year Options -->
+</script> {% endcomment %}
+{% comment %} <!-- Education Year Options -->
 <script>
   function educationYearFunction(e) {
     if (e.dataset.status == "actualSchool" && e.checked == true) {
@@ -383,10 +384,49 @@
       $('.year-trg').css('display', 'none');
     }
   }
+</script> {% endcomment %}
+<!-- Send goals and study interests -->
+<script>
+  function csrfSafeMethod(method) {
+      // these HTTP methods do not require CSRF protection
+      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+  }
+
+  function sendGoals() {
+    var csrftoken = Cookies.get('csrftoken');
+    $.ajaxSetup({
+      beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+      }
+    });
+    $.ajax({
+      url: 'update/goals',
+      method: 'POST',
+      data: {goals: $('#goals').val()},
+    });
+  }
+
+  function sendStudyInterests() {
+    var csrftoken = Cookies.get('csrftoken');
+    $.ajaxSetup({
+      beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+      }
+    });
+    $.ajax({
+      url: 'update/study-interests',
+      method: 'POST',
+      data: {studyInterests: $('#studyInterests').val()}
+    });
+  }
 </script>
 {% endblock %}
-{% block content %}
 
+{% block content %}
 <div class="profile-page">
 
 
@@ -402,7 +442,7 @@
     </div>
   </section>
 
-  <!-- Modals for Edit-->
+  <!-- Modals for Basic Info Edit-->
   <!-- Modal components shall be placed at the same level of the body tag so that modal's z-index is set appropreately -->
   <!-- Modal "editBasicInfo" -->
   <div class="modal fade" id="editBasicInfo" tabindex="-1" role="dialog" aria-labelledby="editBasicInfo"
@@ -417,31 +457,26 @@
               </div>
             </div>
             <div class="card-body px-lg-5 py-lg-5">
-              <form role="form">
+              <form action="{% url "accounts:update-basic-info" user.username %}" method="POST" >
+                {% csrf_token %}
                 <!--     Name -->
                 <div class="form-group mb-3 focused"><label>Name</label>
                   <div class="input-group input-group-alternative">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-circle-08"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Name..." type="text">
+                    {% render_field basic_info_form.name class+="form-control" placeholder="Name..." %}
                   </div>
                 </div>
                 <!--     Alumate Status -->
                 <div class="form-group focused">
                   <label>Alumate Status</label>
-                  <div class="custom-control custom-radio mb-3">
-                    <input name="custom-radio-1" class="custom-control-input" id="futureStudent" type="radio">
-                    <label class="custom-control-label" for="futureStudent">Future Student</label>
-                  </div>
-                  <div class="custom-control custom-radio mb-3">
-                    <input name="custom-radio-1" class="custom-control-input" id="currentStudent" type="radio">
-                    <label class="custom-control-label" for="currentStudent">Current Student</label>
-                  </div>
-                  <div class="custom-control custom-radio mb-3">
-                    <input name="custom-radio-1" class="custom-control-input" id="alumni" type="radio">
-                    <label class="custom-control-label" for="alumni">Alumni</label>
-                  </div>
+                  {% for radio in basic_info_form.status %}
+                    <div class="custom-control custom-radio mb-3">
+                      {{ radio.tag }}
+                      <label class="custom-control-label" for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                    </div>
+                  {% endfor %}
                 </div>
                 <!--  Country of origin -->
                 <div class="form-group focused">
@@ -450,7 +485,8 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-world"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Country of origin..." type="text">
+                    {% render_field basic_info_form.country_origin class+="form-control" placeholder="Country of origin..." %}
+                    {% comment %} <input class="form-control" placeholder="Country of origin..." type="text"> {% endcomment %}
                   </div>
                 </div>
                 <!--     Study abroad country -->
@@ -460,75 +496,134 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-world"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Study abroad country..." type="text">
+                    {% render_field basic_info_form.country_study_abroad class+="form-control" placeholder="Study abroad country..." %}
+                    {% comment %} <input class="form-control" placeholder="Study abroad country..." type="text"> {% endcomment %}
                   </div>
                 </div>
-                <!--     Study abroad school -->
-                <div class="form-group focused">
-                  <label>Study abroad school</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
-                    </div>
-                    <input class="form-control" placeholder="Study abroad school..." type="text">
-                  </div>
-                </div>
-                <!--     Study abroad Major -->
-                <div class="form-group focused">
-                  <label>Major</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
-                    </div>
-                    <input class="form-control" placeholder="Major e.g. MSc Economics..." type="text">
-                  </div>
-                </div>
-                <!--     Study abroad start year -->
-                <div class="form-group focused">
-                  <label>Study from</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                    </div>
-                    <select class="form-control" data-trigger="" name="startYear" id="startYear">
-                      <option disabled="" selected="">Start year</option>
-                      <option value="2020">Still planning</option>
-                      <option value="2020">2020</option>
-                      <option value="2021">2021</option>
-                      <option value="2023">2023</option>
-                    </select>
-                  </div>
-                </div>
-                <!--     Study abroad end year -->
-                <div class="form-group focused">
-                  <label>Study until</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                    </div>
-                    <select class="form-control" data-trigger="" name="startYear" id="startYear">
-                      <option disabled="" selected="">End year</option>
-                      <option value="2020">Still planning</option>
-
-                      <option value="2020">2020</option>
-                      <option value="2021">2021</option>
-                      <option value="2023">2023</option>
-                    </select>
-                  </div>
-                </div>
-                <!--     Living city -->
+                {% comment %} <!--     Living city -->
                 <div class="form-group focused">
                   <label>Living city (optional)</label>
                   <div class="input-group input-group-alternative">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-pin-3"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Living city e.g. Boston..." type="text">
+                    {% render_field basic_info_form.living_city class+="form-control" placeholder="Living city e.g. Boston..." %}
+                  </div>
+                </div> {% endcomment %}
+                <!-- Button -->
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary my-4">Save changes</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modals for editStudyAbroad -->
+  <div class="modal fade" id="editStudyAbroad" tabindex="-1" role="dialog" aria-labelledby="editStudyAbroad"
+    aria-hidden="true">
+    {% if education_already_added %}
+    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+    {% else %}
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    {% endif %}
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+          
+          {% if education_already_added %}
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Select From Your Educations</h6>
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form action="{% url 'accounts:update-study-abroad' user.username %}" method="POST">
+                {% csrf_token %}
+                <!-- Education -->
+                <div class="form-group mb-3">
+                  <label>Your education</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                    </div>
+                    {% render_field study_abroad_choice_form.education class+="form-control" %}
                   </div>
                 </div>
                 <!-- Button -->
                 <div class="text-center">
-                  <button type="button" class="btn btn-primary my-4">Save changes</button>
+                  <button type="submit" class="btn btn-primary my-4">Select Education</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+            <div class="border-bottom"></div>
+          {% endif %}
+            
+
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+              {% if education_already_added %}
+                <h6 class="text-muted my-0">Or Add New Study Abroad Info</h6>
+              {% else %}
+                <h6 class="text-muted my-0">Add Study Abroad Info</h6>
+              {% endif %}
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form action="{% url 'accounts:add-study-abroad' user.username %}" method="POST">
+                {% csrf_token %}
+                <!-- School -->
+                <div class="form-group mb-3">
+                  <label>School</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                    </div>
+                    {% render_field study_abroad_new_form.school class+="form-control" placeholder="School..." %}
+                  </div>
+                </div>
+                <!-- Major -->
+                <div class="form-group mb-3">
+                  <label>Major</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                    </div>
+                    {% comment %} <input class="form-control" placeholder="Major e.g. MSc Economics..." type="text"> {% endcomment %}
+                    {% render_field study_abroad_new_form.major class+="form-control" placeholder="Major e.g. MSc Economics..." %}
+                  </div>
+                </div>
+                <!-- Education Year for "actualSchool" -->
+                <div class="year-act" style="height: 12rem; display: block;">
+                  <!-- Start Year for "actualSchool" -->
+                  <div class="form-group">
+                    <label>Study from</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      </div>
+                      {% render_field study_abroad_new_form.start_year class+="form-control" %}
+                    </div>
+                  </div>
+                  <!-- End Year for "actualSchool"-->
+                  <div class="form-group">
+                    <label>Study until</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      </div>
+                      {% render_field study_abroad_new_form.end_year class+="form-control" %}
+                    </div>
+                  </div>
+                </div>
+                <!-- Button -->
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary my-4">Add Study Abroad</button>
                   <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
                 </div>
               </form>
@@ -551,17 +646,18 @@
               </div>
             </div>
             <div class="card-body px-lg-5 py-lg-5">
-              <form role="form">
+              <form>
+              {% csrf_token %}
                 <!-- Goals -->
                 <div class="form-group mb-3 focused">
                   <label>Goals</label>
                   <input class="form-control" type="text" name="goals" id="goals"
-                    value="Economist, UN Officer, International Development" placeholder="Add Goals"
+                    value="{{ goals_values }}" placeholder="Add Goals"
                     data-toggle="tags-success">
                 </div>
                 <!-- Button -->
                 <div class="text-center">
-                  <button type="button" class="btn btn-primary my-4">Save changes</button>
+                  <button onclick="sendGoals()" type="submit" class="btn btn-primary my-4">Save changes</button>
                   <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
                 </div>
               </form>
@@ -585,17 +681,18 @@
               </div>
             </div>
             <div class="card-body px-lg-5 py-lg-5">
-              <form role="form">
+              <form>
+              {% csrf_token %}
                 <!-- Study Interests -->
                 <div class="form-group mb-3 focused">
                   <label>Study Interests</label>
                   <input class="form-control" type="text" name="studyInterests" id="studyInterests"
-                    value="Finance, Business, Block chain, AI" placeholder="Add Study Interest"
+                    value="{{ study_interests_values }}" placeholder="Add Study Interest"
                     data-toggle="tags-danger">
                 </div>
                 <!-- Button -->
                 <div class="text-center">
-                  <button type="button" class="btn btn-primary my-4">Save changes</button>
+                  <button onclick="sendStudyInterests()" type="submit" class="btn btn-primary my-4">Save changes</button>
                   <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
                 </div>
               </form>
@@ -604,7 +701,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> 
 
   <!-- Modal "editAbout" -->
   <div class="modal fade" id="editAbout" tabindex="-1" role="dialog" aria-labelledby="editAbout" aria-hidden="true">
@@ -618,16 +715,16 @@
               </div>
             </div>
             <div class="card-body px-lg-5 py-lg-5">
-              <form role="form">
+              <form action="{% url 'accounts:update-about' user.username %}" method="POST">
+                {% csrf_token %}
                 <!-- About -->
                 <div class="form-group mb-3 focused">
                   <label>About</label>
-                  <textarea class="form-control" name="about" id="about" rows="5"
-                    placeholder="Please introduce yourself..."></textarea>
+                  {% render_field about_form.body class+="form-control" name="about" id="about" rows="5" placeholder="Please introduce yourself..." %}
                 </div>
                 <!-- Button -->
                 <div class="text-center">
-                  <button type="button" class="btn btn-primary my-4">Save changes</button>
+                  <button type="submit" class="btn btn-primary my-4">Save changes</button>
                   <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
                 </div>
               </form>
@@ -650,416 +747,46 @@
               </div>
             </div>
             <div class="card-body px-lg-5 py-lg-5">
-              <form role="form">
+              <form action="{% url 'accounts:add-work' user.username %}" method="POST">
+                {% csrf_token %}
                 <!-- Company -->
-                <div class="form-group mb-3 focused"><label>Company</label>
+                <div class="form-group mb-3 focused">
+                  <label>Company</label>
                   <div class="input-group input-group-alternative">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-building"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Company..." type="text">
+                    {% render_field new_work_form.company class+="form-control" placeholder="Company..." %}
+                    {% comment %} <input class="form-control" placeholder="Company..." type="text"> {% endcomment %}
                   </div>
                 </div>
                 <!-- Work Title -->
                 <div class="form-group mb-3 focused">
                   <label>Title</label>
-                  <input class="form-control" placeholder="Title e.g. Ratail Sales Manager..." type="text">
+                  {% render_field new_work_form.position class+="form-control" placeholder="Title e.g. Ratail Sales Manager..." %}
                 </div>
-                <!--  Work Status -->
-                <div class="form-group focused">
-                  <div class="custom-control custom-radio mb-3">
-                    <input name="addWork" class="custom-control-input" id="addWork-prv" data-status="previousCompany"
-                      type="radio" checked="" onclick="workYearFunction(this)">
-                    <label class="custom-control-label" for="addWork-prv">I worked in this company</label>
-                  </div>
-                  <div class="custom-control custom-radio mb-3">
-                    <input name="addWork" class="custom-control-input" id="addWork-cur" data-status="currentCompany"
-                      type="radio" onclick="workYearFunction(this)">
-                    <label class="custom-control-label" for="addWork-cur">I am currently working in this company</label>
-                  </div>
-                  <div class="custom-control custom-radio mb-3">
-                    <input name="addWork" class="custom-control-input" id="addWork-trg" data-status="targetCompany"
-                      type="radio" onclick="workYearFunction(this)">
-                    <label class="custom-control-label" for="addWork-trg"">This is my target company</label>
-                  </div>
-                </div>
-                
-                <!-- Work Year for " previousCompany" -->
-                      <div class="year-prv" style="height: 12rem;">
-                        <!-- Start Year for "previousCompany" -->
-                        <div class="form-group focused">
-                          <label>Work from</label>
-                          <div class="input-group input-group-alternative">
-                            <div class="input-group-prepend">
-                              <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                            </div>
-                            <select class="form-control" data-trigger="" name="startYearPrv">
-                              <option value="1990">1990</option>
-                              <option disabled="" selected="">Start year</option>
-                              <option value="1991">1991</option>
-                              <option value="1992">1992</option>
-                              <option value="1993">1993</option>
-                            </select>
-                          </div>
-                        </div>
-                        <!-- End Year for "previousCompany"-->
-                        <div class="form-group focused">
-                          <label>Work until</label>
-                          <div class="input-group input-group-alternative">
-                            <div class="input-group-prepend">
-                              <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                            </div>
-                            <select class="form-control" data-trigger="" name="endYearPrv">
-                              <option value="1990">1990</option>
-                              <option disabled="" selected="">End year</option>
-                              <option value="1991">1991</option>
-                              <option value="1992">1992</option>
-                              <option value="1993">1993</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- Work Year for "currentCompany" -->
-                      <div class="year-cur" style="height: 12rem; display: none;">
-                        <!-- Start Year for "previousCompany" -->
-                        <div class="form-group focused">
-                          <label>Work from</label>
-                          <div class="input-group input-group-alternative">
-                            <div class="input-group-prepend">
-                              <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                            </div>
-                            <select class="form-control" data-trigger="" name="startYearCur">
-                              <option value="1990">1990</option>
-                              <option disabled="" selected="">Start year</option>
-                              <option value="1991">1991</option>
-                              <option value="1992">1992</option>
-                              <option value="1993">1993</option>
-                            </select>
-                          </div>
-                        </div>
-                        <!-- End Year for "previousCompany"-->
-                        <div class="form-group focused">
-                          <label>Work until</label>
-                          <div class="input-group input-group-alternative">
-                            <div class="input-group-prepend">
-                              <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                            </div>
-                            <input class="form-control" type="text" disabled value="Present">
-                          </div>
-                        </div>
-                      </div>
-                      <!-- Work Year for "targetCompany" -->
-                      <div class="year-trg" style="height: 12rem; display: none;">
-                        <!-- Start Year for "previousCompany" -->
-                        <div class="form-group focused">
-                          <label>Work from (optional)</label>
-                          <div class="input-group input-group-alternative">
-                            <div class="input-group-prepend">
-                              <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                            </div>
-                            <select class="form-control" data-trigger="" name="startYearTrg">
-                              <option value="1990">1990</option>
-                              <option value="blank" selected="">Start year</option>
-                              <option value="1991">1991</option>
-                              <option value="1992">1992</option>
-                              <option value="1993">1993</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- Button -->
-                      <div class="text-center">
-                        <button type="button" class="btn btn-primary my-4">Add</button>
-                        <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
-                      </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal "editWork-1" -->
-  <div class="modal fade" id="editWork-1" tabindex="-1" role="dialog" aria-labelledby="editWork-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-      <div class="modal-content">
-        <div class="modal-body p-0">
-          <div class="card bg-secondary shadow border-0 mb-0">
-            <div class="card-header bg-secondary">
-              <div class="text-muted text-center">
-                <h6 class="text-muted my-0">Edit Work</h6>
-              </div>
-            </div>
-            <div class="card-body px-lg-5 py-lg-5">
-              <form role="form">
-                <!-- Company -->
-                <div class="form-group mb-3 focused"><label>Company</label>
+                <!-- Start Year for "previousCompany" -->
+                <div class="form-group">
+                  <label>Work from</label>
                   <div class="input-group input-group-alternative">
                     <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-building"></i></span>
+                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                     </div>
-                    <input class="form-control" value="World Bank" placeholder="Company..." type="text">
+                    {% render_field new_work_form.start_year class+="form-control" %}
                   </div>
                 </div>
-                <!-- Work Title -->
-                <div class="form-group mb-3 focused">
-                  <label>Title</label>
-                  <input class="form-control" value="Seek financial officer position, considering JPO as well"
-                    placeholder="Title e.g. Ratail Sales Manager..." type="text">
-                </div>
-                <!--  Work Status -->
-                <div class="form-group focused">
-                  <div class="custom-control custom-radio mb-3">
-                    <input name="editWork-1" class="custom-control-input" id="editWork-1-prv"
-                      data-status="previousCompany" type="radio" onclick="workYearFunction(this)">
-                    <label class="custom-control-label" for="editWork-1-prv">I worked in this company</label>
-                  </div>
-                  <div class="custom-control custom-radio mb-3">
-                    <input name="editWork-1" class="custom-control-input" id="editWork-1-cur"
-                      data-status="currentCompany" type="radio" onclick="workYearFunction(this)">
-                    <label class="custom-control-label" for="editWork-1-cur">I am currently working in this
-                      company</label>
-                  </div>
-                  <div class="custom-control custom-radio mb-3">
-                    <input name="editWork-1" class="custom-control-input" id="editWork-1-trg"
-                      data-status="targetCompany" type="radio" checked="" onclick="workYearFunction(this)">
-                    <label class="custom-control-label" for="editWork-1-trg">This is my target company</label>
-                  </div>
-                </div>
-
-                <!-- Work Year for "previousCompany" -->
-                <div class="year-prv" style="height: 12rem; display: none;">
-                  <!-- Start Year for "previousCompany" -->
-                  <div class="form-group focused">
-                    <label>Work from</label>
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                      </div>
-                      <select class="form-control" data-trigger="" name="startYearPrv">
-                        <option value="1990">1990</option>
-                        <option disabled="" selected="">Start year</option>
-                        <option value="1991">1991</option>
-                        <option value="1992">1992</option>
-                        <option value="1993">1993</option>
-                      </select>
+                <div class="form-group">
+                  <label>Work until</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                     </div>
-                  </div>
-                  <!-- End Year for "previousCompany"-->
-                  <div class="form-group focused">
-                    <label>Work until</label>
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                      </div>
-                      <select class="form-control" data-trigger="" name="endYearPrv">
-                        <option value="1990">1990</option>
-                        <option disabled="" selected="">End year</option>
-                        <option value="1991">1991</option>
-                        <option value="1992">1992</option>
-                        <option value="1993">1993</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <!-- Work Year for "currentCompany" -->
-                <div class="year-cur" style="height: 12rem; display: none;">
-                  <!-- Start Year for "previousCompany" -->
-                  <div class="form-group focused">
-                    <label>Work from</label>
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                      </div>
-                      <select class="form-control" data-trigger="" name="startYearCur">
-                        <option value="1990">1990</option>
-                        <option disabled="" selected="">Start year</option>
-                        <option value="1991">1991</option>
-                        <option value="1992">1992</option>
-                        <option value="1993">1993</option>
-                      </select>
-                    </div>
-                  </div>
-                  <!-- End Year for "previousCompany"-->
-                  <div class="form-group focused">
-                    <label>Work until</label>
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                      </div>
-                      <input class="form-control" type="text" disabled value="Present">
-                    </div>
-                  </div>
-                </div>
-                <!-- Work Year for "targetCompany" -->
-                <div class="year-trg" style="height: 12rem; display: block;">
-                  <!-- Start Year for "previousCompany" -->
-                  <div class="form-group focused">
-                    <label>Work from (optional)</label>
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                      </div>
-                      <select class="form-control" data-trigger="" name="startYearTrg">
-                        <option value="2019">2019</option>
-                        <option value="blank">Start year</option>
-                        <option value="2020">2020</option>
-                        <option value="2021">2021</option>
-                        <option value="2022" selected="">2022</option>
-                      </select>
-                    </div>
+                    {% render_field new_work_form.end_year class+="form-control" %}
                   </div>
                 </div>
                 <!-- Button -->
                 <div class="text-center">
-                  <button type="button" class="btn btn-primary my-4">Save Change</button>
-                  <button type="button" class="btn btn-danger my-4">Delete</button>
-                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal "editWork-2" -->
-  <div class="modal fade" id="editWork-2" tabindex="-1" role="dialog" aria-labelledby="editWork-2" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-      <div class="modal-content">
-        <div class="modal-body p-0">
-          <div class="card bg-secondary shadow border-0 mb-0">
-            <div class="card-header bg-secondary">
-              <div class="text-muted text-center">
-                <h6 class="text-muted my-0">Edit Work</h6>
-              </div>
-            </div>
-            <div class="card-body px-lg-5 py-lg-5">
-              <form role="form">
-                <!-- Company -->
-                <div class="form-group mb-3 focused"><label>Company</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-building"></i></span>
-                    </div>
-                    <input class="form-control" value="`PwC" placeholder="Company..." type="text">
-                  </div>
-                </div>
-                <!-- Work Title -->
-                <div class="form-group mb-3 focused">
-                  <label>Title</label>
-                  <input class="form-control" value="M&A Consultant" placeholder="Title e.g. Ratail Sales Manager..."
-                    type="text">
-                </div>
-                <!--  Work Status -->
-                <div class="form-group focused">
-                  <div class="custom-control custom-radio mb-3">
-                    <input name="editWork-2" class="custom-control-input" id="editWork-2-prv"
-                      data-status="previousCompany" type="radio" checked="" onclick="workYearFunction(this)">
-                    <label class="custom-control-label" for="editWork-2-prv">I worked in this company</label>
-                  </div>
-                  <div class="custom-control custom-radio mb-3">
-                    <input name="editWork-2" class="custom-control-input" id="editWork-2-cur"
-                      data-status="currentCompany" type="radio" onclick="workYearFunction(this)">
-                    <label class="custom-control-label" for="editWork-2-cur">I am currently working in this
-                      company</label>
-                  </div>
-                  <div class="custom-control custom-radio mb-3">
-                    <input name="editWork-2" class="custom-control-input" id="editWork-2-trg"
-                      data-status="targetCompany" type="radio" onclick="workYearFunction(this)">
-                    <label class="custom-control-label" for="editWork-2-trg">This is my target company</label>
-                  </div>
-                </div>
-
-                <!-- Work Year for "previousCompany" -->
-                <div class="year-prv" style="height: 12rem; display: block;">
-                  <!-- Start Year for "previousCompany" -->
-                  <div class="form-group focused">
-                    <label>Work from</label>
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                      </div>
-                      <select class="form-control" data-trigger="" name="startYearPrv">
-                        <option value="2013" selected="">2013</option>
-                        <option disabled="">Start year</option>
-                        <option value="2014">2014</option>
-                        <option value="2015">2015</option>
-                        <option value="2016">2016</option>
-                      </select>
-                    </div>
-                  </div>
-                  <!-- End Year for "previousCompany"-->
-                  <div class="form-group focused">
-                    <label>Work until</label>
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                      </div>
-                      <select class="form-control" data-trigger="" name="endYearPrv">
-                        <option value="2019">2019</option>
-                        <option disabled="">End year</option>
-                        <option value="2020" selected="">2020</option>
-                        <option value="2021">2021</option>
-                        <option value="2022">2022</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <!-- Work Year for "currentCompany" -->
-                <div class="year-cur" style="height: 12rem; display: none;">
-                  <!-- Start Year for "previousCompany" -->
-                  <div class="form-group focused">
-                    <label>Work from</label>
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                      </div>
-                      <select class="form-control" data-trigger="" name="startYearCur">
-                        <option value="1990">1990</option>
-                        <option disabled="" selected="">Start year</option>
-                        <option value="1991">1991</option>
-                        <option value="1992">1992</option>
-                        <option value="1993">1993</option>
-                      </select>
-                    </div>
-                  </div>
-                  <!-- End Year for "previousCompany"-->
-                  <div class="form-group focused">
-                    <label>Work until</label>
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                      </div>
-                      <input class="form-control" type="text" disabled value="Present">
-                    </div>
-                  </div>
-                </div>
-                <!-- Work Year for "targetCompany" -->
-                <div class="year-trg" style="height: 12rem; display: none;">
-                  <!-- Start Year for "previousCompany" -->
-                  <div class="form-group focused">
-                    <label>Work from (optional)</label>
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                      </div>
-                      <select class="form-control" data-trigger="" name="startYearTrg">
-                        <option value="2019">2019</option>
-                        <option value="blank" selected="">Start year</option>
-                        <option value="2020">2020</option>
-                        <option value="2021">2021</option>
-                        <option value="2022">2022</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <!-- Button -->
-                <div class="text-center">
-                  <button type="button" class="btn btn-primary my-4">Save Change</button>
-                  <button type="button" class="btn btn-danger my-4">Delete</button>
+                  <button type="submit" class="btn btn-primary my-4">Add work</button>
                   <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
                 </div>
               </form>
@@ -1083,116 +810,64 @@
               </div>
             </div>
             <div class="card-body px-lg-5 py-lg-5">
-              <form role="form">
+              <form action="{% url 'accounts:add-education' user.username %}" method="POST">
+                {% csrf_token %}
                 <!-- School -->
-                <div class="form-group mb-3 focused"><label>School</label>
+                <div class="form-group mb-3">
+                  <label>School</label>
                   <div class="input-group input-group-alternative">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                     </div>
-                    <input class="form-control" placeholder="School..." type="text">
+                    {% render_field new_education_form.school class+="form-control" placeholder="School..." %}
                   </div>
                 </div>
                 <!-- Major -->
-                <div class="form-group mb-3 focused">
+                <div class="form-group mb-3">
                   <label>Major</label>
                   <div class="input-group input-group-alternative">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Major e.g. MSc Economics..." type="text">
+                    {% comment %} <input class="form-control" placeholder="Major e.g. MSc Economics..." type="text"> {% endcomment %}
+                    {% render_field new_education_form.major class+="form-control" placeholder="Major e.g. MSc Economics..." %}
                   </div>
                 </div>
-                <!--  Education Status -->
-                <div class="form-group focused">
-                  <div class="custom-control custom-radio mb-3">
-                    <input name="addEducation" class="custom-control-input" id="addEducation-act" type="radio"
-                      checked="" data-status="actualSchool" onclick="educationYearFunction(this)">
-                    <label class="custom-control-label" for="addEducation-act">I studied or I am going to study in this
-                      school</label>
-                  </div>
-                  <div class="custom-control custom-radio mb-3">
-                    <input name="addEducation" class="custom-control-input" id="addEducation-trg" type="radio"
-                      data-status="targetSchool" onclick="educationYearFunction(this)">
-                    <label class="custom-control-label" for="addEducation-trg">This is my target school</label>
+                <!-- Is Study Abroad -->
+                <div class="form-group mb-3">
+                  <div class="custom-control custom-checkbox mb-4 mt-4">
+                    {% render_field new_education_form.is_study_abroad class+="custom-control-input" %}
+                    <label for="id_is_study_abroad" class="custom-control-label">
+                      <span>This is study abroad</span>
+                    </label>
                   </div>
                 </div>
-
                 <!-- Education Year for "actualSchool" -->
                 <div class="year-act" style="height: 12rem; display: block;">
                   <!-- Start Year for "actualSchool" -->
-                  <div class="form-group focused">
+                  <div class="form-group">
                     <label>Study from</label>
                     <div class="input-group input-group-alternative">
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                       </div>
-                      <select class="form-control" data-trigger="" name="startYearAct">
-                        <option value="1990">1990</option>
-                        <option disabled="" selected="">Start year</option>
-                        <option value="1991">1991</option>
-                        <option value="1992">1992</option>
-                        <option value="1993">1993</option>
-                      </select>
+                      {% render_field new_education_form.start_year class+="form-control" %}
                     </div>
                   </div>
                   <!-- End Year for "actualSchool"-->
-                  <div class="form-group focused">
+                  <div class="form-group">
                     <label>Study until</label>
                     <div class="input-group input-group-alternative">
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                       </div>
-                      <select class="form-control" data-trigger="" name="endYearAct">
-                        <option value="1990">1990</option>
-                        <option disabled="" selected="">End year</option>
-                        <option value="1991">1991</option>
-                        <option value="1992">1992</option>
-                        <option value="1993">1993</option>
-                      </select>
+                      {% render_field new_education_form.end_year class+="form-control" %}
                     </div>
                   </div>
                 </div>
-
-                <!-- Education Year for "targetSchool" -->
-                <div class="year-trg" style="height: 12rem; display: none;">
-                  <!-- Start Year for "previousCompany" -->
-                  <div class="form-group focused">
-                    <label>Study from (optional)</label>
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                      </div>
-                      <select class="form-control" data-trigger="" name="startYearTrg">
-                        <option value="1990">1990</option>
-                        <option value="blank" selected="">Start year</option>
-                        <option value="1991">1991</option>
-                        <option value="1992">1992</option>
-                        <option value="1993">1993</option>
-                      </select>
-                    </div>
-                  </div>
-                  <!-- End Year for "targetSchool"-->
-                  <div class="form-group focused">
-                    <label>Study until (optional)</label>
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                      </div>
-                      <select class="form-control" data-trigger="" name="endYearTrg">
-                        <option value="1990">1990</option>
-                        <option value="blank" selected="">End year</option>
-                        <option value="1991">1991</option>
-                        <option value="1992">1992</option>
-                        <option value="1993">1993</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-
                 <!-- Button -->
                 <div class="text-center">
-                  <button type="button" class="btn btn-primary my-4">Add</button>
+                  <button type="submit" class="btn btn-primary my-4">Add Education</button>
                   <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
                 </div>
               </form>
@@ -1203,274 +878,154 @@
     </div>
   </div>
 
-  <!-- Modal "editEducation-1" -->
-  <div class="modal fade" id="editEducation-1" tabindex="-1" role="dialog" aria-labelledby="editEducation-1"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-      <div class="modal-content">
-        <div class="modal-body p-0">
-          <div class="card bg-secondary shadow border-0 mb-0">
-            <div class="card-header bg-secondary">
-              <div class="text-muted text-center">
-                <h6 class="text-muted my-0">Edit Education</h6>
+  <!-- Modal "edit work experience and education" -->
+  {% for exp in exp_history %}
+    {% if exp.is_work %}
+      <!-- Modal "editWork" -->
+      <div class="modal fade" id="editWork-{{exp.value.id}}" tabindex="-1" role="dialog" aria-labelledby="editWork-{{exp.value.id}}" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+          <div class="modal-content">
+            <div class="modal-body p-0">
+              <div class="card bg-secondary shadow border-0 mb-0">
+                <div class="card-header bg-secondary">
+                  <div class="text-muted text-center">
+                    <h6 class="text-muted my-0">Edit Work</h6>
+                  </div>
+                </div>
+                <div class="card-body px-lg-5 py-lg-5">
+                  <form action="{% url 'accounts:update-work' user.username exp.value.id %}" method="POST">
+                    {% csrf_token %}
+                    <!-- Company -->
+                    <div class="form-group mb-3 focused">
+                    <label>Company</label>
+                      <div class="input-group input-group-alternative">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="ni ni-building"></i></span>
+                        </div>
+                        {% render_field exp.form.company class+="form-control" placeholder="Company..." %}
+                      </div>
+                    </div>
+                    <!-- Position -->
+                    <div class="form-group mb-3 focused">
+                      <label>Position</label>
+                      {% render_field exp.form.position class+="form-control" placeholder="Title e.g. Ratail Sales Manager..." %}
+                    </div>
+                    <!-- Start Year for "previousCompany" -->
+                    <div class="form-group focused">
+                      <label>Work from</label>
+                      <div class="input-group input-group-alternative">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                        </div>
+                        {% render_field exp.form.start_year class+="form-control" %}
+                      </div>
+                    </div>
+                    <!-- End Year for "previousCompany"-->
+                    <div class="form-group focused">
+                      <label>Work until</label>
+                      <div class="input-group input-group-alternative">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                        </div>
+                        {% render_field exp.form.end_year class+="form-control" %}
+                      </div>
+                    </div>
+                    <!-- Button -->
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-primary my-4">Save Change</button>
+                      <button type="submit" class="btn btn-danger my-4" name="delete">Delete</button>
+                      <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                    </div>
+                  </form>
+                </div>
               </div>
             </div>
-            <div class="card-body px-lg-5 py-lg-5">
-              <form role="form">
-                <!-- School -->
-                <div class="form-group mb-3 focused"><label>School</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
-                    </div>
-                    <input class="form-control" value="Harvard University" placeholder="School..." type="text">
-                  </div>
-                </div>
-                <!-- Major -->
-                <div class="form-group mb-3 focused">
-                  <label>Major</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
-                    </div>
-                    <input class="form-control" value="MBA" placeholder="Major e.g. MSc Economics..." type="text">
-                  </div>
-                </div>
-                <!--  Education Status -->
-                <div class="form-group focused">
-                  <div class="custom-control custom-radio mb-3">
-                    <input name="editEducation-1" class="custom-control-input" id="editEducation-1-act" type="radio"
-                      checked="" data-status="actualSchool" onclick="educationYearFunction(this)">
-                    <label class="custom-control-label" for="editEducation-1-act">I studied or I am going to study in
-                      this school</label>
-                  </div>
-                  <div class="custom-control custom-radio mb-3">
-                    <input name="editEducation-1" class="custom-control-input" id="editEducation-1-trg" type="radio"
-                      data-status="targetSchool" onclick="educationYearFunction(this)">
-                    <label class="custom-control-label" for="editEducation-1-trg">This is my target school</label>
-                  </div>
-                </div>
-
-                <!-- Education Year for "actualSchool" -->
-                <div class="year-act" style="height: 12rem; display: block;">
-                  <!-- Start Year for "actualSchool" -->
-                  <div class="form-group focused">
-                    <label>Study from</label>
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                      </div>
-                      <select class="form-control" data-trigger="" name="startYearAct">
-                        <option value="2019">2019</option>
-                        <option disabled="">Start year</option>
-                        <option value="2020" selected="">2020</option>
-                        <option value="2021">2021</option>
-                        <option value="2022">2022</option>
-                      </select>
-                    </div>
-                  </div>
-                  <!-- End Year for "actualSchool"-->
-                  <div class="form-group focused">
-                    <label>Study until</label>
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                      </div>
-                      <select class="form-control" data-trigger="" name="endYearAct">
-                        <option value="2019">2019</option>
-                        <option disabled="">End year</option>
-                        <option value="2020">2020</option>
-                        <option value="2021">2021</option>
-                        <option value="2022" selected="">2022</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Education Year for "targetSchool" -->
-                <div class="year-trg" style="height: 12rem; display: none;">
-                  <!-- Start Year for "previousCompany" -->
-                  <div class="form-group focused">
-                    <label>Study from (optional)</label>
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                      </div>
-                      <select class="form-control" data-trigger="" name="startYearTrg">
-                        <option value="1990">1990</option>
-                        <option value="blank" selected="">Start year</option>
-                        <option value="1991">1991</option>
-                        <option value="1992">1992</option>
-                        <option value="1993">1993</option>
-                      </select>
-                    </div>
-                  </div>
-                  <!-- End Year for "targetSchool"-->
-                  <div class="form-group focused">
-                    <label>Study until (optional)</label>
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                      </div>
-                      <select class="form-control" data-trigger="" name="endYearTrg">
-                        <option value="1990">1990</option>
-                        <option value="blank" selected="">End year</option>
-                        <option value="1991">1991</option>
-                        <option value="1992">1992</option>
-                        <option value="1993">1993</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Button -->
-                <div class="text-center">
-                  <button type="button" class="btn btn-primary my-4">Save Change</button>
-                  <button type="button" class="btn btn-danger my-4">Delete</button>
-                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
-                </div>
-              </form>
-            </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-
-  <!-- Modal "editEducation-2" -->
-  <div class="modal fade" id="editEducation-2" tabindex="-1" role="dialog" aria-labelledby="editEducation-2"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-      <div class="modal-content">
-        <div class="modal-body p-0">
-          <div class="card bg-secondary shadow border-0 mb-0">
-            <div class="card-header bg-secondary">
-              <div class="text-muted text-center">
-                <h6 class="text-muted my-0">Edit Education</h6>
+    {% else %}
+      <!-- Modal "editEducation" -->
+      <div class="modal fade" id="editEducation-{{exp.value.id}}" tabindex="-1" role="dialog" aria-labelledby="editEducation-{{exp.value.id}}"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+          <div class="modal-content">
+            <div class="modal-body p-0">
+              <div class="card bg-secondary shadow border-0 mb-0">
+                <div class="card-header bg-secondary">
+                  <div class="text-muted text-center">
+                    <h6 class="text-muted my-0">Edit Education</h6>
+                  </div>
+                </div>
+                <div class="card-body px-lg-5 py-lg-5">
+                  <form action="{% url 'accounts:update-education' user.username exp.value.id %}" method="POST">
+                    {% csrf_token %}
+                    <!-- School -->
+                    <div class="form-group mb-3 focused">
+                      <label>School</label>
+                      <div class="input-group input-group-alternative">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                        </div>
+                        {% render_field exp.form.school class+="form-control" placeholder="School..." %}
+                      </div>
+                    </div>
+                    <!-- Major -->
+                    <div class="form-group mb-3 focused">
+                      <label>Major</label>
+                      <div class="input-group input-group-alternative">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                        </div>
+                        {% render_field exp.form.major class+="form-control" placeholder="Major e.g. MSc Economics..." %}
+                      </div>
+                    </div>
+                    <div class="form-group mb-3">
+                      <div class="custom-control custom-checkbox mb-4 mt-4">
+                        {% render_field exp.form.is_study_abroad class+="custom-control-input" %}
+                        <label for="id_is_study_abroad" class="custom-control-label">
+                          <span>This is study abroad</span>
+                        </label>
+                      </div>
+                    </div>
+                    <!-- Start Year -->
+                    <div class="year-act" style="height: 12rem; display: block;">
+                      <!-- Start Year for "actualSchool" -->
+                      <div class="form-group focused">
+                        <label>Study from</label>
+                        <div class="input-group input-group-alternative">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                          </div>
+                        {% render_field exp.form.start_year class+="form-control" %}
+                        </div>
+                      </div>
+                      <!-- End Year -->
+                      <div class="form-group focused">
+                        <label>Study until</label>
+                        <div class="input-group input-group-alternative">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                          </div>
+                          {% render_field exp.form.end_year class+="form-control" %}
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Button -->
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-primary my-4">Save Change</button>
+                      <button type="submit" class="btn btn-danger my-4" name="delete">Delete</button>
+                      <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                    </div>
+                  </form>
+                </div>
               </div>
             </div>
-            <div class="card-body px-lg-5 py-lg-5">
-              <form role="form">
-                <!-- School -->
-                <div class="form-group mb-3 focused"><label>School</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
-                    </div>
-                    <input class="form-control" value="University of Tokyo" placeholder="School..." type="text">
-                  </div>
-                </div>
-                <!-- Major -->
-                <div class="form-group mb-3 focused">
-                  <label>Major</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
-                    </div>
-                    <input class="form-control" value="Mathematics" placeholder="Major e.g. MSc Economics..."
-                      type="text">
-                  </div>
-                </div>
-                <!--  Education Status -->
-                <div class="form-group focused">
-                  <div class="custom-control custom-radio mb-3">
-                    <input name="editEducation-2" class="custom-control-input" id="editEducation-2-act" type="radio"
-                      checked="" data-status="actualSchool" onclick="educationYearFunction(this)">
-                    <label class="custom-control-label" for="editEducation-2-act">I studied or I am going to study in
-                      this school</label>
-                  </div>
-                  <div class="custom-control custom-radio mb-3">
-                    <input name="editEducation-2" class="custom-control-input" id="editEducation-2-trg" type="radio"
-                      data-status="targetSchool" onclick="educationYearFunction(this)">
-                    <label class="custom-control-label" for="editEducation-2-trg">This is my target school</label>
-                  </div>
-                </div>
-
-                <!-- Education Year for "actualSchool" -->
-                <div class="year-act" style="height: 12rem; display: block;">
-                  <!-- Start Year for "actualSchool" -->
-                  <div class="form-group focused">
-                    <label>Study from</label>
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                      </div>
-                      <select class="form-control" data-trigger="" name="startYearAct">
-                        <option value="2008">2008</option>
-                        <option disabled="">Start year</option>
-                        <option value="2009" selected="">2009</option>
-                        <option value="2010">2010</option>
-                        <option value="2011">2011</option>
-                      </select>
-                    </div>
-                  </div>
-                  <!-- End Year for "actualSchool"-->
-                  <div class="form-group focused">
-                    <label>Study until</label>
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                      </div>
-                      <select class="form-control" data-trigger="" name="endYearAct">
-                        <option value="2010">2010</option>
-                        <option disabled="">End year</option>
-                        <option value="2011">2011</option>
-                        <option value="2012">2012</option>
-                        <option value="2013" selected="">2013</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Education Year for "targetSchool" -->
-                <div class="year-trg" style="height: 12rem; display: none;">
-                  <!-- Start Year for "previousCompany" -->
-                  <div class="form-group focused">
-                    <label>Study from (optional)</label>
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                      </div>
-                      <select class="form-control" data-trigger="" name="startYearTrg">
-                        <option value="1990">1990</option>
-                        <option value="blank" selected="">Start year</option>
-                        <option value="1991">1991</option>
-                        <option value="1992">1992</option>
-                        <option value="1993">1993</option>
-                      </select>
-                    </div>
-                  </div>
-                  <!-- End Year for "targetSchool"-->
-                  <div class="form-group focused">
-                    <label>Study until (optional)</label>
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                      </div>
-                      <select class="form-control" data-trigger="" name="endYearTrg">
-                        <option value="1990">1990</option>
-                        <option value="blank" selected="">End year</option>
-                        <option value="1991">1991</option>
-                        <option value="1992">1992</option>
-                        <option value="1993">1993</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Button -->
-                <div class="text-center">
-                  <button type="button" class="btn btn-primary my-4">Save Change</button>
-                  <button type="button" class="btn btn-danger my-4">Delete</button>
-                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
-                </div>
-              </form>
-            </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
+    {% endif %}
+  {% endfor %}
+
 
   <!-- Modal "addScholarship" -->
   <div class="modal fade" id="addScholarship" tabindex="-1" role="dialog" aria-labelledby="addScholarship"
@@ -1485,14 +1040,25 @@
               </div>
             </div>
             <div class="card-body px-lg-5 py-lg-5">
-              <form role="form">
+              <form action="{% url 'accounts:add-scholarship' user.username %}" method="POST">
+                {% csrf_token %}
                 <!-- Scholarship Organization -->
-                <div class="form-group mb-3 focused"><label>Organization</label>
+                <div class="form-group mb-3 focused">
+                  <label>Organization</label>
                   <div class="input-group input-group-alternative">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fa fa-university"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Organization..." type="text">
+                    {% render_field new_scholarship_form.organization class+="form-control" placeholder="Organization..." %}
+                  </div>
+                </div>
+                <!-- Scholarship program -->
+                <div class="form-group mb-3 focused"><label>Scholarship Title</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-paper-diploma"></i></span>
+                    </div>
+                    {% render_field new_scholarship_form.title class+="form-control" placeholder="Scholarship Title..."  %}
                   </div>
                 </div>
                 <!-- Scholarship Start Year -->
@@ -1502,13 +1068,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                     </div>
-                    <select class="form-control" data-trigger="" name="startYear">
-                      <option value="2017">2017</option>
-                      <option value="2018" selected="">2018</option>
-                      <option value="2019">2019</option>
-                      <option value="2020">2020</option>
-                      <option value="2021">2021</option>
-                    </select>
+                    {% render_field new_scholarship_form.start_year class+="form-control" %}
                   </div>
                 </div>
                 <!-- Scholarship End Year -->
@@ -1518,27 +1078,12 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                     </div>
-                    <select class="form-control" data-trigger="" name="endYear">
-                      <option value="2017">2017</option>
-                      <option value="2018" selected="">2018</option>
-                      <option value="2019">2019</option>
-                      <option value="2020">2020</option>
-                      <option value="2021">2021</option>
-                    </select>
-                  </div>
-                </div>
-                <!-- Scholarship program -->
-                <div class="form-group mb-3 focused"><label>Scholarship Title</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-paper-diploma"></i></span>
-                    </div>
-                    <input class="form-control" placeholder="Scholarship Title..." type="text">
+                    {% render_field new_scholarship_form.end_year class+="form-control" %}
                   </div>
                 </div>
                 <!-- Button -->
                 <div class="text-center">
-                  <button type="button" class="btn btn-primary my-4">Add</button>
+                  <button type="submit" class="btn btn-primary my-4">Add</button>
                   <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
                 </div>
               </form>
@@ -1549,87 +1094,79 @@
     </div>
   </div>
 
-  <!-- Modal "editScholarship-1" -->
-  <div class="modal fade" id="editScholarship-1" tabindex="-1" role="dialog" aria-labelledby="editScholarship-1"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-      <div class="modal-content">
-        <div class="modal-body p-0">
-          <div class="card bg-secondary shadow border-0 mb-0">
-            <div class="card-header bg-secondary">
-              <div class="text-muted text-center">
-                <h6 class="text-muted my-0">Add Scholarship</h6>
+  <!-- Modal "editScholarship" -->
+  {% for scholarship in scholarship_history %}
+    <!-- Modal "editScholarship-1" -->
+    <div class="modal fade" id="editScholarship-{{ scholarship.value.id }}" tabindex="-1" role="dialog" aria-labelledby="editScholarship-{{ scholarship.value.id }}"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+          <div class="modal-body p-0">
+            <div class="card bg-secondary shadow border-0 mb-0">
+              <div class="card-header bg-secondary">
+                <div class="text-muted text-center">
+                  <h6 class="text-muted my-0">Add Scholarship</h6>
+                </div>
+              </div>
+              <div class="card-body px-lg-5 py-lg-5">
+                <form action="{% url 'accounts:update-scholarship' user.username scholarship.value.id %}" method="POST">
+                  {% csrf_token %}
+                  <!-- Scholarship Organization -->
+                  <div class="form-group mb-3 focused">
+                    <label>Organization</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-university"></i></span>
+                      </div>
+                      {% render_field scholarship.form.organization class+="form-control" placeholder="Organization..." %}
+                    </div>
+                  </div>
+                  <!-- Scholarship program -->
+                  <div class="form-group mb-3 focused"><label>Scholarship Title</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-paper-diploma"></i></span>
+                      </div>
+                      {% render_field scholarship.form.title class+="form-control" placeholder="Organization..." %}
+                    </div>
+                  </div>
+                  <!-- Scholarship Start Year -->
+                  <div class="form-group focused">
+                    <label>From</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      </div>
+                      {% render_field scholarship.form.start_year class+="form-control" %}
+                    </div>
+                  </div>
+                  <!-- Scholarship End Year -->
+                  <div class="form-group focused">
+                    <label>To</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      </div>
+                      {% render_field scholarship.form.end_year class+="form-control" %}
+                    </div>
+                  </div>
+                  
+                  <!-- Button -->
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-primary my-4">Save Change</button>
+                    <button type="submit" name="delete" class="btn btn-danger my-4">Delete</button>
+                    <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                  </div>
+                </form>
               </div>
             </div>
-            <div class="card-body px-lg-5 py-lg-5">
-              <form role="form">
-                <!-- Scholarship Organization -->
-                <div class="form-group mb-3 focused"><label>Organization</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="fa fa-university"></i></span>
-                    </div>
-                    <input class="form-control" value="Fulbright Japan" placeholder="Organization..." type="text">
-                  </div>
-                </div>
-                <!-- Scholarship Start Year -->
-                <div class="form-group focused">
-                  <label>From</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                    </div>
-                    <select class="form-control" data-trigger="" name="startYear">
-                      <option value="2017">2017</option>
-                      <option value="2018">2018</option>
-                      <option value="2019">2019</option>
-                      <option value="2020" selected="">2020</option>
-                      <option value="2021">2021</option>
-                    </select>
-                  </div>
-                </div>
-                <!-- Scholarship End Year -->
-                <div class="form-group focused">
-                  <label>To</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                    </div>
-                    <select class="form-control" data-trigger="" name="endYear">
-                      <option value="2017">2017</option>
-                      <option value="2018">2018</option>
-                      <option value="2019">2019</option>
-                      <option value="2020">2020</option>
-                      <option value="2021">2021</option>
-                      <option value="2022">2022</option>
-                      <option value="2023" selected="">2023</option>
-                    </select>
-                  </div>
-                </div>
-                <!-- Scholarship program -->
-                <div class="form-group mb-3 focused"><label>Scholarship Title</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-paper-diploma"></i></span>
-                    </div>
-                    <input class="form-control" value="Masters degree program" placeholder="Scholarship Title..."
-                      type="text">
-                  </div>
-                </div>
-                <!-- Button -->
-                <div class="text-center">
-                  <button type="button" class="btn btn-primary my-4">Save Change</button>
-                  <button type="button" class="btn btn-danger my-4">Delete</button>
-                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
-                </div>
-              </form>
-            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  {% endfor %}
 
+  
   <!-- Modal "addSocialLink" -->
   <div class="modal fade" id="addSocialLink" tabindex="-1" role="dialog" aria-labelledby="addSocialLink"
     aria-hidden="true">
@@ -1643,14 +1180,16 @@
               </div>
             </div>
             <div class="card-body px-lg-5 py-lg-5">
-              <form role="form">
+              <form action="{% url 'accounts:add-social-link' user.username %}" method="POST">
+                {% csrf_token %}
                 <!-- Link title -->
-                <div class="form-group mb-3 focused"><label>Title</label>
+                <div class="form-group mb-3 focused">
+                  <label>Title</label>
                   <div class="input-group input-group-alternative">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-world"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Title..." type="text">
+                    {% render_field new_social_link_form.title class+="form-control" placeholder="Title..." %}
                   </div>
                 </div>
                 <!-- Link url -->
@@ -1659,12 +1198,12 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fa fa-link"></i></span>
                     </div>
-                    <input class="form-control" placeholder="URL..." type="text">
+                    {% render_field new_social_link_form.url class+="form-control" placeholder="URL..."  %}
                   </div>
                 </div>
                 <!-- Button -->
                 <div class="text-center">
-                  <button type="button" class="btn btn-primary my-4">Add</button>
+                  <button type="submit" class="btn btn-primary my-4">Add Social Link</button>
                   <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
                 </div>
               </form>
@@ -1675,97 +1214,57 @@
     </div>
   </div>
 
-  <!-- Modal "editSocialLink-1" -->
-  <div class="modal fade" id="editSocialLink-1" tabindex="-1" role="dialog" aria-labelledby="editSocialLink-1"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-      <div class="modal-content">
-        <div class="modal-body p-0">
-          <div class="card bg-secondary shadow border-0 mb-0">
-            <div class="card-header bg-secondary">
-              <div class="text-muted text-center">
-                <h6 class="text-muted my-0">Edit Social Link</h6>
+  <!-- Modal "editSocialLink" -->
+  {% for social_link in social_links %}
+    <div class="modal fade" id="editSocialLink-{{ social_link.value.id }}" tabindex="-1" role="dialog" aria-labelledby="editSocialLink-{{ social_link.value.id }}"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+          <div class="modal-body p-0">
+            <div class="card bg-secondary shadow border-0 mb-0">
+              <div class="card-header bg-secondary">
+                <div class="text-muted text-center">
+                  <h6 class="text-muted my-0">Edit Social Link</h6>
+                </div>
               </div>
-            </div>
-            <div class="card-body px-lg-5 py-lg-5">
-              <form role="form">
-                <!-- Link title -->
-                <div class="form-group mb-3 focused"><label>Title</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-world"></i></span>
+              <div class="card-body px-lg-5 py-lg-5">
+                <form action="{% url 'accounts:update-social-link' user.username social_link.value.id %}" method="POST">
+                  {% csrf_token %}
+                  <!-- Link title -->
+                  <div class="form-group mb-3 focused">
+                    <label>Title</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-world"></i></span>
+                      </div>
+                      {% render_field social_link.form.title class="form-control" placeholder="Title..." %}
                     </div>
-                    <input class="form-control" value="Blog" placeholder="Title..." type="text">
                   </div>
-                </div>
-                <!-- Link url -->
-                <div class="form-group mb-3 focused"><label>URL</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="fa fa-link"></i></span>
+                  <!-- Link url -->
+                  <div class="form-group mb-3 focused">
+                    <label>URL</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-link"></i></span>
+                      </div>
+                      {% render_field social_link.form.url class="form-control" placeholder="URL..." %}
                     </div>
-                    <input class="form-control" value="#####" placeholder="URL..." type="text">
                   </div>
-                </div>
-                <!-- Button -->
-                <div class="text-center">
-                  <button type="button" class="btn btn-primary my-4">Save change</button>
-                  <button type="button" class="btn btn-danger my-4">Delete</button>
-                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
-                </div>
-              </form>
+                  <!-- Button -->
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-primary my-4">Save change</button>
+                    <button type="submit" name="delete" class="btn btn-danger my-4">Delete</button>
+                    <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  {% endfor %}
 
-  <!-- Modal "editSocialLink-2" -->
-  <div class="modal fade" id="editSocialLink-2" tabindex="-1" role="dialog" aria-labelledby="editSocialLink-2"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-      <div class="modal-content">
-        <div class="modal-body p-0">
-          <div class="card bg-secondary shadow border-0 mb-0">
-            <div class="card-header bg-secondary">
-              <div class="text-muted text-center">
-                <h6 class="text-muted my-0">Edit Social Link</h6>
-              </div>
-            </div>
-            <div class="card-body px-lg-5 py-lg-5">
-              <form role="form">
-                <!-- Link title -->
-                <div class="form-group mb-3 focused"><label>Title</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-world"></i></span>
-                    </div>
-                    <input class="form-control" value="Facebook" placeholder="Title..." type="text">
-                  </div>
-                </div>
-                <!-- Link url -->
-                <div class="form-group mb-3 focused"><label>URL</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="fa fa-link"></i></span>
-                    </div>
-                    <input class="form-control" value="#####" placeholder="URL..." type="text">
-                  </div>
-                </div>
-                <!-- Button -->
-                <div class="text-center">
-                  <button type="button" class="btn btn-primary my-4">Save change</button>
-                  <button type="button" class="btn btn-danger my-4">Delete</button>
-                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- Modal "editProfile" -->
   <div class="modal fade" id="editProfile" tabindex="-1" role="dialog" aria-labelledby="editProfile" aria-hidden="true">
@@ -1779,7 +1278,8 @@
               </div>
             </div>
             <div class="card-body px-lg-5 py-lg-5">
-              <form role="form">
+              <form action="{% url 'accounts:update-profile' user.username %}" method="POST">
+                {% csrf_token %}
                 <!-- Gender -->
                 <div class="form-group focused">
                   <label>Gender (optional)</label>
@@ -1787,14 +1287,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-single-02"></i></span>
                     </div>
-                    <select class="form-control" data-trigger="" name="gender" id="gender">
-                      <option value="blank" selected=""></option>
-                      <option value="female">Female</option>
-                      <option value="male">Male</option>
-                      <option value="transgender">Transgender</option>
-                      <option value="nonbinary">Nonbinary</option>
-                      <option value="other">Other</option>
-                    </select>
+                    {% render_field profile_form.gender class+="form-control" %}
                   </div>
                 </div>
                 <!--  Birth year -->
@@ -1804,18 +1297,12 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                     </div>
-                    <select class="form-control" data-trigger="" name="birthYear" id="birthYear">
-                      <option value="1989">1989</option>
-                      <option value="1990" selected="">1990</option>
-                      <option value="1991">1991</option>
-                      <option value="1992">1992</option>
-                      <option value="1993">1993</option>
-                    </select>
+                    {% render_field profile_form.birthday class+="form-control" %}
                   </div>
                 </div>
                 <!-- Button -->
                 <div class="text-center">
-                  <button type="button" class="btn btn-primary my-4">Save changes</button>
+                  <button type="submit" class="btn btn-primary my-4">Save changes</button>
                   <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
                 </div>
               </form>
@@ -1857,7 +1344,17 @@
                 </div>
                 <div class="col-lg-12">
                   <div class="card-profile-actions text-center py-4 mt-8">
-                    <a href="#" class="btn btn-sm btn-info">Follow</a>
+                    {% if not has_edit_permission and not is_following %}
+                    <form action="{% url 'accounts:follow' user.username %}" method="POST">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-sm btn-info">Follow</button>
+                    </form>
+                    {% elif is_following %}
+                    <form action="{% url 'accounts:unfollow' user.username %}" method="POST">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-sm btn-info">Following</button>
+                    </form>
+                    {% endif %}
                     <!-- this is message button  -->
                     <!-- <a href="#" class="btn btn-sm btn-default float-right">Message</a> -->
                   </div>
@@ -1866,13 +1363,13 @@
                   <div class="card-profile-stats py-0 d-flex justify-content-center">
                     <div>
                       <a href="">
-                        <span class="heading">22</span>
+                        <span class="heading">{{ followers.count }}</span>
                       </a>
                       <span class="description">Followers</span>
                     </div>
                     <div>
                       <a href="">
-                        <span class="heading">10</span>
+                        <span class="heading">{{ followings.count }}</span>
                       </a>
                       <span class="description">Followings</span>
                     </div>
@@ -1882,140 +1379,155 @@
 
               <!-- Basic info -->
               <!-- "editBasicInfo" -->
-              <div class="row justify-content-end">
-                <div class="col text-right">
-                  <!-- Button trigger modal -->
-                  <span data-toggle="modal" data-target="#editBasicInfo" data-toggle="tooltip" data-placement="top"
-                    data-container="body" data-animation="true">
-                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
-                      data-toggle="tooltip" data-original-title="Edit Basic Info">
-                      <i class="ni ni-settings-gear-65 text-gray"></i>
-                    </a>
-
-                  </span>
+              {% if has_edit_permission %}
+                <div class="row justify-content-end">
+                  <div class="col text-right">
+                    <!-- Button trigger modal -->
+                    {% if not basic_info %}
+                    <span data-toggle="modal" data-target="#editBasicInfo" data-toggle="tooltip" data-placement="top"
+                      data-container="body" data-animation="true">
+                      <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                        data-toggle="tooltip" data-original-title="Add Basic Info">
+                        <i class="fa fa-plus text-gray"></i>
+                      </a>
+                    </span>
+                    {% else %}
+                    <span data-toggle="modal" data-target="#editBasicInfo" data-toggle="tooltip" data-placement="top"
+                      data-container="body" data-animation="true">
+                      <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                        data-toggle="tooltip" data-original-title="Edit Basic Info">
+                        <i class="ni ni-settings-gear-65 text-gray"></i>
+                      </a>
+                    </span>
+                    {% endif %}
+                  </div>
                 </div>
-              </div>
+              {% endif %}
               <!-- display Basic Info   -->
-              <div class="text-center mt-2">
-                <h3>Jessica Jones<img class="img-fluid rounded shadow ml-2" style="width: 1.75rem;"
-                    src="{% static 'img/brand/logo_current.png' %}"></h3>
+              {% if basic_info %}
+               <div class="text-center mt-2">
+                <h3>
+                  {{ basic_info.name }}
+                  {% if basic_info.status == "FU"%}
+                   <img class="img-fluid rounded shadow ml-2" style="width: 1.75rem;"
+                    src="{% static 'img/brand/logo_future.png' %}" >
+                  {% elif basic_info.status == "CU" %}
+                  <img class="img-fluid rounded shadow ml-2" style="width: 1.75rem;"
+                    src="{% static 'img/brand/logo_current.png' %}">
+                  {% elif basic_info.status == "AL" %}
+                  <img class="img-fluid rounded shadow ml-2" style="width: 1.75rem;"
+                    src="{% static 'img/brand/logo_alumni.png' %}">
+                  {% endif %}
+                </h3>
                 <!-- future student logo => src="{% static 'img/brand/logo_future.png' %}"-->
                 <!-- alumuni logo => src="{% static 'img/brand/logo_alumni.png' %}"-->
                 <div class="text-muted font-weight-500 mt-3 mb-2">
-                  from Japan to U.S.
+                  from {{ basic_info.country_origin }} to {{ basic_info.country_study_abroad }}
                 </div>
-                <div class="h5">Harvard University</div>
-                <div class="font-weight-500">MBA</div>
-                <div class="text-muted font-weight-300"><small> 2020 ~ 2022</small></div>
-                <div class="font-weight-400 mt-4"><i class="ni ni-pin-3 mr-2"></i>Boston, U.S.</div>
+                {% if study_abroad.education %}
+                <div class="h5">{{ study_abroad.education.school }}</div>
+                <div class="font-weight-500">{{ study_abroad.education.major}}</div>
+                <div class="text-muted font-weight-300"><small>{{ study_abroad.education.start_year }} ~ {{ study_abroad.education.end_year }}</small></div>
+                {% endif %}
+                {% comment %} <div class="font-weight-400 mt-4"><i class="ni ni-pin-3 mr-2"></i>{{ basic_info.living_city }}</div> {% endcomment %}
               </div>
-
-              <!-- Goals-->
-              <div class="mt-5 pt-4 border-top"></div>
-              <!-- "editGoals" -->
-              <div class="row justify-content-end">
-                <div class="col text-right">
-                  <!-- Button trigger modal -->
-                  <span data-toggle="modal" data-target="#editGoals" data-toggle="tooltip" data-placement="top"
-                    data-container="body" data-animation="true">
-                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
-                      data-toggle="tooltip" data-original-title="Edit Goals">
-                      <i class="ni ni-settings-gear-65 text-gray"></i>
-                    </a>
-                  </span>
-                </div>
-              </div>
-              <!-- display Goals -->
-              <div class="row mb-3">
-                <div class="col">
-                  <div class="icon icon-sm icon-shape icon-shape-success shadow rounded-circle mr-2">
-                    <i class="fa fa-flag text-success"></i>
+              {% endif %}
+              <!-- "editStudyAbroad" -->
+              {% if has_edit_permission %}
+                <div class="row justify-content-end">
+                  <div class="col text-right">
+                    <!-- Button trigger modal -->
+                    {% if not study_abroad %}
+                    <div class="mt-3"></div>
+                    <span data-toggle="modal" data-target="#editStudyAbroad" data-toggle="tooltip" data-placement="top"
+                      data-container="body" data-animation="true">
+                      <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                        data-toggle="tooltip" data-original-title="Add Study Abroad Info">
+                        <i class="fa fa-plus text-gray"></i>
+                      </a>
+                    </span>
+                    {% else %}
+                    <span data-toggle="modal" data-target="#editStudyAbroad" data-toggle="tooltip" data-placement="top"
+                      data-container="body" data-animation="true">
+                      <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                        data-toggle="tooltip" data-original-title="Edit Study Abroad Info">
+                        <i class="ni ni-settings-gear-65 text-gray"></i>
+                      </a>
+                    </span>
+                    {% endif %}
+                    
                   </div>
-                  <span class="h5 font-weight-bold text-muted text-uppercase">Goals</span>
                 </div>
-              </div>
-              <div class="row mb-5">
-                <div class="col">
-                  <a href="">
-                    <span class="badge mr-1 mb-1 badge-success">Economist</span>
-                  </a>
-                  <a href="">
-                    <span class="badge mr-1 mb-1 badge-success">International Development</span>
-                  </a>
-                  <a href="">
-                    <span class="badge mr-1 mb-1 badge-success">UN Officer</span>
-                  </a>
-                </div>
-              </div>
-
-              <!-- Study Interests -->
-              <!-- "editStudyInterests" -->
-              <div class="row justify-content-end">
-                <div class="col text-right">
-                  <!-- Button trigger modal -->
-                  <span data-toggle="modal" data-target="#editStudyInterests" data-toggle="tooltip" data-placement="top"
-                    title="Edit study intereste" data-container="body" data-animation="true">
-                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
-                      data-toggle="tooltip" data-original-title="Edit Study Interests">
-                      <i class="ni ni-settings-gear-65 text-gray"></i>
-                    </a>
-                  </span>
-                </div>
-              </div>
-              <!-- display study interests -->
-              <div class="row mb-3">
-                <div class="col">
-                  <div class="icon icon-sm icon-shape icon-shape-danger shadow rounded-circle mr-2">
-                    <i class="ni ni-books text-danger"></i>
-                  </div>
-                  <span class="h5 font-weight-bold text-muted text-uppercase">Study Interests</span>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col">
-                  <a href="">
-                    <span class="badge mr-1 mb-1 badge-danger">Finance</span>
-                  </a>
-                  <a href="">
-                    <span class="badge mr-1 mb-1 badge-danger">Business</span>
-                  </a>
-                  <a href="">
-                    <span class="badge mr-1 badge-danger">Block chain</span>
-                  </a>
-                  <a href="">
-                    <span class="badge mr-1 mb-1 badge-danger">AI</span>
-                  </a>
-                </div>
-              </div>
+              {% endif %}
+             
 
               <!-- About -->
+              {% if about or has_edit_permission %}
               <div class="mt-5 pt-4 border-top"></div>
+              {% endif %}
               <!-- "editAbout" -->
-              <div class="row mb-2 justify-content-end">
-                <div class="col text-right">
-                  <!-- Button trigger modal -->
-                  <span data-toggle="modal" data-target="#editAbout" data-toggle="tooltip" data-placement="top"
-                    data-container="body" data-animation="true">
-                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
-                      data-toggle="tooltip" data-original-title="Edit About">
-                      <i class="ni ni-settings-gear-65 text-gray"></i>
-                    </a>
-                  </span>
+              {% if has_edit_permission and about is not None %}
+                <div class="row mb-2 justify-content-end">
+                  <div class="col text-right">
+                    <!-- Button trigger modal -->
+                    <span data-toggle="modal" data-target="#editAbout" data-toggle="tooltip" data-placement="top"
+                      data-container="body" data-animation="true">
+                      <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                        data-toggle="tooltip" data-original-title="Edit About">
+                        <i class="ni ni-settings-gear-65 text-gray"></i>
+                      </a>
+                    </span>
+                  </div>
                 </div>
-              </div>
+              {% endif %}
               <!-- display about -->
+              {% if has_edit_permission and not about %}
+                <div class="row mb-3">
+                  <div class="col">
+                    <div class="icon icon-sm icon-shape icon-shape-danger shadow rounded-circle mr-2">
+                      <i class="ni ni-books text-danger"></i>
+                    </div>
+                    <span class="h5 font-weight-bold text-muted text-uppercase">About</span>
+                  </div>
+                </div>
+                <div class="row mb-2 justify-content-end">
+                  <div class="col text-right">
+                    <!-- Button trigger modal -->
+                    <span data-toggle="modal" data-target="#editAbout" data-toggle="tooltip" data-placement="top"
+                      data-container="body" data-animation="true">
+                      <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                        data-toggle="tooltip" data-original-title="Add About">
+                        <i class="fa fa-plus text-gray"></i>
+                      </a>
+                    </span>
+                  </div>
+                </div>
+              {% endif %}
+              {% if about %}
               <div class="row justify-content-center">
                 <div class="col">
-                  <p>An artist of considerable range, Ryan — the name taken by Melbourne-raised,
-                    Brooklyn-based Nick Murphy — writes, performs and records all of his own music,
-                    giving it a warm, intimate feel with a solid groove structure. An artist of
-                    considerable range.</p>
+                  <p>{{ about.body }}</p>
                 </div>
               </div>
-
+              {% endif %}
+              
+              
               <!-- Works & Educations -->
+              {% if exp_history or has_edit_permission %}
               <div class="mt-4 pt-4 border-top"></div>
+              {% endif %}
+              {% if has_edit_permission and not exp_history %}
+              <div class="row mb-3">
+                  <div class="col">
+                    <div class="icon icon-sm icon-shape icon-shape-danger shadow rounded-circle mr-2">
+                      <i class="ni ni-paper-diploma text-danger"></i>
+                    </div>
+                    <span class="h5 font-weight-bold text-muted text-uppercase">Work Experiences & Educations</span>
+                  </div>
+              </div>
+              {% endif %}
               <!-- "add Work add Education" -->
+              {% if has_edit_permission %}
               <div class="row mb-2 justify-content-end">
                 <div class="col text-right">
                   <!-- Button trigger modal for Work-->
@@ -2036,122 +1548,208 @@
                   </span>
                 </div>
               </div>
+              {% endif %}
               <!-- display "Works & Educations" -->
               <div class="row mb-md-2">
                 <div class="col">
                   <div class="timeline timeline-one-side" data-timeline-content="axis"
                     data-timeline-axis-style="dashed">
-                    <div class="timeline-block">
-                      <span class="timeline-step badge-success">
-                        <i class="ni ni-briefcase-24"></i>
-                      </span>
-                      <div class="timeline-content">
-                        <div class="d-flex justify-content-between pt-1">
-                          <div class="text-left">
-                            <span class="text-muted text-sm font-weight-bold">World Bank</span>
-                          </div>
-                          <div class="text-right">
-                            <small class="text-muted">Target 2022 ~</small>
-                          </div>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                          <h6 class="text-sm text-left mt-1 mb-0">Seek financial officer position, considering JPO as
-                            well</h6>
-                          <!-- Button trigger modal for Work-->
-                          <span data-toggle="modal" data-target="#editWork-1" data-toggle="tooltip" data-placement="top"
-                            data-container="body" data-animation="true">
-                            <a class="ml-2" type="button" data-toggle="tooltip" data-original-title="Edit World Bank">
-                              <i class="fa fa-pencil text-gray"></i>
-                            </a>
+                    {% for exp in exp_history %}
+                      {% if exp.is_work %} <!-- work experience -->
+                        <div class="timeline-block">
+                          <span class="timeline-step badge-success">
+                            <i class="ni ni-briefcase-24"></i>
                           </span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="timeline-block">
-                      <span class="timeline-step badge-danger">
-                        <i class="ni ni-hat-3"></i>
-                      </span>
-                      <div class="timeline-content">
-                        <div class="d-flex justify-content-between pt-1">
-                          <div class="text-left">
-                            <span class="text-muted text-sm font-weight-bold">Harvard
-                              University</span>
+                          <div class="timeline-content">
+                            <div class="d-flex justify-content-between pt-1">
+                              <div class="text-left">
+                                <span class="text-muted text-sm font-weight-bold">{{ exp.value.company }}</span>
+                              </div>
+                              {% if exp.value.start_year == "Target" %}
+                                <div class="text-right">
+                                  <small class="text-muted">Target</small>
+                                </div>
+                              {% elif exp.value.start_year != "NA" %}
+                                <div class="text-right">
+                                  <small class="text-muted">
+                                  {{ exp.value.start_year }} - {{ exp.value.end_year }}
+                                  </small>
+                                </div>
+                              {% endif %}
+                            </div>
+                            <div class="d-flex justify-content-between">
+                              <h6 class="text-sm text-left mt-1 mb-0">{{ exp.value.position }}</h6>
+                              {% if has_edit_permission %}
+                              <!-- Button trigger modal for Work-->
+                              <span data-toggle="modal" data-target="#editWork-{{ exp.value.id }}" data-toggle="tooltip" data-placement="top"
+                                data-container="body" data-animation="true">
+                                <a class="ml-2" type="button" data-toggle="tooltip" data-original-title="Edit {{ exp.value.company }}">
+                                  <i class="fa fa-pencil text-gray"></i>
+                                </a>
+                              </span>
+                              {% endif %}
+                            </div>
                           </div>
-                          <div class="text-right">
-                            <small class="text-muted">2020 ~ 2022</small>
-                          </div>
                         </div>
-                        <div class="d-flex justify-content-between">
-                          <h6 class="text-sm text-left mt-1 mb-0">MBA</h6>
-                          <!-- Button trigger modal for Work-->
-                          <span data-toggle="modal" data-target="#editEducation-1" data-toggle="tooltip"
-                            data-placement="top" data-container="body" data-animation="true">
-                            <a class="ml-2" type="button" data-toggle="tooltip"
-                              data-original-title="Edit Harvard University">
-                              <i class="fa fa-pencil text-gray"></i>
-                            </a>
+                      {% else %} <!-- education -->
+                        <div class="timeline-block">
+                          <span class="timeline-step badge-info">
+                            <i class="ni ni-hat-3"></i>
                           </span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="timeline-block">
-                      <span class="timeline-step badge-info">
-                        <i class="ni ni-briefcase-24"></i>
-                      </span>
-                      <div class="timeline-content">
-                        <div class="d-flex justify-content-between pt-1">
-                          <div class="text-left">
-                            <span class="text-muted text-sm font-weight-bold">PwC</span>
-                          </div>
-                          <div class="text-right">
-                            <small class="text-muted"><i class="fas fa-clock mr-1"></i>2013 ~
-                              2020</small>
-                          </div>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                          <h6 class="text-sm text-left mt-1 mb-0">M&A Consultant</h6>
-                          <!-- Button trigger modal for Work-->
-                          <span data-toggle="modal" data-target="#editWork-2" data-toggle="tooltip" data-placement="top"
-                            data-container="body" data-animation="true">
-                            <a class="ml-2" type="button" data-toggle="tooltip" data-original-title="Edit PwC">
-                              <i class="fa fa-pencil text-gray"></i>
-                            </a>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="timeline-block">
-                      <span class="timeline-step badge-info">
-                        <i class="ni ni-hat-3"></i>
-                      </span>
-                      <div class="timeline-content">
-                        <div class="d-flex justify-content-between pt-1">
-                          <div class="text-left">
-                            <span class="text-muted text-sm font-weight-bold">University of
-                              Tokyo</span>
-                          </div>
-                          <div class="text-right">
-                            <small class="text-muted">2009 ~ 2013</small>
+                          <div class="timeline-content">
+                            <div class="d-flex justify-content-between pt-1">
+                              <div class="text-left">
+                                <span class="text-muted text-sm font-weight-bold">{{ exp.value.school }}</span>
+                              </div>
+                              {% if exp.value.start_year == "Target" %}
+                                <div class="text-right">
+                                  <small class="text-muted">Target</small>
+                                </div>
+                              {% elif exp.value.start_year != "NA" %}
+                                <div class="text-right">
+                                  <small class="text-muted">
+                                  {{ exp.value.start_year }} - {{ exp.value.end_year }}
+                                  </small>
+                                </div>
+                              {% endif %}
+                            </div>
+                            <div class="d-flex justify-content-between">
+                              <h6 class="text-sm text-left mt-1 mb-0">{{ exp.value.major }}</h6>
+                              {% if has_edit_permission %}
+                              <!-- Button trigger modal for Work-->
+                              <span data-toggle="modal" data-target="#editEducation-{{ exp.value.id }}" data-toggle="tooltip"
+                                data-placement="top" data-container="body" data-animation="true">
+                                <a class="ml-2" type="button" data-toggle="tooltip"
+                                  data-original-title="Edit {{ exp.value.school }}">
+                                  <i class="fa fa-pencil text-gray"></i>
+                                </a>
+                              </span>
+                              {% endif %}
+                            </div>
                           </div>
                         </div>
-                        <div class="d-flex justify-content-between">
-                          <h6 class="text-sm text-left mt-1 mb-0">Mathematics</h6>
-                          <!-- Button trigger modal for Work-->
-                          <span data-toggle="modal" data-target="#editEducation-2" data-toggle="tooltip"
-                            data-placement="top" data-container="body" data-animation="true">
-                            <a class="ml-2" type="button" data-toggle="tooltip"
-                              data-original-title="Edit University of Tokyo">
-                              <i class="fa fa-pencil text-gray"></i>
-                            </a>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
+                      {% endif %}
+                    {% endfor %}
                   </div>
                 </div>
               </div>
 
+              <!-- Goals-->
+              {% if has_edit_permission or goals %}
+              <div class="mt-5 pt-4 border-top"></div>
+              {% endif %}
+              <!-- "editGoals" -->
+              {% if has_edit_permission and goals %}
+              <div class="row justify-content-end">
+                <div class="col text-right">
+                  <!-- Button trigger modal -->
+                  <span data-toggle="modal" data-target="#editGoals" data-toggle="tooltip" data-placement="top"
+                    data-container="body" data-animation="true">
+                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                      data-toggle="tooltip" data-original-title="Edit Goals">
+                      <i class="ni ni-settings-gear-65 text-gray"></i>
+                    </a>
+                  </span>
+                </div>
+              </div>
+              {% endif %}
+              <!-- display Goals -->
+              {% if has_edit_permission or goals %}
+              <div class="row mb-3">
+                <div class="col">
+                  <div class="icon icon-sm icon-shape icon-shape-success shadow rounded-circle mr-2">
+                    <i class="fa fa-flag text-success"></i>
+                  </div>
+                  <span class="h5 font-weight-bold text-muted text-uppercase">Goals</span>
+                </div>
+              </div>
+              {% endif %}
+              {% if has_edit_permission and not goals %}
+                <div class="row mb-2 justify-content-end">
+                  <div class="col text-right">
+                    <!-- Button trigger modal -->
+                    <span data-toggle="modal" data-target="#editGoals" data-toggle="tooltip" data-placement="top"
+                      data-container="body" data-animation="true">
+                      <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                        data-toggle="tooltip" data-original-title="Add Goals">
+                        <i class="fa fa-plus text-gray"></i>
+                      </a>
+                    </span>
+                  </div>
+                </div>
+              {% endif %}
+              {% if goals %}
+              <div class="row mb-5">
+                <div class="col">
+                  {% for goal in goals %}
+                    <a href="">
+                      <span class="badge mr-1 mb-1 badge-success">{{ goal }}</span>
+                    </a>
+                  {% endfor %}
+                </div>
+              </div>
+              {% endif %}
+
+              <!-- Study Interests -->
+              {% if has_edit_permission or study_interests %}
+              <div class="mt-5 pt-4 border-top"></div>
+              {% endif %}
+              <!-- "editStudyInterests" -->
+              {% if has_edit_permission and study_interests %}
+              <div class="row justify-content-end">
+                <div class="col text-right">
+                  <!-- Button trigger modal -->
+                  <span data-toggle="modal" data-target="#editStudyInterests" data-toggle="tooltip" data-placement="top"
+                    title="Edit Study Interests" data-container="body" data-animation="true">
+                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                      data-toggle="tooltip" data-original-title="Edit Study Interests">
+                      <i class="ni ni-settings-gear-65 text-gray"></i>
+                    </a>
+                  </span>
+                </div>
+              </div>
+              {% endif %}
+              <!-- display study interests -->
+              {% if has_edit_permission or study_interests %}
+              <div class="row mb-3">
+                <div class="col">
+                  <div class="icon icon-sm icon-shape icon-shape-danger shadow rounded-circle mr-2">
+                    <i class="ni ni-books text-danger"></i>
+                  </div>
+                  <span class="h5 font-weight-bold text-muted text-uppercase">Study Interests</span>
+                </div>
+              </div>
+              {% endif %}
+              {% if study_interests %}
+              <div class="row">
+                <div class="col">
+                  {% for study_interest in study_interests %}
+                  <a href="">
+                    <span class="badge mr-1 mb-1 badge-danger">{{ study_interest }}</span>
+                  </a>
+                  {% endfor %}
+                </div>
+              </div> 
+              {% endif %}
+              {% if has_edit_permission and not study_interests %}
+                <div class="row mb-2 justify-content-end">
+                  <div class="col text-right">
+                    <!-- Button trigger modal -->
+                    <span data-toggle="modal" data-target="#editStudyInterests" data-toggle="tooltip" data-placement="top"
+                      data-container="body" data-animation="true">
+                      <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                        data-toggle="tooltip" data-original-title="Add Study Interests">
+                        <i class="fa fa-plus text-gray"></i>
+                      </a>
+                    </span>
+                  </div>
+                </div>
+              {% endif %}
+
+              
+
               <!-- Scholarships -->
+              {% if has_edit_permission or scholarship_history %}
               <div class="mt-5 pt-4 border-top"></div>
               <div class="row mb-3">
                 <div class="col">
@@ -2161,6 +1759,8 @@
                   <span class="h5 font-weight-bold text-muted text-uppercase">Scholarships</span>
                 </div>
               </div>
+              {% endif %}
+              {% if has_edit_permission %}
               <!-- "addScholarship" -->
               <div class="row mb-2 justify-content-end">
                 <div class="col text-right">
@@ -2174,27 +1774,34 @@
                   </span>
                 </div>
               </div>
+              {% endif %}
               <!-- display "Scholasrship" -->
-              <div class="row">
-                <div class="col">
-                  <div class="d-flex flex-row justify-content-between">
-                    <span class="text-muted text-sm font-weight-bold">Fulbright Japan</span>
-                    <div>
-                      <small class="text-muted">2020 ~ 2023</small>
-                      <!-- Button trigger modal -->
-                      <span data-toggle="modal" data-target="#editScholarship-1" data-toggle="tooltip"
-                        data-placement="top" data-container="body" data-animation="true">
-                        <a class="ml-2" type="button" data-toggle="tooltip" data-original-title="Edit Fulbright Japan">
-                          <i class="fa fa-pencil text-gray"></i>
-                        </a>
-                      </span>
+              {% for scholarship in scholarship_history %}
+                <div class="row">
+                  <div class="col">
+                    <div class="d-flex flex-row justify-content-between">
+                      <span class="text-muted text-sm font-weight-bold">{{ scholarship.value.organization }}</span>
+                      <div>
+                        <small class="text-muted">{{ scholarship.value.start_year }} - {{ scholarship.value.end_year }}</small>
+                        {% if has_edit_permission %}
+                        <!-- Button trigger modal -->
+                        <span data-toggle="modal" data-target="#editScholarship-{{ scholarship.value.id }}" data-toggle="tooltip"
+                          data-placement="top" data-container="body" data-animation="true">
+                          <a class="ml-2" type="button" data-toggle="tooltip" data-original-title="Edit {{ scholarship.value.organization }}">
+                            <i class="fa fa-pencil text-gray"></i>
+                          </a>
+                        </span>
+                        {% endif %}
+                      </div>
                     </div>
+                    <h6 class="text-sm text-left mt-1">{{ scholarship.value.title }}</h6>
                   </div>
-                  <h6 class="text-sm text-left mt-1">Masters degree program</h6>
                 </div>
-              </div>
+              {% endfor %}
+              
 
               <!-- Social Links -->
+              {% if has_edit_permission or social_links %}
               <div class="mt-5 pt-4 border-top"></div>
               <div class="row mb-3">
                 <div class="col">
@@ -2204,65 +1811,66 @@
                   <span class="h5 font-weight-bold text-muted text-uppercase">Social Links</span>
                 </div>
               </div>
+              {% endif %}
               <!-- "addSocialLink" -->
-              <div class="row mb-2 justify-content-end">
-                <div class="col text-right">
-                  <!-- Button trigger modal -->
-                  <span data-toggle="modal" data-target="#addSocialLink" data-toggle="tooltip" data-placement="top"
-                    data-container="body" data-animation="true">
-                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
-                      data-toggle="tooltip" data-original-title="Add Social Link">
-                      <i class="fa fa-plus text-gray"></i>
-                    </a>
-                  </span>
+              {% if has_edit_permission %}
+                <div class="row mb-2 justify-content-end">
+                  <div class="col text-right">
+                    <!-- Button trigger modal -->
+                    <span data-toggle="modal" data-target="#addSocialLink" data-toggle="tooltip" data-placement="top"
+                      data-container="body" data-animation="true">
+                      <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                        data-toggle="tooltip" data-original-title="Add Social Link">
+                        <i class="fa fa-plus text-gray"></i>
+                      </a>
+                    </span>
+                  </div>
                 </div>
-              </div>
+              {% endif %}
               <!-- display "Social Links" -->
+              {% if social_links %}
               <div class="row mb-5">
                 <div class="col">
-                  <div class="row justify-content-between px-3">
-                    <a href="">
-                      <h6 class="btn-link">Blog</h6>
-                    </a>
-                    <!-- Button trigger modal -->
-                    <span data-toggle="modal" data-target="#editSocialLink-1" data-toggle="tooltip" data-placement="top"
-                      data-container="body" data-animation="true">
-                      <a type="button" data-toggle="tooltip" data-original-title="Edit Blog">
-                        <i class="fa fa-pencil text-gray"></i>
+                  {% for social_link in social_links %}
+                    <div class="row justify-content-between px-3">
+                      <a href="{{ social_link.value.url }}">
+                        <h6 class="btn-link">{{ social_link.value.title }}</h6>
                       </a>
-                    </span>
-                  </div>
-                  <div class="row justify-content-between px-3">
-                    <a href="">
-                      <h6 class="btn-link">Facebook</h6>
-                    </a>
-                    <!-- Button trigger modal -->
-                    <span data-toggle="modal" data-target="#editSocialLink-2" data-toggle="tooltip" data-placement="top"
-                      data-container="body" data-animation="true">
-                      <a type="button" data-toggle="tooltip" data-original-title="Edit Facebook">
-                        <i class="fa fa-pencil text-gray"></i>
-                      </a>
-                    </span>
-                  </div>
+                      {% if has_edit_permission %}
+                      <!-- Button trigger modal -->
+                      <span data-toggle="modal" data-target="#editSocialLink-{{ social_link.value.id }}" data-toggle="tooltip" data-placement="top"
+                        data-container="body" data-animation="true">
+                        <a type="button" data-toggle="tooltip" data-original-title="Edit Blog">
+                          <i class="fa fa-pencil text-gray"></i>
+                        </a>
+                      </span>
+                      {% endif %}
+                    </div>
+                  {% endfor %}
                 </div>
               </div>
+              {% endif %}
+              
 
               <!-- Profile -->
               <div class="mt-5 pt-4 border-top"></div>
-              <!-- "editProfile" -->
-              <div class="row mb-2 justify-content-end">
-                <div class="col text-right">
-                  <!-- Button trigger modal -->
-                  <span data-toggle="modal" data-target="#editProfile" data-toggle="tooltip" data-placement="top"
-                    data-container="body" data-animation="true">
-                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
-                      data-toggle="tooltip" data-original-title="Edit Profile">
-                      <i class="ni ni-settings-gear-65 text-gray"></i>
-                    </a>
-                  </span>
+              {% if has_edit_permission and profile %}
+                <!-- "editProfile" -->
+                <div class="row mb-2 justify-content-end">
+                  <div class="col text-right">
+                    <!-- Button trigger modal -->
+                    <span data-toggle="modal" data-target="#editProfile" data-toggle="tooltip" data-placement="top"
+                      data-container="body" data-animation="true">
+                      <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                        data-toggle="tooltip" data-original-title="Edit Profile">
+                        <i class="ni ni-settings-gear-65 text-gray"></i>
+                      </a>
+                    </span>
+                  </div>
                 </div>
-              </div>
+              {% endif %}
               <!-- display "Profile" -->
+              {% if has_edit_permission or profile %}
               <div class="row mb-3">
                 <div class="col">
                   <div class="icon icon-sm icon-shape icon-shape-default shadow rounded-circle mr-2">
@@ -2271,13 +1879,35 @@
                   <span class="h5 font-weight-bold text-muted text-uppercase">Profile</span>
                 </div>
               </div>
+              {% endif %}
+              <!-- "addProfile" -->
+              {% if has_edit_permission and not profile %}
+                <div class="row mb-2 justify-content-end">
+                  <div class="col text-right">
+                    <!-- Button trigger modal -->
+                    <span data-toggle="modal" data-target="#editProfile" data-toggle="tooltip" data-placement="top"
+                      data-container="body" data-animation="true">
+                      <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+                        data-toggle="tooltip" data-original-title="Add Profile">
+                        <i class="fa fa-plus text-gray"></i>
+                      </a>
+                    </span>
+                  </div>
+                </div>
+              {% endif %}
+              {% if profile %}
               <div class="row mb-5">
                 <div class="col">
-                  <h6>Female</h6>
-                  <h6>Born in 1992</h6>
+                  <h6>{{ profile.get_gender_display }}</h6>
+                  {% if profile.birthday %}
+                  <h6>Born in {{ profile.birthday }}</h6>
+                  {% endif %}
                 </div>
               </div>
-
+              {% endif %}
+              {% if not profile and has_edit_permission %}
+              <div class="mb-5"></div>
+              {% endif %}
             </div>
           </div>
         </div>

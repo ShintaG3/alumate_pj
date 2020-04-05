@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from accounts.models import School, Country, UserProfile, City
+from accounts.models import School, Country, BasicInfo, City
 from django.db.models.signals import pre_save
 from alumate.utils import unique_slug_generator, unique_slug_generator_post
 
@@ -26,7 +26,7 @@ class Query(models.Model):
     query_country_tag = models.ManyToManyField(Country, blank=True)
     query_city_tag = models.ManyToManyField(City, blank=True)
     query_resolved = models.BooleanField()
-    query_resolved_by = models.ForeignKey(UserProfile, on_delete=models.SET_NULL, null=True, blank=True, related_name='resolved_by')
+    query_resolved_by = models.ForeignKey(BasicInfo, on_delete=models.SET_NULL, null=True, blank=True, related_name='resolved_by')
     slug = models.SlugField(max_length=40, null=True, blank=True)
 
     def __str__(self):
