@@ -46,6 +46,32 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
     top: 0;
     opacity: 0;
   }
+
+  .like-button {
+    background-color: transparent;
+    border: none;
+    text-decoration: none;
+    display: inline-block;
+    margin-right: .75rem;
+    font-size: .875rem;
+    color: #32325d;
+    padding: 0;
+  }
+
+  .like-button.active, 
+  .like-button:hover {
+    color: #5e72e4;
+  }
+
+  .like-button:focus {
+    outline: none;
+  }
+
+  .like-button>span {
+    margin-left: .1875rem;
+    font-weight: 600;
+  }
+
 </style>
 {% endblock %}
 
@@ -292,7 +318,7 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
            <div class="row">
             <div class="col-md-8 mx-auto">
 
-            {% for post in posts %}
+            {% for post in post_list %}
               
               <div class="card mt-sm">
                 <div class="card-header d-flex align-items-center">
@@ -302,10 +328,10 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
                     </a>
                     <div class="mx-3">
                       <a href="javascript:;" class="text-dark font-weight-600 text-sm">
-                      {% if post.user.basicinfo.name %}
-                      {{ post.user.basicinfo.name }}
+                      {% if post.value.user.basicinfo.name %}
+                      {{ post.value.user.basicinfo.name }}
                       {% else %}
-                      @{{ post.user.username }}
+                      @{{ post.value.user.username }}
                       {% endif %}
                       </a>
                       <small class="d-block text-muted">{{ post.created_at|localtime }}</small>
@@ -320,27 +346,30 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
                 </div>
                 <div class="card-body">
                   <p class="mb-4">
-                  {{ post.body }}
+                  {{ post.value.body }}
                   </p>
-                  {% if post.image %}
-                    <img alt="Image placeholder" src={{ post.image.url }} class="img-fluid rounded">
+                  {% if post.value.image %}
+                    <img alt="Image placeholder" src={{ post.value.image.url }} class="img-fluid rounded">
                   {% endif %}
                   <div class="row align-items-center my-3 pb-3 border-bottom">
                     <div class="col-sm-6">
                       <div class="icon-actions">
-                        <a href="javascript:;" class="like">
-                        {% comment %} <a href="javascript:;" class="like active"> {% endcomment %}
-                          <i class="ni ni-like-2"></i>
-                          <span class="text-muted">{{ post.likes }}</span>
-                        </a>
+                        <form action="{% url 'feed:like' post.value.id %}" method="POST" class="float-left">
+                        {% csrf_token %}
+                          <button type="submit" class="like-button {% if post.liked %}active{% endif %} ">
+                          {% comment %} <button href="javascript:;" class="like active"> {% endcomment %}
+                            <i class="ni ni-like-2"></i>
+                            <span class="text-muted">{{ post.value.likes.count }}</span>
+                          </button>
+                        </form>
                         <a href="javascript:;">
                           <i class="ni ni-chat-round"></i>
-                          <span class="text-muted">{{ post.replies }}</span>
+                          <span class="text-muted">{{ post.value.comments.count }}</span>
                         </a>
-                        <a href="javascript:;">
+                        {% comment %} <a href="javascript:;">
                           <i class="ni ni-curved-next"></i>
                           <span class="text-muted">{{ post.shares }}</span>
-                        </a>
+                        </a> {% endcomment %}
                       </div>
                     </div>
                     {% comment %} <div class="col-sm-6 d-none d-sm-block">
@@ -362,7 +391,7 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
                   </div>
                   <!-- Comments -->
                   <div class="mb-1">
-                  {% for comment in post.comments.all %}
+                  {% for comment in post.value.comments.all %}
                     <div class="media media-comment">
                       <img alt="Image placeholder" class="avatar avatar-lg rounded-circle" src="{% static 'img/faces/team-1.jpg' %}">
                       <div class="media-body">
@@ -395,7 +424,7 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
                     </div>
                   {% endfor %}
                   <!-- Comment form for a post -->
-                    <form action="comment/{{post.id}}" method="POST" enctype="multipart/form-data">
+                    <form action="comment/{{post.value.id}}" method="POST" enctype="multipart/form-data">
                       {% csrf_token %}
                       <div class="media align-items-center">
                         <img alt="Image placeholder" class="avatar avatar-lg rounded-circle mb-4" src="{% static 'img/faces/team-3.jpg' %}">

@@ -12,9 +12,6 @@ class Post(models.Model):
     image = models.ImageField(upload_to='images/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     edited_at = models.DateTimeField(blank=True, null=True)
-    replies = models.IntegerField(default=0)
-    likes = models.IntegerField(default=0)
-    shares = models.IntegerField(default=0)
 
     class Meta:
         ordering = ('-created_at',)
@@ -38,6 +35,10 @@ class PostComment(models.Model):
     
     def __str__(self):
         return self.user.username + "'s comment on: " + self.post + ": " + self.body[:10] + "..."
+
+class PostLike(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="likes")
     
 
 class Query(models.Model):
