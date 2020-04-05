@@ -331,7 +331,7 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
                       <img src="{% static 'img/faces/team-1.jpg' %}" class="avatar">
                     </a>
                     <div class="mx-3">
-                      <a href="javascript:;" class="text-dark font-weight-600 text-sm">
+                      <a href="{% url 'accounts:account-page' post.value.user.username %}" class="text-dark font-weight-600 text-sm">
                       {% if post.value.user.basicinfo.name %}
                       {{ post.value.user.basicinfo.name }}
                       {% else %}
@@ -341,12 +341,17 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
                       <small class="d-block text-muted">{{ post.created_at|localtime }}</small>
                     </div>
                   </div>
+                  {% if not post.user_following and user != post.value.user %}
                   <div class="text-right ml-auto">
-                    <button type="button" class="btn btn-sm btn-primary btn-icon">
-                      <span class="btn-inner--icon icon-big"><i class="ni ni-fat-add"></i></span>
-                      <span class="btn-inner--text">Follow</span>
-                    </button>
+                    <form action="{% url 'accounts:follow' post.value.user.username %}" method="POST">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-sm btn-primary btn-icon">
+                        <span class="btn-inner--icon icon-big"><i class="ni ni-fat-add"></i></span>
+                        <span class="btn-inner--text">Follow</span>
+                      </button>
+                    </form>
                   </div>
+                  {% endif %}
                 </div>
                 <div class="card-body">
                   <p class="mb-4">
@@ -401,7 +406,7 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
                       <div class="media-body">
                         <div class="media-comment-text">
                           <div class="mb-2">
-                            <a href="" class="text-dark font-weight-600 text-sm">
+                            <a href="{% url 'accounts:account-page' comment.user.username %}" class="text-dark font-weight-600 text-sm">
                             {% if comment.user.basicinfo.name %}
                             {{ comment.user.basicinfo.name }}
                             {% else %}

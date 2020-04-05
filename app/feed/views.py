@@ -5,6 +5,7 @@ from .forms import PostForm, PostCommentForm
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.mixins import LoginRequiredMixin
+from accounts.models import Follow
 
 class PostView(LoginRequiredMixin, View):
     template_name = 'feed/feed.html'
@@ -37,9 +38,17 @@ class PostView(LoginRequiredMixin, View):
                 liked = PostLike.objects.get(user=user, post=post)
             except PostLike.DoesNotExist:
                 liked = None
+            try:
+                following = Follow.objects.get(follower=user, followed=post.user)
+            except Follow.DoesNotExist:
+                following = None
+            
+            print(following)
+                
             post_list.append({
                 'value': post,
                 'liked': liked,
+                'user_following': following
             })
         return post_list
         
