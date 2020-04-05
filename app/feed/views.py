@@ -12,13 +12,11 @@ class PostView(LoginRequiredMixin, View):
     permission_required = ''
 
     def get(self, request, *args, **kwargs):
-        object_list = Post.objects.all()
-        post_form = self.form_class()
-        comment_form = PostCommentForm()
         context = {
-            'post_form': post_form,
-            'comment_form': comment_form,
-            'posts': object_list
+            'view': 'Post',
+            'new_post_form': self.form_class(),
+            'comment_form': PostCommentForm(),
+            'posts': Post.objects.all()[:10]
         }
         return render(request, self.template_name, context)
 

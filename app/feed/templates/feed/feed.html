@@ -149,7 +149,7 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
                         <div class="media align-items-center">
                           <img alt="Image placeholder" class="avatar avatar-lg rounded-circle mb-4" src="{% static 'img/faces/team-3.jpg' %}">
                           <div class="media-body">
-                            {% render_field post_form.body class+="form-control" placeholder="Write your post" rows="3" %}
+                            {% render_field new_post_form.body class+="form-control" placeholder="Write your post" rows="3" %}
                           </div>
                         </div>
                         <div id="image-preview-container" class="d-none">
@@ -160,7 +160,7 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
                             <button type="button" class="btn mr-0 btn-icon rounded">
                               <span class="btn-inner--icon icon-big"><i class="fa fa-image"></i></span>
                             </button>
-                            {% render_field post_form.image id="post-image-input" %}
+                            {% render_field new_post_form.image id="post-image-input" %}
                           </div>
                           <button type="submit" class="btn btn-sm btn-primary btn-icon">
                             <span class="btn-inner--icon icon-big"><i class="ni ni-fat-add"></i></span>
@@ -288,7 +288,8 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
           </div>
           
           <!-- feed area -->
-          <div class="row">
+          {% if view == 'Post' %}
+           <div class="row">
             <div class="col-md-8 mx-auto">
 
             {% for post in posts %}
@@ -300,7 +301,13 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
                       <img src="{% static 'img/faces/team-1.jpg' %}" class="avatar">
                     </a>
                     <div class="mx-3">
-                      <a href="javascript:;" class="text-dark font-weight-600 text-sm">{{ post.user }}</a>
+                      <a href="javascript:;" class="text-dark font-weight-600 text-sm">
+                      {% if post.user.basicinfo.name %}
+                      {{ post.user.basicinfo.name }}
+                      {% else %}
+                      @{{ post.user.username }}
+                      {% endif %}
+                      </a>
                       <small class="d-block text-muted">{{ post.created_at|localtime }}</small>
                     </div>
                   </div>
@@ -361,7 +368,13 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
                       <div class="media-body">
                         <div class="media-comment-text">
                           <div class="mb-2">
-                            <a href="" class="text-dark font-weight-600 text-sm">{{ comment.user }}</a>
+                            <a href="" class="text-dark font-weight-600 text-sm">
+                            {% if comment.user.basicinfo.name %}
+                            {{ comment.user.basicinfo.name }}
+                            {% else %}
+                            @{{ comment.user }}
+                            {% endif %}
+                            </a>
                           </div>
                           <p class="text-sm lh-160">{{ comment.body }}</p>
                           <div class="icon-actions">
@@ -412,7 +425,7 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
             {% endfor %}
             </div>
           </div>
-
+          {% elif view == 'Noticle' %}
           <!-- noticle -->
           <div class="row">
             <div class="col-md-8 mx-auto">
@@ -434,7 +447,7 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
               </div>
             </div>
           </div>
-
+          {% elif view == 'Ask' %}
           <!-- inquiry -->
           <div class="row">
             <div class="col-md-8 mx-auto">
@@ -476,7 +489,7 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
               </div>
             </div>
           </div>
-
+          {% endif %}
         </div>
     </section>
 </div>
