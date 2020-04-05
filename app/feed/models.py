@@ -38,7 +38,12 @@ class PostComment(models.Model):
 
 class PostLike(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="likes")
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="post_likes")
+
+
+class PostCommentLike(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    comment = models.ForeignKey(PostComment, on_delete=models.CASCADE, related_name="comment_likes")
     
 
 class Query(models.Model):

@@ -93,6 +93,10 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
   $("#post-image-input").change(function() {
     readURL(this);
   });
+
+  function checkUserLikedComment(user, comment) {
+
+  }
 </script>
 {% endblock %}
 
@@ -354,12 +358,12 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
                   <div class="row align-items-center my-3 pb-3 border-bottom">
                     <div class="col-sm-6">
                       <div class="icon-actions">
-                        <form action="{% url 'feed:like' post.value.id %}" method="POST" class="float-left">
+                        <form action="{% url 'feed:like-post' post.value.id %}" method="POST" class="float-left">
                         {% csrf_token %}
                           <button type="submit" class="like-button {% if post.liked %}active{% endif %} ">
                           {% comment %} <button href="javascript:;" class="like active"> {% endcomment %}
                             <i class="ni ni-like-2"></i>
-                            <span class="text-muted">{{ post.value.likes.count }}</span>
+                            <span class="text-muted">{{ post.value.post_likes.count }}</span>
                           </button>
                         </form>
                         <a href="javascript:;">
@@ -407,13 +411,17 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
                           </div>
                           <p class="text-sm lh-160">{{ comment.body }}</p>
                           <div class="icon-actions">
+                            <form action="{% url 'feed:like-comment' comment.id %}" method="POST">
+                              {% csrf_token %}
+                              <button type="submit" class="like-button {% for like in comment.comment_likes.all %}{% if like.user == user %}active{% endif %}{% endfor %}">
+                                <i class="ni ni-like-2"></i>
+                                {% if comment.comment_likes.count != 0 %}
+                                  <span class="text-muted">{{ comment.comment_likes.count }}</span>
+                                {% endif %}
+                              </button>
+                            </form>
                             {% comment %} <a href="javascript:;" class="like active"> {% endcomment %}
-                            <a href="javascript:;" class="like">
-                              <i class="ni ni-like-2"></i>
-                              {% if comment.likes is not 0 %}
-                                <span class="text-muted">{{ comment.likes }}</span>
-                              {% endif %}
-                            </a>
+                            
                             {% comment %} <a href="javascript:;">
                               <i class="ni ni-curved-next"></i>
                               <span class="text-muted">2 shares</span>
@@ -424,7 +432,7 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
                     </div>
                   {% endfor %}
                   <!-- Comment form for a post -->
-                    <form action="comment/{{post.value.id}}" method="POST" enctype="multipart/form-data">
+                    <form action="{% url 'feed:comment' post.value.id %}" method="POST" enctype="multipart/form-data">
                       {% csrf_token %}
                       <div class="media align-items-center">
                         <img alt="Image placeholder" class="avatar avatar-lg rounded-circle mb-4" src="{% static 'img/faces/team-3.jpg' %}">

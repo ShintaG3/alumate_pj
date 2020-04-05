@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.views import View
-from .models import Post, PostLike
+from .models import Post, PostComment, PostLike, PostCommentLike
 from .forms import PostForm, PostCommentForm
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
@@ -68,5 +68,17 @@ class PostLikeView(LoginRequiredMixin, View):
             like.delete()
         except PostLike.DoesNotExist:
             PostLike(user=user, post=post).save()
+            
+        return redirect('/feed/')
+    
+class PostCommentLikeView(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        comment = PostComment.objects.get(pk=kwargs['comment_id'])
+        try:
+            like = PostCommentLike.objects.get(user=user, comment=comment)
+            like.delete()
+        except PostCommentLike.DoesNotExist:
+            PostCommentLike(user=user, comment=comment).save()
             
         return redirect('/feed/')
