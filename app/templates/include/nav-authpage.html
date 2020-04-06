@@ -58,6 +58,10 @@
             <img src="{% static 'img/faces/team-1.jpg' %}">
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="{% url 'accounts:account-page' user.username %}">
+              <i class="ni ni-compass-04 text-muted"></i>
+              Account Page
+            </a>
             <a class="dropdown-item" href="{% url 'accounts:account-edit' %}">
               <i class="ni ni-lock-circle-open text-muted"></i>
               Account Settings

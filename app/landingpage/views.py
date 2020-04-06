@@ -1,7 +1,16 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.core.mail import send_mail
 from django.views import View
 from .forms import ContactForm
+
+
+class HomeView(View):
+    template_name = 'landingpage/index.html'
+
+    def get(self, request):
+        if request.user.is_authenticated:
+            return redirect('/feed/')
+        return render(request, self.template_name)
 
 # Create your views here.
 class ContactView(View):
