@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     # 'allauth.socialaccount.providers.facebook',
     'django.contrib.staticfiles',
+    'django_cleanup.apps.CleanupConfig',
     'widget_tweaks',
     'demo',
     'landingpage',
@@ -127,8 +128,6 @@ SESSION_COOKIE_AGE = 60 * 60 * 24 * 30 # One month
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
-
 USE_I18N = True
 
 USE_L10N = True
@@ -157,6 +156,8 @@ MEDIA_URL = "/mediafiles/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "mediafiles")
 
 SITE_ID = 1
+
+LOGIN_URL = '/auths/login/'
 LOGIN_REDIRECT_URL = '/feed/'
 
 # Provider specific settings
