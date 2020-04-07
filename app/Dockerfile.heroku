@@ -11,7 +11,14 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV DJANGO_SETTINGS_MODULE alumate.settings_heroku
 
-RUN apk update && apk add postgresql-dev gcc python3-dev musl-dev
+RUN apk update
+RUN pip install --upgrade pip
+RUN apk add --virtual build-deps gcc postgresql-dev  python3-dev musl-dev
+RUN apk add postgresql-dev
+RUN apk add jpeg-dev zlib-dev libjpeg
+RUN pip install Pillow
+RUN pip install psycopg2
+RUN apk del build-deps
 
 # install dependencies
 RUN pip install --upgrade pip
