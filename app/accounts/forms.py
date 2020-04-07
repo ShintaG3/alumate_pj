@@ -34,6 +34,14 @@ class BasicInfoForm(forms.ModelForm):
             # 'living_city'
         )
 
+class ProfileImageForm(forms.ModelForm):
+    image = forms.ImageField()
+    
+    class Meta:
+        model = ProfileImage
+        fields = ['image']
+
+
 class StudyAbroadForm(forms.ModelForm):
     education = forms.ModelChoiceField(
         queryset=Education.objects.filter(is_study_abroad=True)

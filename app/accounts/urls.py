@@ -11,6 +11,7 @@ urlpatterns = [
     path('follow/<str:username>', FollowView.as_view(), name="follow"),
     path('unfollow/<str:username>', UnfollowView.as_view(), name="unfollow"),
     path('<str:username>/update/basic-info', BasicInfoUpdateView.as_view(), name="update-basic-info"),
+    path('<str:username>/update/profile-image', UploadProfileImageView.as_view(), name="upload-profile-image"),
     path('<str:username>/update/goals', GoalUpdateView.as_view(), name="update-goals"),
     path('<str:username>/update/study-interests', StudyInterestUpdateView.as_view(), name="update-study-interests"),
     path('<str:username>/update/about', AboutUpdateView.as_view(), name="update-about"),
