@@ -15,6 +15,7 @@ urlpatterns = [
     path('inquiry/', include('inquiry.urls', namespace='inquiry')),
     path('people/', include('people.urls', namespace='people')),
     path('noticle/', include('noticle.urls', namespace='noticle')),
+    path('message/', include('message.urls', namespace='message')),
 ]
 
 if settings.DEBUG:

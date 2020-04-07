@@ -5,4 +5,5 @@ app_name="message"
 
 urlpatterns = [
     path('', TemplateView.as_view(template_name="message/message-list.html"), name='message_list'),
+    path('detail', TemplateView.as_view(template_name="message/message-detail.html"), name='message_detail'),
 ]
