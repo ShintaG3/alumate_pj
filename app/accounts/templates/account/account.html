@@ -301,6 +301,12 @@
   .tile:hover span {
     top: 30%;
   }
+  
+  /* Agron overwrite Profile image */
+  .fileinput .thumbnail.img-circle {
+      border-radius: 50%;
+      max-width: 150px;
+  }
 
   /* media */
   @media (min-width: 1200px) {
@@ -424,6 +430,10 @@
     });
   }
 </script>
+
+<!-- Profile Image Uproad -->
+<script src="{% static 'vendor/jasny-bootstrap/jasny-bootstrap.min.js' %}"></script>
+
 {% endblock %}
 
 {% block content %}
@@ -444,6 +454,55 @@
 
   <!-- Modals for Basic Info Edit-->
   <!-- Modal components shall be placed at the same level of the body tag so that modal's z-index is set appropreately -->
+  <!-- Modal "editProfileImage" -->
+  <div class="modal fade" id="editProfileImage" tabindex="-1" role="dialog" aria-labelledby="editProfileImage"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Change Profile Image</h6>
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form method="POST">
+                {% csrf_token %}
+                <!-- Image -->
+                <div class="text-center">
+                  <div class="fileinput fileinput-new" data-provides="fileinput">
+                    <div class="fileinput-new thumbnail">
+                      <img src="{% static 'img/placeholder.jpg' %}" alt="...">
+                    </div>
+                    <div class="fileinput-preview fileinput-exists thumbnail" style=""></div>
+                    <div>
+                      <span class="btn btn-raised btn-round btn-primary btn-file btn-sm">
+                        <span class="fileinput-new">Add Photo</span>
+                        <span class="fileinput-exists">Change</span>
+                        <input type="hidden" value="" name="..."><input type="file" name="">
+                      </span>
+                      <a href="#" class="btn btn-danger btn-round fileinput-exists btn-sm" data-dismiss="fileinput">
+                        <i class="fa fa-times"></i>
+                         Remove
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Button -->
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary my-4">Save changes</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Modal "editBasicInfo" -->
   <div class="modal fade" id="editBasicInfo" tabindex="-1" role="dialog" aria-labelledby="editBasicInfo"
     aria-hidden="true">
@@ -1334,9 +1393,10 @@
                     <!-- picture edit button -->
                     <div class="details">
                       <span>
-                        <span class="btn btn-file btn-sm btn-secondary mx-auto mt-3">
-                          <span class="fileinput-new"><i class="align-text-bottom ni ni-cloud-upload-96"></i>&nbsp;Change</span>
-                          <input type="hidden" value="" name="..."><input type="file" name="">
+                        <span class="btn btn-file btn-sm btn-secondary mx-auto mt-3" data-toggle="modal" data-target="#editProfileImage" 
+                        data-placement="top" data-container="body" data-animation="true">
+                          <span class="fileinput-new" data-toggle="tooltip" data-original-title="Change Profile Image"><i class="align-text-bottom ni ni-cloud-upload-96"></i>&nbsp;Change</span>
+                          <!-- <input type="hidden" value="" name="..."><input type="file" name=""> -->
                         </span>
                       </span>
                     </div>
