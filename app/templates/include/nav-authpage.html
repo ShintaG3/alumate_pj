@@ -55,7 +55,7 @@
         <!-- account -->
         <li class="nav-item dropdown">
           <a href="javascript:;" class="avatar avatar-sm rounded-circle" data-toggle="dropdown" role="button">
-            <img src="{% static 'img/faces/team-1.jpg' %}">
+            <img src={{ user.profile_image.image.url }}>
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             <a class="dropdown-item" href="{% url 'accounts:account-page' user.username %}">

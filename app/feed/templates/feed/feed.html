@@ -177,7 +177,7 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
                       <form action="" method="POST" enctype="multipart/form-data">
                       {% csrf_token %}
                         <div class="media align-items-center">
-                          <img alt="Image placeholder" class="avatar avatar-lg rounded-circle mb-4" src="{% static 'img/faces/team-3.jpg' %}">
+                          <img alt="Image placeholder" class="avatar avatar-lg rounded-circle mb-4" src="{{ user.profile_image.image.url }}">
                           <div class="media-body">
                             {% render_field new_post_form.body class+="form-control" placeholder="Write your post" rows="3" %}
                           </div>
@@ -203,7 +203,7 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
                     <!-- Noticle -->
                     <div class="tab-pane fade" id="tabs-icons-text-2" role="tabpanel" aria-labelledby="tabs-icons-text-2-tab">
                       <div class="media align-items-center">
-                        <img alt="Image placeholder" class="avatar avatar-lg rounded-circle mb-4" src="{% static 'img/faces/team-3.jpg' %}">
+                        <img alt="Image placeholder" class="avatar avatar-lg rounded-circle mb-4" src="{{ user.profile_image.image.url }}">
                         <div class="media-body">
                           <form>
                             <textarea class="form-control" placeholder="Markdownx" rows="5"></textarea>
@@ -221,7 +221,7 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
                     <!-- Ask -->
                     <div class="tab-pane fade" id="tabs-icons-text-3" role="tabpanel" aria-labelledby="tabs-icons-text-3-tab">
                       <div class="media align-items-center">
-                        <img alt="Image placeholder" class="avatar avatar-lg rounded-circle mb-4" src="{% static 'img/faces/team-3.jpg' %}">
+                        <img alt="Image placeholder" class="avatar avatar-lg rounded-circle mb-4" src="{{ user.profile_image.image.url }}">
                         <div class="media-body">
                           <form>
                             <div class="form-group">
@@ -328,7 +328,7 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
                 <div class="card-header d-flex align-items-center">
                   <div class="d-flex align-items-center">
                     <a href="javascript:;">
-                      <img src="{% static 'img/faces/team-1.jpg' %}" class="avatar">
+                      <img src="{{ post.value.user.profile_image.image.url }}" class="avatar">
                     </a>
                     <div class="mx-3">
                       <a href="{% url 'accounts:account-page' post.value.user.username %}" class="text-dark font-weight-600 text-sm">
@@ -402,7 +402,7 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
                   <div class="mb-1">
                   {% for comment in post.value.comments.all %}
                     <div class="media media-comment">
-                      <img alt="Image placeholder" class="avatar avatar-lg rounded-circle" src="{% static 'img/faces/team-1.jpg' %}">
+                      <img alt="Image placeholder" class="avatar avatar-lg rounded-circle" src="{{ comment.user.profile_image.image.url }}">
                       <div class="media-body">
                         <div class="media-comment-text">
                           <div class="mb-2">
@@ -440,7 +440,7 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
                     <form action="{% url 'feed:comment' post.value.id %}" method="POST" enctype="multipart/form-data">
                       {% csrf_token %}
                       <div class="media align-items-center">
-                        <img alt="Image placeholder" class="avatar avatar-lg rounded-circle mb-4" src="{% static 'img/faces/team-3.jpg' %}">
+                        <img alt="Image placeholder" class="avatar avatar-lg rounded-circle mb-4" src="{{ user.profile_image.image.url }}">
                         <div class="media-body">
                           {% render_field comment_form.body class+="form-control" placeholder="Write your post" rows="1" %}
                         </div>
