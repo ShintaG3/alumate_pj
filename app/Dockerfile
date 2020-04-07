@@ -10,14 +10,14 @@ ENV PYTHONDONTWRITEBYTECODE 1
 # Prevents Python from buffering stdout and stderr
 ENV PYTHONUNBUFFERED 1
 
-RUN apk update \
-    && apk add --virtual build-deps gcc postgresql-dev  python3-dev musl-dev \
-    && apk add postgresql-dev \
-    && pip install --upgrade pip \
-    && pip install psycopg2 \
-    && apk add jpeg-dev zlib-dev libjpeg \
-    && pip install Pillow \
-    && apk del build-deps
+RUN apk update
+RUN pip install --upgrade pip
+RUN apk add --virtual build-deps gcc postgresql-dev  python3-dev musl-dev
+RUN apk add postgresql-dev
+RUN apk add jpeg-dev zlib-dev libjpeg
+RUN pip install Pillow
+RUN pip install psycopg2
+RUN apk del build-deps
 
 # install dependencies
 COPY ./requirements.txt /usr/src/app/requirements.txt
