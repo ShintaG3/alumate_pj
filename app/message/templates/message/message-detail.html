@@ -1,0 +1,84 @@
+{% extends 'base-authpage.html' %}
+{% load static %}
+{% block navbar %}
+{% include 'include/nav-authpage.html' %}
+{% endblock %}
+
+{% block style %}
+<style>
+/* overwrite argon */
+.card {
+    margin-bottom: 30px;
+    box-shadow: 0 1px 1px rgba(50,50,93,.1), 0 1px 1px rgba(0,0,0,.07);
+    border: 0;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="section mb-0 py-lg bg-secondary" style="min-height: 100vh;">
+  <div class="container">
+    <!-- Header -->
+    <div class="row my-4">
+      <div class="col-md-8 mx-auto">
+        <div class="card">
+          <!-- Header -->
+          <div class="card-header py-4">
+            <div class="d-flex">
+              <a href="#">
+                <img src="{% static 'img/faces/team-2.jpg' %}"" class="avatar">
+              </a>
+              <a href="javascript:;" class="mx-3 h3">Jane Doe</a>
+            </div>
+          </div>
+          <!-- Message1 -->
+          <div class="card-body mb-4">
+            <div class="d-flex" style="margin-left:12px;">
+              <a href="#">
+                <img src="{% static 'img/faces/team-1.jpg' %}"" class="avatar avatar-sm">
+              </a>
+              <div class="mx-3 mb-4">
+                <a href="javascript:;" class="h5 card-title">John Snow</a>
+                <small class="d-block text-muted">3 days ago</small>
+              </div>
+            </div>
+            <div style="margin-left: calc(48px + 1rem);margin-right: calc(48px + 1rem)">
+              <p class="card-text">Hi Jane,<br><br>Nice to meet you!<br><br>
+                This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            </div>
+          </div>
+          <!-- Message2 -->
+          <div class="card-body mb-4">
+            <div class="d-flex" style="margin-left:12px;">
+              <a href="#">
+                <img src="{% static 'img/faces/team-2.jpg' %}"" class="avatar avatar-sm">
+              </a>
+              <div class="mx-3 mb-4">
+                <a href="javascript:;" class="h5 card-title">Jane Doe</a>
+                <small class="d-block text-muted">3 days ago</small>
+              </div>
+            </div>
+            <div style="margin-left: calc(48px + 1rem);margin-right: calc(48px + 1rem)">
+              <p class="card-text">Hi John,<br><br>Thnak you for the message.<br><br>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            </div>
+          </div>
+          <!-- Message form -->
+          <div class="card-body">
+            <div style="margin-left: calc(48px + 1rem);margin-right: calc(48px + 1rem)">
+              <div class="media-body">
+                <form>
+                  <textarea class="form-control" placeholder="Write your message" rows="5"></textarea>
+                  <div class="text-right">
+                    <button class="my-4 btn btn-primary btn">Send</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+{% endblock %}
