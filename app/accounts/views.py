@@ -208,6 +208,9 @@ class UploadProfileImageView(View):
         
         try:
             profile_image = ProfileImage.objects.get(user=user)
+            if request.POST.get('delete') is not None:
+                profile_image.delete()
+                return redirect('/accounts/' + user.username)
         except ProfileImage.DoesNotExist:
             profile_image = None
         

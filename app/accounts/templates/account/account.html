@@ -485,18 +485,26 @@
                         <span class="fileinput-exists">Change</span>
                         {% render_field profile_image_form.image class+="hidden" %}
                       </span>
+                      <span class="btn btn-danger btn-round fileinput-exists btn-sm" data-dismiss="fileinput">
+                        <i class="fa fa-times"></i>
+                        Remove
+                      </span>
                       {% else %}
                       <span class="btn btn-raised btn-round btn-primary btn-file btn-sm">
                         <span>Change</span>
                         {% render_field profile_image_form.image class+="hidden" %}
                       </span>
+                      <button type="submit" name="delete" class="btn btn-danger btn-round btn-sm">
+                        <i class="fa fa-times"></i>
+                        Remove
+                      </button>
                       {% endif %}
                     </div>
                   </div>
                 </div>
                 <!-- Button -->
                 <div class="text-center">
-                  <button type="submit" class="btn btn-primary my-4">Save changes</button>
+                  <button type="submit" class="btn btn-primary my-4" id="saveProfileImageButton">Save changes</button>
                   <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
                 </div>
               </form>

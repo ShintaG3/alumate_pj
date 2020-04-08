@@ -35,7 +35,7 @@ class BasicInfoForm(forms.ModelForm):
         )
 
 class ProfileImageForm(forms.ModelForm):
-    image = forms.ImageField()
+    image = forms.ImageField(required=False)
     
     class Meta:
         model = ProfileImage
