@@ -141,8 +141,8 @@ class City(models.Model):
         return self.city_name + ', ' + self.country.country_name
 
 class Follow(models.Model):
-    follower = models.ForeignKey(User, on_delete=models.CASCADE)
-    followed = models.ForeignKey(User, related_name='followed_user', on_delete=models.CASCADE)
+    follower = models.ForeignKey(User, on_delete=models.CASCADE, related_name="following_users")
+    followed = models.ForeignKey(User, related_name='followed_users', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.follower.username + ' following ' + self.followed.username

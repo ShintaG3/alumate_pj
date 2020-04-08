@@ -1,0 +1,6 @@
+.git
+staticfiles
+mediafiles
+__pycache__
+db.sqlite3
+Screenshot
