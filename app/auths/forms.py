@@ -42,7 +42,7 @@ class SignUpForm(UserCreationForm):
         password2 = self.cleaned_data.get('password2')
         email = self.cleaned_data.get('email')
         if User.objects.filter(email=email).exists():
-            self.add_error('email', 'Email already registered!')
+            self.add_error('email', 'A user with that email already exists.')
         return super(SignUpForm, self).clean(*args, **kwargs)
 
     class Meta:

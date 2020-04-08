@@ -7,6 +7,8 @@ from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 
 
 class BaseInquiryView(FormView):
@@ -72,5 +74,17 @@ def follow(request):
     follow = Follow.objects.create(follower=follower, followed=followed)
     data = {
         'success': followed_id
+    }
+    return JsonResponse(data)
+
+def checkpwdstrength(request):
+    pwd = request.GET.get('password', None)
+    status = 'good'
+    try:
+        validate_password(pwd)
+    except ValidationError:
+        status = 'weak'
+    data = {
+        'success': status
     }
     return JsonResponse(data)
