@@ -55,7 +55,13 @@
         <!-- account -->
         <li class="nav-item dropdown">
           <a href="javascript:;" class="avatar avatar-sm rounded-circle" data-toggle="dropdown" role="button">
-            <img src={{ user.profile_image.image.url }}>
+            <img src=
+            {% if user.profile_image %}
+            {{ user.profile_image.image.url }}
+            {% else %}
+            {% static 'img/placeholder.jpg' %}
+            {% endif %}
+            >
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             <a class="dropdown-item" href="{% url 'accounts:account-page' user.username %}">
