@@ -79,12 +79,12 @@ def follow(request):
 
 def checkpwdstrength(request):
     pwd = request.GET.get('password', None)
-    status = 'good'
+    status = 'strong'
     try:
         validate_password(pwd)
     except ValidationError:
         status = 'weak'
     data = {
-        'success': status
+        'status': status
     }
     return JsonResponse(data)

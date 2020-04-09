@@ -127,7 +127,7 @@
     const password2 = document.getElementById('id_password2');
     const password1 = document.getElementById('id_password1');
     password1.addEventListener('input', checkPasswordStrength);
-    password2.addEventListener('input', checkPasswordMatch);
+    password2.addEventListener('keyup', checkPasswordMatch);
     let pwdStrengthText = document.getElementById('pwdStrength')
 
     function checkPasswordMatch(e) {
@@ -145,38 +145,43 @@
     }
 
     function checkPasswordStrength(e) {
-      if (e.target.value.length >= 8) {
-        $.ajax({
-          url: 'ajax/checkpwdstrength/',
-          data: {
-            'password': e.target.value
-          },
-          dataType: 'json',
-          success: function (data) {
-            pwdStrengthText.style.color = '#2DCE89';
-            pwdStrengthText.innerHTML = 'strong';
-          }
-        });
-      }
+        if (e.target.value.length >= 8) {
+          $.ajax({
+            url: 'ajax/checkpwdstrength/',
+            data: {
+              'password': e.target.value
+            },
+            dataType: 'json',
+            success: function (data) {
+              if (data.status == 'strong') {
+                pwdStrengthText.style.color = '#2DCE89';
+              }
+              else {
+                pwdStrengthText.style.color = '#F75676';
+              }
+              pwdStrengthText.innerHTML = data.status;
+            }
+          });
+        }
       else if (e.target.value.length > 0 && e.target.value.length < 8){
-        pwdStrengthText.style.color = '#F75676';
-        pwdStrengthText.innerHTML = 'weak';
+          pwdStrengthText.style.color = '#F75676';
+          pwdStrengthText.innerHTML = 'weak';
 
-      }
+        }
       else {
-        pwdStrengthText.innerHTML = '';
+          pwdStrengthText.innerHTML = '';
+        }
       }
-    }
 
     
 
     agree_to_policy.onclick = function (){
-      if (agree_to_policy.checked == true) {
-        registerUser.disabled = false;
-      }
-      else {
-        registerUser.disabled = true;
-      }
+        if (agree_to_policy.checked == true) {
+          registerUser.disabled = false;
+        }
+        else {
+          registerUser.disabled = true;
+        }
     }
 
   </script>
