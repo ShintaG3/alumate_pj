@@ -105,8 +105,9 @@ ENV/
 chotatsushien.csv
 import.py
 
-# staticfiles
+# static and media files
 staticfiles/
+mediafiles/
 
 # vscode settings
 .vscode/

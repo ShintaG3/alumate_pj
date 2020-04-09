@@ -6,9 +6,11 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
 
 {% extends 'base-authpage.html' %}
 {% load static %}
+{% load widget_tweaks %}
 {% block navbar %}
 {% include 'include/nav-authpage.html' %}
 {% endblock %}
+
 
 {% block style %}
 <style>
@@ -30,9 +32,75 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
     padding: 96px 0 0 8%;
     /* box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1); */
   }
+
+  .upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+  }
+
+  .upload-btn-wrapper input[type=file] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+  }
+
+  .like-button {
+    background-color: transparent;
+    border: none;
+    text-decoration: none;
+    display: inline-block;
+    margin-right: .75rem;
+    font-size: .875rem;
+    color: #32325d;
+    padding: 0;
+  }
+
+  .like-button.active, 
+  .like-button:hover {
+    color: #5e72e4;
+  }
+
+  .like-button:focus {
+    outline: none;
+  }
+
+  .like-button>span {
+    margin-left: .1875rem;
+    font-weight: 600;
+  }
+
 </style>
 {% endblock %}
 
+{% block scripts %}
+<script>
+  var reader = new FileReader();
+  
+  function readURL(input) {
+    if (input.files && input.files[0]) {
+      reader.onload = function(e) {
+        $('#image-preview-container').attr('class', 'd-block');
+        $('#post-preview-image').attr('src', e.target.result);
+      }
+      
+      reader.readAsDataURL(input.files[0]); // convert to base64 string
+    }
+  }
+
+  $("#post-image-input").change(function() {
+    readURL(this);
+  });
+
+  function checkUserLikedComment(user, comment) {
+
+  }
+</script>
+{% endblock %}
+
+{% load tz %}
 {% block content %}
 <div class="wrapper">
     <section class="section section-blog-info">
@@ -106,23 +174,30 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
                   <div class="tab-content" id="myTabContent">
                     <!-- Post -->
                     <div class="tab-pane fade active show" id="tabs-icons-text-1" role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">
-                      <div class="media align-items-center">
-                        <img alt="Image placeholder" class="avatar avatar-lg rounded-circle mb-4" src="{% static 'img/faces/team-3.jpg' %}">
-                        <div class="media-body">
-                          <form>
-                            <textarea class="form-control" placeholder="Write your comment" rows="1"></textarea>
-                          </form>
+                      <form action="" method="POST" enctype="multipart/form-data">
+                      {% csrf_token %}
+                        <div class="media align-items-center">
+                          <img alt="Image placeholder" class="avatar avatar-lg rounded-circle mb-4" src="{% static 'img/faces/team-3.jpg' %}">
+                          <div class="media-body">
+                            {% render_field new_post_form.body class+="form-control" placeholder="Write your post" rows="3" %}
+                          </div>
                         </div>
-                      </div>
-                      <div class="text-right ml-auto">
-                        <button type="button" class="btn btn-md btn-transparent btn-icon rounded">
-                          <span class="btn-inner--icon icon-big"><i class="fa fa-image"></i></span>
-                        </button>
-                        <button type="button" class="btn btn-sm btn-primary btn-icon">
-                          <span class="btn-inner--icon icon-big"><i class="ni ni-fat-add"></i></span>
-                          <span class="btn-inner--text">Post</span>
-                        </button>
-                      </div>
+                        <div id="image-preview-container" class="d-none">
+                          <img id="post-preview-image" class="w-100 h-100">
+                        </div>
+                        <div class="text-right ml-auto">
+                          <div class="btn p-0 upload-btn-wrapper align-middle">
+                            <button type="button" class="btn mr-0 btn-icon rounded">
+                              <span class="btn-inner--icon icon-big"><i class="fa fa-image"></i></span>
+                            </button>
+                            {% render_field new_post_form.image id="post-image-input" %}
+                          </div>
+                          <button type="submit" class="btn btn-sm btn-primary btn-icon">
+                            <span class="btn-inner--icon icon-big"><i class="ni ni-fat-add"></i></span>
+                            <span class="btn-inner--text">Post</span>
+                          </button>
+                        </div>
+                      </form>
                     </div>
 
                     <!-- Noticle -->
@@ -243,8 +318,11 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
           </div>
           
           <!-- feed area -->
-          <div class="row">
+          {% if view == 'Post' %}
+           <div class="row">
             <div class="col-md-8 mx-auto">
+
+            {% for post in post_list %}
               
               <div class="card mt-sm">
                 <div class="card-header d-flex align-items-center">
@@ -253,40 +331,57 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
                       <img src="{% static 'img/faces/team-1.jpg' %}" class="avatar">
                     </a>
                     <div class="mx-3">
-                      <a href="javascript:;" class="text-dark font-weight-600 text-sm">John Snow</a>
-                      <small class="d-block text-muted">3 days ago</small>
+                      <a href="{% url 'accounts:account-page' post.value.user.username %}" class="text-dark font-weight-600 text-sm">
+                      {% if post.value.user.basicinfo.name %}
+                      {{ post.value.user.basicinfo.name }}
+                      {% else %}
+                      @{{ post.value.user.username }}
+                      {% endif %}
+                      </a>
+                      <small class="d-block text-muted">{{ post.created_at|localtime }}</small>
                     </div>
                   </div>
+                  {% if not post.user_following and user != post.value.user %}
                   <div class="text-right ml-auto">
-                    <button type="button" class="btn btn-sm btn-primary btn-icon">
-                      <span class="btn-inner--icon icon-big"><i class="ni ni-fat-add"></i></span>
-                      <span class="btn-inner--text">Follow</span>
-                    </button>
+                    <form action="{% url 'accounts:follow' post.value.user.username %}" method="POST">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-sm btn-primary btn-icon">
+                        <span class="btn-inner--icon icon-big"><i class="ni ni-fat-add"></i></span>
+                        <span class="btn-inner--text">Follow</span>
+                      </button>
+                    </form>
                   </div>
+                  {% endif %}
                 </div>
                 <div class="card-body">
                   <p class="mb-4">
-                    Personal profiles are the perfect way for you to grab their attention and persuade recruiters to continue reading your CV because you’re telling them from the off exactly why they should hire you.
+                  {{ post.value.body }}
                   </p>
-                  <img alt="Image placeholder" src="{% static 'img/sections/mohamed.jpg' %}" class="img-fluid rounded">
+                  {% if post.value.image %}
+                    <img alt="Image placeholder" src={{ post.value.image.url }} class="img-fluid rounded">
+                  {% endif %}
                   <div class="row align-items-center my-3 pb-3 border-bottom">
                     <div class="col-sm-6">
                       <div class="icon-actions">
-                        <a href="javascript:;" class="like active">
-                          <i class="ni ni-like-2"></i>
-                          <span class="text-muted">150</span>
-                        </a>
+                        <form action="{% url 'feed:like-post' post.value.id %}" method="POST" class="float-left">
+                        {% csrf_token %}
+                          <button type="submit" class="like-button {% if post.liked %}active{% endif %} ">
+                          {% comment %} <button href="javascript:;" class="like active"> {% endcomment %}
+                            <i class="ni ni-like-2"></i>
+                            <span class="text-muted">{{ post.value.post_likes.count }}</span>
+                          </button>
+                        </form>
                         <a href="javascript:;">
                           <i class="ni ni-chat-round"></i>
-                          <span class="text-muted">36</span>
+                          <span class="text-muted">{{ post.value.comments.count }}</span>
                         </a>
-                        <a href="javascript:;">
+                        {% comment %} <a href="javascript:;">
                           <i class="ni ni-curved-next"></i>
-                          <span class="text-muted">12</span>
-                        </a>
+                          <span class="text-muted">{{ post.shares }}</span>
+                        </a> {% endcomment %}
                       </div>
                     </div>
-                    <div class="col-sm-6 d-none d-sm-block">
+                    {% comment %} <div class="col-sm-6 d-none d-sm-block">
                       <div class="d-flex align-items-center justify-content-sm-end">
                         <div class="avatar-group">
                           <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-toggle="tooltip" data-original-title="Jessica Rowland">
@@ -301,62 +396,78 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
                         </div>
                         <small class="pl-2 font-weight-bold">and 30+ more</small>
                       </div>
-                    </div>
+                    </div> {% endcomment %}
                   </div>
                   <!-- Comments -->
                   <div class="mb-1">
+                  {% for comment in post.value.comments.all %}
                     <div class="media media-comment">
                       <img alt="Image placeholder" class="avatar avatar-lg rounded-circle" src="{% static 'img/faces/team-1.jpg' %}">
                       <div class="media-body">
                         <div class="media-comment-text">
-                          <h6 class="h5 mt-0">Michael Lewis</h6>
-                          <p class="text-sm lh-160">You have the opportunity to play this game of life you need to appreciate every moment. A lot of people don’t appreciate the moment until it’s passed.</p>
-                          <div class="icon-actions">
-                            <a href="javascript:;" class="like active">
-                              <i class="ni ni-like-2"></i>
-                              <span class="text-muted">3 likes</span>
+                          <div class="mb-2">
+                            <a href="{% url 'accounts:account-page' comment.user.username %}" class="text-dark font-weight-600 text-sm">
+                            {% if comment.user.basicinfo.name %}
+                            {{ comment.user.basicinfo.name }}
+                            {% else %}
+                            @{{ comment.user }}
+                            {% endif %}
                             </a>
-                            <a href="javascript:;">
+                          </div>
+                          <p class="text-sm lh-160">{{ comment.body }}</p>
+                          <div class="icon-actions">
+                            <form action="{% url 'feed:like-comment' comment.id %}" method="POST">
+                              {% csrf_token %}
+                              <button type="submit" class="like-button {% for like in comment.comment_likes.all %}{% if like.user == user %}active{% endif %}{% endfor %}">
+                                <i class="ni ni-like-2"></i>
+                                {% if comment.comment_likes.count != 0 %}
+                                  <span class="text-muted">{{ comment.comment_likes.count }}</span>
+                                {% endif %}
+                              </button>
+                            </form>
+                            {% comment %} <a href="javascript:;" class="like active"> {% endcomment %}
+                            
+                            {% comment %} <a href="javascript:;">
                               <i class="ni ni-curved-next"></i>
                               <span class="text-muted">2 shares</span>
-                            </a>
+                            </a> {% endcomment %}
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div class="media media-comment">
-                      <img alt="Image placeholder" class="avatar avatar-lg rounded-circle" src="{% static 'img/faces/team-2.jpg' %}">
-                      <div class="media-body">
-                        <div class="media-comment-text">
-                          <h6 class="h5 mt-0">Jessica Stones</h6>
-                          <p class="text-sm lh-160">I always felt like I could do anything. That’s the main thing people are controlled by! Thoughts- their perception of themselves! They're slowed down.</p>
-                          <div class="icon-actions">
-                            <a href="javascript:;" class="like active">
-                              <i class="ni ni-like-2"></i>
-                              <span class="text-muted">10 likes</span>
-                            </a>
-                            <a href="javascript:;">
-                              <i class="ni ni-curved-next"></i>
-                              <span class="text-muted">1 share</span>
-                            </a>
-                          </div>
+                  {% endfor %}
+                  <!-- Comment form for a post -->
+                    <form action="{% url 'feed:comment' post.value.id %}" method="POST" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      <div class="media align-items-center">
+                        <img alt="Image placeholder" class="avatar avatar-lg rounded-circle mb-4" src="{% static 'img/faces/team-3.jpg' %}">
+                        <div class="media-body">
+                          {% render_field comment_form.body class+="form-control" placeholder="Write your post" rows="1" %}
                         </div>
                       </div>
-                    </div>
-                    <div class="media align-items-center mt-5">
-                      <img alt="Image placeholder" class="avatar avatar-lg rounded-circle mb-4" src="{% static 'img/faces/team-3.jpg' %}">
-                      <div class="media-body">
-                        <form>
-                          <textarea class="form-control" placeholder="Write your comment" rows="1"></textarea>
-                        </form>
+                      <div class="d-none">
+                        <img class="w-100 h-100">
                       </div>
-                    </div>
+                      <div class="text-right ml-auto">
+                        {% comment %} <div class="btn p-0 upload-btn-wrapper align-middle">
+                          <button type="button" class="btn mr-0 btn-icon rounded">
+                            <span class="btn-inner--icon icon-big"><i class="fa fa-image"></i></span>
+                          </button>
+                          {% render_field comment_form.image id="post-image-input" %}
+                        </div> {% endcomment %}
+                        <button type="submit" class="btn btn-sm btn-primary btn-icon">
+                          <span class="btn-inner--icon icon-big"><i class="ni ni-fat-add"></i></span>
+                          <span class="btn-inner--text">Comment</span>
+                        </button>
+                      </div>
+                    </form>
                   </div>
                 </div>
               </div>
+            {% endfor %}
             </div>
           </div>
-
+          {% elif view == 'Noticle' %}
           <!-- noticle -->
           <div class="row">
             <div class="col-md-8 mx-auto">
@@ -378,7 +489,7 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
               </div>
             </div>
           </div>
-
+          {% elif view == 'Ask' %}
           <!-- inquiry -->
           <div class="row">
             <div class="col-md-8 mx-auto">
@@ -420,7 +531,7 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
               </div>
             </div>
           </div>
-
+          {% endif %}
         </div>
     </section>
 </div>
