@@ -12,4 +12,5 @@ admin.site.register(StudyInterest)
 admin.site.register(About)
 admin.site.register(Education)
 admin.site.register(WorkExperience)
+admin.site.register(ProfileImage)
 
