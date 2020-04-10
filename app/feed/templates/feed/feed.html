@@ -72,6 +72,60 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
     font-weight: 600;
   }
 
+  /* tagsinput overwrite */
+  .bootstrap-tagsinput .badge {
+    line-height: 1;
+    padding: .35rem .375rem;
+  }
+  
+  .bootstrap-tagsinput .badge-default {
+    background: #172b4d;
+  }
+  .bootstrap-tagsinput .badge-primary {
+    background: #5e72e4;
+  }
+  .bootstrap-tagsinput .badge-success {
+    background: #2dce89;
+  }
+
+  .bootstrap-tagsinput .badge-danger {
+    background: #f5365c;
+  }
+
+  .bootstrap-tagsinput .badge-secondary {
+    background: #f4f5f7;
+    color: #212529;
+  }
+  .bootstrap-tagsinput .badge-gray-500 {
+    background: #adb5bd;
+  }
+
+  /* tags */
+  .tag-label {
+    border-bottom: .0625rem solid rgba(0,0,0,.05);
+    display: block;
+    padding:.25rem 0;
+    color:#172b4d;
+  }
+  .tags-section {
+    max-width: 15rem;
+    margin-right: 1.5rem;
+    flex: 0 1 27%;
+    text-align: left;
+  }
+  .tags-section .form-group {
+    margin-bottom: 30px;
+  }
+</style>
+<!-- Slider -->
+<link href="{% static 'vendor/nouislider/css/nouislider.min.css' %}" rel="stylesheet">
+<style>
+  .slider-year {
+    font-weight: 700;
+    font-size: .75rem;
+    display: block;
+  }
+
 </style>
 {% endblock %}
 
@@ -98,6 +152,49 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
 
   }
 </script>
+
+<!-- Tags -->
+<script>
+  Tags = function () {
+    var e = $('[data-toggle="tags"]');
+    e.length && e.each(function () {
+      $(this).tagsinput({
+        tagClass: "badge badge-primary"
+      })
+    })
+    var s = $('[data-toggle="tags-default"]');
+    s.length && s.each(function () {
+      $(this).tagsinput({
+        tagClass: "badge badge-default"
+      })
+    })
+    var s = $('[data-toggle="tags-success"]');
+    s.length && s.each(function () {
+      $(this).tagsinput({
+        tagClass: "badge badge-success"
+      })
+    })
+    var d = $('[data-toggle="tags-danger"]');
+    d.length && d.each(function () {
+      $(this).tagsinput({
+        tagClass: "badge badge-danger"
+      })
+    })
+    var d = $('[data-toggle="tags-secondary"]');
+    d.length && d.each(function () {
+      $(this).tagsinput({
+        tagClass: "badge badge-secondary"
+      })
+    })
+    var d = $('[data-toggle="tags-gray-500"]');
+    d.length && d.each(function () {
+      $(this).tagsinput({
+        tagClass: "badge badge-gray-500"
+      })
+    })
+  }();
+</script>
+
 {% endblock %}
 
 {% load tz %}
@@ -170,10 +267,10 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
                 </ul>
               </div>
               <div class="card shadow">
-                <div class="card-body">
+                <div class="card-body p-0">
                   <div class="tab-content" id="myTabContent">
                     <!-- Post -->
-                    <div class="tab-pane fade active show" id="tabs-icons-text-1" role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">
+                    <div class="tab-pane p-4 fade active show" id="tabs-icons-text-1" role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">
                       <form action="" method="POST" enctype="multipart/form-data">
                       {% csrf_token %}
                         <div class="media align-items-center">
@@ -207,7 +304,7 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
                     </div>
 
                     <!-- Noticle -->
-                    <div class="tab-pane fade" id="tabs-icons-text-2" role="tabpanel" aria-labelledby="tabs-icons-text-2-tab">
+                    <div class="tab-pane p-4 fade" id="tabs-icons-text-2" role="tabpanel" aria-labelledby="tabs-icons-text-2-tab">
                       <div class="media align-items-center">
                         <img alt="Image placeholder" class="avatar avatar-lg rounded-circle mb-4" src="
                         {% if user.profile_image %}
@@ -231,102 +328,145 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
                     </div>
 
                     <!-- Ask -->
-                    <div class="tab-pane fade" id="tabs-icons-text-3" role="tabpanel" aria-labelledby="tabs-icons-text-3-tab">
-                      <div class="media align-items-center">
-                        <img alt="Image placeholder" class="avatar avatar-lg rounded-circle mb-4" src="
-                        {% if user.profile_image %}
-                        {{ user.profile_image.image.url }}
-                        {% else %}
-                        {% static 'img/placeholder.jpg' %}
-                        {% endif %}
-                        ">
-                        <div class="media-body">
-                          <form>
-                            <div class="form-group">
+                    <div class="tab-pane p-4 fade bg-secondary" id="tabs-icons-text-3" role="tabpanel" aria-labelledby="tabs-icons-text-3-tab" style="border-radius: 0.25rem;">
+                      <form>
+                        <div class="d-flex flex-wrap">
+
+                          <!-- Inquiry -->
+                          
+                          <div class="order-1 order-lg-2 flex-grow-1" style="min-width: 300px;">
+                            <div class="mb-3">
+                              <span class="text-primary" style="font-size: 1rem;">
+                                <small>Expected answers are
+                                  <span class="font-weight-bold">many</span>
+
+                                </small>
+                              </span>
+                            </div>
+                            <div class="mb-3">
                               <input type="text" class="form-control" placeholder="Title" ></input>
                             </div>
-                            <div class="form-group">
-                              <textarea class="form-control" placeholder="Write your question" rows="3"></textarea>
+                            <div class="mb-4">
+                              <textarea class="form-control" placeholder="Write your question" rows="15"></textarea>
                             </div>
-                            <div class="form-group bg-secondary">
-                              <div class="container mt-1">
-                                <div class="row">
-                                  <div class="col mt-3 mb-3">
-                                    <i class="ni ni-tag"></i>
-                                    <span>Tags</span>
+                            <!-- Button -->
+                            <div class="text-right mb-4 ml-auto">
+                              <button type="button" class="btn btn-sm btn-primary btn-icon">
+                                <span class="btn-inner--icon icon-big"><i class="fa fa-question"></i></span>
+                                <span class="btn-inner--text">Ask</span>
+                              </button>
+                            </div>
+  
+                          </div>
+
+                          <!-- Tags -->
+                          <div class="order-2 order-lg-1">
+                            <div class="mr-3 tags-section">
+                              <!-- Save tags -->
+                              <a href="javasctipt:;" class="w-100 btn btn-sm btn-outline-info mb-3"><i class="fa fa-download mr-2"></i>Save tags</a>
+                              <!-- Alumate status -->
+                              <div class="form-group focused">
+                                <span class="tag-label">
+                                  <i class="ni ni-tag text-default"></i>
+                                  Alumate Status
+                                </span>
+                                <div class="custom-control custom-checkbox my-3">
+                                  <input class="custom-control-input" id="customCheck1" type="checkbox">
+                                  <label class="custom-control-label" for="customCheck1">Future Student</label>
+                                </div>
+                                <div class="custom-control custom-checkbox my-3">
+                                  <input class="custom-control-input" id="customCheck2" type="checkbox">
+                                  <label class="custom-control-label" for="customCheck2">Current Student</label>
+                                </div>
+                                <div class="custom-control custom-checkbox my-3">
+                                  <input class="custom-control-input" id="customCheck3" type="checkbox">
+                                  <label class="custom-control-label" for="customCheck3">Alumni</label>
+                                </div>
+                              </div>
+                              <!-- Home Country -->
+                              <div class="form-group focused">
+                                <label class="tag-label" for="home_countries">
+                                  <i class="ni ni-tag text-default"></i>
+                                  Home Country
+                                </label>                                
+                                <input class="form-control" type="text" name="home_countries" id="home_countries"
+                                  value="" placeholder="Specify or all"
+                                  data-toggle="tags">
+                              </div>
+                              <!-- Study Abroad Country -->
+                              <div class="form-group">
+                                <label class="tag-label" for="home_countries">
+                                  <i class="ni ni-tag text-default"></i>
+                                  Study Abroad Country
+                                </label>                                
+                                <input class="form-control" type="text" name="home_countries" id="home_countries"
+                                  value="" placeholder="Specify or all"
+                                  data-toggle="tags">
+                              </div>
+                              <!-- Study Abroad School -->
+                              <div class="form-group">
+                                <label class="tag-label" for="home_countries">
+                                  <i class="ni ni-tag text-default"></i>
+                                  Study Abroad School
+                                </label>                                
+                                <input class="form-control" type="text" name="home_countries" id="home_countries"
+                                  value="" placeholder="Specify or all"
+                                  data-toggle="tags">
+                              </div>
+                              <!-- Study Abroad Year -->
+                              <div class="form-group">
+                                <label class="tag-label" for="home_countries">
+                                  <i class="ni ni-tag text-default"></i>
+                                  Study Abroad Year
+                                </label>
+                                <div class="my-4">
+                                  <span class="slider-year">Start Year</span>
+                                  <span><small class="text-muted">2020 - 2022</small></span>
+                                  <div id="input-slider-range" data-range-value-min="100" data-range-value-max="500"></div>
+                                  <div class="row d-none">
+                                    <div class="col-6">
+                                      <span class="range-slider-value value-low" data-range-value-low="200" id="input-slider-range-value-low"></span>
+                                    </div>
+                                    <div class="col-6 text-right">
+                                      <span class="range-slider-value value-high" data-range-value-high="400" id="input-slider-range-value-high"></span>
+                                    </div>
                                   </div>
                                 </div>
-                                <div class="row">
-                                  <div class="col-md-8">
-                                    <div class="input-group input-group-alternative mb-4">
-                                      <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
-                                      </div>
-                                      <input class="form-control" placeholder="Country" type="text">
+                                <div class="my-4">
+                                  <span class="slider-year">End Year</span>
+                                  <span><small class="text-muted">2020 - 2022</small></span>
+                                  <div id="input-slider-range" data-range-value-min="100" data-range-value-max="500"></div>
+                                  <div class="row d-none">
+                                    <div class="col-6">
+                                      <span class="range-slider-value value-low" data-range-value-low="200" id="input-slider-range-value-low"></span>
                                     </div>
-                                  </div>  
-                                  <div class="col-md-8">
-                                    <div class="input-group input-group-alternative mb-4">
-                                      <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
-                                      </div>
-                                      <input class="form-control" placeholder="School" type="text">
+                                    <div class="col-6 text-right">
+                                      <span class="range-slider-value value-high" data-range-value-high="400" id="input-slider-range-value-high"></span>
                                     </div>
-                                  </div>  
-                                  <div class="col-md-8">
-                                    <div class="input-group input-group-alternative mb-4">
-                                      <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
-                                      </div>
-                                      <input class="form-control" placeholder="Course" type="text">
-                                    </div>
-                                  </div>  
-                                  <div class="col-md-8">
-                                    <div class="input-group input-group-alternative mb-4">
-                                      <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
-                                      </div>
-                                      <input class="form-control" placeholder="Year of study abroad" type="text">
-                                    </div>
-                                  </div>  
-                                  <div class="col-md-8">
-                                    <div class="input-group input-group-alternative mb-4">
-                                      <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
-                                      </div>
-                                      <input class="form-control" placeholder="Job before study abroad" type="text">
-                                    </div>
-                                  </div>  
-                                  <div class="col-md-8">
-                                    <div class="input-group input-group-alternative mb-4">
-                                      <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
-                                      </div>
-                                      <input class="form-control" placeholder="Job after study abroad" type="text">
-                                    </div>
-                                  </div>  
-                                  <div class="col-md-8">
-                                    <div class="input-group input-group-alternative mb-4">
-                                      <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
-                                      </div>
-                                      <input class="form-control" placeholder="Keyword" type="text">
-                                    </div>
-                                  </div>  
-                                </div>  
-
+                                  </div>
+                                </div>
+                              </div>
+                              <!-- Living City -->
+                              <div class="form-group">
+                                <label class="tag-label" for="home_countries">
+                                  <i class="ni ni-tag text-default"></i>
+                                  Living City
+                                </label>                                
+                                <input class="form-control" type="text" name="home_countries" id="home_countries"
+                                  value="" placeholder="Specify or all"
+                                  data-toggle="tags">
                               </div>
                             </div>
+                          </div>
+                          <!-- End tags -->
 
-                          </form>
                         </div>
-                      </div>
-                      <div class="text-right ml-auto">
-                        <button type="button" class="btn btn-sm btn-primary btn-icon">
-                          <span class="btn-inner--icon icon-big"><i class="fa fa-question"></i></span>
-                          <span class="btn-inner--text">Ask</span>
-                        </button>
-                      </div>
+                        
+
+                        
+                      </form>
+
+          
                     </div>
 
                   </div>
