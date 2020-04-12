@@ -4,6 +4,7 @@ import datetime
 from django.core.validators import MaxValueValidator, MinValueValidator
 from datetime import date
 from django.utils.translation import gettext_lazy as _
+from django_resized import ResizedImageField
 # Create your models here.
 
 
@@ -39,6 +40,13 @@ class BasicInfo(models.Model):
 
     def __str__(self):
         return self.user.username
+    
+class ProfileImage(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name="profile_image")
+    image = ResizedImageField(upload_to='images/', size=[180, 180], crop=['middle', 'center'], quality=100)
+    
+    def __str__(self):
+        return self.user.username + "'s profile image"
     
 class Goal(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

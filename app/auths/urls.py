@@ -11,5 +11,5 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', views.logoutUser, name='logout'),
     path('base-connect/', views.baseConnect, name='baseConnect'),
-    path('base-connect/ajax/follow/', views.follow, name='follow')
+    path('register/ajax/checkpwdstrength/', views.checkpwdstrength, name='checkpwdstrength')
     ]
