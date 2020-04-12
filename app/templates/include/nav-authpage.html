@@ -21,15 +21,15 @@
       </div>
       <ul class="navbar-nav navbar-nav-hover align-items-lg-center ml-lg-auto">
         <!-- people -->
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown d-flex align-items-center">
           <a href="javascript:;" data-toggle="dropdown" role="button">
-            <span class="mx-2" style="font-size: 1.5em; color: #f3f4f6;">
+            <span class="mx-2" style="font-size: 1.4em; color: #f3f4f6;">
               <i class="fa fa-users"></i>
             </span>
           </a>
         </li>
         <!-- inquiry -->
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown d-flex align-items-center">
           <a href="javascript:;" data-toggle="dropdown" role="button">
             <span class="mx-2" style="font-size: 1.5em; color: #f3f4f6;">
               <i class="fa fa-question"></i>
@@ -37,24 +37,24 @@
           </a>
         </li>
         <!-- noticle -->
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown d-flex align-items-center">
           <a href="javascript:;" data-toggle="dropdown" role="button">
-            <span class="mx-2" style="font-size: 1.4em; color: #f3f4f6;">
-              <i class="ni ni-collection"></i>
+            <span class="mx-2 " style="font-size: 1.3em; color: #f3f4f6;">
+              <i style="margin-top: 10px;" class="ni ni-collection"></i>
             </span>
           </a>
         </li>
         <!-- message -->
-        <li class="nav-item dropdown">
-          <a class="mx-3" href="{% url 'message:message_list' %}" data-toggle="dropdown" role="button">
-            <span style="font-size: 1.5em; color: #f3f4f6;">
+        <li class="nav-item dropdown d-flex align-items-center">
+          <a class="mr-4" href="{% url 'message:message_list' %}" data-toggle="dropdown" role="button">
+            <span class="mx-2 " style="font-size: 1.5em; color: #f3f4f6;">
               <i class="fa fa-comments"></i>
             </span>
           </a>
         </li>
         <!-- account -->
         <li class="nav-item dropdown">
-          <a href="javascript:;" class="avatar avatar-sm rounded-circle" data-toggle="dropdown" role="button">
+          <a href="javascript:;" class="avatar avatar-sm rounded-circle" data-toggle="dropdown" role="button" style="position: relative; top: 5px">
             <img src="{% static 'img/faces/team-1.jpg' %}">
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
