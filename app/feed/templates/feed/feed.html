@@ -194,6 +194,54 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
     })
   }();
 </script>
+<!-- noUIslider for Study abroad year-->
+<script>
+  var startYear = document.getElementById("startYear"),
+    startYear_start = document.getElementById("startYear_start"),
+    startYear_start_input = document.getElementById("startYear_start_input"),
+    startYear_end = document.getElementById("startYear_end"),
+    startYear_end_input = document.getElementById("startYear_end_input"),
+    starYear_span = [startYear_start, startYear_end];
+    starYear_input = [startYear_start_input, startYear_end_input];
+
+  noUiSlider.create(startYear, {
+    start: [parseInt(startYear_start.getAttribute('data-range-value-low')), parseInt(startYear_end.getAttribute('data-range-value-high'))],
+    // tooltips: [true, true],
+    connect: !0,
+    start: ['2000', '2010'],
+    step: 1,
+    range: {
+      min: parseInt(startYear.getAttribute('data-range-value-min')),
+      max: parseInt(startYear.getAttribute('data-range-value-max'))
+    }
+  }), startYear.noUiSlider.on("update", function (a, b) {
+    starYear_span[b].textContent = Math.round(a[b])
+    starYear_input[b].value = Math.round(a[b])
+  })
+
+  var endYear = document.getElementById("endYear"),
+    endYear_start = document.getElementById("endYear_start"),
+    endYear_start_input = document.getElementById("endYear_start_input"),
+    endYear_end = document.getElementById("endYear_end"),
+    endYear_end_input = document.getElementById("endYear_end_input"),
+    endYear_span = [endYear_start, endYear_end];
+    endYear_input = [endYear_start_input, endYear_end_input];
+
+  noUiSlider.create(endYear, {
+    start: [parseInt(endYear_start.getAttribute('data-range-value-low')), parseInt(endYear_end.getAttribute('data-range-value-high'))],
+    // tooltips: [true, true],
+    connect: !0,
+    start: ['2000', '2010'],
+    step: 1,
+    range: {
+      min: parseInt(endYear.getAttribute('data-range-value-min')),
+      max: parseInt(endYear.getAttribute('data-range-value-max'))
+    }
+  }), endYear.noUiSlider.on("update", function (a, b) {
+    endYear_span[b].textContent = Math.round(a[b])
+    endYear_input[b].value = Math.round(a[b])
+  })
+</script>
 
 {% endblock %}
 
@@ -363,8 +411,6 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
                           <!-- Tags -->
                           <div class="order-2 order-lg-1">
                             <div class="mr-3 tags-section">
-                              <!-- Save tags -->
-                              <a href="javasctipt:;" class="w-100 btn btn-sm btn-outline-info mb-3"><i class="fa fa-download mr-2"></i>Save tags</a>
                               <!-- Alumate status -->
                               <div class="form-group focused">
                                 <span class="tag-label">
@@ -422,29 +468,17 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
                                 </label>
                                 <div class="my-4">
                                   <span class="slider-year">Start Year</span>
-                                  <span><small class="text-muted">2020 - 2022</small></span>
-                                  <div id="input-slider-range" data-range-value-min="100" data-range-value-max="500"></div>
-                                  <div class="row d-none">
-                                    <div class="col-6">
-                                      <span class="range-slider-value value-low" data-range-value-low="200" id="input-slider-range-value-low"></span>
-                                    </div>
-                                    <div class="col-6 text-right">
-                                      <span class="range-slider-value value-high" data-range-value-high="400" id="input-slider-range-value-high"></span>
-                                    </div>
-                                  </div>
+                                  <input class="d-none" type="text" name="startYear_start_input" id="startYear_start_input">                                 
+                                  <input class="d-none" type="text" name="startYear_end_input" id="startYear_end_input">                                 
+                                  <span><small class="text-muted"><span data-range-value-low="1970" id="startYear_start"></span> - <span data-range-value-high="2040" id="startYear_end"></span></small></span>
+                                  <div id="startYear" data-range-value-min="1980" data-range-value-max="2030"></div>
                                 </div>
                                 <div class="my-4">
-                                  <span class="slider-year">End Year</span>
-                                  <span><small class="text-muted">2020 - 2022</small></span>
-                                  <div id="input-slider-range" data-range-value-min="100" data-range-value-max="500"></div>
-                                  <div class="row d-none">
-                                    <div class="col-6">
-                                      <span class="range-slider-value value-low" data-range-value-low="200" id="input-slider-range-value-low"></span>
-                                    </div>
-                                    <div class="col-6 text-right">
-                                      <span class="range-slider-value value-high" data-range-value-high="400" id="input-slider-range-value-high"></span>
-                                    </div>
-                                  </div>
+                                  <span class="slider-year">End Year</span>    
+                                  <input class="d-none" type="text" name="endYear_start_input" id="endYear_start_input">                                 
+                                  <input class="d-none" type="text" name="endYear_end_input" id="endYear_end_input">                                 
+                                  <span><small class="text-muted"><span data-range-value-low="1970" id="endYear_start"></span> - <span data-range-value-high="2040" id="endYear_end"></span></small></span>
+                                  <div id="endYear" data-range-value-min="1980" data-range-value-max="2030"></div>
                                 </div>
                               </div>
                               <!-- Living City -->
