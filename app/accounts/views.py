@@ -31,7 +31,11 @@ class AccountView(TemplateView):
         except BasicInfo.DoesNotExist:
             basic_info = None
             
-        
+        try:
+            profile_image = ProfileImage.objects.get(user=account)
+        except ProfileImage.DoesNotExist:
+            profile_image = None
+
         goals = Goal.objects.filter(user=account).values_list('body', flat=True)
         study_interests = StudyInterest.objects.filter(user=account).values_list('body', flat=True)
         goals_str = ",".join(list(goals))
@@ -74,6 +78,8 @@ class AccountView(TemplateView):
             'user': account,
             'has_edit_permission': has_edit_permission,
             'basic_info': basic_info,
+            'profile_image': profile_image,
+            'profile_image_form': ProfileImageForm(),
             'education_already_added': educations,
             'study_abroad': study_abroad,
             'study_abroad_choice_form': StudyAbroadForm(),
@@ -97,7 +103,6 @@ class AccountView(TemplateView):
             'is_following': following,
             'followers': followers,
             'followings': followings,
-            
         }
         return context
     
@@ -189,13 +194,34 @@ class BasicInfoUpdateView(View):
             basic_info = None
         form = self.form_class(request.POST, instance=basic_info)
         
-        form = self.form_class(request.POST)
         if form.is_valid:
             basic_info = form.save(commit=False)
             basic_info.user = request.user
             basic_info.save()
         return redirect('/accounts/' + request.user.username)
 
+class UploadProfileImageView(View):
+    form_class = ProfileImageForm
+    
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        
+        try:
+            profile_image = ProfileImage.objects.get(user=user)
+            if request.POST.get('delete') is not None:
+                profile_image.delete()
+                return redirect('/accounts/' + user.username)
+        except ProfileImage.DoesNotExist:
+            profile_image = None
+        
+        form = self.form_class(request.POST, request.FILES, instance=profile_image)
+        
+        if form.is_valid():
+            profile_image = form.save(commit=False)
+            profile_image.user = user
+            profile_image.save()
+
+        return redirect('/accounts/' + user.username)
 
 class CreateStudyAbroad(View):
     form_class = EducationForm

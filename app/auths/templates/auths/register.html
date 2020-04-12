@@ -94,7 +94,7 @@
                         {{ form.password2 }}
                     </div>
                   </div>
-                  <div class="text-muted font-italic"><small>password strength: <span class="text-success font-weight-700">strong</span></small></div>
+                  <div class="text-muted font-italic">password strength: <span class="small font-weight-700" id="pwdStrength"></span></div>
                   <div class="row my-4">
                     <div class="col-12">
                       <div class="custom-control custom-control-alternative custom-checkbox">
@@ -118,13 +118,65 @@
   <script>
     let agree_to_policy = document.getElementById('customCheckRegister');
     let registerUser = document.getElementById('registerUser');
-    agree_to_policy.onclick = function (){
-      if (agree_to_policy.checked == true) {
-        registerUser.disabled = false;
-      }
+    const password2 = document.getElementById('id_password2');
+    const password1 = document.getElementById('id_password1');
+    password1.addEventListener('input', checkPasswordStrength);
+    password2.addEventListener('keyup', checkPasswordMatch);
+    let pwdStrengthText = document.getElementById('pwdStrength')
+
+    function checkPasswordMatch(e) {
+        if (e.target.value.length == 0) {
+          password2.style.backgroundColor = '#fff';
+          password2.style.color = '#8898AA';
+        }
+        else if (e.target.value == password1.value) {
+            password2.style.backgroundColor = '#2DCE89';
+            password2.style.color = '#ffff';
+        }
+        else {
+          password2.style.backgroundColor = '#F75676';
+          password2.style.color = '#ffff';
+        }
+    }
+
+    function checkPasswordStrength(e) {
+        if (e.target.value.length >= 8) {
+          $.ajax({
+            url: 'ajax/checkpwdstrength/',
+            data: {
+              'password': e.target.value
+            },
+            dataType: 'json',
+            success: function (data) {
+              if (data.status == 'strong') {
+                pwdStrengthText.style.color = '#2DCE89';
+              }
+              else {
+                pwdStrengthText.style.color = '#F75676';
+              }
+              pwdStrengthText.innerHTML = data.status;
+            }
+          });
+        }
+      else if (e.target.value.length > 0 && e.target.value.length < 8){
+          pwdStrengthText.style.color = '#F75676';
+          pwdStrengthText.innerHTML = 'weak';
+
+        }
       else {
-        registerUser.disabled = true;
+          pwdStrengthText.innerHTML = '';
+        }
       }
+
+    
+
+    agree_to_policy.onclick = function (){
+        if (agree_to_policy.checked == true) {
+          registerUser.disabled = false;
+        }
+        else {
+          registerUser.disabled = true;
+        }
     }
 
   </script>
