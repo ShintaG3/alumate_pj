@@ -5,10 +5,11 @@ from django.views.generic.base import TemplateView
 from django.contrib.auth.models import User
 from django.views import View
 from django.views.generic import FormView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 # Create your views here.
-class BaseInquiryView(FormView):
+class BaseInquiryView(LoginRequiredMixin, FormView):
     template_name = 'account/base-inquiry.html'
     form_class = BasicInfoForm
     success_url = '/feed/'
@@ -19,7 +20,7 @@ class BaseInquiryView(FormView):
         basic_info.save()
         return super().form_valid(form)
 
-class AccountView(TemplateView):
+class AccountView(LoginRequiredMixin, TemplateView):
     template_name = 'account/account.html'
    
     def get_context_data(self, **kwargs):
@@ -183,7 +184,7 @@ class AccountView(TemplateView):
             })
         return social_link_lists
                                 
-class BasicInfoUpdateView(View):
+class BasicInfoUpdateView(LoginRequiredMixin, View):
     form_class = BasicInfoForm
     
     def post(self, request, *args, **kwargs):
@@ -200,7 +201,9 @@ class BasicInfoUpdateView(View):
             basic_info.save()
         return redirect('/accounts/' + request.user.username)
 
-class UploadProfileImageView(View):
+
+class UploadProfileImageView(LoginRequiredMixin, View):
+
     form_class = ProfileImageForm
     
     def post(self, request, *args, **kwargs):
@@ -223,7 +226,7 @@ class UploadProfileImageView(View):
 
         return redirect('/accounts/' + user.username)
 
-class CreateStudyAbroad(View):
+class CreateStudyAbroad(LoginRequiredMixin, View):
     form_class = EducationForm
     
     def post(self, request, *args, **kwargs):
@@ -248,7 +251,7 @@ class CreateStudyAbroad(View):
         return redirect('/accounts/' + user.username)
 
 
-class SelectStudyAbroad(View):
+class SelectStudyAbroad(LoginRequiredMixin, View):
     form_class = StudyAbroadForm
     
     def post(self, request, *args, **kwargs):
@@ -265,7 +268,7 @@ class SelectStudyAbroad(View):
             study_abroad_info.save()
         return redirect('/accounts/' + user.username)
 
-class GoalUpdateView(View):
+class GoalUpdateView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         username = kwargs['username']
         user = User.objects.get(username=username)
@@ -298,7 +301,7 @@ class GoalUpdateView(View):
         return redirect('/accounts/' + username)
 
     
-class StudyInterestUpdateView(View):
+class StudyInterestUpdateView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         username = kwargs['username']
         user = User.objects.get(username=username)
@@ -331,7 +334,7 @@ class StudyInterestUpdateView(View):
         return redirect('/accounts/' + username)
 
 
-class AboutUpdateView(View):
+class AboutUpdateView(LoginRequiredMixin, View):
     form_class = AboutForm
     
     def post(self, request, *args, **kwargs):
@@ -348,7 +351,7 @@ class AboutUpdateView(View):
             about.save()
         return redirect('/accounts/' + user.username)
     
-class EducationUpdateView(View):
+class EducationUpdateView(LoginRequiredMixin, View):
     form_class = EducationForm
     
     def post(self, request, pk=None, *args, **kwargs):
@@ -374,7 +377,7 @@ class EducationUpdateView(View):
         return redirect('/accounts/' + user.username)
 
 
-class WorkExperienceUpdateView(View):
+class WorkExperienceUpdateView(LoginRequiredMixin, View):
     form_class = WorkExperienceForm
     
     def post(self, request, pk=None, *args, **kwargs):
@@ -400,7 +403,7 @@ class WorkExperienceUpdateView(View):
         return redirect('/accounts/' + user.username)
     
 
-class ScholarShipView(View):
+class ScholarShipView(LoginRequiredMixin, View):
     form_class = ScholarshipForm
     
     def post(self, request, pk=None, *args, **kwargs):
@@ -425,7 +428,7 @@ class ScholarShipView(View):
         return redirect('/accounts/' + user.username)
 
 
-class SocialLinkView(View):
+class SocialLinkView(LoginRequiredMixin, View):
     form_class = SocialLinkForm
     
     def post(self, request, pk=None, *args, **kwargs):
@@ -449,7 +452,7 @@ class SocialLinkView(View):
         
         return redirect('/accounts/' + user.username)
 
-class ProfileView(View):
+class ProfileView(LoginRequiredMixin, View):
     form_class = ProfileForm
     
     def post(self, request, pk=None, *args, **kwargs):
@@ -473,7 +476,7 @@ class ProfileView(View):
         
         return redirect('/accounts/' + user.username)
 
-class FollowView(View):
+class FollowView(LoginRequiredMixin, View):
     def post(self, request, pk=None, *args, **kwargs):
         follower = request.user
         account_to_follow = get_object_or_404(User, username=kwargs['username'])
@@ -484,7 +487,7 @@ class FollowView(View):
         return redirect('/accounts/' + account_to_follow.username)
 
 
-class UnfollowView(View):
+class UnfollowView(LoginRequiredMixin, View):
     def post(self, request, pk=None, *args, **kwargs):
         follower = request.user
         account_to_unfollow = get_object_or_404(User, username=kwargs['username'])
