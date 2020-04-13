@@ -1,9 +1,3 @@
-<!-- check out the this linke for noticle post function
-https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/quill.html -->
-<!-- 
-this link for tag option for the inquiry post and noticle post
-https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
-
 {% extends 'base-authpage.html' %}
 {% load static %}
 {% load widget_tweaks %}
@@ -13,7 +7,20 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
 
 
 {% block style %}
+<!-- select2 -->
+<link type="text/css" href="{% static 'vendor/select2/css/select2.min.css' %}" rel="stylesheet">
+<link type="text/css" href="{% static 'vendor/select2-bootstrap/select2-argon.min.css' %}" rel="stylesheet">
+
 <style>
+  /* overwright select2.min.css */
+  .select2-container--open .select2-dropdown--below{
+    border:none;
+  }
+  .select2-container--open .select2-dropdown--above{
+    border:none;
+  }
+
+  /* Card animation */
   .card-zoom[data-animation=zooming] {
       transition: all .3s cubic-bezier(.2,1,.22,1);
       -webkit-transition: all .3s cubic-bezier(.2,1,.22,1);
@@ -23,6 +30,8 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
   -webkit-transform: scale(1.07);
   z-index: 2;
   }
+
+  /* sidebar */
   .sidebar {
     position: fixed;
     top: 0;
@@ -73,7 +82,7 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
   }
 
   /* tagsinput overwrite */
-  .bootstrap-tagsinput .badge {
+  /* .bootstrap-tagsinput .badge {
     line-height: 1;
     padding: .35rem .375rem;
   }
@@ -98,7 +107,7 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
   }
   .bootstrap-tagsinput .badge-gray-500 {
     background: #adb5bd;
-  }
+  } */
 
   /* tags */
   .tag-label {
@@ -108,7 +117,8 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
     color:#172b4d;
   }
   .tags-section {
-    max-width: 15rem;
+    /* max-width: 15rem; */
+    width:12rem;
     margin-right: 1.5rem;
     flex: 0 1 27%;
     text-align: left;
@@ -117,6 +127,7 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
     margin-bottom: 30px;
   }
 </style>
+
 <!-- Slider -->
 <link href="{% static 'vendor/nouislider/css/nouislider.min.css' %}" rel="stylesheet">
 <style>
@@ -132,29 +143,49 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
 {% block scripts %}
 <script>
   var reader = new FileReader();
-  
   function readURL(input) {
     if (input.files && input.files[0]) {
       reader.onload = function(e) {
         $('#image-preview-container').attr('class', 'd-block');
         $('#post-preview-image').attr('src', e.target.result);
       }
-      
       reader.readAsDataURL(input.files[0]); // convert to base64 string
     }
   }
-
   $("#post-image-input").change(function() {
     readURL(this);
   });
-
   function checkUserLikedComment(user, comment) {
-
   }
 </script>
 
-<!-- Tags -->
+<!-- Select2 -->
+<script src="{% static 'vendor/anchor-js/anchor.min.js' %}"></script>
+<script src="{% static 'vendor/select2/js/select2.full.js' %}"></script>
+<!-- Select2 config -->
 <script>
+  $.fn.select2.defaults.set("theme", "bootstrap");
+  $(".select2-single, .select2-multiple").select2({
+    placeholder: function(){
+      $(this).data('placeholder');
+    },
+    width: null,
+    containerCssClass: ':all:'
+  });
+  $(".select2-single, .select2-multiple, .select2-allow-clear, .js-data-example-ajax").on("select2:open", function () {
+    if ($(this).parents("[class*='has-']").length) {
+      var classNames = $(this).parents("[class*='has-']")[0].className.split(/\s+/);
+      for (var i = 0; i < classNames.length; ++i) {
+        if (classNames[i].match("has-")) {
+          $("body > .select2-container").addClass(classNames[i]);
+        }
+      }
+    }
+  });
+</script>
+
+<!-- Tags -->
+<!-- <script>
   Tags = function () {
     var e = $('[data-toggle="tags"]');
     e.length && e.each(function () {
@@ -193,7 +224,8 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
       })
     })
   }();
-</script>
+</script> -->
+
 <!-- noUIslider for Study abroad year-->
 <script>
   var startYear = document.getElementById("startYear"),
@@ -203,7 +235,6 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
     startYear_end_input = document.getElementById("startYear_end_input"),
     starYear_span = [startYear_start, startYear_end];
     starYear_input = [startYear_start_input, startYear_end_input];
-
   noUiSlider.create(startYear, {
     start: [parseInt(startYear_start.getAttribute('data-range-value-low')), parseInt(startYear_end.getAttribute('data-range-value-high'))],
     // tooltips: [true, true],
@@ -218,7 +249,6 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
     starYear_span[b].textContent = Math.round(a[b])
     starYear_input[b].value = Math.round(a[b])
   })
-
   var endYear = document.getElementById("endYear"),
     endYear_start = document.getElementById("endYear_start"),
     endYear_start_input = document.getElementById("endYear_start_input"),
@@ -226,7 +256,6 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
     endYear_end_input = document.getElementById("endYear_end_input"),
     endYear_span = [endYear_start, endYear_end];
     endYear_input = [endYear_start_input, endYear_end_input];
-
   noUiSlider.create(endYear, {
     start: [parseInt(endYear_start.getAttribute('data-range-value-low')), parseInt(endYear_end.getAttribute('data-range-value-high'))],
     // tooltips: [true, true],
@@ -350,6 +379,7 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
                         </div>
                       </form>
                     </div>
+                    <!-- End Post -->
 
                     <!-- Noticle -->
                     <div class="tab-pane p-4 fade" id="tabs-icons-text-2" role="tabpanel" aria-labelledby="tabs-icons-text-2-tab">
@@ -374,41 +404,37 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
                         </button>
                       </div>
                     </div>
+                    <!-- End Noticle -->
 
                     <!-- Ask -->
                     <div class="tab-pane p-4 fade bg-secondary" id="tabs-icons-text-3" role="tabpanel" aria-labelledby="tabs-icons-text-3-tab" style="border-radius: 0.25rem;">
                       <form>
                         <div class="d-flex flex-wrap">
-
                           <!-- Inquiry -->
-                          
                           <div class="order-1 order-lg-2 flex-grow-1" style="min-width: 300px;">
                             <div class="mb-3">
                               <span class="text-primary" style="font-size: 1rem;">
                                 <small>Expected answers are
                                   <span class="font-weight-bold">many</span>
-
                                 </small>
                               </span>
                             </div>
+                            <!-- Input feeld -->
                             <div class="mb-3">
-
                               <input type="text" class="form-control" placeholder="Title" ></input>
                             </div>
                             <div class="mb-4">
                               <textarea class="form-control" placeholder="Write your question" rows="15"></textarea>
                             </div>
-                            <!-- Button -->
+                            <!-- Ask Button -->
                             <div class="text-right mb-4 ml-auto">
                               <button type="button" class="btn btn-sm btn-primary btn-icon">
                                 <span class="btn-inner--icon icon-big"><i class="fa fa-question"></i></span>
                                 <span class="btn-inner--text">Ask</span>
                               </button>
                             </div>
-  
                           </div>
-
-                          <!-- Tags -->
+                          <!-- Tags Section -->
                           <div class="order-2 order-lg-1">
                             <div class="mr-3 tags-section">
                               <!-- Alumate status -->
@@ -432,33 +458,123 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
                               </div>
                               <!-- Home Country -->
                               <div class="form-group focused">
-                                <label class="tag-label" for="home_countries">
+                                <label class="tag-label" for="home_country">
                                   <i class="ni ni-tag text-default"></i>
                                   Home Country
-                                </label>                                
-                                <input class="form-control" type="text" name="home_countries" id="home_countries"
-                                  value="" placeholder="Specify or all"
-                                  data-toggle="tags">
+                                </label>
+                                <select name="home_country" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
+                                  <optgroup label="Alaskan/Hawaiian Time Zone">
+                                    <option value="AK">Alaska</option>
+                                    <option value="HI" disabled="disabled">Hawaii</option>
+                                  </optgroup>
+                                  <optgroup label="Pacific Time Zone">
+                                    <option value="CA">California</option>
+                                    <option value="NV">Nevada</option>
+                                    <option value="OR">Oregon</option>
+                                    <option value="WA">Washington</option>
+                                  </optgroup>
+                                  <optgroup label="Eastern Time Zone">
+                                    <option value="CT">Connecticut</option>
+                                    <option value="DE">Delaware</option>
+                                    <option value="FL">Florida</option>
+                                    <option value="VT">Vermont</option>
+                                    <option value="VA">Virginia</option>
+                                    <option value="WV">West Virginia</option>
+                                  </optgroup>
+                                  <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
+                                  <option value="TPZ">The Panic Zone</option>
+                                  <option value="TTZ">The Twilight Zone</option>
+                                </select>
                               </div>
                               <!-- Study Abroad Country -->
                               <div class="form-group">
-                                <label class="tag-label" for="home_countries">
+                                <label class="tag-label" for="study_abroad_country">
                                   <i class="ni ni-tag text-default"></i>
                                   Study Abroad Country
                                 </label>                                
-                                <input class="form-control" type="text" name="home_countries" id="home_countries"
-                                  value="" placeholder="Specify or all"
-                                  data-toggle="tags">
+                                <select name="study_abroad_country" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
+                                  <optgroup label="Alaskan/Hawaiian Time Zone">
+                                    <option value="AK">Alaska</option>
+                                    <option value="HI" disabled="disabled">Hawaii</option>
+                                  </optgroup>
+                                  <optgroup label="Pacific Time Zone">
+                                    <option value="CA">California</option>
+                                    <option value="NV">Nevada</option>
+                                    <option value="OR">Oregon</option>
+                                    <option value="WA">Washington</option>
+                                  </optgroup>
+                                  <optgroup label="Eastern Time Zone">
+                                    <option value="CT">Connecticut</option>
+                                    <option value="DE">Delaware</option>
+                                    <option value="FL">Florida</option>
+                                    <option value="VT">Vermont</option>
+                                    <option value="VA">Virginia</option>
+                                    <option value="WV">West Virginia</option>
+                                  </optgroup>
+                                  <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
+                                  <option value="TPZ">The Panic Zone</option>
+                                  <option value="TTZ">The Twilight Zone</option>
+                                </select>
                               </div>
                               <!-- Study Abroad School -->
                               <div class="form-group">
-                                <label class="tag-label" for="home_countries">
+                                <label class="tag-label" for="study_abroad_school">
                                   <i class="ni ni-tag text-default"></i>
                                   Study Abroad School
                                 </label>                                
-                                <input class="form-control" type="text" name="home_countries" id="home_countries"
-                                  value="" placeholder="Specify or all"
-                                  data-toggle="tags">
+                                <select name="study_abroad_school" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
+                                  <optgroup label="Alaskan/Hawaiian Time Zone">
+                                    <option value="AK">Alaska</option>
+                                    <option value="HI" disabled="disabled">Hawaii</option>
+                                  </optgroup>
+                                  <optgroup label="Pacific Time Zone">
+                                    <option value="CA">California</option>
+                                    <option value="NV">Nevada</option>
+                                    <option value="OR">Oregon</option>
+                                    <option value="WA">Washington</option>
+                                  </optgroup>
+                                  <optgroup label="Eastern Time Zone">
+                                    <option value="CT">Connecticut</option>
+                                    <option value="DE">Delaware</option>
+                                    <option value="FL">Florida</option>
+                                    <option value="VT">Vermont</option>
+                                    <option value="VA">Virginia</option>
+                                    <option value="WV">West Virginia</option>
+                                  </optgroup>
+                                  <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
+                                  <option value="TPZ">The Panic Zone</option>
+                                  <option value="TTZ">The Twilight Zone</option>
+                                </select>
+                              </div>
+                              <!-- Study Abroad Major -->
+                              <div class="form-group">
+                                <label class="tag-label" for="study_abroad_major">
+                                  <i class="ni ni-tag text-default"></i>
+                                  Study Abroad Major
+                                </label>                                
+                                <select name="study_abroad_major" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
+                                  <optgroup label="Alaskan/Hawaiian Time Zone">
+                                    <option value="AK">Alaska</option>
+                                    <option value="HI" disabled="disabled">Hawaii</option>
+                                  </optgroup>
+                                  <optgroup label="Pacific Time Zone">
+                                    <option value="CA">California</option>
+                                    <option value="NV">Nevada</option>
+                                    <option value="OR">Oregon</option>
+                                    <option value="WA">Washington</option>
+                                  </optgroup>
+                                  <optgroup label="Eastern Time Zone">
+                                    <option value="CT">Connecticut</option>
+                                    <option value="DE">Delaware</option>
+                                    <option value="FL">Florida</option>
+                                    <option value="VT">Vermont</option>
+                                    <option value="VA">Virginia</option>
+                                    <option value="WV">West Virginia</option>
+                                  </optgroup>
+                                  <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
+                                  <option value="TPZ">The Panic Zone</option>
+                                  <option value="TTZ">The Twilight Zone</option>
+                                </select>
                               </div>
                               <!-- Study Abroad Year -->
                               <div class="form-group">
@@ -483,26 +599,41 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
                               </div>
                               <!-- Living City -->
                               <div class="form-group">
-                                <label class="tag-label" for="home_countries">
+                                <label class="tag-label" for="living_city">
                                   <i class="ni ni-tag text-default"></i>
                                   Living City
-                                </label>                                
-                                <input class="form-control" type="text" name="home_countries" id="home_countries"
-                                  value="" placeholder="Specify or all"
-                                  data-toggle="tags">
+                                </label>
+                                <select name="living_city" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
+                                  <optgroup label="Alaskan/Hawaiian Time Zone">
+                                    <option value="AK">Alaska</option>
+                                    <option value="HI" disabled="disabled">Hawaii</option>
+                                  </optgroup>
+                                  <optgroup label="Pacific Time Zone">
+                                    <option value="CA">California</option>
+                                    <option value="NV">Nevada</option>
+                                    <option value="OR">Oregon</option>
+                                    <option value="WA">Washington</option>
+                                  </optgroup>
+                                  <optgroup label="Eastern Time Zone">
+                                    <option value="CT">Connecticut</option>
+                                    <option value="DE">Delaware</option>
+                                    <option value="FL">Florida</option>
+                                    <option value="VT">Vermont</option>
+                                    <option value="VA">Virginia</option>
+                                    <option value="WV">West Virginia</option>
+                                  </optgroup>
+                                  <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
+                                  <option value="TPZ">The Panic Zone</option>
+                                  <option value="TTZ">The Twilight Zone</option>
+                                </select>                               
                               </div>
                             </div>
                           </div>
-                          <!-- End tags -->
-
+                          <!-- End Tags Section-->
                         </div>
-                        
-
-                        
                       </form>
-
-          
                     </div>
+                    <!-- End Ask -->
 
                   </div>
                 </div>
