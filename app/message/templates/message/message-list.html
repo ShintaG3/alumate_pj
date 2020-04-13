@@ -24,6 +24,18 @@
     display: inline-block !important;
 }
 
+.list-group-item:hover {
+  z-index: 2;
+  color: #fff;
+  background-color: #5e72e4;
+  border-color: #5e72e4;
+  background: linear-gradient(35deg,#5e72e4,#825ee4);
+}
+
+.card:hover * {
+  color: white!important;
+}
+
 </style>
 {% endblock %}
 
@@ -45,32 +57,32 @@
       <div class="col-md-8 mx-auto">
         <!-- Message1 (Unread Message)-->
         <div class="card mb-2 card-zoom" data-animation="zooming">
-          <a href="{% url 'message:message_detail' %}" class="list-group-item active bg-gradient-primary">
+          <a href="{% url 'message:message_detail' %}" class="list-group-item">
             <div class="media">
               <img alt="Image" src="{% static 'img/faces/team-2.jpg' %}" class="avatar shadow">
               <div class="media-body ml-2">
                 <div class="d-flex flex-row justify-content-between align-items-center">
-                  <h6 class="text-white mb-0">Jane Doe</h6>
+                  <h6 class="sender-name mb-0">Jane Doe</h6>
                   <div class="d-flex flex-row">
-                    <small class="text-secondary">1 hour ago</small>
+                    <small class="text-muted">1 hour ago</small>
                     <span class="ml-2 align-self-center badge badge-success notificate"></span>
                   </div>
                 </div>
-                <span class="small">
+                <span class="small text-muted">
                   Hi, thank you for the message! Oxford University located just in front....
                 </span>
               </div>
             </div>
           </a>
         </div>
-        <!-- Message2 -->
+        {% comment %} <!-- Message2 -->
         <div class="card mb-2 card-zoom" data-animation="zooming">
           <a href="{% url 'message:message_detail' %}" class="list-group-item">
             <div class="media">
               <img alt="Image" src="{% static 'img/faces/christian.jpg' %}" class="avatar shadow">
               <div class="media-body ml-2">
                 <div class="d-flex flex-row justify-content-between align-items-center">
-                  <h6 class="mb-0">Charlie Watson</h6>
+                  <h6 class="sender-name mb-0">Charlie Watson</h6>
                   <div class="d-flex flex-row">
                     <small class="text-muted">1 hour ago</small>
                     <!-- <span class="ml-2 align-self-center badge badge-success notificate"></span> -->
@@ -91,7 +103,7 @@
               <img alt="Image" src="{% static 'img/faces/team-3.jpg' %}" class="avatar shadow">
               <div class="media-body ml-2">
                 <div class="d-flex flex-row justify-content-between align-items-center">
-                  <h6 class="mb-0">Mila Skylar</h6>
+                  <h6 class="sender-name mb-0">Mila Skylar</h6>
                   <div class="d-flex flex-row">
                     <small class="text-muted">24 min ago</small>
                     <!-- <span class="ml-2 align-self-center badge badge-success notificate"></span> -->
@@ -112,7 +124,7 @@
               <img alt="Image" src="{% static 'img/faces/team-4.jpg' %}" class="avatar shadow">
               <div class="media-body ml-2">
                 <div class="d-flex flex-row justify-content-between align-items-center">
-                  <h6 class="mb-0">Sofia Scarlett</h6>
+                  <h6 class="sender-name mb-0">Sofia Scarlett</h6>
                   <div class="d-flex flex-row">
                     <small class="text-muted">7 hours ago</small>
                     <!-- <span class="ml-2 align-self-center badge badge-success notificate"></span> -->
@@ -133,7 +145,7 @@
               <img alt="Image" src="{% static 'img/faces/team-5.jpg' %}" class="avatar shadow">
               <div class="media-body ml-2">
                 <div class="d-flex flex-row justify-content-between align-items-center">
-                  <h6 class="mb-0">Tom Klein</h6>
+                  <h6 class="sender-name mb-0">Tom Klein</h6>
                   <div class="d-flex flex-row">
                     <small class="text-muted">1 day ago</small>
                     <!-- <span class="ml-2 align-self-center badge badge-success notificate"></span> -->
@@ -145,7 +157,7 @@
               </div>
             </div>
           </a>
-        </div>
+        </div> {% endcomment %}
       </div>
     </div>
   </div>
