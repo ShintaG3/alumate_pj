@@ -1441,6 +1441,7 @@
                       {% static 'img/placeholder.jpg' %}
                       {% endif %}" class="rounded-circle" style="z-index: inherit 2;">
                     </a>
+                    {% if has_edit_permission %}
                     <!-- picture edit button -->
                     <div class="details">
                       <span>
@@ -1451,6 +1452,7 @@
                         </span>
                       </span>
                     </div>
+                    {% endif %}
                   </div>
                 </div>
                 <div class="col-lg-12">
