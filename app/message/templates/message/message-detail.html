@@ -55,9 +55,9 @@
             <div class="d-flex" style="margin-left:12px;">
               <a href="{% url 'accounts:account-page' message.sender.username %}">
                 {% if message.sender.profile_image %}
-                <img src="{{ message.sender.profile_image.image.url }}" class="avatar">
+                <img src="{{ message.sender.profile_image.image.url }}" class="avatar avatar-sm">
                 {% else %}
-                <img src="{% static 'img/placeholder.jpg' %}" class="avatar">
+                <img src="{% static 'img/placeholder.jpg' %}" class="avatar avatar-sm">
                 {% endif %}
               </a>
               <div class="mx-3 mb-4">
