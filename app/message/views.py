@@ -6,7 +6,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views import View
 from django.views.generic.base import TemplateView
 from .models import Message
-from .forms import MessageForm, ReplyForm
+from .forms import MessageForm, DirectMessageForm
 from datetime import datetime
 from itertools import chain
 from accounts.models import Follow
@@ -78,7 +78,7 @@ class MessageListView(LoginRequiredMixin, View):
 
 class MessageDetailView(LoginRequiredMixin, View):
     template_name = 'message/message-detail.html'
-    form_class = ReplyForm
+    form_class = DirectMessageForm
 
     def get(self, request, *args, **kwargs):
         user = request.user

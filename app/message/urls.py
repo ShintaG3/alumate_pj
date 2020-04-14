@@ -9,4 +9,5 @@ urlpatterns = [
     path('send-new-message', MessageListView.as_view(), name='send-new-message'),
     path('detail/<str:username_to>', MessageDetailView.as_view(), name='message_detail'),
     path('send-reply/<str:username_to>', MessageDetailView.as_view(), name='send-reply'),
+    path('send-dm/<str:username_to>', MessageDetailView.as_view(), name='send-direct-message'),
 ]

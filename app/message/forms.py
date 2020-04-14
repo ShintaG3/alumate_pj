@@ -17,7 +17,7 @@ class MessageForm(forms.ModelForm):
         model = Message
         fields = ['receiver', 'body']
 
-class ReplyForm(forms.ModelForm):
+class DirectMessageForm(forms.ModelForm):
     body = forms.CharField(widget=forms.Textarea())
     
     class Meta:
