@@ -78,12 +78,12 @@
                   {% csrf_token %}
                   {% render_field new_reply_form.body class+="form-control" placeholder="Write your message" %}
                   <div class="text-right my-4 ml-auto">
-                    <div class="btn p-0 upload-btn-wrapper align-middle">
+                    {% comment %} <div class="btn p-0 upload-btn-wrapper align-middle">
                       <button type="button" class="btn mr-0 btn-icon rounded">
                         <span class="btn-inner--icon icon-big"><i class="fa fa-image"></i></span>
                       </button>
                       <input type="file" name="image" accept="image/*" id="post-image-input">
-                    </div>
+                    </div> {% endcomment %}
                     <button type="submit" class="btn btn-sm btn-primary btn-icon">
                       <span class="btn-inner--icon icon-big"><i class="ni ni-send"></i></span>
                       <span class="btn-inner--text">Send</span>
