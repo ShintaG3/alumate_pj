@@ -15,13 +15,13 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='message',
+            name='Message',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('message', models.CharField(max_length=500)),
-                ('message_time', models.DateTimeField()),
-                ('message_from', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='message_from', to=settings.AUTH_USER_MODEL)),
-                ('message_to', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='message_to', to=settings.AUTH_USER_MODEL)),
+                ('body', models.CharField(max_length=2000)),
+                ('sent_datetime', models.DateTimeField()),
+                ('sender', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='senders', to=settings.AUTH_USER_MODEL)),
+                ('receiver', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='receivers', to=settings.AUTH_USER_MODEL)),
             ],
         ),
     ]
