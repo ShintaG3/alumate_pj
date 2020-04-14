@@ -2,11 +2,11 @@ from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views import View
 from django.views.generic.base import TemplateView
 from .models import Message
-from .forms import GeneralMessageForm
+from .forms import MessageForm, ReplyForm
 from datetime import datetime
 from itertools import chain
 from accounts.models import Follow
@@ -15,7 +15,7 @@ from accounts.models import Follow
 # Create your views here.
 class MessageListView(LoginRequiredMixin, View):
     template_name = 'message/message-list.html'
-    form_class = GeneralMessageForm
+    form_class = MessageForm
     
     def get(self, request, *args, **kwargs):
         user = request.user
@@ -76,3 +76,34 @@ class MessageListView(LoginRequiredMixin, View):
         
         return latest_message_list
 
+class MessageDetailView(LoginRequiredMixin, View):
+    template_name = 'message/message-detail.html'
+    form_class = ReplyForm
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        to_user = get_object_or_404(User, username=kwargs['username_to'])
+
+        received_messages = Message.objects.filter(sender=to_user, receiver=user)
+        sent_message = Message.objects.filter(sender=user, receiver=to_user)
+        messages = sorted(chain(received_messages, sent_message), key=lambda x: x.sent_datetime)
+
+        form = self.form_class()
+
+        content = {
+            'to_user': to_user,
+            'messages': messages,
+            'new_reply_form': form
+        }
+        return render(request, self.template_name, content)
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        to_user = get_object_or_404(User, username=kwargs['username_to'])
+        if form.is_valid():
+            message = form.save(commit=False)
+            message.sender = request.user
+            message.receiver = to_user
+            message.sent_datetime = datetime.now()
+            message.save()
+        return HttpResponseRedirect(self.request.path_info)

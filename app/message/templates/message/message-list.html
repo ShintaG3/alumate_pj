@@ -105,7 +105,6 @@
       <div class="col-md-8 mx-auto">
       {% for message in message_list %}
         <!-- Message -->
-        
         <div class="card mb-2 card-zoom" data-animation="zooming">
           {% if message.sender == user %}
             <a href="{% url 'message:message_detail' message.receiver.username %}" class="list-group-item">
@@ -113,26 +112,34 @@
             <a href="{% url 'message:message_detail' message.sender.username %}" class="list-group-item">
           {% endif %}
             <div class="media">
-              <img alt="Image" src="{% static 'img/faces/team-2.jpg' %}" class="avatar shadow">
+              {% if message.sender == user %}
+                {% if message.receiver.profile_image %}
+                <img alt="Image" src="{{ message.receiver.profile_image.image.url }}" class="avatar shadow">
+                {% else %}
+                <img alt="Image" src="{% static 'img/placeholder.jpg' %}" class="avatar shadow">
+                {% endif %}
+              {% else %}
+                {% if message.sender.profile_image %}
+                <img alt="Image" src="{{ message.sender.profile_image.image.url }}" class="avatar shadow">
+                {% else %}
+                <img alt="Image" src="{% static 'img/placeholder.jpg' %}" class="avatar shadow">
+                {% endif %}
+              {% endif %}
               <div class="media-body ml-2">
                 <div class="d-flex flex-row justify-content-between align-items-center">
                   <h6 class="sender-name mb-0">
                   {% if message.sender == user %}
-                    {% with message.receiver as to_user %}
-                    {% if to_user.basic_info.name %}
-                    {{ to_user.basic_info.name }} @{{ to_user.username }}
+                    {% if message.receiver.basicinfo.name %}
+                    {{ message.receiver.basicinfo.name }} <small class="text-muted">@{{ message.receiver.username }}</small>
                     {% else %}
-                    @{{ to_user.username }}
+                    @{{ message.receiver.username }}
                     {% endif %}
-                    {% endwith %}
                   {% else %}
-                    {% with message.sender as to_user %}
-                    {% if to_user.basic_info.name %}
-                    {{ to_user.basic_info.name }} @{{ to_user.username }}
+                    {% if message.sender.basicinfo.name %}
+                    {{ message.sender.basicinfo.name }} <small class="text-muted">@{{ message.sender.username }}</small>
                     {% else %}
-                    @{{ to_user.username }}
+                    @{{ message.sender.username }}
                     {% endif %}
-                    {% endwith %}
                   {% endif %}
                   </h6>
                   <div class="d-flex flex-row">

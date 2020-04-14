@@ -1,5 +1,6 @@
 {% extends 'base-authpage.html' %}
 {% load static %}
+{% load widget_tweaks %}
 {% block navbar %}
 {% include 'include/nav-authpage.html' %}
 {% endblock %}
@@ -38,49 +39,44 @@
           <!-- Header -->
           <div class="card-header py-4">
             <div class="d-flex">
-              <a href="#">
-                <img src="{% static 'img/faces/team-2.jpg' %}" class="avatar">
+              <a href="{% url 'accounts:account-page' to_user.username %}">
+                {% if to_user.profile_image %}
+                <img src="{{ to_user.profile_image.image.url }}" class="avatar">
+                {% else %}
+                <img src="{% static 'img/placeholder.jpg' %}" class="avatar">
+                {% endif %}
               </a>
-              <a href="javascript:;" class="mx-3 h3">Jane Doe</a>
+              <a href="{% url 'accounts:account-page' to_user.username %}" class="mx-3 h3">{{ to_user.basicinfo.name }}</a>
             </div>
           </div>
-          <!-- Message1 -->
+          {% for message in messages %}
+          <!-- Message -->
           <div class="card-body mb-4">
             <div class="d-flex" style="margin-left:12px;">
-              <a href="#">
-                <img src="{% static 'img/faces/team-1.jpg' %}" class="avatar avatar-sm">
+              <a href="{% url 'accounts:account-page' message.sender.username %}">
+                {% if message.sender.profile_image %}
+                <img src="{{ message.sender.profile_image.image.url }}" class="avatar">
+                {% else %}
+                <img src="{% static 'img/placeholder.jpg' %}" class="avatar">
+                {% endif %}
               </a>
               <div class="mx-3 mb-4">
-                <a href="javascript:;" class="h5 card-title">John Snow</a>
-                <small class="d-block text-muted">3 days ago</small>
+                <a href="{% url 'accounts:account-page' message.sender.username %}" class="h5 card-title">{{ message.sender.basicinfo.name }}</a>
+                <small class="d-block text-muted">{{ message.sent_datetime | timesince }} ago</small>
               </div>
             </div>
             <div style="margin-left: calc(48px + 1rem);margin-right: calc(48px + 1rem)">
-              <p class="card-text">Hi Jane,<br><br>Nice to meet you!<br><br>
-                This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+              <p class="card-text">{{ message.body | linebreaksbr }}</p>
             </div>
           </div>
-          <!-- Message2 -->
-          <div class="card-body mb-4">
-            <div class="d-flex" style="margin-left:12px;">
-              <a href="#">
-                <img src="{% static 'img/faces/team-2.jpg' %}" class="avatar avatar-sm">
-              </a>
-              <div class="mx-3 mb-4">
-                <a href="javascript:;" class="h5 card-title">Jane Doe</a>
-                <small class="d-block text-muted">3 days ago</small>
-              </div>
-            </div>
-            <div style="margin-left: calc(48px + 1rem);margin-right: calc(48px + 1rem)">
-              <p class="card-text">Hi John,<br><br>Thnak you for the message.<br><br>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-            </div>
-          </div>
-          <!-- Message form -->
+          {% endfor %}
+           <!-- Message form -->
           <div class="card-body">
             <div style="margin-left: calc(48px + 1rem);margin-right: calc(48px + 1rem)">
               <div class="media-body">
-                <form>
-                  <textarea class="form-control" placeholder="Write your message" rows="5"></textarea>
+                <form action="" method="POST">
+                  {% csrf_token %}
+                  {% render_field new_reply_form.body class+="form-control" placeholder="Write your message" %}
                   <div class="text-right my-4 ml-auto">
                     <div class="btn p-0 upload-btn-wrapper align-middle">
                       <button type="button" class="btn mr-0 btn-icon rounded">

@@ -4,7 +4,7 @@ from .models import Message
 from django.contrib.auth.models import User
 
 
-class GeneralMessageForm(forms.ModelForm):
+class MessageForm(forms.ModelForm):
     receiver = forms.ModelChoiceField(queryset=User.objects.all())
     body = forms.CharField(widget=forms.Textarea())
 
@@ -17,7 +17,7 @@ class GeneralMessageForm(forms.ModelForm):
         model = Message
         fields = ['receiver', 'body']
 
-class MessageForm(forms.ModelForm):
+class ReplyForm(forms.ModelForm):
     body = forms.CharField(widget=forms.Textarea())
     
     class Meta:
