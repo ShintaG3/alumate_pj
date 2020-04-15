@@ -36,6 +36,42 @@
   .tags-section .form-group {
     margin-bottom: 30px;
   }
+  .list-name {
+    font-size:.9rem;
+    font-family: inherit;
+    font-weight: 600;
+    /* line-height: 1.5; */
+    color: #32325d;
+  }
+  .list-image{
+    width: 1rem;
+  }
+  .list-uni{
+    font-size:.9rem;
+    font-family: inherit;
+    font-weight: 400;
+    /* line-height: 1.5; */
+    color: #5e72e4;
+  }
+  .list-major{
+    font-size:.9rem;
+    font-family: inherit;
+    font-weight: 400;
+    /* line-height: 1.5; */
+    color: #8898aa;
+  }
+
+  .list-border{
+    border-bottom: .0625rem solid rgba(0, 0, 0, .05);
+    display: block;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+  }
+  .card {
+      margin-bottom: 30px;
+      box-shadow: 0 1px 1px rgba(50,50,93,.1), 0 1px 1px rgba(0,0,0,.07);
+      border: 0;
+  }
 
   /* image */
   .avatar-responsive {
@@ -64,15 +100,51 @@
   /* media */
   @media (min-width: 1200px) {}
 
-  @media (min-width: 992px) {}
-
-  @media (min-width: 768px) {}
-
-  @media (min-width: 576px) {
+  @media (min-width: 992px) {
     .avatar-responsive {
       width: 100px;
       height: 100px;
     }
+    .list-border{
+    border-bottom: none;
+    display: block;
+    padding-bottom: 0;
+    padding-top: 0;
+
+    }
+    .list-name{
+    font-size:1.25rem;
+    margin-bottom: .5rem;
+    font-family: inherit;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #32325d;
+    }
+    .list-image{
+      width: 1.25rem;
+    }
+    .list-uni{
+    font-size:1rem;
+    font-family: inherit;
+    font-weight: 600;
+    line-height: 1.5;
+    color: #32325d;
+  }
+  .list-major{
+    font-size:.8rem;
+    font-family: inherit;
+    font-weight: 500;
+    /* line-height: 1.5; */
+    color: #8898aa;
+  }
+  }
+
+  @media (min-width: 768px) {
+
+  }
+
+  @media (min-width: 576px) {
+
   }
 </style>
 <!-- Slider -->
@@ -85,6 +157,7 @@
   }
 </style>
 {% endblock %}
+
 {% block scripts %}
 <!-- Select2 -->
 <script src="{% static 'vendor/anchor-js/anchor.min.js' %}"></script>
@@ -159,509 +232,353 @@
 
 {% block content %}
 <div class="bg-secondary">
-  <div class="pt-lg mb-5 container">
+  <div class="pt-lg container">
     <div class="row mb-5">
-      <div class="col-md-8">
+      <div class="col">
         <h3 class="display-3">Find Alumate</h3>
-        <p class="lead mt-1">Share the information and richen the collective knowledge to maximize the possibility that
-          all people are able to reach the write information. Making a inquiry is the best way to reach your goals.
-          Answering questions is the best way to support your mates.</p>
       </div>
-    </div>
-    <div class="d-sm-none text-right mb-4">
-      <button class="btn-primary btn btn-sm">Filter</button>
-    </div>
-    <div class="mb-3">
-      <span class="text-primary" style="font-size: 1rem;">
-        <small>46 resuts</small>
-      </span>
     </div>
     <div class="row">
-      <!-- user-1 -->
-      <div class="col-12 col-sm-4">
-        <div class="d-flex flex-row flex-sm-column">
-          <div class="align-self-sm-center mx-3 mx-sm-0 mb-3">
-            <a href="">
-              <img src="{% static 'img/faces/team-4.jpg' %}"
-                class="img-fluid rounded-circle shadow-lg avatar-responsive">
-            </a>
-          </div>
-          <div class="align-self-sm-center mx-2">
-            <h5>Jessica Jones
-              <img class="img-fluid rounded shadow ml-2" style="width: 1.25rem;"
-                src="{% static 'img/brand/logo_current.png' %}">
-            </h5>
-            <div class="text-muted font-weight-500 small d-none d-sm-block">
-              from Japan to U.S.
+      <!-- Tags Section -->
+      <div class="col-lg-3 d-none d-lg-block">
+        <form action="">
+          <div class="mr-3 tags-section">
+            <!-- Alumate status -->
+            <div class="form-group focused">
+              <span class="tag-label">
+                
+                Alumate Status
+              </span>
+              <div class="custom-control custom-checkbox my-3">
+                <input class="custom-control-input" id="customCheck1" type="checkbox">
+                <label class="custom-control-label" for="customCheck1">Future Student</label>
+              </div>
+              <div class="custom-control custom-checkbox my-3">
+                <input class="custom-control-input" id="customCheck2" type="checkbox">
+                <label class="custom-control-label" for="customCheck2">Current Student</label>
+              </div>
+              <div class="custom-control custom-checkbox my-3">
+                <input class="custom-control-input" id="customCheck3" type="checkbox">
+                <label class="custom-control-label" for="customCheck3">Alumni</label>
+              </div>
             </div>
-            <div class="h6 font-weight-bold mb-0">Harvard University</div>
-            <div class="text-muted small font-weight-500">MBA <span class="text-muted font-weight-300"><small>(2020 ~
-                  2022)</small></span></div>
-            <div class="font-weight-400 d-none d-sm-block"><small><i class="ni ni-pin-3 mr-2"></i>Boston,
-                U.S.</small></div>
+            <!-- Home Country -->
+            <div class="form-group focused">
+              <label class="tag-label" for="home_country">
+                
+                Home Country
+              </label>
+              <select name="home_country" class="select2-multiple select2-hidden-accessible" multiple="multiple"
+                tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
+                <optgroup label="Alaskan/Hawaiian Time Zone">
+                  <option value="AK">Alaska</option>
+                  <option value="HI" disabled="disabled">Hawaii</option>
+                </optgroup>
+                <optgroup label="Pacific Time Zone">
+                  <option value="CA">California</option>
+                  <option value="NV">Nevada</option>
+                  <option value="OR">Oregon</option>
+                  <option value="WA">Washington</option>
+                </optgroup>
+                <optgroup label="Eastern Time Zone">
+                  <option value="CT">Connecticut</option>
+                  <option value="DE">Delaware</option>
+                  <option value="FL">Florida</option>
+                  <option value="VT">Vermont</option>
+                  <option value="VA">Virginia</option>
+                  <option value="WV">West Virginia</option>
+                </optgroup>
+                <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
+                <option value="TPZ">The Panic Zone</option>
+                <option value="TTZ">The Twilight Zone</option>
+              </select>
+            </div>
+            <!-- Study Abroad Country -->
+            <div class="form-group">
+              <label class="tag-label" for="study_abroad_country">
+                
+                Study Abroad Country
+              </label>
+              <select name="study_abroad_country" class="select2-multiple select2-hidden-accessible" multiple="multiple"
+                tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
+                <optgroup label="Alaskan/Hawaiian Time Zone">
+                  <option value="AK">Alaska</option>
+                  <option value="HI" disabled="disabled">Hawaii</option>
+                </optgroup>
+                <optgroup label="Pacific Time Zone">
+                  <option value="CA">California</option>
+                  <option value="NV">Nevada</option>
+                  <option value="OR">Oregon</option>
+                  <option value="WA">Washington</option>
+                </optgroup>
+                <optgroup label="Eastern Time Zone">
+                  <option value="CT">Connecticut</option>
+                  <option value="DE">Delaware</option>
+                  <option value="FL">Florida</option>
+                  <option value="VT">Vermont</option>
+                  <option value="VA">Virginia</option>
+                  <option value="WV">West Virginia</option>
+                </optgroup>
+                <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
+                <option value="TPZ">The Panic Zone</option>
+                <option value="TTZ">The Twilight Zone</option>
+              </select>
+            </div>
+            <!-- Study Abroad School -->
+            <div class="form-group">
+              <label class="tag-label" for="study_abroad_school">
+                
+                Study Abroad School
+              </label>
+              <select name="study_abroad_school" class="select2-multiple select2-hidden-accessible" multiple="multiple"
+                tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
+                <optgroup label="Alaskan/Hawaiian Time Zone">
+                  <option value="AK">Alaska</option>
+                  <option value="HI" disabled="disabled">Hawaii</option>
+                </optgroup>
+                <optgroup label="Pacific Time Zone">
+                  <option value="CA">California</option>
+                  <option value="NV">Nevada</option>
+                  <option value="OR">Oregon</option>
+                  <option value="WA">Washington</option>
+                </optgroup>
+                <optgroup label="Eastern Time Zone">
+                  <option value="CT">Connecticut</option>
+                  <option value="DE">Delaware</option>
+                  <option value="FL">Florida</option>
+                  <option value="VT">Vermont</option>
+                  <option value="VA">Virginia</option>
+                  <option value="WV">West Virginia</option>
+                </optgroup>
+                <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
+                <option value="TPZ">The Panic Zone</option>
+                <option value="TTZ">The Twilight Zone</option>
+              </select>
+            </div>
+            <!-- Study Abroad Major -->
+            <div class="form-group">
+              <label class="tag-label" for="study_abroad_major">
+                
+                Study Abroad Major
+              </label>
+              <select name="study_abroad_major" class="select2-multiple select2-hidden-accessible" multiple="multiple"
+                tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
+                <optgroup label="Alaskan/Hawaiian Time Zone">
+                  <option value="AK">Alaska</option>
+                  <option value="HI" disabled="disabled">Hawaii</option>
+                </optgroup>
+                <optgroup label="Pacific Time Zone">
+                  <option value="CA">California</option>
+                  <option value="NV">Nevada</option>
+                  <option value="OR">Oregon</option>
+                  <option value="WA">Washington</option>
+                </optgroup>
+                <optgroup label="Eastern Time Zone">
+                  <option value="CT">Connecticut</option>
+                  <option value="DE">Delaware</option>
+                  <option value="FL">Florida</option>
+                  <option value="VT">Vermont</option>
+                  <option value="VA">Virginia</option>
+                  <option value="WV">West Virginia</option>
+                </optgroup>
+                <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
+                <option value="TPZ">The Panic Zone</option>
+                <option value="TTZ">The Twilight Zone</option>
+              </select>
+            </div>
+            <!-- Study Abroad Year -->
+            <div class="form-group">
+              <label class="tag-label" for="home_countries">
+                
+                Study Abroad Year
+              </label>
+              <div class="my-4">
+                <span class="slider-year">Start Year</span>
+                <input class="d-none" type="text" name="startYear_start_input" id="startYear_start_input">
+                <input class="d-none" type="text" name="startYear_end_input" id="startYear_end_input">
+                <span><small class="text-muted"><span data-range-value-low="1970" id="startYear_start"></span> -
+                    <span data-range-value-high="2040" id="startYear_end"></span></small></span>
+                <div id="startYear" data-range-value-min="1980" data-range-value-max="2030"></div>
+              </div>
+              <div class="my-4">
+                <span class="slider-year">End Year</span>
+                <input class="d-none" type="text" name="endYear_start_input" id="endYear_start_input">
+                <input class="d-none" type="text" name="endYear_end_input" id="endYear_end_input">
+                <span><small class="text-muted"><span data-range-value-low="1970" id="endYear_start"></span> - <span
+                      data-range-value-high="2040" id="endYear_end"></span></small></span>
+                <div id="endYear" data-range-value-min="1980" data-range-value-max="2030"></div>
+              </div>
+            </div>
+            <!-- Living City -->
+            <div class="form-group">
+              <label class="tag-label" for="living_city">
+                
+                Living City
+              </label>
+              <select name="living_city" class="select2-multiple select2-hidden-accessible" multiple="multiple"
+                tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
+                <optgroup label="Alaskan/Hawaiian Time Zone">
+                  <option value="AK">Alaska</option>
+                  <option value="HI" disabled="disabled">Hawaii</option>
+                </optgroup>
+                <optgroup label="Pacific Time Zone">
+                  <option value="CA">California</option>
+                  <option value="NV">Nevada</option>
+                  <option value="OR">Oregon</option>
+                  <option value="WA">Washington</option>
+                </optgroup>
+                <optgroup label="Eastern Time Zone">
+                  <option value="CT">Connecticut</option>
+                  <option value="DE">Delaware</option>
+                  <option value="FL">Florida</option>
+                  <option value="VT">Vermont</option>
+                  <option value="VA">Virginia</option>
+                  <option value="WV">West Virginia</option>
+                </optgroup>
+                <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
+                <option value="TPZ">The Panic Zone</option>
+                <option value="TTZ">The Twilight Zone</option>
+              </select>
+            </div>
           </div>
-          <div class="ml-auto ml-sm-0 align-self-sm-center">
-            <button class="btn btn-outline-primary btn-sm btn-icon btn-round"><i class="fa fa-plus"></i> follow</button>
-          </div>
-        </div>
+        </form>
       </div>
-    </div>
-
-
-    <!-- Tags Section -->
-    <div class="order-2 order-lg-1 d-none d-sm-block">
-      <form action="">
-        <div class="mr-3 tags-section">
-          <!-- Alumate status -->
-          <div class="form-group focused">
-            <span class="tag-label">
-              <i class="ni ni-tag text-default"></i>
-              Alumate Status
-            </span>
-            <div class="custom-control custom-checkbox my-3">
-              <input class="custom-control-input" id="customCheck1" type="checkbox">
-              <label class="custom-control-label" for="customCheck1">Future Student</label>
-            </div>
-            <div class="custom-control custom-checkbox my-3">
-              <input class="custom-control-input" id="customCheck2" type="checkbox">
-              <label class="custom-control-label" for="customCheck2">Current Student</label>
-            </div>
-            <div class="custom-control custom-checkbox my-3">
-              <input class="custom-control-input" id="customCheck3" type="checkbox">
-              <label class="custom-control-label" for="customCheck3">Alumni</label>
-            </div>
-          </div>
-          <!-- Home Country -->
-          <div class="form-group focused">
-            <label class="tag-label" for="home_country">
-              <i class="ni ni-tag text-default"></i>
-              Home Country
-            </label>
-            <select name="home_country" class="select2-multiple select2-hidden-accessible" multiple="multiple"
-              tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
-              <optgroup label="Alaskan/Hawaiian Time Zone">
-                <option value="AK">Alaska</option>
-                <option value="HI" disabled="disabled">Hawaii</option>
-              </optgroup>
-              <optgroup label="Pacific Time Zone">
-                <option value="CA">California</option>
-                <option value="NV">Nevada</option>
-                <option value="OR">Oregon</option>
-                <option value="WA">Washington</option>
-              </optgroup>
-              <optgroup label="Eastern Time Zone">
-                <option value="CT">Connecticut</option>
-                <option value="DE">Delaware</option>
-                <option value="FL">Florida</option>
-                <option value="VT">Vermont</option>
-                <option value="VA">Virginia</option>
-                <option value="WV">West Virginia</option>
-              </optgroup>
-              <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
-              <option value="TPZ">The Panic Zone</option>
-              <option value="TTZ">The Twilight Zone</option>
-            </select>
-          </div>
-          <!-- Study Abroad Country -->
-          <div class="form-group">
-            <label class="tag-label" for="study_abroad_country">
-              <i class="ni ni-tag text-default"></i>
-              Study Abroad Country
-            </label>
-            <select name="study_abroad_country" class="select2-multiple select2-hidden-accessible"
-              multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
-              <optgroup label="Alaskan/Hawaiian Time Zone">
-                <option value="AK">Alaska</option>
-                <option value="HI" disabled="disabled">Hawaii</option>
-              </optgroup>
-              <optgroup label="Pacific Time Zone">
-                <option value="CA">California</option>
-                <option value="NV">Nevada</option>
-                <option value="OR">Oregon</option>
-                <option value="WA">Washington</option>
-              </optgroup>
-              <optgroup label="Eastern Time Zone">
-                <option value="CT">Connecticut</option>
-                <option value="DE">Delaware</option>
-                <option value="FL">Florida</option>
-                <option value="VT">Vermont</option>
-                <option value="VA">Virginia</option>
-                <option value="WV">West Virginia</option>
-              </optgroup>
-              <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
-              <option value="TPZ">The Panic Zone</option>
-              <option value="TTZ">The Twilight Zone</option>
-            </select>
-          </div>
-          <!-- Study Abroad School -->
-          <div class="form-group">
-            <label class="tag-label" for="study_abroad_school">
-              <i class="ni ni-tag text-default"></i>
-              Study Abroad School
-            </label>
-            <select name="study_abroad_school" class="select2-multiple select2-hidden-accessible"
-              multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
-              <optgroup label="Alaskan/Hawaiian Time Zone">
-                <option value="AK">Alaska</option>
-                <option value="HI" disabled="disabled">Hawaii</option>
-              </optgroup>
-              <optgroup label="Pacific Time Zone">
-                <option value="CA">California</option>
-                <option value="NV">Nevada</option>
-                <option value="OR">Oregon</option>
-                <option value="WA">Washington</option>
-              </optgroup>
-              <optgroup label="Eastern Time Zone">
-                <option value="CT">Connecticut</option>
-                <option value="DE">Delaware</option>
-                <option value="FL">Florida</option>
-                <option value="VT">Vermont</option>
-                <option value="VA">Virginia</option>
-                <option value="WV">West Virginia</option>
-              </optgroup>
-              <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
-              <option value="TPZ">The Panic Zone</option>
-              <option value="TTZ">The Twilight Zone</option>
-            </select>
-          </div>
-          <!-- Study Abroad Major -->
-          <div class="form-group">
-            <label class="tag-label" for="study_abroad_major">
-              <i class="ni ni-tag text-default"></i>
-              Study Abroad Major
-            </label>
-            <select name="study_abroad_major" class="select2-multiple select2-hidden-accessible"
-              multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
-              <optgroup label="Alaskan/Hawaiian Time Zone">
-                <option value="AK">Alaska</option>
-                <option value="HI" disabled="disabled">Hawaii</option>
-              </optgroup>
-              <optgroup label="Pacific Time Zone">
-                <option value="CA">California</option>
-                <option value="NV">Nevada</option>
-                <option value="OR">Oregon</option>
-                <option value="WA">Washington</option>
-              </optgroup>
-              <optgroup label="Eastern Time Zone">
-                <option value="CT">Connecticut</option>
-                <option value="DE">Delaware</option>
-                <option value="FL">Florida</option>
-                <option value="VT">Vermont</option>
-                <option value="VA">Virginia</option>
-                <option value="WV">West Virginia</option>
-              </optgroup>
-              <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
-              <option value="TPZ">The Panic Zone</option>
-              <option value="TTZ">The Twilight Zone</option>
-            </select>
-          </div>
-          <!-- Study Abroad Year -->
-          <div class="form-group">
-            <label class="tag-label" for="home_countries">
-              <i class="ni ni-tag text-default"></i>
-              Study Abroad Year
-            </label>
-            <div class="my-4">
-              <span class="slider-year">Start Year</span>
-              <input class="d-none" type="text" name="startYear_start_input" id="startYear_start_input">
-              <input class="d-none" type="text" name="startYear_end_input" id="startYear_end_input">
-              <span><small class="text-muted"><span data-range-value-low="1970" id="startYear_start"></span> -
-                  <span data-range-value-high="2040" id="startYear_end"></span></small></span>
-              <div id="startYear" data-range-value-min="1980" data-range-value-max="2030"></div>
-            </div>
-            <div class="my-4">
-              <span class="slider-year">End Year</span>
-              <input class="d-none" type="text" name="endYear_start_input" id="endYear_start_input">
-              <input class="d-none" type="text" name="endYear_end_input" id="endYear_end_input">
-              <span><small class="text-muted"><span data-range-value-low="1970" id="endYear_start"></span> - <span
-                    data-range-value-high="2040" id="endYear_end"></span></small></span>
-              <div id="endYear" data-range-value-min="1980" data-range-value-max="2030"></div>
-            </div>
-          </div>
-          <!-- Living City -->
-          <div class="form-group">
-            <label class="tag-label" for="living_city">
-              <i class="ni ni-tag text-default"></i>
-              Living City
-            </label>
-            <select name="living_city" class="select2-multiple select2-hidden-accessible" multiple="multiple"
-              tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
-              <optgroup label="Alaskan/Hawaiian Time Zone">
-                <option value="AK">Alaska</option>
-                <option value="HI" disabled="disabled">Hawaii</option>
-              </optgroup>
-              <optgroup label="Pacific Time Zone">
-                <option value="CA">California</option>
-                <option value="NV">Nevada</option>
-                <option value="OR">Oregon</option>
-                <option value="WA">Washington</option>
-              </optgroup>
-              <optgroup label="Eastern Time Zone">
-                <option value="CT">Connecticut</option>
-                <option value="DE">Delaware</option>
-                <option value="FL">Florida</option>
-                <option value="VT">Vermont</option>
-                <option value="VA">Virginia</option>
-                <option value="WV">West Virginia</option>
-              </optgroup>
-              <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
-              <option value="TPZ">The Panic Zone</option>
-              <option value="TTZ">The Twilight Zone</option>
-            </select>
+      <!-- End Tags Section-->
+      <!-- results area -->
+      <div class="col-lg-9 col-12">
+        <div class="d-flex flex-row justify-content-between mb-3">
+          <span class="text-primary" style="font-size: .9rem; font-weight: 600;">
+            46 resuts
+          </span>
+          <div class="d-lg-none">
+            <button class="btn-primary btn btn-sm">Filter</button>
           </div>
         </div>
-      </form>
+        <!-- resutls -->
+        <div class="card pb-5 px-4">
+          <div class="row">
+            <!-- user-1 -->
+            <div class="col-12 col-lg-4">
+              <div class="d-flex flex-row flex-lg-column justify-content-lg-center mt-lg-5">
+                <div class="align-self-center mr-3 mr-lg-0 mb-lg-3">
+                  <a href="">
+                    <img src="{% static 'img/faces/team-4.jpg' %}"
+                      class="img-fluid rounded-circle avatar-responsive">
+                  </a>
+                </div>
+                <div class="align-self-lg-center mx-2 list-border">
+                  <div class="list-name">
+                    Jessica Jones
+                      <img class="img-fluid rounded shadow ml-2 list-image"
+                        src="{% static 'img/brand/logo_current.png' %}">                    
+                  </div>
+                  <div class="text-muted font-weight-500 small d-none d-lg-block">
+                    from Japan to U.S.
+                  </div>
+                  <div class="list-uni mb-0">Harvard University</div>
+                  <div class="list-major">MBA <span class="text-muted font-weight-300"><small>(2020 ~
+                        2022)</small></span></div>
+                  <div class="font-weight-400 d-none d-lg-block"><small><i class="ni ni-pin-3 mr-2"></i>Boston,
+                      U.S.</small></div>
+                </div>
+                <div class="flex-grow-1 text-right text-lg-center list-border">
+                  <button class="mt-lg-3 btn btn-outline-primary btn-sm btn-icon btn-round"><i class="fa fa-plus"></i> follow</button>
+                </div>
+              </div>
+            </div>
+            <!-- user-2 -->
+            <div class="col-12 col-lg-4">
+              <div class="d-flex flex-row flex-lg-column justify-content-lg-center mt-lg-5">
+                <div class="align-self-center mr-3 mr-lg-0 mb-lg-3">
+                  <a href="">
+                    <img src="{% static 'img/faces/team-4.jpg' %}"
+                      class="img-fluid rounded-circle avatar-responsive">
+                  </a>
+                </div>
+                <div class="align-self-lg-center mx-2 list-border">
+                  <div class="list-name">
+                    Jessica Jones
+                      <img class="img-fluid rounded shadow ml-2 list-image"
+                        src="{% static 'img/brand/logo_current.png' %}">                    
+                  </div>
+                  <div class="text-muted font-weight-500 small d-none d-lg-block">
+                    from Japan to U.S.
+                  </div>
+                  <div class="list-uni mb-0">Harvard University</div>
+                  <div class="list-major">MBA <span class="text-muted font-weight-300"><small>(2020 ~
+                        2022)</small></span></div>
+                  <div class="font-weight-400 d-none d-lg-block"><small><i class="ni ni-pin-3 mr-2"></i>Boston,
+                      U.S.</small></div>
+                </div>
+                <div class="flex-grow-1 text-right text-lg-center list-border">
+                  <button class="mt-lg-3 btn btn-outline-primary btn-sm btn-icon btn-round"><i class="fa fa-plus"></i> follow</button>
+                </div>
+              </div>
+            </div>
+            <!-- user-3 -->
+            <div class="col-12 col-lg-4">
+              <div class="d-flex flex-row flex-lg-column justify-content-lg-center mt-lg-5">
+                <div class="align-self-center mr-3 mr-lg-0 mb-lg-3">
+                  <a href="">
+                    <img src="{% static 'img/faces/team-4.jpg' %}"
+                      class="img-fluid rounded-circle avatar-responsive">
+                  </a>
+                </div>
+                <div class="align-self-lg-center mx-2 list-border">
+                  <div class="list-name">
+                    Jessica Jones
+                      <img class="img-fluid rounded shadow ml-2 list-image"
+                        src="{% static 'img/brand/logo_current.png' %}">                    
+                  </div>
+                  <div class="text-muted font-weight-500 small d-none d-lg-block">
+                    from Japan to U.S.
+                  </div>
+                  <div class="list-uni mb-0">Harvard University</div>
+                  <div class="list-major">MBA <span class="text-muted font-weight-300"><small>(2020 ~
+                        2022)</small></span></div>
+                  <div class="font-weight-400 d-none d-lg-block"><small><i class="ni ni-pin-3 mr-2"></i>Boston,
+                      U.S.</small></div>
+                </div>
+                <div class="flex-grow-1 text-right text-lg-center list-border">
+                  <button class="mt-lg-3 btn btn-outline-primary btn-sm btn-icon btn-round"><i class="fa fa-plus"></i> follow</button>
+                </div>
+              </div>
+            </div>
+            <!-- user-4 -->
+            <div class="col-12 col-lg-4">
+              <div class="d-flex flex-row flex-lg-column justify-content-lg-center mt-lg-5">
+                <div class="align-self-center mr-3 mr-lg-0 mb-lg-3">
+                  <a href="">
+                    <img src="{% static 'img/faces/team-4.jpg' %}"
+                      class="img-fluid rounded-circle avatar-responsive">
+                  </a>
+                </div>
+                <div class="align-self-lg-center mx-2 list-border">
+                  <div class="list-name">
+                    Jessica Jones
+                      <img class="img-fluid rounded shadow ml-2 list-image"
+                        src="{% static 'img/brand/logo_current.png' %}">                    
+                  </div>
+                  <div class="text-muted font-weight-500 small d-none d-lg-block">
+                    from Japan to U.S.
+                  </div>
+                  <div class="list-uni mb-0">Harvard University</div>
+                  <div class="list-major">MBA <span class="text-muted font-weight-300"><small>(2020 ~
+                        2022)</small></span></div>
+                  <div class="font-weight-400 d-none d-lg-block"><small><i class="ni ni-pin-3 mr-2"></i>Boston,
+                      U.S.</small></div>
+                </div>
+                <div class="flex-grow-1 text-right text-lg-center list-border">
+                  <button class="mt-lg-3 btn btn-outline-primary btn-sm btn-icon btn-round"><i class="fa fa-plus"></i> follow</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- end resutls -->
+      </div>
+      <!-- end results area -->
     </div>
-    <!-- End Tags Section-->
-        
   </div>
-
 </div>
-
-  <!-- <section class="section section-lg">
-      <div class="container">
-
-        <div class="row mb-sm">
-          <div class="col-lg-8">
-            <h3 class="display-3">Future students</h3>
-          </div>
-        </div>
-        <div class="row mb-lg">
-          <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
-            <div class="px-4">
-              <img src="{% static 'img/theme/team-1-800x800.jpg' %}"
-                class="rounded-circle img-center img-fluid shadow shadow-lg--hover" style="width: 200px;" alt="image">
-              <div class="pt-4 text-center">
-                <h5 class="title">
-                  <span class="d-block mb-1">Ryan Tompson</span>
-                  <small class="h6 text-muted">Oxford University</small>
-                </h5>
-                <div class="mt-1">
-                  <button class="btn btn-transparent rounded">
-                    <i class="fa fa-plus text-danger"></i>
-                    <small>Connect</small>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
-            <div class="px-4">
-              <img src="{% static 'img/theme/team-2-800x800.jpg' %}"
-                class="rounded-circle img-center img-fluid shadow shadow-lg--hover" style="width: 200px;" alt="image">
-              <div class="pt-4 text-center">
-                <h5 class="title">
-                  <span class="d-block mb-1">Romina Hadid</span>
-                  <small class="h6 text-muted">MIT</small>
-                </h5>
-                <div class="mt-1">
-                  <button class="btn btn-transparent rounded">
-                    <i class="fa fa-plus text-danger"></i>
-                    <small>Connect</small>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
-            <div class="px-4">
-              <img src="{% static 'img/theme/team-3-800x800.jpg' %}"
-                class="rounded-circle img-center img-fluid shadow shadow-lg--hover" style="width: 200px;" alt="image">
-              <div class="pt-4 text-center">
-                <h5 class="title">
-                  <span class="d-block mb-1">Alexander Smith</span>
-                  <small class="h6 text-muted">Harvard University</small>
-                </h5>
-                <div class="mt-1">
-                  <button class="btn btn-transparent rounded">
-                    <i class="fa fa-plus text-danger"></i>
-                    <small>Connect</small>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
-            <div class="px-4">
-              <img src="{% static 'img/theme/team-4-800x800.jpg' %}"
-                class="rounded-circle img-center img-fluid shadow shadow-lg--hover" style="width: 200px;" alt="image">
-              <div class="pt-4 text-center">
-                <h5 class="title">
-                  <span class="d-block mb-1">John Doe</span>
-                  <small class="h6 text-muted">Cambridge University</small>
-                </h5>
-                <div class="mt-1">
-                  <button class="btn btn-transparent rounded">
-                    <i class="fa fa-plus text-danger"></i>
-                    <small>Connect</small>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-        <div class="row mb-sm">
-          <div class="col-lg-8">
-            <h3 class="display-3">Current students</h3>
-          </div>
-        </div>
-        <div class="row mb-lg">
-          <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
-            <div class="px-4">
-              <img src="{% static 'img/sam.png' %}" class="rounded-circle img-center shadow shadow-lg--hover"
-                style="object-fit:cover; width:182px; height:182px;" alt="image">
-              <div class="pt-4 text-center">
-                <h5 class="title">
-                  <span class="d-block mb-1">Sam Saito</span>
-                  <small class="h6 text-muted">Oxford University</small>
-                </h5>
-                <div class="mt-1">
-                  <button class="btn btn-transparent rounded">
-                    <i class="fa fa-plus text-danger"></i>
-                    <small>Connect</small>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
-            <div class="px-4">
-              <img src="{% static 'img/yen.png' %}" class="rounded-circle img-center shadow shadow-lg--hover"
-                style="object-fit:cover; width:182px; height:182px;" alt="image">
-              <div class="pt-4 text-center">
-                <h5 class="title">
-                  <span class="d-block mb-1">Yen Kita</span>
-                  <small class="h6 text-muted">MIT</small>
-                </h5>
-                <div class="mt-1">
-                  <button class="btn btn-transparent rounded">
-                    <i class="fa fa-plus text-danger"></i>
-                    <small>Connect</small>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
-            <div class="px-4">
-              <img src="{% static 'img/theme/team-3-800x800.jpg' %}"
-                class="rounded-circle img-center img-fluid shadow shadow-lg--hover" style="width: 200px;" alt="image">
-              <div class="pt-4 text-center">
-                <h5 class="title">
-                  <span class="d-block mb-1">Alexander Smith</span>
-                  <small class="h6 text-muted">Harvard University</small>
-                </h5>
-                <div class="mt-1">
-                  <button class="btn btn-transparent rounded">
-                    <i class="fa fa-plus text-danger"></i>
-                    <small>Connect</small>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
-            <div class="px-4">
-              <img src="{% static 'img/theme/team-4-800x800.jpg' %}"
-                class="rounded-circle img-center img-fluid shadow shadow-lg--hover" style="width: 200px;" alt="image">
-              <div class="pt-4 text-center">
-                <h5 class="title">
-                  <span class="d-block mb-1">John Doe</span>
-                  <small class="h6 text-muted">Cambridge University</small>
-                </h5>
-                <div class="mt-1">
-                  <button class="btn btn-transparent rounded">
-                    <i class="fa fa-plus text-danger"></i>
-                    <small>Connect</small>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="row mb-sm">
-          <div class="col-lg-8">
-            <h3 class="display-3">Alumni</h3>
-          </div>
-        </div>
-        <div class="row mb-md">
-          <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
-            <div class="px-4">
-              <img src="{% static 'img/shinta.jpg' %}" class="rounded-circle img-center shadow shadow-lg--hover"
-                style="object-fit:cover; width:182px; height:182px;" alt="image">
-              <div class="pt-4 text-center">
-                <h5 class="title">
-                  <span class="d-block mb-1">Shinta Nishino</span>
-                  <small class="h6 text-muted">University of Reading</small>
-                </h5>
-                <div class="mt-1">
-                  <button class="btn btn-transparent rounded">
-                    <i class="fa fa-plus text-danger"></i>
-                    <small>Connect</small>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
-            <div class="px-4">
-              <img src="{% static 'img/amy.jpg' %}" class="rounded-circle img-center shadow shadow-lg--hover"
-                style="object-fit:cover; width:182px; height:182px;" alt="image">
-              <div class="pt-4 text-center">
-                <h5 class="title">
-                  <span class="d-block mb-1">Amy Ho</span>
-                  <small class="h6 text-muted">University of Reading</small>
-                </h5>
-                <div class="mt-1">
-                  <button class="btn btn-transparent rounded">
-                    <i class="fa fa-plus text-danger"></i>
-                    <small>Connect</small>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
-            <div class="px-4">
-              <img src="{% static 'img/ali.png' %}" class="rounded-circle img-center img-fluid shadow shadow-lg--hover"
-                style="width: 200px;" alt="image">
-              <div class="pt-4 text-center">
-                <h5 class="title">
-                  <span class="d-block mb-1">Ali Ichigo</span>
-                  <small class="h6 text-muted">Harvard University</small>
-                </h5>
-                <div class="mt-1">
-                  <button class="btn btn-transparent rounded">
-                    <i class="fa fa-plus text-danger"></i>
-                    <small>Connect</small>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
-            <div class="px-4">
-              <img src="{% static 'img/ben.png' %}" class="rounded-circle img-center img-fluid shadow shadow-lg--hover"
-                style="width: 200px;" alt="image">
-              <div class="pt-4 text-center">
-                <h5 class="title">
-                  <span class="d-block mb-1">Benjamin Lalala</span>
-                  <small class="h6 text-muted">Cambridge University</small>
-                </h5>
-                <div class="mt-1">
-                  <button class="btn btn-transparent rounded">
-                    <i class="fa fa-plus text-danger"></i>
-                    <small>Connect</small>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </section> -->
-
 {% endblock %}
