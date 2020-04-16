@@ -1,5 +1,6 @@
 {% extends 'base-authpage.html' %}
 {% load static %}
+{% load widget_tweaks %}
 {% block navbar %}
 {% include 'include/nav-authpage.html' %}
 {% endblock %}
@@ -24,10 +25,65 @@
     display: inline-block !important;
 }
 
+.list-group-item:hover {
+  z-index: 2;
+  color: #fff;
+  background-color: #5e72e4;
+  border-color: #5e72e4;
+  background: linear-gradient(35deg,#5e72e4,#825ee4);
+}
+
+.list-group-item:hover * {
+  color: white!important;
+}
+
 </style>
 {% endblock %}
 
 {% block content %}
+
+
+<!-- New message modal -->
+<div class="modal fade" id="sendNewMessage" tabindex="-1" role="dialog" aria-labelledby="sendNewMessage" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+    <div class="modal-content">
+      <div class="modal-body p-0">
+        <div class="card bg-secondary shadow border-0 mb-0">
+          <div class="card-header bg-secondary">
+            <div class="text-muted text-center">
+              <h6 class="text-muted my-0">New Message</h6>
+            </div>
+          </div>
+          <div class="card-body px-lg-5 py-lg-5">
+            <form action="{% url 'message:send-new-message' %}" method="POST">
+              {% csrf_token %}
+              <!-- Receiver -->
+              <div class="form-group mb-3">
+                <label>To (You can send messages to people you follow)</label>
+                {% render_field new_message_form.receiver class+="form-control" %}
+              </div>
+              <!-- Body -->
+              <div class="form-group mb-3">
+                <label>Message</label>
+                <div class="input-group input-group-alternative">
+                  {% render_field new_message_form.body class+="form-control" placeholder="Write your message..." %}
+                </div>
+              </div>
+              <!-- Button -->
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary my-4">Send message</button>
+                <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 <div class="section mb-0 py-lg bg-secondary" style="min-height: 100vh;">
   <div class="container">
     <div class="row my-4">
@@ -35,117 +91,70 @@
         <div class="d-flex flex-row justify-content-between">
           <h3 class="display-4">Messages</h3>
           <!-- New message button -->
-          <button class="align-self-center btn-sm btn btn-round btn-outline-primary btn-icon"><span
-              class="btn-inner--icon"><i class="ni ni-fat-add"></i></span><span class="btn-inner--text">New
-              message</span></button>
+          <button class="align-self-center btn-sm btn btn-round btn-outline-primary btn-icon" data-toggle="modal" 
+            data-target="#sendNewMessage" data-toggle="tooltip" data-placement="top" data-container="body" data-animation="true">
+            <span class="btn-inner--icon" >
+              <i class="ni ni-fat-add"></i>
+            </span>
+            <span class="btn-inner--text">New message</span>
+            </button>
         </div>
       </div>
     </div>
     <div class="row">
       <div class="col-md-8 mx-auto">
-        <!-- Message1 (Unread Message)-->
+      {% for message in message_list %}
+        <!-- Message -->
         <div class="card mb-2 card-zoom" data-animation="zooming">
-          <a href="{% url 'message:message_detail' %}" class="list-group-item active bg-gradient-primary">
+          {% if message.sender == user %}
+            <a href="{% url 'message:message_detail' message.receiver.username %}" class="list-group-item">
+          {% else %}
+            <a href="{% url 'message:message_detail' message.sender.username %}" class="list-group-item">
+          {% endif %}
             <div class="media">
-              <img alt="Image" src="{% static 'img/faces/team-2.jpg' %}" class="avatar shadow">
+              {% if message.sender == user %}
+                {% if message.receiver.profile_image %}
+                <img alt="Image" src="{{ message.receiver.profile_image.image.url }}" class="avatar shadow">
+                {% else %}
+                <img alt="Image" src="{% static 'img/placeholder.jpg' %}" class="avatar shadow">
+                {% endif %}
+              {% else %}
+                {% if message.sender.profile_image %}
+                <img alt="Image" src="{{ message.sender.profile_image.image.url }}" class="avatar shadow">
+                {% else %}
+                <img alt="Image" src="{% static 'img/placeholder.jpg' %}" class="avatar shadow">
+                {% endif %}
+              {% endif %}
               <div class="media-body ml-2">
                 <div class="d-flex flex-row justify-content-between align-items-center">
-                  <h6 class="text-white mb-0">Jane Doe</h6>
+                  <h6 class="sender-name mb-0">
+                  {% if message.sender == user %}
+                    {% if message.receiver.basicinfo.name %}
+                    {{ message.receiver.basicinfo.name }} <small class="text-muted">@{{ message.receiver.username }}</small>
+                    {% else %}
+                    @{{ message.receiver.username }}
+                    {% endif %}
+                  {% else %}
+                    {% if message.sender.basicinfo.name %}
+                    {{ message.sender.basicinfo.name }} <small class="text-muted">@{{ message.sender.username }}</small>
+                    {% else %}
+                    @{{ message.sender.username }}
+                    {% endif %}
+                  {% endif %}
+                  </h6>
                   <div class="d-flex flex-row">
-                    <small class="text-secondary">1 hour ago</small>
-                    <span class="ml-2 align-self-center badge badge-success notificate"></span>
-                  </div>
-                </div>
-                <span class="small">
-                  Hi, thank you for the message! Oxford University located just in front....
-                </span>
-              </div>
-            </div>
-          </a>
-        </div>
-        <!-- Message2 -->
-        <div class="card mb-2 card-zoom" data-animation="zooming">
-          <a href="{% url 'message:message_detail' %}" class="list-group-item">
-            <div class="media">
-              <img alt="Image" src="{% static 'img/faces/christian.jpg' %}" class="avatar shadow">
-              <div class="media-body ml-2">
-                <div class="d-flex flex-row justify-content-between align-items-center">
-                  <h6 class="mb-0">Charlie Watson</h6>
-                  <div class="d-flex flex-row">
-                    <small class="text-muted">1 hour ago</small>
-                    <!-- <span class="ml-2 align-self-center badge badge-success notificate"></span> -->
-
-                  </div>
-                </div>
-                <span class="small text-muted">
-                  Hi, thank you for the message! Oxford University located just in front....
-                </span>
-              </div>
-            </div>
-          </a>
-        </div>
-        <!-- Message3 -->
-        <div class="card mb-2 card-zoom" data-animation="zooming">
-          <a href="{% url 'message:message_detail' %}" class="list-group-item">
-            <div class="media">
-              <img alt="Image" src="{% static 'img/faces/team-3.jpg' %}" class="avatar shadow">
-              <div class="media-body ml-2">
-                <div class="d-flex flex-row justify-content-between align-items-center">
-                  <h6 class="mb-0">Mila Skylar</h6>
-                  <div class="d-flex flex-row">
-                    <small class="text-muted">24 min ago</small>
-                    <!-- <span class="ml-2 align-self-center badge badge-success notificate"></span> -->
-
+                    <small class="text-muted">{{ message.sent_datetime | timesince }}</small>
+                    {% comment %} <span class="ml-2 align-self-center badge badge-success notificate"></span> {% endcomment %}
                   </div>
                 </div>
                 <span class="small text-muted">
-                  You can subscribe to receive weekly...
+                  {{ message.body | truncatechars:30 }}
                 </span>
               </div>
             </div>
           </a>
         </div>
-        <!-- Message4 -->
-        <div class="card mb-2 card-zoom" data-animation="zooming">
-          <a href="{% url 'message:message_detail' %}" class="list-group-item">
-            <div class="media">
-              <img alt="Image" src="{% static 'img/faces/team-4.jpg' %}" class="avatar shadow">
-              <div class="media-body ml-2">
-                <div class="d-flex flex-row justify-content-between align-items-center">
-                  <h6 class="mb-0">Sofia Scarlett</h6>
-                  <div class="d-flex flex-row">
-                    <small class="text-muted">7 hours ago</small>
-                    <!-- <span class="ml-2 align-self-center badge badge-success notificate"></span> -->
-
-                  </div>
-                </div>
-                <span class="small text-muted">
-                  It’s an effective resource regardless..
-                </span>
-              </div>
-            </div>
-          </a>
-        </div>
-        <!-- Message5-->
-        <div class="card mb-2 card-zoom" data-animation="zooming">
-          <a href="{% url 'message:message_detail' %}" class="list-group-item">
-            <div class="media">
-              <img alt="Image" src="{% static 'img/faces/team-5.jpg' %}" class="avatar shadow">
-              <div class="media-body ml-2">
-                <div class="d-flex flex-row justify-content-between align-items-center">
-                  <h6 class="mb-0">Tom Klein</h6>
-                  <div class="d-flex flex-row">
-                    <small class="text-muted">1 day ago</small>
-                    <!-- <span class="ml-2 align-self-center badge badge-success notificate"></span> -->
-                  </div>
-                </div>
-                <span class="small text-muted">
-                  Be sure to check it out if your dev pro...
-                </span>
-              </div>
-            </div>
-          </a>
-        </div>
+       {% endfor %}
       </div>
     </div>
   </div>
