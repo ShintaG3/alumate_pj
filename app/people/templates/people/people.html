@@ -303,7 +303,7 @@
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
       <div class="modal-content">
-        <div class="modal-body p-0 dropdownParent" id="dropdownParent">
+        <div class="modal-body p-0" id="dropdownParent">
           <div class="card bg-secondary shadow border-0 mb-0">
             <div class="card-header bg-secondary">
               <div class="text-muted text-center">
@@ -311,6 +311,7 @@
               </div>
             </div>
             <div class="card-body p-4">
+              <!-- Form -->
               <form action="" >
                 <div class="tags-section">
                   <!-- Alumate status -->
@@ -516,13 +517,14 @@
                   </div>
                 </div>
               </form>
-              
+              <!-- End Form -->
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <!-- End Modal "updateFilter" -->
 
   <div class="pt-lg container">
     <div class="row mb-3">
@@ -538,7 +540,6 @@
             <!-- Alumate status -->
             <div class="form-group focused">
               <span class="tag-label">
-                
                 Alumate Status
               </span>
               <div class="custom-control custom-checkbox my-3">
@@ -557,7 +558,6 @@
             <!-- Home Country -->
             <div class="form-group focused">
               <label class="tag-label" for="home_country">
-                
                 Home Country
               </label>
               <select name="home_country" class="select2-multiple select2-hidden-accessible" multiple="multiple"
@@ -588,7 +588,6 @@
             <!-- Study Abroad Country -->
             <div class="form-group">
               <label class="tag-label" for="study_abroad_country">
-                
                 Study Abroad Country
               </label>
               <select name="study_abroad_country" class="select2-multiple select2-hidden-accessible" multiple="multiple"
@@ -619,7 +618,6 @@
             <!-- Study Abroad School -->
             <div class="form-group">
               <label class="tag-label" for="study_abroad_school">
-                
                 Study Abroad School
               </label>
               <select name="study_abroad_school" class="select2-multiple select2-hidden-accessible" multiple="multiple"
@@ -650,7 +648,6 @@
             <!-- Study Abroad Major -->
             <div class="form-group">
               <label class="tag-label" for="study_abroad_major">
-                
                 Study Abroad Major
               </label>
               <select name="study_abroad_major" class="select2-multiple select2-hidden-accessible" multiple="multiple"
@@ -681,7 +678,6 @@
             <!-- Study Abroad Year -->
             <div class="form-group">
               <label class="tag-label" for="home_countries">
-                
                 Study Abroad Year
               </label>
               <div class="my-4">
@@ -704,7 +700,6 @@
             <!-- Living City -->
             <div class="form-group">
               <label class="tag-label" for="living_city">
-                
                 Living City
               </label>
               <select name="living_city" class="select2-multiple select2-hidden-accessible" multiple="multiple"
@@ -740,22 +735,14 @@
         </form>
       </div>
       <!-- End Tags Section-->
-      <!-- results area -->
+
+      <!-- Results area -->
       <div class="col-lg-9 col-12">
         <div class="d-flex flex-row justify-content-between mb-3">
           <span class="text-primary" style="font-size: .9rem; font-weight: 600;">
             46 resuts
           </span>
-          <!-- picture edit button -->
-          <!-- <div class="details">
-            <span>
-              <span class="btn btn-file btn-sm btn-secondary mx-auto mt-3" data-toggle="modal" data-target="#editProfileImage" 
-              data-placement="top" data-container="body" data-animation="true">
-                <span class="fileinput-new" data-toggle="tooltip" data-original-title="Change Profile Image"><i class="align-text-bottom ni ni-cloud-upload-96"></i>&nbsp;Change</span>
-              </span>
-            </span>
-          </div> -->
-
+          <!-- Filter Button to show modal (apper when screen width < 992px) -->
           <div class="d-lg-none">
             <button class="btn-primary btn btn-sm"
             data-toggle="modal" data-target="#updateFilter" 
@@ -764,7 +751,7 @@
             </button>
           </div>
         </div>
-        <!-- resutls -->
+        <!-- Resutls -->
         <div class="card pb-5 px-4">
           <div class="row">
             <!-- user-1 -->
@@ -885,9 +872,9 @@
             </div>
           </div>
         </div>
-        <!-- end resutls -->
+        <!-- End resutls -->
       </div>
-      <!-- end results area -->
+      <!-- End results area -->
     </div>
   </div>
 </div>
