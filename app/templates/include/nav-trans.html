@@ -7,11 +7,6 @@
       </a>
       <div class="navbar-collapse collapse" id="navbar_global">
         <ul class="navbar-nav align-items-lg-center ml-lg-auto">
-          <li class="nav-item d-none d-lg-block ml-lg-4">
-            <a href="{% url 'demo:index' %}" class="nav-link">
-              <span class="nav-link-inner--text">demo</span>
-            </a>
-          </li>
           {% if user.is_authenticated %}
           <li>
             <a href="{% url 'auths:logout' %}" class="nav-link">
