@@ -21,15 +21,15 @@
       </div>
       <ul class="navbar-nav navbar-nav-hover align-items-lg-center ml-lg-auto">
         <!-- people -->
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown d-flex align-items-center">
           <a href="javascript:;" data-toggle="dropdown" role="button">
-            <span class="mx-2" style="font-size: 1.5em; color: #f3f4f6;">
+            <span class="mx-2" style="font-size: 1.4em; color: #f3f4f6;">
               <i class="fa fa-users"></i>
             </span>
           </a>
         </li>
         <!-- inquiry -->
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown d-flex align-items-center">
           <a href="javascript:;" data-toggle="dropdown" role="button">
             <span class="mx-2" style="font-size: 1.5em; color: #f3f4f6;">
               <i class="fa fa-question"></i>
@@ -37,31 +37,29 @@
           </a>
         </li>
         <!-- noticle -->
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown d-flex align-items-center">
           <a href="javascript:;" data-toggle="dropdown" role="button">
-            <span class="mx-2" style="font-size: 1.4em; color: #f3f4f6;">
-              <i class="ni ni-collection"></i>
+            <span class="mx-2 " style="font-size: 1.3em; color: #f3f4f6;">
+              <i style="margin-top: 10px;" class="ni ni-collection"></i>
             </span>
           </a>
         </li>
-        <!-- message
-        <li class="nav-item dropdown">
-          <a class="mx-3" href="{% url 'chat:chat' %}" data-toggle="dropdown" role="button">
-            <span style="font-size: 1.5em; color: #f3f4f6;">
+        <!-- message -->
+        <li class="nav-item dropdown d-flex align-items-center">
+          <a class="mr-4" href="{% url 'message:index' %}" role="button">
+            <span class="mx-2 " style="font-size: 1.5em; color: #f3f4f6;">
               <i class="fa fa-comments"></i>
             </span>
           </a>
-        </li> -->
+        </li>
         <!-- account -->
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown" style="position: relative; top: 5px">
           <a href="javascript:;" class="avatar avatar-sm rounded-circle" data-toggle="dropdown" role="button">
-            <img src=
             {% if user.profile_image %}
-            {{ user.profile_image.image.url }}
+            <img src={{ user.profile_image.image.url }} />
             {% else %}
-            {% static 'img/placeholder.jpg' %}
+            <img src={% static 'img/placeholder.jpg' %} />
             {% endif %}
-            >
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             <a class="dropdown-item" href="{% url 'accounts:account-page' user.username %}">
@@ -71,10 +69,6 @@
             <a class="dropdown-item" href="{% url 'accounts:account-edit' %}">
               <i class="ni ni-lock-circle-open text-muted"></i>
               Account Settings
-            </a>
-            <a class="dropdown-item" href="#" data-toggle="popover" data-placement="top" data-content="Oops! This function is coming soon!">
-              <i class="ni ni-chat-round text-primary"></i>
-              Message
             </a>
             <a class="dropdown-item" href="{% url 'auths:logout' %}">
               <i class="ni ni-tv-2 text-danger"></i>
