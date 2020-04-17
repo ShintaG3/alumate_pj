@@ -205,6 +205,7 @@ class BasicInfoUpdateView(LoginRequiredMixin, View):
             basic_info.save()
         return redirect('/accounts/' + request.user.username)
 
+
 class UploadProfileImageView(LoginRequiredMixin, View):
     form_class = ProfileImageForm
     
