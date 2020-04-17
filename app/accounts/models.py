@@ -87,7 +87,7 @@ class History(models.Model):
     
 class Education(History):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    school = models.CharField(max_length=50)
+    school = models.CharField(max_length=100)
     major = models.CharField(max_length=50)
     is_study_abroad = models.BooleanField(default=False)
     # status = models.CharField(max_length=30, choices=EducationStatus.choices, default=EducationStatus.CURRENT)
@@ -129,17 +129,23 @@ class SocialLink(models.Model):
         return 
     
 class School(models.Model):
-    school_name = models.CharField(max_length=50)
+    name = models.CharField(max_length=120, primary_key=True)
     country = models.ForeignKey('Country', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        return self.school_name
+        return self.name
+
+class Major(models.Model):
+    name = models.CharField(max_length=120, primary_key=True)
+
+    def __str__(self):
+        return self.name
 
 class Country(models.Model):
-    country_name = models.CharField(max_length=50)   # change in to choose filed
+    name = models.CharField(max_length=70, primary_key=True)   # change in to choose filed
     
     def __str__(self):
-        return self.country_name
+        return self.name
 
 class City(models.Model):
     city_name = models.CharField(max_length=50)
