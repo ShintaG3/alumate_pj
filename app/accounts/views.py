@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.views import View
 from django.views.generic import FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from message.forms import DirectMessageForm
 
 
 # Create your views here.
@@ -74,9 +75,11 @@ class AccountView(LoginRequiredMixin, TemplateView):
             study_abroad = StudyAbroad.objects.get(user=account)
         except StudyAbroad.DoesNotExist:
             study_abroad = None
+
+        new_message_form = DirectMessageForm()
         
         context = {
-            'user': account,
+            'account_user': account,
             'has_edit_permission': has_edit_permission,
             'basic_info': basic_info,
             'profile_image': profile_image,
@@ -104,6 +107,7 @@ class AccountView(LoginRequiredMixin, TemplateView):
             'is_following': following,
             'followers': followers,
             'followings': followings,
+            'new_message_form': new_message_form
         }
         return context
     
