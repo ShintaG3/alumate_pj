@@ -47,7 +47,7 @@ class SignUpForm(UserCreationForm):
         fields = ('email','username', 'password1', 'password2')
 
 class UserLoginForm(forms.Form):
-    username = forms.EmailField(widget=forms.TextInput(
+    username = forms.EmailField(widget=forms.EmailInput(
         attrs={
             'class': 'form-control',
             'placeholder': 'Email'
