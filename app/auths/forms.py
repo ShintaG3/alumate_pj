@@ -47,10 +47,10 @@ class SignUpForm(UserCreationForm):
         fields = ('email','username', 'password1', 'password2')
 
 class UserLoginForm(forms.Form):
-    username = forms.CharField(widget=forms.TextInput(
+    username = forms.EmailField(widget=forms.TextInput(
         attrs={
             'class': 'form-control',
-            'placeholder': 'Username'
+            'placeholder': 'Email'
         }
     ))
     password = forms.CharField(widget=forms.PasswordInput(
@@ -69,6 +69,10 @@ class UserLoginForm(forms.Form):
         remember_me = self.cleaned_data.get('remember_me')
 
         if username and password:
+            try:
+                username = User.objects.get(email=username).username
+            except:
+                raise forms.ValidationError('Sorry, email not registered')
             user = authenticate(username=username, password=password)
             if not user:
                 raise forms.ValidationError('Sorry, wrong credentials!')

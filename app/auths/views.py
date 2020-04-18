@@ -15,7 +15,12 @@ class SignupView(FormView):
     template_name = "auths/register.html"
     form_class = SignUpForm
     success_url = reverse_lazy('accounts:base-inquiry')
-    
+
+    def get(self, request):
+        if request.user.is_authenticated:
+            return redirect('feed:feed')
+        return render(request, self.template_name, {'form': self.form_class()}) 
+  
     def form_valid(self, form):
         form.save()
         cd = form.cleaned_data
@@ -33,7 +38,11 @@ class LoginView(FormView):
         cd = form.cleaned_data
         if not cd['remember_me']:
             self.request.session.set_expiry(0)
-        user = authenticate(self.request, username=cd['username'], password=cd['password'])
+        try:
+            username = User.objects.get(email=cd['username']).username
+        except User.DoesNotExist:
+            return HttpResponse('Sorry, email not registered') 
+        user = authenticate(self.request, username=username, password=cd['password'])
         if (user is not None):
             login(self.request, user)
             if next and next != '/':
