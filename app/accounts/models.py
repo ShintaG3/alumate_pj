@@ -78,8 +78,8 @@ class EducationStatus(models.TextChoices):
     
 
 class History(models.Model):
-    start_year =  models.CharField(max_length=20, null=True, blank=True)
-    end_year = models.CharField(max_length=20, null=True, blank=True)
+    start_year =  models.IntegerField(null=True, blank=True)
+    end_year = models.IntegerField(null=True, blank=True)
     
     class Meta:
         abstract = True
@@ -97,7 +97,7 @@ class Education(History):
 
 
 class StudyAbroad(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name="study_abroad")
     education = models.OneToOneField(Education, on_delete=models.CASCADE)
 
 class WorkStatus(models.TextChoices):
