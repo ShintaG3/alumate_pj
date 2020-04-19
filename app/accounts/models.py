@@ -17,18 +17,27 @@ class School(models.Model):
 
     def __str__(self):
         return self.name
+    
+    class Meta:
+        ordering= ['name']
 
 class Major(models.Model):
     name = models.CharField(max_length=120, primary_key=True)
 
     def __str__(self):
         return self.name
+    
+    class Meta:
+        ordering= ['name']
 
 class Country(models.Model):
     name = models.CharField(max_length=70, primary_key=True)   # change in to choose filed
     
     def __str__(self):
         return self.name
+    
+    class Meta:
+        ordering= ['name']
 
 class Gender(models.TextChoices):
     MALE = 'M', _('Male'),
