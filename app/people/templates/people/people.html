@@ -645,7 +645,7 @@
               </label>
               <select id="homeCountrySelect2" name="home_country" class="select2-multiple select2-hidden-accessible" multiple="multiple"
                 tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
-                {% for country in country_options %}
+                {% for country in home_country_options %}
                 <option value="{{country}}">{{country}}</option>
                 {% endfor %}
               </select>
@@ -657,7 +657,7 @@
               </label>
               <select id="studyAbroadCountrySelect2" name="study_abroad_country" class="select2-multiple select2-hidden-accessible" multiple="multiple"
                 tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
-                {% for country in country_options %}
+                {% for country in study_abroad_country_options %}
                 <option value="{{country}}">{{country}}</option>
                 {% endfor %}
               </select>

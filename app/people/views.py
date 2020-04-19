@@ -14,12 +14,19 @@ class PeopleView(LoginRequiredMixin, TemplateView):
     template_name = 'people/people.html'
 
     def get_context_data(self, **kwargs):
+        all_basic_info = BasicInfo.objects.all()
+        all_educations = Education.objects.all()
+        home_country_options = all_basic_info.values_list('country_origin', flat=True).distinct()
+        study_abroad_country_options = all_basic_info.values_list('country_study_abroad', flat=True).distinct()
+        school_options = all_educations.values_list('school', flat=True).distinct()
+        major_options = all_educations.values_list('major', flat=True).distinct()
         context = super().get_context_data(**kwargs)
         context = {
-            'result': BasicInfo.objects.all(),
-            'country_options': Country.objects.all(),
-            'school_options': School.objects.all(),
-            'major_options': Major.objects.all(),
+            'result': all_basic_info,
+            'home_country_options': home_country_options,
+            'study_abroad_country_options': study_abroad_country_options,
+            'school_options': school_options,
+            'major_options': major_options,
             'searched': False
         }
         return context

@@ -10,12 +10,32 @@ from django_resized import ResizedImageField
 
 current_year = date.today().year
 
+
+class School(models.Model):
+    name = models.CharField(max_length=120, primary_key=True)
+    country = models.ForeignKey('Country', on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return self.name
+
+class Major(models.Model):
+    name = models.CharField(max_length=120, primary_key=True)
+
+    def __str__(self):
+        return self.name
+
+class Country(models.Model):
+    name = models.CharField(max_length=70, primary_key=True)   # change in to choose filed
+    
+    def __str__(self):
+        return self.name
+
 class Gender(models.TextChoices):
     MALE = 'M', _('Male'),
     FEMALE = 'F', _('Female'),
     NON_BINARY = 'NB', _('Genderqueer/Non-Binary'),
     NO_ANSWER = 'NA', _('Prefer not to disclose')
-    
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
@@ -34,8 +54,8 @@ class BasicInfo(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     name = models.CharField(max_length=40)
     status = models.CharField(max_length=20, choices=CurrentStatus.choices, default=CurrentStatus.CURRENT_STUDENT)
-    country_origin = models.CharField(max_length=50, null=True, blank=True)
-    country_study_abroad = models.CharField(max_length=50, null=True, blank=True)
+    country_origin = models.ForeignKey(Country, on_delete=models.SET_NULL, related_name="basic_info_with_country_origin", null=True, blank=True)
+    country_study_abroad = models.ForeignKey(Country, on_delete=models.SET_NULL, related_name="basic_info_with_country_study_abroad", null=True, blank=True)
     # living_city = models.ForeignKey('City', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
@@ -86,9 +106,9 @@ class History(models.Model):
         ordering= ['-end_year', '-start_year']
     
 class Education(History):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    school = models.CharField(max_length=100)
-    major = models.CharField(max_length=50)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='educations')
+    school = models.ForeignKey(School, on_delete=models.CASCADE, related_name='educations')
+    major =  models.ForeignKey(Major, on_delete=models.CASCADE, related_name='educations')
     is_study_abroad = models.BooleanField(default=False)
     # status = models.CharField(max_length=30, choices=EducationStatus.choices, default=EducationStatus.CURRENT)
     
@@ -127,25 +147,6 @@ class SocialLink(models.Model):
 
     def __str__(self):
         return 
-    
-class School(models.Model):
-    name = models.CharField(max_length=120, primary_key=True)
-    country = models.ForeignKey('Country', on_delete=models.SET_NULL, null=True)
-
-    def __str__(self):
-        return self.name
-
-class Major(models.Model):
-    name = models.CharField(max_length=120, primary_key=True)
-
-    def __str__(self):
-        return self.name
-
-class Country(models.Model):
-    name = models.CharField(max_length=70, primary_key=True)   # change in to choose filed
-    
-    def __str__(self):
-        return self.name
 
 class City(models.Model):
     city_name = models.CharField(max_length=50)
