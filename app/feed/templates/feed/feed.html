@@ -292,23 +292,21 @@
             <div class="sidebar-sticky sidebar">
               <ul class="nav flex-column">
                 <li class="nav-item">
-                  <a class="nav-link active" href="{% url 'people:index' %}">
-                      <i class="fa fa-users"></i>
-                      People
+                  <a class="nav-link row" href="{% url 'people:index' %}">
+                    <i class="fa fa-users col-1"></i>
+                    <span class="col-11">People</span>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'inquiry:inquiry' %}">
-                    <span>
-                      <i class="fa fa-question"></i>
-                    </span>
-                    Questions
+                  <a class="nav-link row" href="{% url 'inquiry:inquiry' %}">
+                    <i class="fa fa-question col-1" style="font-size: 20px;"></i>
+                    <span class="col-11">Questions</span>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#" data-toggle="popover" data-placement="top" data-content="Oops! This function is coming soon!">
-                      <i class="ni ni-collection"></i>
-                      Noticles
+                  <a class="nav-link row" href="#" data-toggle="popover" data-placement="top" data-content="Oops! This function is coming soon!">
+                    <i class="ni ni-collection col-1"></i>
+                    <span class="col-11">Noticles</span>
                   </a>
                 </li>
                 
