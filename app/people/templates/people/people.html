@@ -293,10 +293,93 @@
     endYear_input_modal[b].value = Math.round(a[b])
   })
 </script>
+<!-- filter form -->
+<script>
+  function applyChange() {
+    var futureStudentId = 'customCheck1';
+    var currentStudentId = 'customCheck2';
+    var alumniId = 'customCheck3';
+
+    var homeCountryId = 'homeCountrySelect2'
+    var studyAbroadCountryId = 'studyAbroadCountrySelect2';
+    var studyAbroadSchoolId = 'studyAbroadSchoolSelect2';
+    var studyAbroadMajorId = 'studyAbroadMajorSelect2';
+    
+    var startYearId = 'startYear';
+    var endYearId = 'endYear';
+
+    if (window.innerWidth < 992) { // modal
+      var modalId = '-modal';
+      futureStudentId += modalId;
+      currentStudentId += modalId;
+      alumniId += modalId;
+      homeCountryId += modalId;
+      studyAbroadCountryId += modalId;
+      studyAbroadSchoolId += modalId;
+      studyAbroadMajorId += modalId;
+      startYearId += modalId;
+      endYearId += modalId;
+    }
+
+    var futureStudent = document.getElementById(futureStudentId).checked;
+    var currentStudent = document.getElementById(currentStudentId).checked;
+    var alumni = document.getElementById(alumniId).checked;
+
+    var homeCountries = $(`#${homeCountryId}`).val();
+    var studyAbroadCountries = $(`#${studyAbroadCountryId}`).val();
+    var studyAbroadSchools = $(`#${studyAbroadSchoolId}`).val();
+    var studyAbroadMajors = $(`#${studyAbroadMajorId}`).val();
+    
+    var startYear = document.getElementById(startYearId).noUiSlider.get();
+    var endYear = document.getElementById(endYearId).noUiSlider.get();
+
+    var status = []
+    if (futureStudent) {
+      status.push('FU')
+    }
+    if (currentStudent) {
+      status.push('CU')
+    }
+    if (alumni) {
+      status.push('AL')
+    }
+    var csrftoken = Cookies.get('csrftoken');
+    console.log('apply change...')
+    $.ajaxSetup({
+      beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+      }
+    });
+    $.ajax({
+      url: 'search',
+      method: 'POST',
+      data: {
+        'status': status,
+        'home_countries': homeCountries,
+        'study_abroad_countries': studyAbroadCountries,
+        'schools': studyAbroadSchools,
+        'majors': studyAbroadMajors,
+        'start_year': startYear,
+        'end_year': endYear
+      },
+      success: function(result) {
+        console.log(result);
+        $('#result-area').html(result);
+      }
+    });
+
+    function csrfSafeMethod(method) {
+      // these HTTP methods do not require CSRF protection
+      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+  }
+</script>
 {% endblock %}
 
 {% block content %}
-<div class="bg-secondary">
+<div class="bg-secondary" style="min-height: 100%">
 
   <!-- Modal "updateFilter" -->
   <div class="modal fade" id="updateFilter" tabindex="-1" role="dialog" aria-labelledby="updateFilter"
@@ -339,7 +422,7 @@
                       
                       Home Country
                     </label>
-                    <select name="home_country" class="select2-multiple select2-hidden-accessible" multiple="multiple"
+                    <select id="homeCountrySelect2-modal" name="home_country" class="select2-multiple select2-hidden-accessible" multiple="multiple"
                       tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
                       <optgroup label="Alaskan/Hawaiian Time Zone">
                         <option value="AK">Alaska</option>
@@ -370,7 +453,7 @@
                       
                       Study Abroad Country
                     </label>
-                    <select name="study_abroad_country" class="select2-multiple select2-hidden-accessible" multiple="multiple"
+                    <select id="studyAbroadCountrySelect2-modal" name="study_abroad_country" class="select2-multiple select2-hidden-accessible" multiple="multiple"
                       tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
                       <optgroup label="Alaskan/Hawaiian Time Zone">
                         <option value="AK">Alaska</option>
@@ -401,7 +484,7 @@
                       
                       Study Abroad School
                     </label>
-                    <select name="study_abroad_school" class="select2-multiple select2-hidden-accessible" multiple="multiple"
+                    <select id="studyAbroadSchoolSelect2-modal" name="study_abroad_school" class="select2-multiple select2-hidden-accessible" multiple="multiple"
                       tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
                       <optgroup label="Alaskan/Hawaiian Time Zone">
                         <option value="AK">Alaska</option>
@@ -432,7 +515,7 @@
                       
                       Study Abroad Major
                     </label>
-                    <select name="study_abroad_major" class="select2-multiple select2-hidden-accessible" multiple="multiple"
+                    <select id="studyAbroadMajorSelect2-modal" name="study_abroad_major" class="select2-multiple select2-hidden-accessible" multiple="multiple"
                       tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
                       <optgroup label="Alaskan/Hawaiian Time Zone">
                         <option value="AK">Alaska</option>
@@ -513,7 +596,7 @@
                   </div>
                   <!-- Apply button -->
                   <div class="text-center mb-lg">
-                    <button class="btn btn-primary">Apply</button>
+                    <button type="button" class="btn btn-primary" onclick="applyChange()" data-dismiss="modal">Apply</button>
                   </div>
                 </div>
               </form>
@@ -560,29 +643,11 @@
               <label class="tag-label" for="home_country">
                 Home Country
               </label>
-              <select name="home_country" class="select2-multiple select2-hidden-accessible" multiple="multiple"
+              <select id="homeCountrySelect2" name="home_country" class="select2-multiple select2-hidden-accessible" multiple="multiple"
                 tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
-                <optgroup label="Alaskan/Hawaiian Time Zone">
-                  <option value="AK">Alaska</option>
-                  <option value="HI" disabled="disabled">Hawaii</option>
-                </optgroup>
-                <optgroup label="Pacific Time Zone">
-                  <option value="CA">California</option>
-                  <option value="NV">Nevada</option>
-                  <option value="OR">Oregon</option>
-                  <option value="WA">Washington</option>
-                </optgroup>
-                <optgroup label="Eastern Time Zone">
-                  <option value="CT">Connecticut</option>
-                  <option value="DE">Delaware</option>
-                  <option value="FL">Florida</option>
-                  <option value="VT">Vermont</option>
-                  <option value="VA">Virginia</option>
-                  <option value="WV">West Virginia</option>
-                </optgroup>
-                <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
-                <option value="TPZ">The Panic Zone</option>
-                <option value="TTZ">The Twilight Zone</option>
+                {% for country in country_options %}
+                <option value="{{country}}">{{country}}</option>
+                {% endfor %}
               </select>
             </div>
             <!-- Study Abroad Country -->
@@ -590,29 +655,11 @@
               <label class="tag-label" for="study_abroad_country">
                 Study Abroad Country
               </label>
-              <select name="study_abroad_country" class="select2-multiple select2-hidden-accessible" multiple="multiple"
+              <select id="studyAbroadCountrySelect2" name="study_abroad_country" class="select2-multiple select2-hidden-accessible" multiple="multiple"
                 tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
-                <optgroup label="Alaskan/Hawaiian Time Zone">
-                  <option value="AK">Alaska</option>
-                  <option value="HI" disabled="disabled">Hawaii</option>
-                </optgroup>
-                <optgroup label="Pacific Time Zone">
-                  <option value="CA">California</option>
-                  <option value="NV">Nevada</option>
-                  <option value="OR">Oregon</option>
-                  <option value="WA">Washington</option>
-                </optgroup>
-                <optgroup label="Eastern Time Zone">
-                  <option value="CT">Connecticut</option>
-                  <option value="DE">Delaware</option>
-                  <option value="FL">Florida</option>
-                  <option value="VT">Vermont</option>
-                  <option value="VA">Virginia</option>
-                  <option value="WV">West Virginia</option>
-                </optgroup>
-                <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
-                <option value="TPZ">The Panic Zone</option>
-                <option value="TTZ">The Twilight Zone</option>
+                {% for country in country_options %}
+                <option value="{{country}}">{{country}}</option>
+                {% endfor %}
               </select>
             </div>
             <!-- Study Abroad School -->
@@ -620,29 +667,11 @@
               <label class="tag-label" for="study_abroad_school">
                 Study Abroad School
               </label>
-              <select name="study_abroad_school" class="select2-multiple select2-hidden-accessible" multiple="multiple"
+              <select id="studyAbroadSchoolSelect2" name="study_abroad_school" class="select2-multiple select2-hidden-accessible" multiple="multiple"
                 tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
-                <optgroup label="Alaskan/Hawaiian Time Zone">
-                  <option value="AK">Alaska</option>
-                  <option value="HI" disabled="disabled">Hawaii</option>
-                </optgroup>
-                <optgroup label="Pacific Time Zone">
-                  <option value="CA">California</option>
-                  <option value="NV">Nevada</option>
-                  <option value="OR">Oregon</option>
-                  <option value="WA">Washington</option>
-                </optgroup>
-                <optgroup label="Eastern Time Zone">
-                  <option value="CT">Connecticut</option>
-                  <option value="DE">Delaware</option>
-                  <option value="FL">Florida</option>
-                  <option value="VT">Vermont</option>
-                  <option value="VA">Virginia</option>
-                  <option value="WV">West Virginia</option>
-                </optgroup>
-                <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
-                <option value="TPZ">The Panic Zone</option>
-                <option value="TTZ">The Twilight Zone</option>
+                {% for school in school_options %}
+                <option value="{{school}}">{{school}}</option>
+                {% endfor %}
               </select>
             </div>
             <!-- Study Abroad Major -->
@@ -650,29 +679,11 @@
               <label class="tag-label" for="study_abroad_major">
                 Study Abroad Major
               </label>
-              <select name="study_abroad_major" class="select2-multiple select2-hidden-accessible" multiple="multiple"
+              <select id="studyAbroadMajorSelect2" name="study_abroad_major" class="select2-multiple select2-hidden-accessible" multiple="multiple"
                 tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
-                <optgroup label="Alaskan/Hawaiian Time Zone">
-                  <option value="AK">Alaska</option>
-                  <option value="HI" disabled="disabled">Hawaii</option>
-                </optgroup>
-                <optgroup label="Pacific Time Zone">
-                  <option value="CA">California</option>
-                  <option value="NV">Nevada</option>
-                  <option value="OR">Oregon</option>
-                  <option value="WA">Washington</option>
-                </optgroup>
-                <optgroup label="Eastern Time Zone">
-                  <option value="CT">Connecticut</option>
-                  <option value="DE">Delaware</option>
-                  <option value="FL">Florida</option>
-                  <option value="VT">Vermont</option>
-                  <option value="VA">Virginia</option>
-                  <option value="WV">West Virginia</option>
-                </optgroup>
-                <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
-                <option value="TPZ">The Panic Zone</option>
-                <option value="TTZ">The Twilight Zone</option>
+                {% for major in major_options %}
+                <option value="{{major}}">{{major}}</option>
+                {% endfor %}
               </select>
             </div>
             <!-- Study Abroad Year -->
@@ -698,7 +709,7 @@
               </div>
             </div>
             <!-- Living City -->
-            <div class="form-group">
+            {% comment %} <div class="form-group">
               <label class="tag-label" for="living_city">
                 Living City
               </label>
@@ -726,153 +737,21 @@
                 <option value="TPZ">The Panic Zone</option>
                 <option value="TTZ">The Twilight Zone</option>
               </select>
-            </div>
+            </div> {% endcomment %}
             <!-- Apply button -->
             <div class="text-center mb-lg">
-              <button class="btn btn-primary">Apply</button>
+              <button type="button" class="btn btn-primary" onclick="applyChange()">Apply</button>
             </div>
           </div>
         </form>
       </div>
       <!-- End Tags Section-->
-
+      
+      
+     
       <!-- Results area -->
-      <div class="col-lg-9 col-12">
-        <div class="d-flex flex-row justify-content-between mb-3">
-          <span class="text-primary" style="font-size: .9rem; font-weight: 600;">
-            46 resuts
-          </span>
-          <!-- Filter Button to show modal (apper when screen width < 992px) -->
-          <div class="d-lg-none">
-            <button class="btn-primary btn btn-sm"
-            data-toggle="modal" data-target="#updateFilter" 
-              data-placement="top" data-container="body" data-animation="true">
-              Filter
-            </button>
-          </div>
-        </div>
-        <!-- Resutls -->
-        <div class="card pb-5 px-4">
-          <div class="row">
-            <!-- user-1 -->
-            <div class="col-12 col-lg-4">
-              <div class="d-flex flex-row flex-lg-column justify-content-lg-center mt-lg-5">
-                <div class="align-self-center mr-3 mr-lg-0 mb-lg-3">
-                  <a href="">
-                    <img src="{% static 'img/faces/team-4.jpg' %}"
-                      class="img-fluid rounded-circle avatar-responsive">
-                  </a>
-                </div>
-                <div class="align-self-lg-center mx-2 list-border">
-                  <div class="list-name">
-                    Jessica Jones
-                      <img class="img-fluid rounded shadow ml-2 list-image"
-                        src="{% static 'img/brand/logo_current.png' %}">                    
-                  </div>
-                  <div class="text-muted font-weight-500 small d-none d-lg-block">
-                    from Japan to U.S.
-                  </div>
-                  <div class="list-uni mb-0">Harvard University</div>
-                  <div class="list-major">MBA <span class="text-muted font-weight-300"><small>(2020 ~
-                        2022)</small></span></div>
-                  <div class="font-weight-400 d-none d-lg-block"><small><i class="ni ni-pin-3 mr-2"></i>Boston,
-                      U.S.</small></div>
-                </div>
-                <div class="flex-grow-1 text-right text-lg-center list-border">
-                  <button class="mt-lg-3 btn btn-outline-primary btn-sm btn-icon btn-round"><i class="fa fa-plus"></i> follow</button>
-                </div>
-              </div>
-            </div>
-            <!-- user-2 -->
-            <div class="col-12 col-lg-4">
-              <div class="d-flex flex-row flex-lg-column justify-content-lg-center mt-lg-5">
-                <div class="align-self-center mr-3 mr-lg-0 mb-lg-3">
-                  <a href="">
-                    <img src="{% static 'img/faces/team-4.jpg' %}"
-                      class="img-fluid rounded-circle avatar-responsive">
-                  </a>
-                </div>
-                <div class="align-self-lg-center mx-2 list-border">
-                  <div class="list-name">
-                    Jessica Jones
-                      <img class="img-fluid rounded shadow ml-2 list-image"
-                        src="{% static 'img/brand/logo_current.png' %}">                    
-                  </div>
-                  <div class="text-muted font-weight-500 small d-none d-lg-block">
-                    from Japan to U.S.
-                  </div>
-                  <div class="list-uni mb-0">Harvard University</div>
-                  <div class="list-major">MBA <span class="text-muted font-weight-300"><small>(2020 ~
-                        2022)</small></span></div>
-                  <div class="font-weight-400 d-none d-lg-block"><small><i class="ni ni-pin-3 mr-2"></i>Boston,
-                      U.S.</small></div>
-                </div>
-                <div class="flex-grow-1 text-right text-lg-center list-border">
-                  <button class="mt-lg-3 btn btn-outline-primary btn-sm btn-icon btn-round"><i class="fa fa-plus"></i> follow</button>
-                </div>
-              </div>
-            </div>
-            <!-- user-3 -->
-            <div class="col-12 col-lg-4">
-              <div class="d-flex flex-row flex-lg-column justify-content-lg-center mt-lg-5">
-                <div class="align-self-center mr-3 mr-lg-0 mb-lg-3">
-                  <a href="">
-                    <img src="{% static 'img/faces/team-4.jpg' %}"
-                      class="img-fluid rounded-circle avatar-responsive">
-                  </a>
-                </div>
-                <div class="align-self-lg-center mx-2 list-border">
-                  <div class="list-name">
-                    Jessica Jones
-                      <img class="img-fluid rounded shadow ml-2 list-image"
-                        src="{% static 'img/brand/logo_current.png' %}">                    
-                  </div>
-                  <div class="text-muted font-weight-500 small d-none d-lg-block">
-                    from Japan to U.S.
-                  </div>
-                  <div class="list-uni mb-0">Harvard University</div>
-                  <div class="list-major">MBA <span class="text-muted font-weight-300"><small>(2020 ~
-                        2022)</small></span></div>
-                  <div class="font-weight-400 d-none d-lg-block"><small><i class="ni ni-pin-3 mr-2"></i>Boston,
-                      U.S.</small></div>
-                </div>
-                <div class="flex-grow-1 text-right text-lg-center list-border">
-                  <button class="mt-lg-3 btn btn-outline-primary btn-sm btn-icon btn-round"><i class="fa fa-plus"></i> follow</button>
-                </div>
-              </div>
-            </div>
-            <!-- user-4 -->
-            <div class="col-12 col-lg-4">
-              <div class="d-flex flex-row flex-lg-column justify-content-lg-center mt-lg-5">
-                <div class="align-self-center mr-3 mr-lg-0 mb-lg-3">
-                  <a href="">
-                    <img src="{% static 'img/faces/team-4.jpg' %}"
-                      class="img-fluid rounded-circle avatar-responsive">
-                  </a>
-                </div>
-                <div class="align-self-lg-center mx-2 list-border">
-                  <div class="list-name">
-                    Jessica Jones
-                      <img class="img-fluid rounded shadow ml-2 list-image"
-                        src="{% static 'img/brand/logo_current.png' %}">                    
-                  </div>
-                  <div class="text-muted font-weight-500 small d-none d-lg-block">
-                    from Japan to U.S.
-                  </div>
-                  <div class="list-uni mb-0">Harvard University</div>
-                  <div class="list-major">MBA <span class="text-muted font-weight-300"><small>(2020 ~
-                        2022)</small></span></div>
-                  <div class="font-weight-400 d-none d-lg-block"><small><i class="ni ni-pin-3 mr-2"></i>Boston,
-                      U.S.</small></div>
-                </div>
-                <div class="flex-grow-1 text-right text-lg-center list-border">
-                  <button class="mt-lg-3 btn btn-outline-primary btn-sm btn-icon btn-round"><i class="fa fa-plus"></i> follow</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- End resutls -->
+      <div id="result-area" class="col-lg-9 col-12">
+      {% include "./result.html" %}
       </div>
       <!-- End results area -->
     </div>

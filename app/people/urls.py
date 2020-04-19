@@ -1,8 +1,9 @@
-from django.urls import path, re_path
-from .views import PeopleView
+from django.urls import path
+from .views import PeopleView, update_result
 
 app_name="people"
 
 urlpatterns = [
-    re_path(r'^', PeopleView.as_view(), name="index"),
+    path('search', update_result, name="search"),
+    path('', PeopleView.as_view(), name="index"),
 ]

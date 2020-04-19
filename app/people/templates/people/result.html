@@ -1,0 +1,82 @@
+{% load static %}
+
+<div class="d-flex flex-row justify-content-between mb-3">
+    <div>
+    {% if searched %}
+    <span class="text-primary mt-3" style="font-size: .9rem; font-weight: 600;">
+    {{result.count}} result{{ result|pluralize }} found
+    </span>
+    {% endif %}
+    </div>
+    <!-- Filter Button to show modal (apper when screen width < 992px) -->
+    <div class="d-lg-none">
+    <button class="btn-primary btn btn-sm"
+    data-toggle="modal" data-target="#updateFilter" 
+        data-placement="top" data-container="body" data-animation="true">
+        Filter
+    </button>
+    </div>
+</div>
+<!-- Resutls -->
+{% if result %}
+<div class="card py-5 px-4">
+{% for basic_info in result %}
+{% if forloop.counter0|divisibleby:3 %}
+<div class="row">
+{% endif %}
+    <!-- user-1 -->
+    <div class="col-12 col-lg-4">
+        <div class="d-flex flex-row flex-lg-column justify-content-lg-center my-lg-4">
+            <div class="align-self-center mr-3 mr-lg-0 mb-lg-3">
+                <a href="">
+                {% if basic_info.user.profile_image.image %}
+                <img src="{{ basic_info.user.profile_image.image.url }}"
+                    class="img-fluid rounded-circle avatar-responsive">
+                {% else %}
+                <img src="{% static 'img/placeholder.jpg' %}"
+                    class="img-fluid rounded-circle avatar-responsive">
+                {% endif %}
+                </a>
+            </div>
+            <div class="align-self-lg-center mx-2 list-border">
+                <div class="list-name">
+                {{ basic_info.name }}
+                    {% if basic_info.status == "FU"%}
+                    <img class="img-fluid rounded shadow ml-2 list-image"
+                    src="{% static 'img/brand/logo_current.png' %}">  
+                    {% elif basic_info.status == "CU" %}
+                    <img class="img-fluid rounded shadow ml-2 list-image"
+                    src="{% static 'img/brand/logo_current.png' %}">
+                    {% elif basic_info.status == "AL" %}
+                    <img class="img-fluid rounded shadow ml-2 list-image"
+                    src="{% static 'img/brand/logo_alumni.png' %}">
+                    {% endif %}                   
+                </div>
+                <div class="text-muted font-weight-500 small d-none d-lg-block">
+                from {{ basic_info.country_origin }} to {{ basic_info.country_study_abroad }}
+                </div>
+                {% with basic_info.user.study_abroad.education as user_education %}
+                {% if user_education %}
+                <div class="list-uni mb-0">{{ user_education.school }}</div>
+                <div class="list-major">{{ user_education.major }} <span class="text-muted font-weight-300">
+                    <small>({{ user_education.start_year }} ~ {{ user_education.end_year }})</small>
+                </div>
+                {% endif %}
+                {% comment %} <div class="font-weight-400 d-none d-lg-block"><small><i class="ni ni-pin-3 mr-2"></i>Boston,
+                    U.S.</small></div> {% endcomment %}
+                {% endwith %}
+                
+            </div>
+            <div class="flex-grow-1 text-right text-lg-center list-border">
+                <button class="mt-lg-3 btn btn-outline-primary btn-sm btn-icon btn-round"><i class="fa fa-plus"></i> follow</button>
+            </div>
+        </div>
+    </div>
+{% if forloop.counter0|divisibleby:3 %}
+</div>
+{% endif %}
+{% endfor %}
+{% endif %}
+</div>
+<!-- End resutls -->
+

@@ -93,7 +93,7 @@ class Education(History):
     # status = models.CharField(max_length=30, choices=EducationStatus.choices, default=EducationStatus.CURRENT)
     
     def __str__(self):
-        return self.school + " (" + self.start_year + " - " + self.end_year + ")"
+        return self.school + " (" + str(self.start_year) + " - " + str(self.end_year) + ")"
 
 
 class StudyAbroad(models.Model):
