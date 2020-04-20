@@ -28,7 +28,7 @@
     <div class="col-12 col-lg-4">
         <div class="d-flex flex-row flex-lg-column justify-content-lg-center my-lg-4">
             <div class="align-self-center mr-3 mr-lg-0 mb-lg-3">
-                <a href="">
+                <a href="{% url 'accounts:account-page' basic_info.user.username %}">
                 {% if basic_info.user.profile_image.image %}
                 <img src="{{ basic_info.user.profile_image.image.url }}"
                     class="img-fluid rounded-circle avatar-responsive">
@@ -67,9 +67,15 @@
                 {% endwith %}
                 
             </div>
-            <div class="flex-grow-1 text-right text-lg-center list-border">
-                <button class="mt-lg-3 btn btn-outline-primary btn-sm btn-icon btn-round"><i class="fa fa-plus"></i> follow</button>
-            </div>
+            {% comment %} <div class="flex-grow-1 text-right text-lg-center list-border">
+                <form action="{% url 'accounts:follow' basic_info.user.username %}">
+                    {% csrf_token %}
+                    <button type="submit" class="mt-lg-3 btn btn-outline-primary btn-sm btn-icon btn-round">
+                        <i class="fa fa-plus"></i>
+                        follow
+                    </button>
+                </form>
+            </div> {% endcomment %}
         </div>
     </div>
 {% if forloop.counter0|divisibleby:3 %}
