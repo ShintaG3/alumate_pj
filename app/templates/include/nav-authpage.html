@@ -1,7 +1,7 @@
 {% load static %}
 <nav id="navbar-main" class="navbar navbar-main navbar-expand-lg navbar-dark bg-default headroom">
   <div class="container">
-    <a class="navbar-brand" href="/">
+    <a class="navbar-brand py-0" href="/">
       <img src="{% static 'img/brand/logo_text_alumate_dark.png' %}" style="width:124px; height: auto;">
       
     </a>
@@ -28,7 +28,7 @@
       <ul class="navbar-nav mx-auto">
         <!-- home -->
         <li class="nav-item">
-          <a href="/" class="nav-link">
+          <a href="/" class="nav-link py-lg-0">
             <!-- <span class="mx-2" style="font-size: 1.4em; color: #f3f4f6;"> -->
             <span class="d-lg-none">
               <i class="fa fa-home mr-1"></i>
@@ -38,7 +38,7 @@
         </li>
         <!-- people -->
         <li class="nav-item">
-          <a href="{% url 'people:people' %}" class="nav-link">
+          <a href="{% url 'people:people' %}" class="nav-link py-lg-0">
             <!-- <span class="mx-2" style="font-size: 1.4em; color: #f3f4f6;"> -->
             <span class="d-lg-none"> 
               <i class="fa fa-users mr-1"></i>
@@ -48,7 +48,7 @@
         </li>
         <!-- inquiry -->
         <li class="nav-item">
-          <a href="{% url 'inquiry:inquiry' %}" class="nav-link">
+          <a href="{% url 'inquiry:inquiry' %}" class="nav-link py-lg-0">
             <!-- <span class="mx-2" style="font-size: 1.5em; color: #f3f4f6;"> -->
             <span class="d-lg-none">
               <i class="fa fa-question ml-1 mr-2"></i>
@@ -67,7 +67,7 @@
         </li> -->
         <!-- message -->
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'message:index' %}">
+          <a class="nav-link py-lg-0" href="{% url 'message:index' %}">
             <!-- <span class="mx-2 " style="font-size: 1.5em; color: #f3f4f6;"> -->
             <span class="d-lg-none">
               <i class="fa fa-comments mr-1"></i>
@@ -76,9 +76,9 @@
           </a>
         </li>
       </ul>
-      <ul class="navbar-nav navbar-right navbar-nav-hover ml-lg-5 pl-lg-5">
+      <ul class="navbar-nav navbar-right navbar-nav-hover ml-lg-5 pl-lg-5 py-lg-0">
         <!-- account -->
-        <li class="nav-item dropdown" style="position: relative; top: 5px">
+        <li class="nav-item dropdown" style="line-height: 100%;">
           <a href="javascript:;" class="avatar avatar-sm rounded-circle" data-toggle="dropdown" role="button">
             {% if user.profile_image %}
             <img src={{ user.profile_image.image.url }} />
