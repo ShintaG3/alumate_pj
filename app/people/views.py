@@ -14,7 +14,8 @@ class PeopleView(LoginRequiredMixin, TemplateView):
     template_name = 'people/people.html'
 
     def get_context_data(self, **kwargs):
-        all_basic_info = BasicInfo.objects.all()
+        user = self.request.user
+        all_basic_info = BasicInfo.objects.exclude(user=user)
         all_educations = Education.objects.all()
         home_country_options = all_basic_info.values_list('country_origin', flat=True).distinct()
         study_abroad_country_options = all_basic_info.values_list('country_study_abroad', flat=True).distinct()
@@ -39,12 +40,12 @@ def update_result(request, *args, **kwargs):
         query_params[key.replace('[]', '')] = value
 
     # relative_url = '{}?{}'.format((reverse('people:index')), urlencode(query_params))
-    search_result = get_search_result(query_params)
+    search_result = get_search_result(query_params, request.user)
     print(search_result)
     return render(request, 'people/result.html', context={'result': search_result, 'searched': True})
 
-def get_search_result(query_params):
-    search_result = BasicInfo.objects.all()
+def get_search_result(query_params, user):
+    search_result = BasicInfo.objects.exclude(user)
     search_result_education = Education.objects.all()
     for key in query_params.keys():
         value_list = query_params.get(key)
