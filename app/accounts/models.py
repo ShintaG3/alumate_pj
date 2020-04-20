@@ -52,7 +52,7 @@ class Profile(models.Model):
     birthday = models.IntegerField(null=True)
 
     def __str__(self):
-        return self.user.username
+        return self.user.__str__()
 
 class CurrentStatus(models.TextChoices):
     FUTURE_STUDENT = 'FU', _('Future Student'),
@@ -68,28 +68,28 @@ class BasicInfo(models.Model):
     # living_city = models.ForeignKey('City', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
-        return self.user.username
+        return self.user.__str__()
     
 class ProfileImage(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name="profile_image")
     image = ResizedImageField(upload_to='images/', size=[180, 180], crop=['middle', 'center'], quality=100)
     
     def __str__(self):
-        return self.user.username + "'s profile image"
+        return self.user.__str__() + "'s profile image"
     
 class Goal(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     body = models.CharField(max_length=30)
 
     def __str__(self):
-        return self.user.username + "'s goal: " + self.body
+        return self.user.__str__() + "'s goal: " + self.body
 
 class StudyInterest(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     body = models.CharField(max_length=30)
     
     def __str__(self):
-        return self.user.username + "'s study interest: " + self.body
+        return self.user.__str__() + "'s study interest: " + self.body
 
 
 class About(models.Model):
@@ -97,7 +97,7 @@ class About(models.Model):
     body = models.CharField(max_length=2000, null=True, blank=True)
     
     def __str__(self):
-        return self.user.username + "'s about: " + self.body[:10]
+        return self.user.__str__() + "'s about: " + self.body[:10]
 
 class EducationStatus(models.TextChoices):
     CURRENT = 'C', _('I am currently studying at this school'),
@@ -112,7 +112,7 @@ class History(models.Model):
     
     class Meta:
         abstract = True
-        ordering= ['-end_year', '-start_year']
+        ordering = ['-end_year', '-start_year']
     
 class Education(History):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='educations')
@@ -122,7 +122,7 @@ class Education(History):
     # status = models.CharField(max_length=30, choices=EducationStatus.choices, default=EducationStatus.CURRENT)
     
     def __str__(self):
-        return self.school + " (" + str(self.start_year) + " - " + str(self.end_year) + ")"
+        return self.school.__str__() + " (" + str(self.start_year) + " - " + str(self.end_year) + ")"
 
 
 class StudyAbroad(models.Model):
@@ -141,7 +141,7 @@ class WorkExperience(History):
     # status = models.CharField(max_length=30, choices=WorkStatus.choices, default=WorkStatus.PAST)
     
     def __str__(self):
-        return self.user.username + ' worked at ' + self.company + ' as ' + self.position 
+        return self.user.__str__() + ' worked at ' + self.company + ' as ' + self.position 
     
 class Scholarship(History):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -155,21 +155,21 @@ class SocialLink(models.Model):
     url = models.URLField()
 
     def __str__(self):
-        return 
+        return self.user.__str__() + "'s link: " + self.title
 
 class City(models.Model):
     city_name = models.CharField(max_length=50)
     country = models.ForeignKey('Country', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        return self.city_name + ', ' + self.country.country_name
+        return self.city_name + ', ' + self.country.__str__()
 
 class Follow(models.Model):
     follower = models.ForeignKey(User, on_delete=models.CASCADE, related_name="following_users")
     followed = models.ForeignKey(User, related_name='followed_users', on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.follower.username + ' following ' + self.followed.username
+        return self.follower.__str__() + ' following ' + self.followed.__str__()
 
 # class Message(models.Model):
 #     sender = models.ForeignKey(UserProfile, on_delete=models.SET_NULL, null=True, related_name='message_sender')
