@@ -75,8 +75,27 @@
             Messages
           </a>
         </li>
+        <!-- account page -->
+        <li class="nav-item d-lg-none">
+          <a class="nav-link" href="{% url 'accounts:account-page' user.username %}">
+            <i class="ni ni-compass-04 text-muted"></i>
+            Account Page
+          </a>          
+        </li>
+        <li class="nav-item d-lg-none">
+          <a class="nav-link" href="{% url 'accounts:account-edit' %}">
+            <i class="ni ni-lock-circle-open text-muted"></i>
+            Account Settings
+          </a>          
+        </li>
+        <li class="nav-item d-lg-none">
+          <a class="nav-link" href="{% url 'auths:logout' %}">
+            <i class="ni ni-tv-2 text-danger"></i>
+            Logout
+          </a>          
+        </li>
       </ul>
-      <ul class="navbar-nav navbar-right navbar-nav-hover ml-lg-5 pl-lg-5 py-lg-0">
+      <ul class="d-none d-lg-block navbar-nav navbar-right navbar-nav-hover ml-lg-5 pl-lg-5 py-lg-0">
         <!-- account -->
         <li class="nav-item dropdown" style="line-height: 100%;">
           <a href="javascript:;" class="avatar avatar-sm rounded-circle" data-toggle="dropdown" role="button">
