@@ -117,7 +117,7 @@ class History(models.Model):
 class Education(History):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='educations')
     school = models.ForeignKey(School, on_delete=models.CASCADE, related_name='educations')
-    major =  models.ForeignKey(Major, on_delete=models.CASCADE, related_name='educations')
+    major =  models.CharField(max_length=100, null=True, blank=True)
     is_study_abroad = models.BooleanField(default=False)
     # status = models.CharField(max_length=30, choices=EducationStatus.choices, default=EducationStatus.CURRENT)
     
