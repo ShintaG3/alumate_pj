@@ -1,9 +1,3 @@
-<!-- check out the this linke for noticle post function
-https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/quill.html -->
-<!-- 
-this link for tag option for the inquiry post and noticle post
-https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
-
 {% extends 'base-authpage.html' %}
 {% load static %}
 {% load widget_tweaks %}
@@ -13,7 +7,23 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
 
 
 {% block style %}
+<!-- select2 -->
+<link type="text/css" href="{% static 'vendor/select2/css/select2.min.css' %}" rel="stylesheet">
+<link type="text/css" href="{% static 'vendor/select2-bootstrap/select2-argon.min.css' %}" rel="stylesheet">
+
 <style>
+   .tooltip-inner {
+    text-align: left;
+  }
+  /* overwright select2.min.css */
+  .select2-container--open .select2-dropdown--below{
+    border:none;
+  }
+  .select2-container--open .select2-dropdown--above{
+    border:none;
+  }
+
+  /* Card animation */
   .card-zoom[data-animation=zooming] {
       transition: all .3s cubic-bezier(.2,1,.22,1);
       -webkit-transition: all .3s cubic-bezier(.2,1,.22,1);
@@ -23,6 +33,8 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
   -webkit-transform: scale(1.07);
   z-index: 2;
   }
+
+  /* sidebar */
   .sidebar {
     position: fixed;
     top: 0;
@@ -72,32 +84,203 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
     font-weight: 600;
   }
 
+  /* tagsinput overwrite */
+  /* .bootstrap-tagsinput .badge {
+    line-height: 1;
+    padding: .35rem .375rem;
+  }
+  
+  .bootstrap-tagsinput .badge-default {
+    background: #172b4d;
+  }
+  .bootstrap-tagsinput .badge-primary {
+    background: #5e72e4;
+  }
+  .bootstrap-tagsinput .badge-success {
+    background: #2dce89;
+  }
+
+  .bootstrap-tagsinput .badge-danger {
+    background: #f5365c;
+  }
+
+  .bootstrap-tagsinput .badge-secondary {
+    background: #f4f5f7;
+    color: #212529;
+  }
+  .bootstrap-tagsinput .badge-gray-500 {
+    background: #adb5bd;
+  } */
+
+  /* tags */
+  .tag-label {
+    border-bottom: .0625rem solid rgba(0,0,0,.05);
+    display: block;
+    padding:.25rem 0;
+    color:#172b4d;
+  }
+  .tags-section {
+    /* max-width: 15rem; */
+    width:12rem;
+    margin-right: 1.5rem;
+    flex: 0 1 27%;
+    text-align: left;
+  }
+  .tags-section .form-group {
+    margin-bottom: 30px;
+  }
+  .select2 {
+  font-family: 'FontAwesome'
+  }
+</style>
+
+<!-- Slider -->
+<link href="{% static 'vendor/nouislider/css/nouislider.min.css' %}" rel="stylesheet">
+<style>
+  .slider-year {
+    font-weight: 700;
+    font-size: .75rem;
+    display: block;
+  }
+
 </style>
 {% endblock %}
 
 {% block scripts %}
 <script>
   var reader = new FileReader();
-  
   function readURL(input) {
     if (input.files && input.files[0]) {
       reader.onload = function(e) {
         $('#image-preview-container').attr('class', 'd-block');
         $('#post-preview-image').attr('src', e.target.result);
       }
-      
       reader.readAsDataURL(input.files[0]); // convert to base64 string
     }
   }
-
   $("#post-image-input").change(function() {
     readURL(this);
   });
-
   function checkUserLikedComment(user, comment) {
-
   }
 </script>
+
+<!-- Select2 -->
+<script src="{% static 'vendor/anchor-js/anchor.min.js' %}"></script>
+<script src="{% static 'vendor/select2/js/select2.full.js' %}"></script>
+<!-- Select2 config -->
+<script>
+  $.fn.select2.defaults.set("theme", "bootstrap");
+  $(".select2-single, .select2-multiple").select2({
+    placeholder: function(){
+      $(this).data('placeholder');
+    },
+    width: null,
+    containerCssClass: ':all:',
+    escapeMarkup: function(m) { 
+       return m; 
+    },
+  });
+  $(".select2-single, .select2-multiple, .select2-allow-clear, .js-data-example-ajax").on("select2:open", function () {
+    if ($(this).parents("[class*='has-']").length) {
+      var classNames = $(this).parents("[class*='has-']")[0].className.split(/\s+/);
+      for (var i = 0; i < classNames.length; ++i) {
+        if (classNames[i].match("has-")) {
+          $("body > .select2-container").addClass(classNames[i]);
+        }
+      }
+    }
+  });
+</script>
+
+<!-- Tags -->
+<!-- <script>
+  Tags = function () {
+    var e = $('[data-toggle="tags"]');
+    e.length && e.each(function () {
+      $(this).tagsinput({
+        tagClass: "badge badge-primary"
+      })
+    })
+    var s = $('[data-toggle="tags-default"]');
+    s.length && s.each(function () {
+      $(this).tagsinput({
+        tagClass: "badge badge-default"
+      })
+    })
+    var s = $('[data-toggle="tags-success"]');
+    s.length && s.each(function () {
+      $(this).tagsinput({
+        tagClass: "badge badge-success"
+      })
+    })
+    var d = $('[data-toggle="tags-danger"]');
+    d.length && d.each(function () {
+      $(this).tagsinput({
+        tagClass: "badge badge-danger"
+      })
+    })
+    var d = $('[data-toggle="tags-secondary"]');
+    d.length && d.each(function () {
+      $(this).tagsinput({
+        tagClass: "badge badge-secondary"
+      })
+    })
+    var d = $('[data-toggle="tags-gray-500"]');
+    d.length && d.each(function () {
+      $(this).tagsinput({
+        tagClass: "badge badge-gray-500"
+      })
+    })
+  }();
+</script> -->
+
+<!-- noUIslider for Study abroad year-->
+<script>
+  var startYear = document.getElementById("startYear"),
+    startYear_start = document.getElementById("startYear_start"),
+    startYear_start_input = document.getElementById("startYear_start_input"),
+    startYear_end = document.getElementById("startYear_end"),
+    startYear_end_input = document.getElementById("startYear_end_input"),
+    starYear_span = [startYear_start, startYear_end];
+    starYear_input = [startYear_start_input, startYear_end_input];
+  noUiSlider.create(startYear, {
+    start: [parseInt(startYear_start.getAttribute('data-range-value-low')), parseInt(startYear_end.getAttribute('data-range-value-high'))],
+    // tooltips: [true, true],
+    connect: !0,
+    start: ['2000', '2010'],
+    step: 1,
+    range: {
+      min: parseInt(startYear.getAttribute('data-range-value-min')),
+      max: parseInt(startYear.getAttribute('data-range-value-max'))
+    }
+  }), startYear.noUiSlider.on("update", function (a, b) {
+    starYear_span[b].textContent = Math.round(a[b])
+    starYear_input[b].value = Math.round(a[b])
+  })
+  var endYear = document.getElementById("endYear"),
+    endYear_start = document.getElementById("endYear_start"),
+    endYear_start_input = document.getElementById("endYear_start_input"),
+    endYear_end = document.getElementById("endYear_end"),
+    endYear_end_input = document.getElementById("endYear_end_input"),
+    endYear_span = [endYear_start, endYear_end];
+    endYear_input = [endYear_start_input, endYear_end_input];
+  noUiSlider.create(endYear, {
+    start: [parseInt(endYear_start.getAttribute('data-range-value-low')), parseInt(endYear_end.getAttribute('data-range-value-high'))],
+    // tooltips: [true, true],
+    connect: !0,
+    start: ['2000', '2010'],
+    step: 1,
+    range: {
+      min: parseInt(endYear.getAttribute('data-range-value-min')),
+      max: parseInt(endYear.getAttribute('data-range-value-max'))
+    }
+  }), endYear.noUiSlider.on("update", function (a, b) {
+    endYear_span[b].textContent = Math.round(a[b])
+    endYear_input[b].value = Math.round(a[b])
+  })
+</script>
+
 {% endblock %}
 
 {% load tz %}
@@ -105,7 +288,7 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
 <div class="wrapper">
     <section class="section section-blog-info">
         <!-- side bar -->
-        <nav class="col-md-3 d-none d-md-block">
+        <!-- <nav class="col-md-3 d-none d-md-block">
             <div class="sidebar-sticky sidebar">
               <ul class="nav flex-column">
                 <li class="nav-item">
@@ -128,18 +311,9 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
                       Noticles
                   </a>
                 </li>
-                
-                <!-- <li class="nav-item">
-                  <a class="nav-link" href="#" data-toggle="popover" data-placement="top" data-content="Oops! This function is coming soon!">
-                    <span>
-                      <i class="fa fa-comments"></i>
-                    </span>
-                    Messages
-                  </a>
-                </li> -->
               </ul>
             </div>
-        </nav>
+        </nav> -->
 
         <!-- post area -->
         <div class="container">
@@ -154,13 +328,13 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
                       Post
                     </a>
                   </li>
-                  <li class="nav-item">
-                    <!-- <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-2-tab" data-toggle="tab" href="#tabs-icons-text-2" role="tab" aria-controls="tabs-icons-text-2" aria-selected="false"> -->
+                  <!-- <li class="nav-item">
+                    <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-2-tab" data-toggle="tab" href="#tabs-icons-text-2" role="tab" aria-controls="tabs-icons-text-2" aria-selected="false">
                     <a class="nav-link mb-sm-3 mb-md-0" href="#" data-toggle="popover" data-placement="top" data-content="Oops! This function is coming soon!">
                       <i class="ni ni-collection mr-2"></i>
                       Noticle
                     </a>
-                  </li>
+                  </li> -->
                   <li class="nav-item">
                     <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-3-tab" data-toggle="tab" href="#tabs-icons-text-3" role="tab" aria-controls="tabs-icons-text-3" aria-selected="false">
                       <i class="fa fa-question mr-2"></i>
@@ -170,10 +344,10 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
                 </ul>
               </div>
               <div class="card shadow">
-                <div class="card-body">
+                <div class="card-body p-0">
                   <div class="tab-content" id="myTabContent">
                     <!-- Post -->
-                    <div class="tab-pane fade active show" id="tabs-icons-text-1" role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">
+                    <div class="tab-pane p-4 fade active show" id="tabs-icons-text-1" role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">
                       <form action="" method="POST" enctype="multipart/form-data">
                       {% csrf_token %}
                         <div class="media align-items-center">
@@ -205,9 +379,10 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
                         </div>
                       </form>
                     </div>
+                    <!-- End Post -->
 
                     <!-- Noticle -->
-                    <div class="tab-pane fade" id="tabs-icons-text-2" role="tabpanel" aria-labelledby="tabs-icons-text-2-tab">
+                    <!-- <div class="tab-pane p-4 fade" id="tabs-icons-text-2" role="tabpanel" aria-labelledby="tabs-icons-text-2-tab">
                       <div class="media align-items-center">
                         <img alt="Image placeholder" class="avatar avatar-lg rounded-circle mb-4" src="
                         {% if user.profile_image %}
@@ -228,106 +403,231 @@ https://demos.creative-tim.com/argon-dashboard-pro/docs/plugins/tags.html -->
                           <span class="btn-inner--text">Noticle</span>
                         </button>
                       </div>
-                    </div>
+                    </div> -->
+                    <!-- End Noticle -->
 
                     <!-- Ask -->
-                    <div class="tab-pane fade" id="tabs-icons-text-3" role="tabpanel" aria-labelledby="tabs-icons-text-3-tab">
-                      <div class="media align-items-center">
-                        <img alt="Image placeholder" class="avatar avatar-lg rounded-circle mb-4" src="
-                        {% if user.profile_image %}
-                        {{ user.profile_image.image.url }}
-                        {% else %}
-                        {% static 'img/placeholder.jpg' %}
-                        {% endif %}
-                        ">
-                        <div class="media-body">
-                          <form>
-                            <div class="form-group">
+                    <div class="tab-pane p-4 fade bg-secondary" id="tabs-icons-text-3" role="tabpanel" aria-labelledby="tabs-icons-text-3-tab" style="border-radius: 0.25rem;">
+                      <form>
+                        <div class="d-flex flex-wrap">
+                          <!-- Inquiry -->
+                          <div class="order-1 order-lg-2 flex-grow-1" style="min-width: 300px;">
+                            <!-- <div class="mb-3">
+                              <span class="text-primary" style="font-size: 1rem;">
+                                <small>Expected answers are
+                                  <span class="font-weight-bold">many</span>
+                                </small>
+                              </span>
+                            </div> -->
+                            <!-- Input feeld -->
+                            <div class="mb-3">
                               <input type="text" class="form-control" placeholder="Title" ></input>
                             </div>
-                            <div class="form-group">
-                              <textarea class="form-control" placeholder="Write your question" rows="3"></textarea>
+                            <div class="mb-4">
+                              <textarea class="form-control" placeholder="Write your question" rows="15"></textarea>
                             </div>
-                            <div class="form-group bg-secondary">
-                              <div class="container mt-1">
-                                <div class="row">
-                                  <div class="col mt-3 mb-3">
-                                    <i class="ni ni-tag"></i>
-                                    <span>Tags</span>
-                                  </div>
+                            <!-- Ask Button -->
+                            <div class="text-right mb-4 ml-auto">
+                              <button type="button" class="btn btn-sm btn-primary btn-icon">
+                                <span class="btn-inner--icon icon-big"><i class="fa fa-question"></i></span>
+                                <span class="btn-inner--text">Ask</span>
+                              </button>
+                            </div>
+                          </div>
+                          <!-- Tags Section -->
+                          <div class="order-2 order-lg-1">
+                            <div class="mr-3 tags-section">
+                              <div class="display-4 mb-4">Tags<small class="text-muted align-baseline ml-2" data-toggle="tooltip" data-placement="top" title="You can add tags! The inquiry appers in the tagged people's feed." data-container="body" data-animation="true"><i class="fa fa-question-circle-o" ></i></small></div>
+                              <!-- Alumate status -->
+                              <div class="form-group focused">
+                                <span class="tag-label">                                  
+                                  Alumate Status
+                                </span>
+                                <div class="custom-control custom-checkbox my-3">
+                                  <input class="custom-control-input" id="customCheck1" type="checkbox">
+                                  <label class="custom-control-label" for="customCheck1"><i class="fa fa-tag text-muted mr-2"></i>Future Student</label>
                                 </div>
-                                <div class="row">
-                                  <div class="col-md-8">
-                                    <div class="input-group input-group-alternative mb-4">
-                                      <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
-                                      </div>
-                                      <input class="form-control" placeholder="Country" type="text">
-                                    </div>
-                                  </div>  
-                                  <div class="col-md-8">
-                                    <div class="input-group input-group-alternative mb-4">
-                                      <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
-                                      </div>
-                                      <input class="form-control" placeholder="School" type="text">
-                                    </div>
-                                  </div>  
-                                  <div class="col-md-8">
-                                    <div class="input-group input-group-alternative mb-4">
-                                      <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
-                                      </div>
-                                      <input class="form-control" placeholder="Course" type="text">
-                                    </div>
-                                  </div>  
-                                  <div class="col-md-8">
-                                    <div class="input-group input-group-alternative mb-4">
-                                      <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
-                                      </div>
-                                      <input class="form-control" placeholder="Year of study abroad" type="text">
-                                    </div>
-                                  </div>  
-                                  <div class="col-md-8">
-                                    <div class="input-group input-group-alternative mb-4">
-                                      <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
-                                      </div>
-                                      <input class="form-control" placeholder="Job before study abroad" type="text">
-                                    </div>
-                                  </div>  
-                                  <div class="col-md-8">
-                                    <div class="input-group input-group-alternative mb-4">
-                                      <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
-                                      </div>
-                                      <input class="form-control" placeholder="Job after study abroad" type="text">
-                                    </div>
-                                  </div>  
-                                  <div class="col-md-8">
-                                    <div class="input-group input-group-alternative mb-4">
-                                      <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
-                                      </div>
-                                      <input class="form-control" placeholder="Keyword" type="text">
-                                    </div>
-                                  </div>  
-                                </div>  
-
+                                <div class="custom-control custom-checkbox my-3">
+                                  <input class="custom-control-input" id="customCheck2" type="checkbox">
+                                  <label class="custom-control-label" for="customCheck2"><i class="fa fa-tag text-muted mr-2"></i>Current Student</label>
+                                </div>
+                                <div class="custom-control custom-checkbox my-3">
+                                  <input class="custom-control-input" id="customCheck3" type="checkbox">
+                                  <label class="custom-control-label" for="customCheck3"><i class="fa fa-tag text-muted mr-2"></i>Alumni</label>
+                                </div>
+                              </div>
+                              <!-- Home Country -->
+                              <div class="form-group focused">
+                                <label class="tag-label" for="home_country">                                  
+                                  Home Country
+                                </label>
+                                <select name="home_country" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="&#xf02b  Add tags...">
+                                  <optgroup label="Alaskan/Hawaiian Time Zone">
+                                    <option value="AK">Alaska</option>
+                                    <option value="HI" disabled="disabled">Hawaii</option>
+                                  </optgroup>
+                                  <optgroup label="Pacific Time Zone">
+                                    <option value="CA">California</option>
+                                    <option value="NV">Nevada</option>
+                                    <option value="OR">Oregon</option>
+                                    <option value="WA">Washington</option>
+                                  </optgroup>
+                                  <optgroup label="Eastern Time Zone">
+                                    <option value="CT">Connecticut</option>
+                                    <option value="DE">Delaware</option>
+                                    <option value="FL">Florida</option>
+                                    <option value="VT">Vermont</option>
+                                    <option value="VA">Virginia</option>
+                                    <option value="WV">West Virginia</option>
+                                  </optgroup>
+                                  <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
+                                  <option value="TPZ">The Panic Zone</option>
+                                  <option value="TTZ">The Twilight Zone</option>
+                                </select>
+                              </div>
+                              <!-- Study Abroad Country -->
+                              <div class="form-group">
+                                <label class="tag-label" for="study_abroad_country">                                
+                                  Study Abroad Country
+                                </label>                                
+                                <select name="study_abroad_country" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="&#xf02b  Add tags...">
+                                  <optgroup label="Alaskan/Hawaiian Time Zone">
+                                    <option value="AK">Alaska</option>
+                                    <option value="HI" disabled="disabled">Hawaii</option>
+                                  </optgroup>
+                                  <optgroup label="Pacific Time Zone">
+                                    <option value="CA">California</option>
+                                    <option value="NV">Nevada</option>
+                                    <option value="OR">Oregon</option>
+                                    <option value="WA">Washington</option>
+                                  </optgroup>
+                                  <optgroup label="Eastern Time Zone">
+                                    <option value="CT">Connecticut</option>
+                                    <option value="DE">Delaware</option>
+                                    <option value="FL">Florida</option>
+                                    <option value="VT">Vermont</option>
+                                    <option value="VA">Virginia</option>
+                                    <option value="WV">West Virginia</option>
+                                  </optgroup>
+                                  <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
+                                  <option value="TPZ">The Panic Zone</option>
+                                  <option value="TTZ">The Twilight Zone</option>
+                                </select>
+                              </div>
+                              <!-- Study Abroad School -->
+                              <div class="form-group">
+                                <label class="tag-label" for="study_abroad_school">                                  
+                                  Study Abroad School
+                                </label>                                
+                                <select name="study_abroad_school" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="&#xf02b  Add tags...">
+                                  <optgroup label="Alaskan/Hawaiian Time Zone">
+                                    <option value="AK">Alaska</option>
+                                    <option value="HI" disabled="disabled">Hawaii</option>
+                                  </optgroup>
+                                  <optgroup label="Pacific Time Zone">
+                                    <option value="CA">California</option>
+                                    <option value="NV">Nevada</option>
+                                    <option value="OR">Oregon</option>
+                                    <option value="WA">Washington</option>
+                                  </optgroup>
+                                  <optgroup label="Eastern Time Zone">
+                                    <option value="CT">Connecticut</option>
+                                    <option value="DE">Delaware</option>
+                                    <option value="FL">Florida</option>
+                                    <option value="VT">Vermont</option>
+                                    <option value="VA">Virginia</option>
+                                    <option value="WV">West Virginia</option>
+                                  </optgroup>
+                                  <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
+                                  <option value="TPZ">The Panic Zone</option>
+                                  <option value="TTZ">The Twilight Zone</option>
+                                </select>
+                              </div>
+                              <!-- Study Abroad Major -->
+                              <div class="form-group">
+                                <label class="tag-label" for="study_abroad_major">                                 
+                                  Study Abroad Major
+                                </label>                                
+                                <select name="study_abroad_major" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="&#xf02b  Add tags...">
+                                  <optgroup label="Alaskan/Hawaiian Time Zone">
+                                    <option value="AK">Alaska</option>
+                                    <option value="HI" disabled="disabled">Hawaii</option>
+                                  </optgroup>
+                                  <optgroup label="Pacific Time Zone">
+                                    <option value="CA">California</option>
+                                    <option value="NV">Nevada</option>
+                                    <option value="OR">Oregon</option>
+                                    <option value="WA">Washington</option>
+                                  </optgroup>
+                                  <optgroup label="Eastern Time Zone">
+                                    <option value="CT">Connecticut</option>
+                                    <option value="DE">Delaware</option>
+                                    <option value="FL">Florida</option>
+                                    <option value="VT">Vermont</option>
+                                    <option value="VA">Virginia</option>
+                                    <option value="WV">West Virginia</option>
+                                  </optgroup>
+                                  <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
+                                  <option value="TPZ">The Panic Zone</option>
+                                  <option value="TTZ">The Twilight Zone</option>
+                                </select>
+                              </div>
+                              <!-- Study Abroad Year -->
+                              <div class="form-group">
+                                <label class="tag-label" for="home_countries">
+                                  Study Abroad Year
+                                </label>
+                                <div class="my-4">
+                                  <span class="slider-year">Start Year</span>
+                                  <input class="d-none" type="text" name="startYear_start_input" id="startYear_start_input">                                 
+                                  <input class="d-none" type="text" name="startYear_end_input" id="startYear_end_input">                                 
+                                  <span><small class="text-muted"><span data-range-value-low="1970" id="startYear_start"></span> - <span data-range-value-high="2040" id="startYear_end"></span></small></span>
+                                  <div id="startYear" data-range-value-min="1980" data-range-value-max="2030"></div>
+                                </div>
+                                <div class="my-4">
+                                  <span class="slider-year">End Year</span>    
+                                  <input class="d-none" type="text" name="endYear_start_input" id="endYear_start_input">                                 
+                                  <input class="d-none" type="text" name="endYear_end_input" id="endYear_end_input">                                 
+                                  <span><small class="text-muted"><span data-range-value-low="1970" id="endYear_start"></span> - <span data-range-value-high="2040" id="endYear_end"></span></small></span>
+                                  <div id="endYear" data-range-value-min="1980" data-range-value-max="2030"></div>
+                                </div>
+                              </div>
+                              <!-- Living City -->
+                              <div class="form-group">
+                                <label class="tag-label" for="living_city">                                  
+                                  Living City
+                                </label>
+                                <select name="living_city" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="&#xf02b  Add tags...">
+                                  <optgroup label="Alaskan/Hawaiian Time Zone">
+                                    <option value="AK">Alaska</option>
+                                    <option value="HI" disabled="disabled">Hawaii</option>
+                                  </optgroup>
+                                  <optgroup label="Pacific Time Zone">
+                                    <option value="CA">California</option>
+                                    <option value="NV">Nevada</option>
+                                    <option value="OR">Oregon</option>
+                                    <option value="WA">Washington</option>
+                                  </optgroup>
+                                  <optgroup label="Eastern Time Zone">
+                                    <option value="CT">Connecticut</option>
+                                    <option value="DE">Delaware</option>
+                                    <option value="FL">Florida</option>
+                                    <option value="VT">Vermont</option>
+                                    <option value="VA">Virginia</option>
+                                    <option value="WV">West Virginia</option>
+                                  </optgroup>
+                                  <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
+                                  <option value="TPZ">The Panic Zone</option>
+                                  <option value="TTZ">The Twilight Zone</option>
+                                </select>                               
                               </div>
                             </div>
-
-                          </form>
+                          </div>
+                          <!-- End Tags Section-->
                         </div>
-                      </div>
-                      <div class="text-right ml-auto">
-                        <button type="button" class="btn btn-sm btn-primary btn-icon">
-                          <span class="btn-inner--icon icon-big"><i class="fa fa-question"></i></span>
-                          <span class="btn-inner--text">Ask</span>
-                        </button>
-                      </div>
+                      </form>
                     </div>
+                    <!-- End Ask -->
 
                   </div>
                 </div>
