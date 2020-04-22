@@ -10,12 +10,41 @@ from django_resized import ResizedImageField
 
 current_year = date.today().year
 
+
+class School(models.Model):
+    name = models.CharField(max_length=120, primary_key=True)
+    country = models.ForeignKey('Country', on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return self.name
+    
+    class Meta:
+        ordering= ['name']
+
+class Major(models.Model):
+    name = models.CharField(max_length=120, primary_key=True)
+
+    def __str__(self):
+        return self.name
+    
+    class Meta:
+        ordering= ['name']
+
+class Country(models.Model):
+    name = models.CharField(max_length=70, primary_key=True)   # change in to choose filed
+    
+    def __str__(self):
+        return self.name
+    
+    class Meta:
+        ordering= ['name']
+
 class Gender(models.TextChoices):
     MALE = 'M', _('Male'),
     FEMALE = 'F', _('Female'),
     NON_BINARY = 'NB', _('Genderqueer/Non-Binary'),
     NO_ANSWER = 'NA', _('Prefer not to disclose')
-    
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
@@ -23,7 +52,7 @@ class Profile(models.Model):
     birthday = models.IntegerField(null=True)
 
     def __str__(self):
-        return self.user.username
+        return self.user.__str__()
 
 class CurrentStatus(models.TextChoices):
     FUTURE_STUDENT = 'FU', _('Future Student'),
@@ -34,33 +63,33 @@ class BasicInfo(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     name = models.CharField(max_length=40)
     status = models.CharField(max_length=20, choices=CurrentStatus.choices, default=CurrentStatus.CURRENT_STUDENT)
-    country_origin = models.CharField(max_length=50, null=True, blank=True)
-    country_study_abroad = models.CharField(max_length=50, null=True, blank=True)
+    country_origin = models.ForeignKey(Country, on_delete=models.SET_NULL, related_name="basic_info_with_country_origin", null=True, blank=True)
+    country_study_abroad = models.ForeignKey(Country, on_delete=models.SET_NULL, related_name="basic_info_with_country_study_abroad", null=True, blank=True)
     # living_city = models.ForeignKey('City', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
-        return self.user.username
+        return self.user.__str__()
     
 class ProfileImage(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name="profile_image")
     image = ResizedImageField(upload_to='images/', size=[180, 180], crop=['middle', 'center'], quality=100)
     
     def __str__(self):
-        return self.user.username + "'s profile image"
+        return self.user.__str__() + "'s profile image"
     
 class Goal(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     body = models.CharField(max_length=30)
 
     def __str__(self):
-        return self.user.username + "'s goal: " + self.body
+        return self.user.__str__() + "'s goal: " + self.body
 
 class StudyInterest(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     body = models.CharField(max_length=30)
     
     def __str__(self):
-        return self.user.username + "'s study interest: " + self.body
+        return self.user.__str__() + "'s study interest: " + self.body
 
 
 class About(models.Model):
@@ -68,7 +97,7 @@ class About(models.Model):
     body = models.CharField(max_length=2000, null=True, blank=True)
     
     def __str__(self):
-        return self.user.username + "'s about: " + self.body[:10]
+        return self.user.__str__() + "'s about: " + self.body[:10]
 
 class EducationStatus(models.TextChoices):
     CURRENT = 'C', _('I am currently studying at this school'),
@@ -78,26 +107,26 @@ class EducationStatus(models.TextChoices):
     
 
 class History(models.Model):
-    start_year =  models.CharField(max_length=20, null=True, blank=True)
-    end_year = models.CharField(max_length=20, null=True, blank=True)
+    start_year =  models.IntegerField(null=True, blank=True)
+    end_year = models.IntegerField(null=True, blank=True)
     
     class Meta:
         abstract = True
-        ordering= ['-end_year', '-start_year']
+        ordering = ['-end_year', '-start_year']
     
 class Education(History):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    school = models.CharField(max_length=50)
-    major = models.CharField(max_length=50)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='educations')
+    school = models.ForeignKey(School, on_delete=models.CASCADE, related_name='educations')
+    major =  models.CharField(max_length=100, null=True, blank=True)
     is_study_abroad = models.BooleanField(default=False)
     # status = models.CharField(max_length=30, choices=EducationStatus.choices, default=EducationStatus.CURRENT)
     
     def __str__(self):
-        return self.school + " (" + self.start_year + " - " + self.end_year + ")"
+        return self.school.__str__() + " (" + str(self.start_year) + " - " + str(self.end_year) + ")"
 
 
 class StudyAbroad(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name="study_abroad")
     education = models.OneToOneField(Education, on_delete=models.CASCADE)
 
 class WorkStatus(models.TextChoices):
@@ -112,7 +141,7 @@ class WorkExperience(History):
     # status = models.CharField(max_length=30, choices=WorkStatus.choices, default=WorkStatus.PAST)
     
     def __str__(self):
-        return self.user.username + ' worked at ' + self.company + ' as ' + self.position 
+        return self.user.__str__() + ' worked at ' + self.company + ' as ' + self.position 
     
 class Scholarship(History):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -126,34 +155,21 @@ class SocialLink(models.Model):
     url = models.URLField()
 
     def __str__(self):
-        return 
-    
-class School(models.Model):
-    school_name = models.CharField(max_length=50)
-    country = models.ForeignKey('Country', on_delete=models.SET_NULL, null=True)
-
-    def __str__(self):
-        return self.school_name
-
-class Country(models.Model):
-    country_name = models.CharField(max_length=50)   # change in to choose filed
-    
-    def __str__(self):
-        return self.country_name
+        return self.user.__str__() + "'s link: " + self.title
 
 class City(models.Model):
     city_name = models.CharField(max_length=50)
     country = models.ForeignKey('Country', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        return self.city_name + ', ' + self.country.country_name
+        return self.city_name + ', ' + self.country.__str__()
 
 class Follow(models.Model):
     follower = models.ForeignKey(User, on_delete=models.CASCADE, related_name="following_users")
     followed = models.ForeignKey(User, related_name='followed_users', on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.follower.username + ' following ' + self.followed.username
+        return self.follower.__str__() + ' following ' + self.followed.__str__()
 
 # class Message(models.Model):
 #     sender = models.ForeignKey(UserProfile, on_delete=models.SET_NULL, null=True, related_name='message_sender')
