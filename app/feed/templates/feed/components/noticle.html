@@ -1,0 +1,52 @@
+{% load static %}
+{% load widget_tweaks %}
+
+<!-- Noticle Form -->
+<div class="card shadow p-4">
+    <div class="card-body p-0">
+    <div class="">
+        <div class="" >
+        <div class="media align-items-center">
+            <img alt="Image placeholder" class="avatar avatar-lg rounded-circle mb-4" src="
+            {% if user.profile_image %}
+            {{ user.profile_image.image.url }}
+            {% else %}
+            {% static 'img/placeholder.jpg' %}
+            {% endif %}
+            ">
+            <div class="media-body">
+            <form>
+                <textarea class="form-control" placeholder="Markdownx" rows="5"></textarea>
+            </form>
+            </div>
+        </div>
+        <div class="text-right ml-auto">
+            <button type="button" class="btn btn-sm btn-primary btn-icon">
+            <span class="btn-inner--icon icon-big"><i class="ni ni-collection"></i></span>
+            <span class="btn-inner--text">Noticle</span>
+            </button>
+        </div>
+        </div>
+    </div>
+    </div>
+</div>
+<!-- End Noticle Form -->
+
+<!-- Noticles Area -->
+<div class="card card-blog card-background card-grande" data-animation="zooming">
+    <div class="full-background" style="background-image: url({% static 'img/sections/unsplashs.jpg' %})"></div>
+    <a href="javascript:;">
+    </a><div class="card-body mb-4"><a href="javascript:;">
+        <h2 class="card-title">Miami Vice</h2>
+        <p class="card-description text-white">The simplest visual description uses ordinary words to convey what the writer sees. First he or she must look at the subject – slowly, carefully, and repeatedly, if possible – to identify the parts that make the whole</p>
+        <div class="author">
+        <img src="{% static 'img/faces/team-4.jpg' %}" alt="..." class="avatar">
+        <span class="text-white">by Johanna Zmud</span>
+        </div>
+        <br>
+        </a><a class="btn btn-primary" href="javascript:;">
+        Read more...
+        </a>
+    </div>               
+</div>
+<!-- End Noticles Area -->

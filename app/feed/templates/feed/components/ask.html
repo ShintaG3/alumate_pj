@@ -1,0 +1,266 @@
+{% load static %}
+{% load widget_tweaks %}
+
+<!-- Ask Form -->
+<div class="card shadow ">
+    <div class="card-body p-4 bg-secondary"  style="border-radius: 0.25rem;">
+    <form>
+        <div class="d-flex flex-wrap">
+        <!-- Inquiry -->
+        <div class="order-1 order-lg-2 flex-grow-1" style="min-width: 300px;">
+            <!-- <div class="mb-3">
+            <span class="text-primary" style="font-size: 1rem;">
+                <small>Expected answers are
+                <span class="font-weight-bold">many</span>
+                </small>
+            </span>
+            </div> -->
+            <!-- Input feeld -->
+            <div class="mb-3">
+            <input type="text" class="form-control" placeholder="Title" ></input>
+            </div>
+            <div class="mb-4">
+            <textarea class="form-control" placeholder="Write your question" rows="15"></textarea>
+            </div>
+            <!-- Ask Button -->
+            <div class="text-right mb-4 ml-auto">
+            <button type="button" class="btn btn-sm btn-primary btn-icon">
+                <span class="btn-inner--icon icon-big"><i class="fa fa-question"></i></span>
+                <span class="btn-inner--text">Ask</span>
+            </button>
+            </div>
+        </div>
+        <!-- Tags Section -->
+        <div class="order-2 order-lg-1">
+            <div class="mr-3 tags-section">
+            <div class="display-4 mb-4">Tags<small class="text-muted align-baseline ml-2" data-toggle="tooltip" data-placement="top" title="You can add tags! The inquiry appers in the tagged people's feed." data-container="body" data-animation="true"><i class="fa fa-question-circle-o" ></i></small></div>
+            <!-- Alumate status -->
+            <div class="form-group focused">
+                <span class="tag-label">                                  
+                Alumate Status
+                </span>
+                <div class="custom-control custom-checkbox my-3">
+                <input class="custom-control-input" id="customCheck1" type="checkbox">
+                <label class="custom-control-label" for="customCheck1"><i class="fa fa-tag text-muted mr-2"></i>Future Student</label>
+                </div>
+                <div class="custom-control custom-checkbox my-3">
+                <input class="custom-control-input" id="customCheck2" type="checkbox">
+                <label class="custom-control-label" for="customCheck2"><i class="fa fa-tag text-muted mr-2"></i>Current Student</label>
+                </div>
+                <div class="custom-control custom-checkbox my-3">
+                <input class="custom-control-input" id="customCheck3" type="checkbox">
+                <label class="custom-control-label" for="customCheck3"><i class="fa fa-tag text-muted mr-2"></i>Alumni</label>
+                </div>
+            </div>
+            <!-- Home Country -->
+            <div class="form-group focused">
+                <label class="tag-label" for="home_country">                                  
+                Home Country
+                </label>
+                <select name="home_country" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="&#xf02b  Add tags...">
+                <optgroup label="Alaskan/Hawaiian Time Zone">
+                    <option value="AK">Alaska</option>
+                    <option value="HI" disabled="disabled">Hawaii</option>
+                </optgroup>
+                <optgroup label="Pacific Time Zone">
+                    <option value="CA">California</option>
+                    <option value="NV">Nevada</option>
+                    <option value="OR">Oregon</option>
+                    <option value="WA">Washington</option>
+                </optgroup>
+                <optgroup label="Eastern Time Zone">
+                    <option value="CT">Connecticut</option>
+                    <option value="DE">Delaware</option>
+                    <option value="FL">Florida</option>
+                    <option value="VT">Vermont</option>
+                    <option value="VA">Virginia</option>
+                    <option value="WV">West Virginia</option>
+                </optgroup>
+                <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
+                <option value="TPZ">The Panic Zone</option>
+                <option value="TTZ">The Twilight Zone</option>
+                </select>
+            </div>
+            <!-- Study Abroad Country -->
+            <div class="form-group">
+                <label class="tag-label" for="study_abroad_country">                                
+                Study Abroad Country
+                </label>                                
+                <select name="study_abroad_country" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="&#xf02b  Add tags...">
+                <optgroup label="Alaskan/Hawaiian Time Zone">
+                    <option value="AK">Alaska</option>
+                    <option value="HI" disabled="disabled">Hawaii</option>
+                </optgroup>
+                <optgroup label="Pacific Time Zone">
+                    <option value="CA">California</option>
+                    <option value="NV">Nevada</option>
+                    <option value="OR">Oregon</option>
+                    <option value="WA">Washington</option>
+                </optgroup>
+                <optgroup label="Eastern Time Zone">
+                    <option value="CT">Connecticut</option>
+                    <option value="DE">Delaware</option>
+                    <option value="FL">Florida</option>
+                    <option value="VT">Vermont</option>
+                    <option value="VA">Virginia</option>
+                    <option value="WV">West Virginia</option>
+                </optgroup>
+                <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
+                <option value="TPZ">The Panic Zone</option>
+                <option value="TTZ">The Twilight Zone</option>
+                </select>
+            </div>
+            <!-- Study Abroad School -->
+            <div class="form-group">
+                <label class="tag-label" for="study_abroad_school">                                  
+                Study Abroad School
+                </label>                                
+                <select name="study_abroad_school" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="&#xf02b  Add tags...">
+                <optgroup label="Alaskan/Hawaiian Time Zone">
+                    <option value="AK">Alaska</option>
+                    <option value="HI" disabled="disabled">Hawaii</option>
+                </optgroup>
+                <optgroup label="Pacific Time Zone">
+                    <option value="CA">California</option>
+                    <option value="NV">Nevada</option>
+                    <option value="OR">Oregon</option>
+                    <option value="WA">Washington</option>
+                </optgroup>
+                <optgroup label="Eastern Time Zone">
+                    <option value="CT">Connecticut</option>
+                    <option value="DE">Delaware</option>
+                    <option value="FL">Florida</option>
+                    <option value="VT">Vermont</option>
+                    <option value="VA">Virginia</option>
+                    <option value="WV">West Virginia</option>
+                </optgroup>
+                <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
+                <option value="TPZ">The Panic Zone</option>
+                <option value="TTZ">The Twilight Zone</option>
+                </select>
+            </div>
+            <!-- Study Abroad Major -->
+            <div class="form-group">
+                <label class="tag-label" for="study_abroad_major">                                 
+                Study Abroad Major
+                </label>                                
+                <select name="study_abroad_major" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="&#xf02b  Add tags...">
+                <optgroup label="Alaskan/Hawaiian Time Zone">
+                    <option value="AK">Alaska</option>
+                    <option value="HI" disabled="disabled">Hawaii</option>
+                </optgroup>
+                <optgroup label="Pacific Time Zone">
+                    <option value="CA">California</option>
+                    <option value="NV">Nevada</option>
+                    <option value="OR">Oregon</option>
+                    <option value="WA">Washington</option>
+                </optgroup>
+                <optgroup label="Eastern Time Zone">
+                    <option value="CT">Connecticut</option>
+                    <option value="DE">Delaware</option>
+                    <option value="FL">Florida</option>
+                    <option value="VT">Vermont</option>
+                    <option value="VA">Virginia</option>
+                    <option value="WV">West Virginia</option>
+                </optgroup>
+                <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
+                <option value="TPZ">The Panic Zone</option>
+                <option value="TTZ">The Twilight Zone</option>
+                </select>
+            </div>
+            <!-- Study Abroad Year -->
+            <div class="form-group">
+                <label class="tag-label" for="home_countries">
+                Study Abroad Year
+                </label>
+                <div class="my-4">
+                <span class="slider-year">Start Year</span>
+                <input class="d-none" type="text" name="startYear_start_input" id="startYear_start_input">                                 
+                <input class="d-none" type="text" name="startYear_end_input" id="startYear_end_input">                                 
+                <span><small class="text-muted"><span data-range-value-low="1970" id="startYear_start"></span> - <span data-range-value-high="2040" id="startYear_end"></span></small></span>
+                <div id="startYear" data-range-value-min="1980" data-range-value-max="2030"></div>
+                </div>
+                <div class="my-4">
+                <span class="slider-year">End Year</span>    
+                <input class="d-none" type="text" name="endYear_start_input" id="endYear_start_input">                                 
+                <input class="d-none" type="text" name="endYear_end_input" id="endYear_end_input">                                 
+                <span><small class="text-muted"><span data-range-value-low="1970" id="endYear_start"></span> - <span data-range-value-high="2040" id="endYear_end"></span></small></span>
+                <div id="endYear" data-range-value-min="1980" data-range-value-max="2030"></div>
+                </div>
+            </div>
+            <!-- Living City -->
+            <div class="form-group">
+                <label class="tag-label" for="living_city">                                  
+                Living City
+                </label>
+                <select name="living_city" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="&#xf02b  Add tags...">
+                <optgroup label="Alaskan/Hawaiian Time Zone">
+                    <option value="AK">Alaska</option>
+                    <option value="HI" disabled="disabled">Hawaii</option>
+                </optgroup>
+                <optgroup label="Pacific Time Zone">
+                    <option value="CA">California</option>
+                    <option value="NV">Nevada</option>
+                    <option value="OR">Oregon</option>
+                    <option value="WA">Washington</option>
+                </optgroup>
+                <optgroup label="Eastern Time Zone">
+                    <option value="CT">Connecticut</option>
+                    <option value="DE">Delaware</option>
+                    <option value="FL">Florida</option>
+                    <option value="VT">Vermont</option>
+                    <option value="VA">Virginia</option>
+                    <option value="WV">West Virginia</option>
+                </optgroup>
+                <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
+                <option value="TPZ">The Panic Zone</option>
+                <option value="TTZ">The Twilight Zone</option>
+                </select>                               
+            </div>
+            </div>
+        </div>
+        <!-- End Tags Section-->
+        </div>
+    </form>
+    </div>
+</div>
+<!-- End Ask Form -->
+
+<!-- Asks Area -->
+<div class="card card-blog card-zoom" data-header="pattern" data-animation="zooming">
+    <a href="javascript:;">
+    <img class="img pattern rounded" src="{% static 'img/ill/presentation_bg.png' %}">
+    </a>
+    <div class="card-body">
+    <h6 class="card-category text-danger">
+        <i class="ni ni-badge"></i> Oxford
+    </h6>
+    <h5 class="card-title">
+        <a href="javascript:;">Looking for accommodation</a>
+    </h5>
+    <p class="card-description">
+        Hi, I enrole in Oxford University in 2021. My college is Crist charch. I am looking for afordable accommodations around Oxford...
+    </p>
+    <div class="author">
+        <img src="{% static 'img/faces/team-4.jpg' %}" alt="..." class="avatar">
+        <span>by Johanna Zmud</span>
+    </div>
+    </div>
+    <div class="card-footer">
+        <div class="icon-actions">
+            <a href="javascript:;" class="like active">
+            <i class="ni ni-like-2"></i>
+            <span class="text-muted">150</span>
+            </a>
+            <a href="javascript:;">
+            <i class="ni ni-chat-round"></i>
+            <span class="text-muted">36</span>
+            </a>
+            <a href="javascript:;">
+            <i class="ni ni-curved-next"></i>
+            <span class="text-muted">12</span>
+            </a>
+        </div>
+    </div>
+</div>
+<!-- End Asks Area -->
