@@ -38,11 +38,7 @@ class LoginView(FormView):
         cd = form.cleaned_data
         if not cd['remember_me']:
             self.request.session.set_expiry(0)
-        try:
-            username = User.objects.get(email=cd['username']).username
-        except User.DoesNotExist:
-            return HttpResponse('Sorry, email not registered') 
-        user = authenticate(self.request, username=username, password=cd['password'])
+        user = authenticate(self.request, username=cd['username'], password=cd['password'])
         if (user is not None):
             login(self.request, user)
             if next and next != '/':

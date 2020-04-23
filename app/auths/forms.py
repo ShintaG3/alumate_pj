@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.forms import ModelForm
 from accounts.models import CurrentStatus, BasicInfo
 from django.contrib.auth import authenticate
+from django.db.models import Q
 
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(widget=forms.EmailInput(
@@ -47,7 +48,7 @@ class SignUpForm(UserCreationForm):
         fields = ('email','username', 'password1', 'password2')
 
 class UserLoginForm(forms.Form):
-    username = forms.EmailField(widget=forms.EmailInput(
+    username = forms.CharField(widget=forms.TextInput(
         attrs={
             'class': 'form-control',
             'placeholder': 'Email'
@@ -70,9 +71,11 @@ class UserLoginForm(forms.Form):
 
         if username and password:
             try:
-                username = User.objects.get(email=username).username
+                user = User.objects.get(Q(username=username) | 
+                                        Q(email=username))
             except:
-                raise forms.ValidationError('Sorry, email not registered')
+                raise forms.ValidationError('Sorry, email/username not registered')
+            username = user.username
             user = authenticate(username=username, password=password)
             if not user:
                 raise forms.ValidationError('Sorry, wrong credentials!')

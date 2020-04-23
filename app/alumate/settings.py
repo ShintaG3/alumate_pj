@@ -133,7 +133,7 @@ USE_L10N = True
 USE_TZ = True
 
 # Email Settings
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # this is for if you just want to try sending email on console
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' # this is for if you just want to try sending email on console
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'alumate.info@gmail.com'
 EMAIL_HOST_PASSWORD = 'StudyAbroad!'
