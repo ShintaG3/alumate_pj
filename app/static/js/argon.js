@@ -100,7 +100,7 @@ $(document).ready(function() {
             noUiSlider.create(c, {
                 start: [parseInt(startValue)],
                 connect: [true, false],
-                //step: 1000,
+                step: 1,
                 range: {
                     'min': [parseInt(minValue)],
                     'max': [parseInt(maxValue)]
@@ -122,10 +122,12 @@ $(document).ready(function() {
         noUiSlider.create(c, {
             start: [parseInt(d.getAttribute('data-range-value-low')), parseInt(e.getAttribute('data-range-value-high'))],
             connect: !0,
+            step:1,
             range: {
                 min: parseInt(c.getAttribute('data-range-value-min')),
                 max: parseInt(c.getAttribute('data-range-value-max'))
             }
+           
         }), c.noUiSlider.on("update", function(a, b) {
             f[b].textContent = a[b]
         })

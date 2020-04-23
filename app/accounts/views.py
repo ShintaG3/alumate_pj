@@ -205,6 +205,7 @@ class BasicInfoUpdateView(LoginRequiredMixin, View):
             basic_info.save()
         return redirect('/accounts/' + request.user.username)
 
+
 class UploadProfileImageView(LoginRequiredMixin, View):
     form_class = ProfileImageForm
     
@@ -368,10 +369,14 @@ class EducationUpdateView(LoginRequiredMixin, View):
             education = None
         
         form = self.form_class(request.POST, instance=education)
-        
+
         if form.is_valid:
             education = form.save(commit=False)
             education.user = request.user
+            try:
+                Major.objects.get(name=education.major)
+            except Major.DoesNotExist:
+                Major.objects.create(name=education.major)
             if education.start_year == "Target":
                 education.end_year = "Target"
             education.save()
