@@ -4,7 +4,7 @@
 <!-- Ask Form -->
 <div class="card shadow ">
     <div class="card-body p-4 bg-secondary"  style="border-radius: 0.25rem;">
-    <form>
+    <form id="ask-form">
         <div class="d-flex flex-wrap">
         <!-- Inquiry -->
         <div class="order-1 order-lg-2 flex-grow-1" style="min-width: 300px;">
@@ -17,14 +17,14 @@
             </div> -->
             <!-- Input feeld -->
             <div class="mb-3">
-            <input type="text" class="form-control" placeholder="Title" ></input>
+            <input id="input-title" type="text" class="form-control" placeholder="Title" required></input>
             </div>
             <div class="mb-4">
-            <textarea class="form-control" placeholder="Write your question" rows="15"></textarea>
+            <textarea id="input-body" class="form-control" placeholder="Write your question" rows="15" required></textarea>
             </div>
             <!-- Ask Button -->
             <div class="text-right mb-4 ml-auto">
-            <button type="button" class="btn btn-sm btn-primary btn-icon">
+            <button type="submit" class="btn btn-sm btn-primary btn-icon">
                 <span class="btn-inner--icon icon-big"><i class="fa fa-question"></i></span>
                 <span class="btn-inner--text">Ask</span>
             </button>
@@ -58,27 +58,9 @@
                 Home Country
                 </label>
                 <select name="home_country" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="&#xf02b  Add tags...">
-                <optgroup label="Alaskan/Hawaiian Time Zone">
-                    <option value="AK">Alaska</option>
-                    <option value="HI" disabled="disabled">Hawaii</option>
-                </optgroup>
-                <optgroup label="Pacific Time Zone">
-                    <option value="CA">California</option>
-                    <option value="NV">Nevada</option>
-                    <option value="OR">Oregon</option>
-                    <option value="WA">Washington</option>
-                </optgroup>
-                <optgroup label="Eastern Time Zone">
-                    <option value="CT">Connecticut</option>
-                    <option value="DE">Delaware</option>
-                    <option value="FL">Florida</option>
-                    <option value="VT">Vermont</option>
-                    <option value="VA">Virginia</option>
-                    <option value="WV">West Virginia</option>
-                </optgroup>
-                <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
-                <option value="TPZ">The Panic Zone</option>
-                <option value="TTZ">The Twilight Zone</option>
+                    {% for country_option in country_options %}
+                    <option value="{{country_option}}">{{country_option.name}}</option>
+                    {% endfor %}
                 </select>
             </div>
             <!-- Study Abroad Country -->
@@ -87,27 +69,9 @@
                 Study Abroad Country
                 </label>                                
                 <select name="study_abroad_country" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="&#xf02b  Add tags...">
-                <optgroup label="Alaskan/Hawaiian Time Zone">
-                    <option value="AK">Alaska</option>
-                    <option value="HI" disabled="disabled">Hawaii</option>
-                </optgroup>
-                <optgroup label="Pacific Time Zone">
-                    <option value="CA">California</option>
-                    <option value="NV">Nevada</option>
-                    <option value="OR">Oregon</option>
-                    <option value="WA">Washington</option>
-                </optgroup>
-                <optgroup label="Eastern Time Zone">
-                    <option value="CT">Connecticut</option>
-                    <option value="DE">Delaware</option>
-                    <option value="FL">Florida</option>
-                    <option value="VT">Vermont</option>
-                    <option value="VA">Virginia</option>
-                    <option value="WV">West Virginia</option>
-                </optgroup>
-                <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
-                <option value="TPZ">The Panic Zone</option>
-                <option value="TTZ">The Twilight Zone</option>
+                    {% for country_option in country_options %}
+                    <option value="{{country_option}}">{{country_option.name}}</option>
+                    {% endfor %}
                 </select>
             </div>
             <!-- Study Abroad School -->
@@ -116,27 +80,9 @@
                 Study Abroad School
                 </label>                                
                 <select name="study_abroad_school" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="&#xf02b  Add tags...">
-                <optgroup label="Alaskan/Hawaiian Time Zone">
-                    <option value="AK">Alaska</option>
-                    <option value="HI" disabled="disabled">Hawaii</option>
-                </optgroup>
-                <optgroup label="Pacific Time Zone">
-                    <option value="CA">California</option>
-                    <option value="NV">Nevada</option>
-                    <option value="OR">Oregon</option>
-                    <option value="WA">Washington</option>
-                </optgroup>
-                <optgroup label="Eastern Time Zone">
-                    <option value="CT">Connecticut</option>
-                    <option value="DE">Delaware</option>
-                    <option value="FL">Florida</option>
-                    <option value="VT">Vermont</option>
-                    <option value="VA">Virginia</option>
-                    <option value="WV">West Virginia</option>
-                </optgroup>
-                <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
-                <option value="TPZ">The Panic Zone</option>
-                <option value="TTZ">The Twilight Zone</option>
+                    {% for school_option in school_options %}
+                    <option value="{{school_option}}">{{school_option.name}}</option>
+                    {% endfor %}
                 </select>
             </div>
             <!-- Study Abroad Major -->
@@ -145,27 +91,9 @@
                 Study Abroad Major
                 </label>                                
                 <select name="study_abroad_major" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="&#xf02b  Add tags...">
-                <optgroup label="Alaskan/Hawaiian Time Zone">
-                    <option value="AK">Alaska</option>
-                    <option value="HI" disabled="disabled">Hawaii</option>
-                </optgroup>
-                <optgroup label="Pacific Time Zone">
-                    <option value="CA">California</option>
-                    <option value="NV">Nevada</option>
-                    <option value="OR">Oregon</option>
-                    <option value="WA">Washington</option>
-                </optgroup>
-                <optgroup label="Eastern Time Zone">
-                    <option value="CT">Connecticut</option>
-                    <option value="DE">Delaware</option>
-                    <option value="FL">Florida</option>
-                    <option value="VT">Vermont</option>
-                    <option value="VA">Virginia</option>
-                    <option value="WV">West Virginia</option>
-                </optgroup>
-                <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
-                <option value="TPZ">The Panic Zone</option>
-                <option value="TTZ">The Twilight Zone</option>
+                    {% for major_option in major_options %}
+                    <option value="{{major_option}}">{{major_option.name}}</option>
+                    {% endfor %}
                 </select>
             </div>
             <!-- Study Abroad Year -->
@@ -188,7 +116,7 @@
                 <div id="endYear" data-range-value-min="1980" data-range-value-max="2030"></div>
                 </div>
             </div>
-            <!-- Living City -->
+            {% comment %} <!-- Living City -->
             <div class="form-group">
                 <label class="tag-label" for="living_city">                                  
                 Living City
@@ -216,7 +144,7 @@
                 <option value="TPZ">The Panic Zone</option>
                 <option value="TTZ">The Twilight Zone</option>
                 </select>                               
-            </div>
+            </div> {% endcomment %}
             </div>
         </div>
         <!-- End Tags Section-->
@@ -227,40 +155,50 @@
 <!-- End Ask Form -->
 
 <!-- Asks Area -->
+{% for ask in ask_list %}
 <div class="card card-blog card-zoom" data-header="pattern" data-animation="zooming">
     <a href="javascript:;">
     <img class="img pattern rounded" src="{% static 'img/ill/presentation_bg.png' %}">
     </a>
     <div class="card-body">
+    {% if school_tag %}
     <h6 class="card-category text-danger">
-        <i class="ni ni-badge"></i> Oxford
+        <i class="ni ni-badge"></i> {{ school_tag }}
     </h6>
+    {% endif %}
     <h5 class="card-title">
-        <a href="javascript:;">Looking for accommodation</a>
+        <a href="javascript:;">{{ ask.value.title }}</a>
     </h5>
-    <p class="card-description">
-        Hi, I enrole in Oxford University in 2021. My college is Crist charch. I am looking for afordable accommodations around Oxford...
-    </p>
+    <p class="card-description">{{ ask.value.body }}</p>
     <div class="author">
-        <img src="{% static 'img/faces/team-4.jpg' %}" alt="..." class="avatar">
-        <span>by Johanna Zmud</span>
+        {% if ask.value.user.profile_image %}
+        <img src={{ask.value.user.profile_image.image.src}} alt="..." class="avatar">
+        {% else %}
+        <img src="{% static 'img/placeholder.jpg' %}" alt="..." class="avatar">
+        {% endif %}
+        {% if ask.value.user.basicinfo.name %}
+        <span>by {{ ask.value.user.basicinfo.name }}</span>
+        {% else %}
+        <span>by @{{ ask.value.user }}</span>
+        {% endif %}
     </div>
     </div>
     <div class="card-footer">
         <div class="icon-actions">
             <a href="javascript:;" class="like active">
             <i class="ni ni-like-2"></i>
-            <span class="text-muted">150</span>
+            <span class="text-muted">0</span>
             </a>
             <a href="javascript:;">
             <i class="ni ni-chat-round"></i>
-            <span class="text-muted">36</span>
+            <span class="text-muted">0</span>
             </a>
             <a href="javascript:;">
             <i class="ni ni-curved-next"></i>
-            <span class="text-muted">12</span>
+            <span class="text-muted">0</span>
             </a>
         </div>
     </div>
 </div>
+{% endfor %}
 <!-- End Asks Area -->

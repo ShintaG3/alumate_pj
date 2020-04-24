@@ -281,38 +281,66 @@
   })
 </script>
 
+<!-- to send ask form -->
+<script>
+  function csrfSafeMethod(method) {
+      // these HTTP methods do not require CSRF protection
+      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+  }
+
+  $('#ask-form').submit(function(e) {
+    e.preventDefault();
+    var status = []
+    if (document.getElementById('customCheck1').checked) {
+      status.push('FU')
+    }
+    if (document.getElementById('customCheck2').checked) {
+      status.push('CU')
+    }
+    if (document.getElementById('customCheck3').checked) {
+      status.push('AL')
+    }
+    var jsonData = {
+      'status': status,
+      'home_countries': $('#homeCountrySelect2').val(),
+      'study_abroad_countries': $('#studyAbroadCountrySelect2').val(),
+      'schools': $('#studyAbroadSchoolSelect2').val(),
+      'majors': $('#studyAbroadMajorSelect2').val(),
+      'start_year': document.getElementById('startYear').noUiSlider.get(),
+      'end_year': document.getElementById('endYear').noUiSlider.get(),
+      'title': $('#input-title').val(),
+      'body': $('#input-body').val()
+    };
+    var csrftoken = Cookies.get('csrftoken');
+    $.ajaxSetup({
+      beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+      }
+    });
+    $.ajax({
+      url: 'ask',
+      method: 'POST',
+      dataType: 'json',
+      contentType: 'application/json; charset=utf-8',
+      data: JSON.stringify(jsonData),
+      success: function(result) {
+        console.log(result);
+      },
+      error: function(error) {
+        console.log(error);
+      }
+    });
+  })
+</script>
+
 {% endblock %}
 
 {% load tz %}
 {% block content %}
 <div class="wrapper">
     <section class="section section-blog-info">
-        <!-- side bar -->
-        <!-- <nav class="col-md-3 d-none d-md-block">
-            <div class="sidebar-sticky sidebar">
-              <ul class="nav flex-column">
-                <li class="nav-item">
-                  <a class="nav-link row" href="{% url 'people:index' %}">
-                    <i class="fa fa-users col-1"></i>
-                    <span class="col-11">People</span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link row" href="{% url 'inquiry:inquiry' %}">
-                    <i class="fa fa-question col-1" style="font-size: 20px;"></i>
-                    <span class="col-11">Questions</span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link row" href="#" data-toggle="popover" data-placement="top" data-content="Oops! This function is coming soon!">
-                    <i class="ni ni-collection col-1"></i>
-                    <span class="col-11">Noticles</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-        </nav> -->
-
         <!-- post area -->
         <div class="container">
           <div class="col-md-8 mx-auto">
