@@ -1,8 +1,9 @@
 from django.urls import path
-from django.views.generic import TemplateView
+from .views import PeopleView, update_result
 
 app_name="people"
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name="people/people.html"), name="people"),
+    path('search', update_result, name="search"),
+    path('', PeopleView.as_view(), name="index"),
 ]
