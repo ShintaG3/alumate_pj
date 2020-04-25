@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import *
+from .models import Profile, School, Country, City, Follow, BasicInfo, Goal, StudyInterest, About, Education, WorkExperience, ProfileImage
 # Register your models here.
 admin.site.register(Profile)
 admin.site.register(School)

@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect, render
-from .forms import *
-from .models import BasicInfo, Goal, StudyInterest, About, Education, WorkExperience
+from .forms import BasicInfoForm, ProfileImageForm, EducationForm, StudyAbroadForm, AboutForm, WorkExperienceForm, ScholarshipForm, SocialLinkForm, ProfileForm, StudyAbroadEducationForm
+from .models import BasicInfo, Goal, StudyInterest, About, Education, WorkExperience, Major, Scholarship, SocialLink, Follow, ProfileImage, Profile, StudyAbroad
 from django.views.generic.base import TemplateView
 from django.contrib.auth.models import User
 from django.views import View

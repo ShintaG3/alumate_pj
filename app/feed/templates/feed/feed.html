@@ -161,8 +161,6 @@
   $("#post-image-input").change(function() {
     readURL(this);
   });
-  function checkUserLikedComment(user, comment) {
-  }
 </script>
 
 <!-- Select2 -->
@@ -281,591 +279,114 @@
   })
 </script>
 
+<!-- to send ask form -->
+<script>
+  function csrfSafeMethod(method) {
+      // these HTTP methods do not require CSRF protection
+      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+  }
+
+  $('#ask-form').submit(function(e) {
+    e.preventDefault();
+    var status = []
+    if (document.getElementById('customCheck1').checked) {
+      status.push('FU')
+    }
+    if (document.getElementById('customCheck2').checked) {
+      status.push('CU')
+    }
+    if (document.getElementById('customCheck3').checked) {
+      status.push('AL')
+    }
+    var jsonData = {
+      'status': status,
+      'home_countries': $('#homeCountrySelect2').val(),
+      'study_abroad_countries': $('#studyAbroadCountrySelect2').val(),
+      'schools': $('#studyAbroadSchoolSelect2').val(),
+      'majors': $('#studyAbroadMajorSelect2').val(),
+      'start_year': document.getElementById('startYear').noUiSlider.get(),
+      'end_year': document.getElementById('endYear').noUiSlider.get(),
+      'title': $('#input-title').val(),
+      'body': $('#input-body').val()
+    };
+    var csrftoken = Cookies.get('csrftoken');
+    $.ajaxSetup({
+      beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+      }
+    });
+    $.ajax({
+      url: 'ask',
+      method: 'POST',
+      dataType: 'json',
+      contentType: 'application/json; charset=utf-8',
+      data: JSON.stringify(jsonData),
+      success: function(result) {
+        window.alert('Ask succeeded! Redirecting to the feed page.');
+        location.reload();
+      },
+      error: function(error) {
+        console.log(error);
+      }
+    });
+  })
+</script>
+
 {% endblock %}
 
 {% load tz %}
 {% block content %}
 <div class="wrapper">
     <section class="section section-blog-info">
-        <!-- side bar -->
-        <!-- <nav class="col-md-3 d-none d-md-block">
-            <div class="sidebar-sticky sidebar">
-              <ul class="nav flex-column">
+        <!-- post area -->
+        <div class="container">
+          <div class="col-md-8 mx-auto">
+            <!-- Tabs with icons -->
+            <div class="nav-wrapper mt-3">
+              <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="tabs-icons-text" role="tablist">
                 <li class="nav-item">
-                  <a class="nav-link row" href="{% url 'people:index' %}">
-                    <i class="fa fa-users col-1"></i>
-                    <span class="col-11">People</span>
+                  <a class="nav-link mb-sm-3 mb-md-0 active" id="tabs-icons-text-1-tab" data-toggle="tab" href="#tabs-icons-text-1" role="tab" aria-controls="tabs-icons-text-1" aria-selected="true">
+                    <i class="ni ni-cloud-upload-96 mr-2"></i>
+                    Post
                   </a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link row" href="{% url 'inquiry:inquiry' %}">
-                    <i class="fa fa-question col-1" style="font-size: 20px;"></i>
-                    <span class="col-11">Questions</span>
+                <!-- <li class="nav-item">
+                  <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-2-tab" data-toggle="tab" href="#tabs-icons-text-2" role="tab" aria-controls="tabs-icons-text-2" aria-selected="false">
+                    <i class="ni ni-collection mr-2"></i>
+                    Noticle
                   </a>
-                </li>
+                </li> !-->
                 <li class="nav-item">
-                  <a class="nav-link row" href="#" data-toggle="popover" data-placement="top" data-content="Oops! This function is coming soon!">
-                    <i class="ni ni-collection col-1"></i>
-                    <span class="col-11">Noticles</span>
+                  <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-3-tab" data-toggle="tab" href="#tabs-icons-text-3" role="tab" aria-controls="tabs-icons-text-3" aria-selected="false">
+                    <i class="fa fa-question mr-2"></i>
+                    Ask
                   </a>
                 </li>
               </ul>
             </div>
-        </nav> -->
-
-        <!-- post area -->
-        <div class="container">
-          <div class="row">
-            <div class="col-md-8 mx-auto">
-              <!-- Tabs with icons -->
-              <div class="nav-wrapper mt-3">
-                <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="tabs-icons-text" role="tablist">
-                  <li class="nav-item">
-                    <a class="nav-link mb-sm-3 mb-md-0 active" id="tabs-icons-text-1-tab" data-toggle="tab" href="#tabs-icons-text-1" role="tab" aria-controls="tabs-icons-text-1" aria-selected="true">
-                      <i class="ni ni-cloud-upload-96 mr-2"></i>
-                      Post
-                    </a>
-                  </li>
-                  <!-- <li class="nav-item">
-                    <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-2-tab" data-toggle="tab" href="#tabs-icons-text-2" role="tab" aria-controls="tabs-icons-text-2" aria-selected="false">
-                    <a class="nav-link mb-sm-3 mb-md-0" href="#" data-toggle="popover" data-placement="top" data-content="Oops! This function is coming soon!">
-                      <i class="ni ni-collection mr-2"></i>
-                      Noticle
-                    </a>
-                  </li> -->
-                  <li class="nav-item">
-                    <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-3-tab" data-toggle="tab" href="#tabs-icons-text-3" role="tab" aria-controls="tabs-icons-text-3" aria-selected="false">
-                      <i class="fa fa-question mr-2"></i>
-                      Ask
-                    </a>
-                </li>
-                </ul>
-              </div>
-              <div class="card shadow">
-                <div class="card-body p-0">
-                  <div class="tab-content" id="myTabContent">
-                    <!-- Post -->
-                    <div class="tab-pane p-4 fade active show" id="tabs-icons-text-1" role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">
-                      <form action="" method="POST" enctype="multipart/form-data">
-                      {% csrf_token %}
-                        <div class="media align-items-center">
-                          <img alt="Image placeholder" class="avatar avatar-lg rounded-circle mb-4" src="
-                          {% if user.profile_image %}
-                          {{ user.profile_image.image.url }}
-                          {% else %}
-                          {% static 'img/placeholder.jpg' %}
-                          {% endif %}
-                          ">
-                          <div class="media-body">
-                            {% render_field new_post_form.body class+="form-control" placeholder="Write your post" rows="3" %}
-                          </div>
-                        </div>
-                        <div id="image-preview-container" class="d-none">
-                          <img id="post-preview-image" class="w-100 h-100">
-                        </div>
-                        <div class="text-right ml-auto">
-                          <div class="btn p-0 upload-btn-wrapper align-middle">
-                            <button type="button" class="btn mr-0 btn-icon rounded">
-                              <span class="btn-inner--icon icon-big"><i class="fa fa-image"></i></span>
-                            </button>
-                            {% render_field new_post_form.image id="post-image-input" %}
-                          </div>
-                          <button type="submit" class="btn btn-sm btn-primary btn-icon">
-                            <span class="btn-inner--icon icon-big"><i class="ni ni-fat-add"></i></span>
-                            <span class="btn-inner--text">Post</span>
-                          </button>
-                        </div>
-                      </form>
-                    </div>
-                    <!-- End Post -->
-
-                    <!-- Noticle -->
-                    <!-- <div class="tab-pane p-4 fade" id="tabs-icons-text-2" role="tabpanel" aria-labelledby="tabs-icons-text-2-tab">
-                      <div class="media align-items-center">
-                        <img alt="Image placeholder" class="avatar avatar-lg rounded-circle mb-4" src="
-                        {% if user.profile_image %}
-                        {{ user.profile_image.image.url }}
-                        {% else %}
-                        {% static 'img/placeholder.jpg' %}
-                        {% endif %}
-                        ">
-                        <div class="media-body">
-                          <form>
-                            <textarea class="form-control" placeholder="Markdownx" rows="5"></textarea>
-                          </form>
-                        </div>
-                      </div>
-                      <div class="text-right ml-auto">
-                        <button type="button" class="btn btn-sm btn-primary btn-icon">
-                          <span class="btn-inner--icon icon-big"><i class="ni ni-collection"></i></span>
-                          <span class="btn-inner--text">Noticle</span>
-                        </button>
-                      </div>
-                    </div> -->
-                    <!-- End Noticle -->
-
-                    <!-- Ask -->
-                    <div class="tab-pane p-4 fade bg-secondary" id="tabs-icons-text-3" role="tabpanel" aria-labelledby="tabs-icons-text-3-tab" style="border-radius: 0.25rem;">
-                      <form>
-                        <div class="d-flex flex-wrap">
-                          <!-- Inquiry -->
-                          <div class="order-1 order-lg-2 flex-grow-1" style="min-width: 300px;">
-                            <!-- <div class="mb-3">
-                              <span class="text-primary" style="font-size: 1rem;">
-                                <small>Expected answers are
-                                  <span class="font-weight-bold">many</span>
-                                </small>
-                              </span>
-                            </div> -->
-                            <!-- Input feeld -->
-                            <div class="mb-3">
-                              <input type="text" class="form-control" placeholder="Title" ></input>
-                            </div>
-                            <div class="mb-4">
-                              <textarea class="form-control" placeholder="Write your question" rows="15"></textarea>
-                            </div>
-                            <!-- Ask Button -->
-                            <div class="text-right mb-4 ml-auto">
-                              <button type="button" class="btn btn-sm btn-primary btn-icon">
-                                <span class="btn-inner--icon icon-big"><i class="fa fa-question"></i></span>
-                                <span class="btn-inner--text">Ask</span>
-                              </button>
-                            </div>
-                          </div>
-                          <!-- Tags Section -->
-                          <div class="order-2 order-lg-1">
-                            <div class="mr-3 tags-section">
-                              <div class="display-4 mb-4">Tags<small class="text-muted align-baseline ml-2" data-toggle="tooltip" data-placement="top" title="You can add tags! The inquiry appers in the tagged people's feed." data-container="body" data-animation="true"><i class="fa fa-question-circle-o" ></i></small></div>
-                              <!-- Alumate status -->
-                              <div class="form-group focused">
-                                <span class="tag-label">                                  
-                                  Alumate Status
-                                </span>
-                                <div class="custom-control custom-checkbox my-3">
-                                  <input class="custom-control-input" id="customCheck1" type="checkbox">
-                                  <label class="custom-control-label" for="customCheck1"><i class="fa fa-tag text-muted mr-2"></i>Future Student</label>
-                                </div>
-                                <div class="custom-control custom-checkbox my-3">
-                                  <input class="custom-control-input" id="customCheck2" type="checkbox">
-                                  <label class="custom-control-label" for="customCheck2"><i class="fa fa-tag text-muted mr-2"></i>Current Student</label>
-                                </div>
-                                <div class="custom-control custom-checkbox my-3">
-                                  <input class="custom-control-input" id="customCheck3" type="checkbox">
-                                  <label class="custom-control-label" for="customCheck3"><i class="fa fa-tag text-muted mr-2"></i>Alumni</label>
-                                </div>
-                              </div>
-                              <!-- Home Country -->
-                              <div class="form-group focused">
-                                <label class="tag-label" for="home_country">                                  
-                                  Home Country
-                                </label>
-                                <select name="home_country" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="&#xf02b  Add tags...">
-                                  <optgroup label="Alaskan/Hawaiian Time Zone">
-                                    <option value="AK">Alaska</option>
-                                    <option value="HI" disabled="disabled">Hawaii</option>
-                                  </optgroup>
-                                  <optgroup label="Pacific Time Zone">
-                                    <option value="CA">California</option>
-                                    <option value="NV">Nevada</option>
-                                    <option value="OR">Oregon</option>
-                                    <option value="WA">Washington</option>
-                                  </optgroup>
-                                  <optgroup label="Eastern Time Zone">
-                                    <option value="CT">Connecticut</option>
-                                    <option value="DE">Delaware</option>
-                                    <option value="FL">Florida</option>
-                                    <option value="VT">Vermont</option>
-                                    <option value="VA">Virginia</option>
-                                    <option value="WV">West Virginia</option>
-                                  </optgroup>
-                                  <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
-                                  <option value="TPZ">The Panic Zone</option>
-                                  <option value="TTZ">The Twilight Zone</option>
-                                </select>
-                              </div>
-                              <!-- Study Abroad Country -->
-                              <div class="form-group">
-                                <label class="tag-label" for="study_abroad_country">                                
-                                  Study Abroad Country
-                                </label>                                
-                                <select name="study_abroad_country" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="&#xf02b  Add tags...">
-                                  <optgroup label="Alaskan/Hawaiian Time Zone">
-                                    <option value="AK">Alaska</option>
-                                    <option value="HI" disabled="disabled">Hawaii</option>
-                                  </optgroup>
-                                  <optgroup label="Pacific Time Zone">
-                                    <option value="CA">California</option>
-                                    <option value="NV">Nevada</option>
-                                    <option value="OR">Oregon</option>
-                                    <option value="WA">Washington</option>
-                                  </optgroup>
-                                  <optgroup label="Eastern Time Zone">
-                                    <option value="CT">Connecticut</option>
-                                    <option value="DE">Delaware</option>
-                                    <option value="FL">Florida</option>
-                                    <option value="VT">Vermont</option>
-                                    <option value="VA">Virginia</option>
-                                    <option value="WV">West Virginia</option>
-                                  </optgroup>
-                                  <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
-                                  <option value="TPZ">The Panic Zone</option>
-                                  <option value="TTZ">The Twilight Zone</option>
-                                </select>
-                              </div>
-                              <!-- Study Abroad School -->
-                              <div class="form-group">
-                                <label class="tag-label" for="study_abroad_school">                                  
-                                  Study Abroad School
-                                </label>                                
-                                <select name="study_abroad_school" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="&#xf02b  Add tags...">
-                                  <optgroup label="Alaskan/Hawaiian Time Zone">
-                                    <option value="AK">Alaska</option>
-                                    <option value="HI" disabled="disabled">Hawaii</option>
-                                  </optgroup>
-                                  <optgroup label="Pacific Time Zone">
-                                    <option value="CA">California</option>
-                                    <option value="NV">Nevada</option>
-                                    <option value="OR">Oregon</option>
-                                    <option value="WA">Washington</option>
-                                  </optgroup>
-                                  <optgroup label="Eastern Time Zone">
-                                    <option value="CT">Connecticut</option>
-                                    <option value="DE">Delaware</option>
-                                    <option value="FL">Florida</option>
-                                    <option value="VT">Vermont</option>
-                                    <option value="VA">Virginia</option>
-                                    <option value="WV">West Virginia</option>
-                                  </optgroup>
-                                  <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
-                                  <option value="TPZ">The Panic Zone</option>
-                                  <option value="TTZ">The Twilight Zone</option>
-                                </select>
-                              </div>
-                              <!-- Study Abroad Major -->
-                              <div class="form-group">
-                                <label class="tag-label" for="study_abroad_major">                                 
-                                  Study Abroad Major
-                                </label>                                
-                                <select name="study_abroad_major" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="&#xf02b  Add tags...">
-                                  <optgroup label="Alaskan/Hawaiian Time Zone">
-                                    <option value="AK">Alaska</option>
-                                    <option value="HI" disabled="disabled">Hawaii</option>
-                                  </optgroup>
-                                  <optgroup label="Pacific Time Zone">
-                                    <option value="CA">California</option>
-                                    <option value="NV">Nevada</option>
-                                    <option value="OR">Oregon</option>
-                                    <option value="WA">Washington</option>
-                                  </optgroup>
-                                  <optgroup label="Eastern Time Zone">
-                                    <option value="CT">Connecticut</option>
-                                    <option value="DE">Delaware</option>
-                                    <option value="FL">Florida</option>
-                                    <option value="VT">Vermont</option>
-                                    <option value="VA">Virginia</option>
-                                    <option value="WV">West Virginia</option>
-                                  </optgroup>
-                                  <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
-                                  <option value="TPZ">The Panic Zone</option>
-                                  <option value="TTZ">The Twilight Zone</option>
-                                </select>
-                              </div>
-                              <!-- Study Abroad Year -->
-                              <div class="form-group">
-                                <label class="tag-label" for="home_countries">
-                                  Study Abroad Year
-                                </label>
-                                <div class="my-4">
-                                  <span class="slider-year">Start Year</span>
-                                  <input class="d-none" type="text" name="startYear_start_input" id="startYear_start_input">                                 
-                                  <input class="d-none" type="text" name="startYear_end_input" id="startYear_end_input">                                 
-                                  <span><small class="text-muted"><span data-range-value-low="1970" id="startYear_start"></span> - <span data-range-value-high="2040" id="startYear_end"></span></small></span>
-                                  <div id="startYear" data-range-value-min="1980" data-range-value-max="2030"></div>
-                                </div>
-                                <div class="my-4">
-                                  <span class="slider-year">End Year</span>    
-                                  <input class="d-none" type="text" name="endYear_start_input" id="endYear_start_input">                                 
-                                  <input class="d-none" type="text" name="endYear_end_input" id="endYear_end_input">                                 
-                                  <span><small class="text-muted"><span data-range-value-low="1970" id="endYear_start"></span> - <span data-range-value-high="2040" id="endYear_end"></span></small></span>
-                                  <div id="endYear" data-range-value-min="1980" data-range-value-max="2030"></div>
-                                </div>
-                              </div>
-                              <!-- Living City -->
-                              <div class="form-group">
-                                <label class="tag-label" for="living_city">                                  
-                                  Living City
-                                </label>
-                                <select name="living_city" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="&#xf02b  Add tags...">
-                                  <optgroup label="Alaskan/Hawaiian Time Zone">
-                                    <option value="AK">Alaska</option>
-                                    <option value="HI" disabled="disabled">Hawaii</option>
-                                  </optgroup>
-                                  <optgroup label="Pacific Time Zone">
-                                    <option value="CA">California</option>
-                                    <option value="NV">Nevada</option>
-                                    <option value="OR">Oregon</option>
-                                    <option value="WA">Washington</option>
-                                  </optgroup>
-                                  <optgroup label="Eastern Time Zone">
-                                    <option value="CT">Connecticut</option>
-                                    <option value="DE">Delaware</option>
-                                    <option value="FL">Florida</option>
-                                    <option value="VT">Vermont</option>
-                                    <option value="VA">Virginia</option>
-                                    <option value="WV">West Virginia</option>
-                                  </optgroup>
-                                  <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
-                                  <option value="TPZ">The Panic Zone</option>
-                                  <option value="TTZ">The Twilight Zone</option>
-                                </select>                               
-                              </div>
-                            </div>
-                          </div>
-                          <!-- End Tags Section-->
-                        </div>
-                      </form>
-                    </div>
-                    <!-- End Ask -->
-
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
           
-          <!-- feed area -->
-          {% if view == 'Post' %}
-           <div class="row">
-            <div class="col-md-8 mx-auto">
+            <div class="tab-content">
+              <!-- Post -->
+              <div class="tab-pane fade active show" id="tabs-icons-text-1" role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">
+              {% include "./components/post.html" %}
+              </div>
+              <!-- End Post -->
 
-            {% for post in post_list %}
-              
-              <div class="card mt-sm">
-                <div class="card-header d-flex align-items-center">
-                  <div class="d-flex align-items-center">
-                    <a href="javascript:;">
-                      <img src="
-                      {% if post.value.user.profile_image %}
-                      {{ post.value.user.profile_image.image.url }}
-                      {% else %}
-                      {% static 'img/placeholder.jpg' %}
-                      {% endif %}
-                      " class="avatar">
-                    </a>
-                    <div class="mx-3">
-                      <a href="{% url 'accounts:account-page' post.value.user.username %}" class="text-dark font-weight-600 text-sm">
-                      {% if post.value.user.basicinfo.name %}
-                      {{ post.value.user.basicinfo.name }}
-                      {% else %}
-                      @{{ post.value.user.username }}
-                      {% endif %}
-                      </a>
-                      <small class="d-block text-muted">{{ post.created_at|localtime }}</small>
-                    </div>
-                  </div>
-                  {% if not post.user_following and user != post.value.user %}
-                  <div class="text-right ml-auto">
-                    <form action="{% url 'accounts:follow' post.value.user.username %}" method="POST">
-                      {% csrf_token %}
-                      <button type="submit" class="btn btn-sm btn-primary btn-icon">
-                        <span class="btn-inner--icon icon-big"><i class="ni ni-fat-add"></i></span>
-                        <span class="btn-inner--text">Follow</span>
-                      </button>
-                    </form>
-                  </div>
-                  {% endif %}
-                </div>
-                <div class="card-body">
-                  <p class="mb-4">
-                  {{ post.value.body }}
-                  </p>
-                  {% if post.value.image %}
-                    <img alt="Image placeholder" src={{ post.value.image.url }} class="img-fluid rounded">
-                  {% endif %}
-                  <div class="row align-items-center my-3 pb-3 border-bottom">
-                    <div class="col-sm-6">
-                      <div class="icon-actions">
-                        <form action="{% url 'feed:like-post' post.value.id %}" method="POST" class="float-left">
-                        {% csrf_token %}
-                          <button type="submit" class="like-button {% if post.liked %}active{% endif %} ">
-                          {% comment %} <button href="javascript:;" class="like active"> {% endcomment %}
-                            <i class="ni ni-like-2"></i>
-                            <span class="text-muted">{{ post.value.post_likes.count }}</span>
-                          </button>
-                        </form>
-                        <a href="javascript:;">
-                          <i class="ni ni-chat-round"></i>
-                          <span class="text-muted">{{ post.value.comments.count }}</span>
-                        </a>
-                        {% comment %} <a href="javascript:;">
-                          <i class="ni ni-curved-next"></i>
-                          <span class="text-muted">{{ post.shares }}</span>
-                        </a> {% endcomment %}
-                      </div>
-                    </div>
-                    {% comment %} <div class="col-sm-6 d-none d-sm-block">
-                      <div class="d-flex align-items-center justify-content-sm-end">
-                        <div class="avatar-group">
-                          <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-toggle="tooltip" data-original-title="Jessica Rowland">
-                            <img alt="Image placeholder" src="{% static 'img/faces/team-1.jpg' %}" class="">
-                          </a>
-                          <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-toggle="tooltip" data-original-title="Audrey Love">
-                            <img alt="Image placeholder" src="{% static 'img/faces/team-2.jpg' %}" class="rounded-circle">
-                          </a>
-                          <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-toggle="tooltip" data-original-title="Michael Lewis">
-                            <img alt="Image placeholder" src="{% static 'img/faces/team-3.jpg' %}" class="rounded-circle">
-                          </a>
-                        </div>
-                        <small class="pl-2 font-weight-bold">and 30+ more</small>
-                      </div>
-                    </div> {% endcomment %}
-                  </div>
-                  <!-- Comments -->
-                  <div class="mb-1">
-                  {% for comment in post.value.comments.all %}
-                    <div class="media media-comment">
-                      <img alt="Image placeholder" class="avatar avatar-lg rounded-circle" src="
-                      {% if comment.user.profile_image %}
-                      {{ comment.user.profile_image.image.url }}
-                      {% else %}
-                      {% static 'img/placeholder.jpg' %}
-                      {% endif %}
-                      ">
-                      <div class="media-body">
-                        <div class="media-comment-text">
-                          <div class="mb-2">
-                            <a href="{% url 'accounts:account-page' comment.user.username %}" class="text-dark font-weight-600 text-sm">
-                            {% if comment.user.basicinfo.name %}
-                            {{ comment.user.basicinfo.name }}
-                            {% else %}
-                            @{{ comment.user }}
-                            {% endif %}
-                            </a>
-                          </div>
-                          <p class="text-sm lh-160">{{ comment.body }}</p>
-                          <div class="icon-actions">
-                            <form action="{% url 'feed:like-comment' comment.id %}" method="POST">
-                              {% csrf_token %}
-                              <button type="submit" class="like-button {% for like in comment.comment_likes.all %}{% if like.user == user %}active{% endif %}{% endfor %}">
-                                <i class="ni ni-like-2"></i>
-                                {% if comment.comment_likes.count != 0 %}
-                                  <span class="text-muted">{{ comment.comment_likes.count }}</span>
-                                {% endif %}
-                              </button>
-                            </form>
-                            {% comment %} <a href="javascript:;" class="like active"> {% endcomment %}
-                            
-                            {% comment %} <a href="javascript:;">
-                              <i class="ni ni-curved-next"></i>
-                              <span class="text-muted">2 shares</span>
-                            </a> {% endcomment %}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  {% endfor %}
-                  <!-- Comment form for a post -->
-                    <form action="{% url 'feed:comment' post.value.id %}" method="POST" enctype="multipart/form-data">
-                      {% csrf_token %}
-                      <div class="media align-items-center">
-                        <img alt="Image placeholder" class="avatar avatar-lg rounded-circle mb-4" src="
-                        {% if user.profile_image %}
-                        {{ user.profile_image.image.url }}
-                        {% else %}
-                        {% static 'img/placeholder.jpg' %}
-                        {% endif %}
-                        ">
-                        <div class="media-body">
-                          {% render_field comment_form.body class+="form-control" placeholder="Write your post" rows="1" %}
-                        </div>
-                      </div>
-                      <div class="d-none">
-                        <img class="w-100 h-100">
-                      </div>
-                      <div class="text-right ml-auto">
-                        {% comment %} <div class="btn p-0 upload-btn-wrapper align-middle">
-                          <button type="button" class="btn mr-0 btn-icon rounded">
-                            <span class="btn-inner--icon icon-big"><i class="fa fa-image"></i></span>
-                          </button>
-                          {% render_field comment_form.image id="post-image-input" %}
-                        </div> {% endcomment %}
-                        <button type="submit" class="btn btn-sm btn-primary btn-icon">
-                          <span class="btn-inner--icon icon-big"><i class="ni ni-fat-add"></i></span>
-                          <span class="btn-inner--text">Comment</span>
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
+              <!-- Noticle -->
+              <div class="tab-pane fade" id="tabs-icons-text-2" role="tabpanel" aria-labelledby="tabs-icons-text-2-tab">
+              <!-- {% include "./components/noticle.html" %} !-->
+              </div> 
+              <!-- End Noticle -->
+
+              <!-- Ask -->
+              <div class="tab-pane fade" id="tabs-icons-text-3" role="tabpanel" aria-labelledby="tabs-icons-text-3-tab">
+              {% include "./components/ask.html" %}
               </div>
-            {% endfor %}
+              <!-- End Ask -->
             </div>
           </div>
-          {% elif view == 'Noticle' %}
-          <!-- noticle -->
-          <div class="row">
-            <div class="col-md-8 mx-auto">
-              <div class="card card-blog card-background card-grande" data-animation="zooming">
-                <div class="full-background" style="background-image: url({% static 'img/sections/unsplashs.jpg' %})"></div>
-                <a href="javascript:;">
-                  </a><div class="card-body mb-4"><a href="javascript:;">
-                    <h2 class="card-title">Miami Vice</h2>
-                    <p class="card-description text-white">The simplest visual description uses ordinary words to convey what the writer sees. First he or she must look at the subject – slowly, carefully, and repeatedly, if possible – to identify the parts that make the whole</p>
-                    <div class="author">
-                      <img src="{% static 'img/faces/team-4.jpg' %}" alt="..." class="avatar">
-                      <span class="text-white">by Johanna Zmud</span>
-                    </div>
-                    <br>
-                    </a><a class="btn btn-primary" href="javascript:;">
-                      Read more...
-                    </a>
-                  </div>               
-              </div>
-            </div>
-          </div>
-          {% elif view == 'Ask' %}
-          <!-- inquiry -->
-          <div class="row">
-            <div class="col-md-8 mx-auto">
-              <div class="card card-blog card-zoom" data-header="pattern" data-animation="zooming">
-                <a href="javascript:;">
-                  <img class="img pattern rounded" src="{% static 'img/ill/presentation_bg.png' %}">
-                </a>
-                <div class="card-body">
-                  <h6 class="card-category text-danger">
-                    <i class="ni ni-badge"></i> Oxford
-                  </h6>
-                  <h5 class="card-title">
-                    <a href="javascript:;">Looking for accommodation</a>
-                  </h5>
-                  <p class="card-description">
-                    Hi, I enrole in Oxford University in 2021. My college is Crist charch. I am looking for afordable accommodations around Oxford...
-                  </p>
-                  <div class="author">
-                    <img src="{% static 'img/faces/team-4.jpg' %}" alt="..." class="avatar">
-                    <span>by Johanna Zmud</span>
-                  </div>
-                </div>
-                <div class="card-footer">
-                    <div class="icon-actions">
-                        <a href="javascript:;" class="like active">
-                          <i class="ni ni-like-2"></i>
-                          <span class="text-muted">150</span>
-                        </a>
-                        <a href="javascript:;">
-                          <i class="ni ni-chat-round"></i>
-                          <span class="text-muted">36</span>
-                        </a>
-                        <a href="javascript:;">
-                          <i class="ni ni-curved-next"></i>
-                          <span class="text-muted">12</span>
-                        </a>
-                    </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          {% endif %}
         </div>
     </section>
 </div>

@@ -1,5 +1,6 @@
 {% extends 'base-authpage.html' %}
 {% load static %}
+{% load widget_tweaks %}
 {% block navbar %}
 {% include 'include/nav-authpage.html' %}
 {% endblock %}
@@ -97,6 +98,30 @@
     }
 }
 </style>
+<style>
+    .btn-transparent {
+        background-color: transparent;
+        border: none;
+        text-decoration: none;
+        display: inline-block;
+        margin-right: .75rem;
+        padding: 0;
+    }
+
+    .btn-transparent.active, 
+    .btn-transparent:hover {
+        color: #5e72e4;
+    }
+
+    .btn-transparent:focus {
+        outline: none;
+    }
+
+    .btn-transparent>span {
+        margin-left: .1875rem;
+        font-weight: 600;
+    }
+</style>
 {% endblock %}
 {% block scripts %}
 
@@ -145,45 +170,79 @@
                             <!-- Tags -->
                             <!-- for backend devlopment, only show the tags that are used. Tag components are equivalant to basic info.-->
                             <div class="d-flex flex-row flex-wrap font-weight-300 small mb-3">
+                                {% if status_tags %}
+                                <div class="text-muted mr-3">
+                                    <i class="ni ni-tag mr-1 align-middle"></i><span class="align-middle">Current Status</span>
+                                    {% for tag in status_tags %}
+                                    <a href="">
+                                      <span class="badge mr-1 mb-1 badge-secondary">{{ tag }}</span>
+                                    </a>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                                
+                                {% if home_country_tags %}
                                 <div class="text-muted mr-3">
                                     <i class="ni ni-tag mr-1 align-middle"></i><span class="align-middle">Home Country</span>
+                                    {% for tag in home_country_tags %}
                                     <a href="">
-                                      <span class="badge mr-1 mb-1 badge-secondary">Japan</span>
+                                      <span class="badge mr-1 mb-1 badge-secondary">{{ tag.body }}</span>
                                     </a>
-                                    <a href="">
-                                      <span class="badge mr-1 mb-1 badge-secondary">U.S.</span>
-                                    </a>
+                                    {% endfor %}
                                 </div>
+                                {% endif %}
+                                
+                                {% if study_abroad_country_tags %}
                                 <div class="text-muted mr-3">
                                     <i class="ni ni-tag mr-1 align-middle"></i><span class="align-middle">Study Abroad Country</span>
+                                    {% for tag in study_abroad_country_tags %}
                                     <a href="">
-                                      <span class="badge mr-1 mb-1 badge-secondary">United Kingdom</span>
+                                      <span class="badge mr-1 mb-1 badge-secondary">{{ tag.body }}</span>
+                                    </a>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+
+                                {% if school_tags %}
+                                <div class="text-muted mr-3">
+                                    <i class="ni ni-tag mr-1 align-middle"></i><span class="align-middle">School</span>
+                                    {% for tag in school_tags %}
+                                    <a href="">
+                                      <span class="badge mr-1 mb-1 badge-secondary">{{ tag.body }}</span>
+                                    </a>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+
+                                {% if major_tags %}
+                                <div class="text-muted mr-3">
+                                    <i class="ni ni-tag mr-1 align-middle"></i><span class="align-middle">Major</span>
+                                    {% for tag in major_tags %}
+                                    <a href="">
+                                      <span class="badge mr-1 mb-1 badge-secondary">{{ tag.body }}</span>
+                                    </a>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+
+                                <div class="text-muted mr-3">
+                                    <i class="ni ni-tag mr-1 align-middle"></i><span class="align-middle">School Start Year</span>
+                                    <a href="">
+                                      <span class="badge mr-1 mb-1 badge-secondary">{{ start_year_tag.lower_bound }}~{{ start_year_tag.upper_bound }}</span>
                                     </a>
                                 </div>
                                 <div class="text-muted mr-3">
-                                    <i class="ni ni-tag mr-1 align-middle"></i><span class="align-middle">Study Abroad School</span>
+                                    <i class="ni ni-tag mr-1 align-middle"></i><span class="align-middle">School End Year</span>
                                     <a href="">
-                                      <span class="badge mr-1 mb-1 badge-secondary">University of Oxford</span>
+                                      <span class="badge mr-1 mb-1 badge-secondary">{{ end_year_tag.lower_bound }}~{{ end_year_tag.upper_bound }}</span>
                                     </a>
                                 </div>
-                                <div class="text-muted mr-3">
-                                    <i class="ni ni-tag mr-1 align-middle"></i><span class="align-middle">Start Year</span>
-                                    <a href="">
-                                      <span class="badge mr-1 mb-1 badge-secondary">2019~</span>
-                                    </a>
-                                </div>
-                                <div class="text-muted mr-3">
-                                    <i class="ni ni-tag mr-1 align-middle"></i><span class="align-middle">End Year</span>
-                                    <a href="">
-                                      <span class="badge mr-1 mb-1 badge-secondary">~2022</span>
-                                    </a>
-                                </div>
-                                <div class="text-muted mr-3">
+                                {% comment %} <div class="text-muted mr-3">
                                     <i class="ni ni-tag mr-1 align-middle"></i><span class="align-middle">Living City</span>
                                     <a href="">
                                       <span class="badge mr-1 mb-1 badge-secondary">Oxford</span>
                                     </a>
-                                </div>
+                                </div> {% endcomment %}
                             </div>
                             
                             <!-- replace follwoing div open tag with the next div open tag, when you want sticky question section    -->
@@ -191,13 +250,15 @@
                             <div>
                                 <div class="d-flex flex-row justify-content-between mb-3">
                                     <h3 class="card-title">
-                                        Looking for accommodation
+                                        {{ ask.title }}
                                     </h3>
+                                    {% if not following and ask.user != user %}
                                     <div>
-                                        <a href="" class="btn btn-info btn-primary btn-sm">
+                                        <a href="{% url 'inquiry:follow' ask.id ask.user.username %}" class="btn btn-info btn-primary btn-sm">
                                             follow
                                         </a>
                                     </div>
+                                    {% endif %}
                                 </div>
 
                                 <div class="row">
@@ -205,38 +266,56 @@
                                         <div class="row justify-content-sm-center justify-content-md-center">
                                             <div class="col-4 col-lg-12 text-lg-center">
                                                 <a href="">
-                                                    <img src="{% static 'img/faces/team-4.jpg' %}"
+                                                    {% if ask.user.profile_image %}
+                                                    <img src="{{ ask.user.profile_image.image.url }}"
                                                         class="img-fluid rounded-circle shadow-lg"
                                                         style="width: 100px;">
+                                                    {% else %}
+                                                    <img src="{% static 'img/placeholder.jpg' %}"
+                                                        class="img-fluid rounded-circle shadow-lg"
+                                                        style="width: 100px;">
+                                                    {% endif %}
                                                 </a>
                                             </div>
                                             <div class="col-8 col-lg-12 text-lg-center mt-lg-2">
-                                                <h5>Jessica Jones
+                                                {% if ask.user.basicinfo %}
+                                                <h5>{{ ask.user.basicinfo.name }}
+                                                    {% if ask.user.basicinfo.status == "FU"%}
+                                                    <img class="img-fluid rounded shadow ml-2"
+                                                        style="width: 1.25rem;"
+                                                        src="{% static 'img/brand/logo_future.png' %}">
+                                                    {% elif ask.user.basicinfo.status == "CU" %}
                                                     <img class="img-fluid rounded shadow ml-2"
                                                         style="width: 1.25rem;"
                                                         src="{% static 'img/brand/logo_current.png' %}">
+                                                    {% elif ask.user.basicinfo.status == "AL" %}
+                                                    <img class="img-fluid rounded shadow ml-2"
+                                                        style="width: 1.25rem;"
+                                                        src="{% static 'img/brand/logo_alumni.png' %}">
+                                                    {% endif %}
+                                                    
                                                 </h5>
                                                 <div class="text-muted font-weight-500 small">
-                                                    from Japan to U.S.
+                                                    from {{ ask.user.basicinfo.country_origin }} to {{ ask.user.basicinfo.country_study_abroad }}.
                                                 </div>
-
-                                                <div class="h6 font-weight-bold mb-0">Harvard University</div>
-                                                <div class="text-muted small font-weight-500">MBA <span
-                                                        class="text-muted font-weight-300"><small>(2020 ~
-                                                            2022)</small></span></div>
-                                                <div class="font-weight-400"><small><i
-                                                            class="ni ni-pin-3 mr-2"></i>Boston,
-                                                        U.S.</small></div>
+                                                {% endif %}
+                                                {% if ask.user.study_abroad %}
+                                                <div class="h6 font-weight-bold mb-0">{{ ask.user.study_abroad.education.school }}</div>
+                                                <div class="text-muted small font-weight-500">{{ ask.user.study_abroad.education.major }}
+                                                    <span class="text-muted font-weight-300">
+                                                    <small>({{ ask.user.study_abroad.education.start_year }} ~ {{ ask.user.study_abroad.education.end_year }})</small>
+                                                    </span>
+                                                </div>
+                                                {% comment %} <div class="font-weight-400">
+                                                    <small><i class="ni ni-pin-3 mr-2"></i>Boston, U.S.</small>
+                                                </div> {% endcomment %}
+                                                {% endif %}
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-8 mt-3 mt-lg-0">
                                         <p class="lead my-0">
-                                            Hi, I enrole in Oxford University in 2021. My college is Crist charch. I am
-                                            looking for afordable accommodations around Oxford. It would be appreciated
-                                            if
-                                            anyone kindly suggest accommodation or website/grounp that I can find
-                                            accoumodations. Thank you inadvance!!
+                                            {{ ask.body | linebreaksbr }}
                                         </p>
                                     </div>
                                 </div>
@@ -246,41 +325,56 @@
                             <div class="row mt-lg">
                                 <div class="col">
                                     <div>
-                                        <h3 class="display-4 text-center">3 Comments</h3>
+                                        {% if comments %}
+                                        <h3 class="display-4 text-center">{{ ask.comments.count }} Comment{{ ask.comments.count | pluralize }}</h3>
+                                        <h3 class="mt-5 mb-4 display-4 text-center">Post your comment</h3>
+                                        {% else %}
+                                        <h3 class="mt-5 mb-4 display-4 text-center">Post the first comment</h3>
+                                        {% endif %}
+                                        {% for comment in comments %}
                                         <div class="media mt-5">
                                             <a class="float-left" href="">
                                                 <div class="avatar">
-                                                    <img class="media-object"
-                                                        src="{% static 'img/faces/card-profile4-square.jpg' %}"
-                                                        alt="...">
+                                                    {% if comment.user.profile_image %}
+                                                    <img src="{{ comment.user.profile_image.image.url }}"
+                                                        class="img-fluid rounded-circle shadow-lg">
+                                                    {% else %}
+                                                    <img src="{% static 'img/placeholder.jpg' %}"
+                                                        class="img-fluid rounded-circle shadow-lg">
+                                                    {% endif %}
                                                 </div>
                                             </a>
                                             <div class="media-body">
                                                 <div class="d-flex flex-row align-items-baseline">
-                                                    <h5 class="media-heading mr-2">Tina Andrew</h5><small
-                                                        class="text-muted">7 minutes ago</small>
+                                                    <h5 class="media-heading mr-2">
+                                                    {% if comment.user.basicinfo %}
+                                                    {{ comment.user.basicinfo.name }}
+                                                    {% else %}
+                                                    @{{ comment.user.username }}
+                                                    {% endif %}
+                                                    </h5><small
+                                                        class="text-muted">{{ comment.created_at | timesince }}</small>
                                                 </div>
                                                 <h6 class="text-muted"></h6>
-                                                <p class="font-size">Chance too good. God level bars. I'm so proud of @LifeOfDesiigner #1
-                                                    song in the country. Panda!
-                                                    Don't be scared of the truth because we need to restart the human
-                                                    foundation in truth I stand with
-                                                    the most humility. We are so blessed!</p>
+                                                <p class="font-size">{{ comment.body | linebreaksbr }}</p>
                                                 <div class="d-flex flex-row justify-content-end">
-                                                    <a href="javascript:;" class="mr-4 text-danger">
-                                                        <small>
-                                                            <i class="ni ni-diamond"></i>
-                                                            &nbsp;20
-                                                        </small>
-                                                    </a>
-                                                    <a href="javascript:;" class="text-primary rep-window">
+                                                    <form action="{% url 'inquiry:like-comment' ask.id comment.id %}" method="POST">
+                                                        {% csrf_token %}
+                                                        <button type="submit" class="mr-4 text-danger btn-transparent">
+                                                            <small>
+                                                                <i class="ni ni-diamond"></i>
+                                                                {{ comment.likes.count }}
+                                                            </small>
+                                                        </button>
+                                                    </form>
+                                                    {% comment %} <a href="javascript:;" class="text-primary rep-window">
                                                         <small>
                                                             <i class="fa fa-reply"></i>
                                                             &nbsp;Reply
                                                         </small>
-                                                    </a>
+                                                    </a> {% endcomment %}
                                                 </div>
-                                                <!-- Replay section -->
+                                                {% comment %} <!-- Replay section -->
                                                 <div class="media-post" style="display: none;">
                                                     <form>
                                                         <div class="media align-items-center mt-5">
@@ -306,119 +400,36 @@
                                                             </div>
                                                         </div>
                                                     </form>
-                                                </div>
+                                                </div> {% endcomment %}
                                             </div>
                                         </div>
-                                        <div class="media mt-5">
-                                            <a class="float-left" href="#pablo">
-                                                <div class="avatar">
-                                                    <img class="media-object" alt="Tim Picture"
-                                                        src="{% static 'img/faces/card-profile1-square.jpg' %}">
-                                                </div>
-                                            </a>
-                                            <div class="media-body">
-                                                <div class="d-flex flex-row align-items-baseline">
-                                                    <h5 class="media-heading mr-2">John Camber </h5><small
-                                                        class="text-muted">Yesterday</small>
-                                                </div>
-                                                <h6 class="text-muted"></h6>
-                                                <p>Hello guys, nice to have you on the platform! There will be a lot of
-                                                    great stuff coming soon. We will
-                                                    keep you posted for the latest news.</p>
-                                                <p> Don't forget, You're Awesome!</p>
-                                                <div class="d-flex flex-row justify-content-end">
-                                                    <a href="javascript:;" class="mr-4 text-danger">
-                                                        <small>
-                                                            <i class="ni ni-diamond"></i>
-                                                            &nbsp;25
-                                                        </small>
-                                                    </a>
-                                                    <a href="javasctipt:;" class="text-primary rep-window">
-                                                        <small>
-                                                            <i class="fa fa-reply"></i>
-                                                            &nbsp;Reply
-                                                        </small>
-                                                    </a>
-                                                </div>
-                                                <!-- Replay section -->
-                                                <div class="media-post" style="display: none;">
-                                                    <form>
-                                                        <div class="media align-items-center mt-5">
-                                                            <img alt="Image placeholder"
-                                                                class="avatar avatar-lg rounded-circle mb-4"
-                                                                src="{% static 'img/faces/card-profile6-square.jpg' %}">
-                                                            <div class="media-body">
-                                                                <textarea class="form-control"
-                                                                    placeholder="Write your comment"
-                                                                    rows="3"></textarea>
-                                                            </div>
-                                                        </div>
-                                                        <div class="text-right ml-auto">
-                                                            <div class="text-right">
-                                                                <button type="button"
-                                                                    class="btn btn-md btn-transparent btn-icon rounded">
-                                                                    <span class="btn-inner--icon icon-big"><i
-                                                                            class="fa fa-image"></i></span>
-                                                                </button>
-                                                                <button class="btn btn-primary btn-sm btn-round">
-                                                                    Post comment
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                                <div class="media mt-5">
-                                                    <a class="float-left" href="">
-                                                        <div class="avatar">
-                                                            <img class="media-object" alt="64x64"
-                                                                src="{% static 'img/faces/card-profile4-square.jpg' %}">
-                                                        </div>
-                                                    </a>
-                                                    <div class="media-body">
-                                                        <div class="d-flex flex-row align-items-baseline">
-                                                            <h5 class="media-heading mr-2">Tina Andrew </h5><small
-                                                                class="text-muted">12 Hours Ago</small>
-                                                        </div>
-                                                        <p>Hello guys, nice to have you on the platform! There will be a
-                                                            lot of great stuff coming soon.
-                                                            We will keep you posted for the latest news.</p>
-                                                        <p> Don't forget, You're Awesome!</p>
-                                                        <div class="d-flex flex-row justify-content-end">
-                                                            <a href="javascript:;" class="text-gray">
-                                                                <small>
-                                                                    <i class="ni ni-diamond"></i>
-                                                                    &nbsp;2
-                                                                </small>
-                                                            </a>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        {% endfor %}
                                     </div>
-                                    <h3 class="mt-5 mb-4 display-4 text-center">Post your comment</h3>
                                     <div class="media media-post">
                                         <div class="media-body">
                                             <!-- Can this form be markdown style? -->
-                                            <form>
+                                            <form action="{% url 'inquiry:comment' ask.id %}" method="POST">
+                                                {% csrf_token %}
                                                 <div class="media align-items-center mt-5">
-                                                    <img alt="Image placeholder"
-                                                        class="avatar avatar-lg rounded-circle mb-4"
-                                                        src="{% static 'img/faces/card-profile6-square.jpg' %}">
+                                                    {% if ask.user.profile_image %}
+                                                    <img src="{{ ask.user.profile_image.image.url }}"
+                                                        class="avatar avatar-lg rounded-circle mb-4">
+                                                    {% else %}
+                                                    <img src="{% static 'img/placeholder.jpg' %}"
+                                                        class="avatar avatar-lg rounded-circle mb-4">
+                                                    {% endif %}
                                                     <div class="media-body">
-                                                        <textarea class="form-control" placeholder="Write your comment"
-                                                            rows="3"></textarea>
+                                                        {% render_field comment_form.body class+="form-control" placeholder="Write your comment" rows="3" %}
                                                     </div>
                                                 </div>
                                                 <div class="text-right ml-auto">
                                                     <div class="text-right">
-                                                        <button type="button"
+                                                        {% comment %} <button type="button"
                                                             class="btn btn-md btn-transparent btn-icon rounded">
                                                             <span class="btn-inner--icon icon-big"><i
                                                                     class="fa fa-image"></i></span>
-                                                        </button>
-                                                        <button class="btn btn-primary btn-sm btn-round">
+                                                        </button> {% endcomment %}
+                                                        <button type="submit" class="btn btn-primary btn-sm btn-round">
                                                             Post comment
                                                         </button>
                                                     </div>

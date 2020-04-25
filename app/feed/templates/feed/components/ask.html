@@ -1,0 +1,186 @@
+{% load static %}
+{% load widget_tweaks %}
+
+<!-- Ask Form -->
+<div class="card shadow ">
+    <div class="card-body p-4 bg-secondary"  style="border-radius: 0.25rem;">
+    <form id="ask-form">
+        <div class="d-flex flex-wrap">
+        <!-- Inquiry -->
+        <div class="order-1 order-lg-2 flex-grow-1" style="min-width: 300px;">
+            <!-- <div class="mb-3">
+            <span class="text-primary" style="font-size: 1rem;">
+                <small>Expected answers are
+                <span class="font-weight-bold">many</span>
+                </small>
+            </span>
+            </div> -->
+            <!-- Input feeld -->
+            <div class="mb-3">
+            <input id="input-title" type="text" class="form-control" placeholder="Title" required></input>
+            </div>
+            <div class="mb-4">
+            <textarea id="input-body" class="form-control" placeholder="Write your question" rows="15" required></textarea>
+            </div>
+            <!-- Ask Button -->
+            <div class="text-right mb-4 ml-auto">
+            <button type="submit" class="btn btn-sm btn-primary btn-icon">
+                <span class="btn-inner--icon icon-big"><i class="fa fa-question"></i></span>
+                <span class="btn-inner--text">Ask</span>
+            </button>
+            </div>
+        </div>
+        <!-- Tags Section -->
+        <div class="order-2 order-lg-1">
+            <div class="mr-3 tags-section">
+            <div class="display-4 mb-4">Tags<small class="text-muted align-baseline ml-2" data-toggle="tooltip" data-placement="top" title="You can add tags! The inquiry appers in the tagged people's feed." data-container="body" data-animation="true"><i class="fa fa-question-circle-o" ></i></small></div>
+            <!-- Alumate status -->
+            <div class="form-group focused">
+                <span class="tag-label">                                  
+                Alumate Status
+                </span>
+                <div class="custom-control custom-checkbox my-3">
+                <input class="custom-control-input" id="customCheck1" type="checkbox">
+                <label class="custom-control-label" for="customCheck1"><i class="fa fa-tag text-muted mr-2"></i>Future Student</label>
+                </div>
+                <div class="custom-control custom-checkbox my-3">
+                <input class="custom-control-input" id="customCheck2" type="checkbox">
+                <label class="custom-control-label" for="customCheck2"><i class="fa fa-tag text-muted mr-2"></i>Current Student</label>
+                </div>
+                <div class="custom-control custom-checkbox my-3">
+                <input class="custom-control-input" id="customCheck3" type="checkbox">
+                <label class="custom-control-label" for="customCheck3"><i class="fa fa-tag text-muted mr-2"></i>Alumni</label>
+                </div>
+            </div>
+            <!-- Home Country -->
+            <div class="form-group focused">
+                <label class="tag-label" for="home_country">                                  
+                Home Country
+                </label>
+                <select id="homeCountrySelect2" name="home_country" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="&#xf02b  Add tags...">
+                    {% for country_option in country_options %}
+                    <option value="{{country_option.name}}">{{country_option.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- Study Abroad Country -->
+            <div class="form-group">
+                <label class="tag-label" for="study_abroad_country">                                
+                Study Abroad Country
+                </label>                                
+                <select id="studyAbroadCountrySelect2" name="study_abroad_country" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="&#xf02b  Add tags...">
+                    {% for country_option in country_options %}
+                    <option value="{{country_option.name}}">{{country_option.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- Study Abroad School -->
+            <div class="form-group">
+                <label class="tag-label" for="study_abroad_school">                                  
+                Study Abroad School
+                </label>                                
+                <select id="studyAbroadSchoolSelect2" name="study_abroad_school" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="&#xf02b  Add tags...">
+                    {% for school_option in school_options %}
+                    <option value="{{school_option.name}}">{{school_option.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- Study Abroad Major -->
+            <div class="form-group">
+                <label class="tag-label" for="study_abroad_major">                                 
+                Study Abroad Major
+                </label>                                
+                <select id="studyAbroadMajorSelect2" name="study_abroad_major" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="&#xf02b  Add tags...">
+                    {% for major_option in major_options %}
+                    <option value="{{major_option.name}}">{{major_option.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- Study Abroad Year -->
+            <div class="form-group">
+                <label class="tag-label" for="home_countries">
+                Study Abroad Year
+                </label>
+                <div class="my-4">
+                <span class="slider-year">Start Year</span>
+                <input class="d-none" type="text" name="startYear_start_input" id="startYear_start_input">                                 
+                <input class="d-none" type="text" name="startYear_end_input" id="startYear_end_input">                                 
+                <span><small class="text-muted"><span data-range-value-low="1970" id="startYear_start"></span> - <span data-range-value-high="2040" id="startYear_end"></span></small></span>
+                <div id="startYear" data-range-value-min="1980" data-range-value-max="2030"></div>
+                </div>
+                <div class="my-4">
+                <span class="slider-year">End Year</span>    
+                <input class="d-none" type="text" name="endYear_start_input" id="endYear_start_input">                                 
+                <input class="d-none" type="text" name="endYear_end_input" id="endYear_end_input">                                 
+                <span><small class="text-muted"><span data-range-value-low="1970" id="endYear_start"></span> - <span data-range-value-high="2040" id="endYear_end"></span></small></span>
+                <div id="endYear" data-range-value-min="1980" data-range-value-max="2030"></div>
+                </div>
+            </div>
+            {% comment %} <!-- Living City -->
+            <div class="form-group">
+                <label class="tag-label" for="living_city">                                  
+                Living City
+                </label>
+                <select name="living_city" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="&#xf02b  Add tags...">
+                </select>                               
+            </div> {% endcomment %}
+            </div>
+        </div>
+        <!-- End Tags Section-->
+        </div>
+    </form>
+    </div>
+</div>
+<!-- End Ask Form -->
+
+<!-- Asks Area -->
+{% for ask in ask_list %}
+<div class="card card-blog card-zoom" data-header="pattern" data-animation="zooming">
+    <a href="{% url 'inquiry:detail' ask.value.id %}">
+    <img class="img pattern rounded" src="{% static 'img/ill/presentation_bg.png' %}">
+    </a>
+    <div class="card-body">
+    {% if ask.school_tag %}
+    <h6 class="card-category text-danger">
+        <i class="ni ni-badge"></i> {{ ask.school_tag }}
+    </h6>
+    {% endif %}
+    <h5 class="card-title">
+        <a href="{% url 'inquiry:detail' ask.value.id %}">{{ ask.value.title | truncatechars:30 }}</a>
+    </h5>
+    <p class="card-description">{{ ask.value.body | truncatechars:80 }}</p>
+    <div class="author">
+        {% if ask.value.user.profile_image %}
+        <img src={{ask.value.user.profile_image.image.src}} alt="..." class="avatar">
+        {% else %}
+        <img src="{% static 'img/placeholder.jpg' %}" alt="..." class="avatar">
+        {% endif %}
+        {% if ask.value.user.basicinfo.name %}
+        <span>by {{ ask.value.user.basicinfo.name }}</span>
+        {% else %}
+        <span>by @{{ ask.value.user }}</span>
+        {% endif %}
+    </div>
+    </div>
+    <div class="card-footer">
+        <div class="icon-actions">
+            <form action="{% url 'feed:like-ask' ask.value.id %}" method="POST" class="float-left">
+                {% csrf_token %}
+                <button type="submit" class="like-button  {% if ask.liked %}active{% endif %}">
+                <i class="ni ni-like-2"></i>
+                <span class="text-muted">{{ ask.value.likes.count }}</span>
+                </button>
+            </form>
+            <a href="{% url 'inquiry:detail' ask.value.id %}">
+            <i class="ni ni-chat-round"></i>
+            <span class="text-muted">{{ ask.value.comments.count }}</span>
+            </a>
+            {% comment %} <a href="javascript:;">
+            <i class="ni ni-curved-next"></i>
+            <span class="text-muted">0</span>
+            </a> {% endcomment %}
+        </div>
+    </div>
+</div>
+{% endfor %}
+<!-- End Asks Area -->

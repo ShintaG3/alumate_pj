@@ -16,4 +16,3 @@ class PostCommentForm(forms.ModelForm):
     class Meta:
         model = PostComment
         fields = ['body', ]
-        
