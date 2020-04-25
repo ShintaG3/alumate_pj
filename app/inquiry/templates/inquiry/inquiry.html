@@ -337,6 +337,10 @@
   </script>
   <!-- filter form -->
   <script>
+    function csrfSafeMethod(method) {
+      // these HTTP methods do not require CSRF protection
+      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
     function applyChange() {
       var futureStudentId = 'customCheck1';
       var currentStudentId = 'customCheck2';
@@ -386,7 +390,17 @@
         status.push('AL')
       }
       var csrftoken = Cookies.get('csrftoken');
-      console.log('apply change...')
+      var jsonData = {
+        'status': status,
+        'home_countries': homeCountries,
+        'study_abroad_countries': studyAbroadCountries,
+        'schools': studyAbroadSchools,
+        'majors': studyAbroadMajors,
+        'start_year': startYear,
+        'end_year': endYear
+      };
+      console.log(jsonData)
+      console.log('applying change...')
       $.ajaxSetup({
         beforeSend: function(xhr, settings) {
           if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
@@ -395,27 +409,18 @@
         }
       });
       $.ajax({
-        url: 'search',
+        url: 'update-result',
         method: 'POST',
-        data: {
-          'status': status,
-          'home_countries': homeCountries,
-          'study_abroad_countries': studyAbroadCountries,
-          'schools': studyAbroadSchools,
-          'majors': studyAbroadMajors,
-          'start_year': startYear,
-          'end_year': endYear
-        },
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(jsonData),
         success: function(result) {
           console.log(result);
           $('#result-area').html(result);
+        },
+        error: function(error) {
+          console.log(error);
         }
       });
-
-      function csrfSafeMethod(method) {
-        // these HTTP methods do not require CSRF protection
-        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-      }
     }
   </script>
 {% endblock %}
@@ -578,55 +583,9 @@
       {% include "include/search_filter.html" %}
       </div>
       <!-- Inquiries -->
-      <div class="col-lg-9 col-12">
-        <div class="row">
-          {% for ask in ask_list %}
-          <div class="col-6">
-            <div class="card card-blog card-zoom" data-animation="zooming">
-              {% comment %} <a href="{% url 'inquiry:inquiry-detail' %}" >
-                <img class="img pattern rounded" src="{% static 'img/ill/presentation_bg.png' %}">
-              </a> {% endcomment %}
-              <div class="card-body" style="background-color: white;">
-                {% if ask.school_tag %}
-                <h6 class="card-category text-danger">
-                  <i class="ni ni-badge"></i> {{ ask.school_tag }}
-                </h6>
-                {% endif %}
-                <h5 class="card-title">
-                  <a href="{% url 'inquiry:detail' ask.value.id %}">{{ ask.value.title | truncatechars:70 | linebreaksbr }}</a>
-                </h5>
-                <p class="card-description">{{ ask.value.body | truncatechars:150  }}</p>
-              </div>
-              <div class="card-footer">
-                  <div class="icon-actions">
-                    <form action="{% url 'inquiry:like' ask.value.id %}" method="POST" class="float-left">
-                      {% csrf_token %}
-                      <button type="submit" class="like-button {% if ask.liked %}active{% endif %}">
-                        <i class="ni ni-like-2"></i>
-                        <span class="text-muted">{{ ask.value.likes.count }}</span>
-                      </button>
-                    </form>
-                    <a href="{% url 'inquiry:detail' ask.value.id %}">
-                      <i class="ni ni-chat-round"></i>
-                      <span class="text-muted">{{ ask.value.comments.count }}</span>
-                    </a>
-                      {% comment %} <a href="javascript:;">
-                        <i class="ni ni-curved-next"></i>
-                        <span class="text-muted">12</span>
-                      </a> {% endcomment %}
-                  </div>
-              </div>
-            </div>
-          </div>
-          {% endfor %}
-        </div>
-        {% comment %} <div class="row">
-          <div class="ml-auto mr-auto my-5 text-center">
-            <button rel="tooltip" class="btn btn-primary btn-round btn-simple">Load more...</button>
-          </div>
-        </div> {% endcomment %}
+      <div class="col-lg-9 col-12" id="result-area">
+        {% include './result.html' %}
       </div>
-      
     </div>
   </div>
 </div>
