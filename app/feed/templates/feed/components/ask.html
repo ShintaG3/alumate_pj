@@ -57,9 +57,9 @@
                 <label class="tag-label" for="home_country">                                  
                 Home Country
                 </label>
-                <select name="home_country" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="&#xf02b  Add tags...">
+                <select id="homeCountrySelect2" name="home_country" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="&#xf02b  Add tags...">
                     {% for country_option in country_options %}
-                    <option value="{{country_option}}">{{country_option.name}}</option>
+                    <option value="{{country_option.name}}">{{country_option.name}}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -68,9 +68,9 @@
                 <label class="tag-label" for="study_abroad_country">                                
                 Study Abroad Country
                 </label>                                
-                <select name="study_abroad_country" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="&#xf02b  Add tags...">
+                <select id="studyAbroadCountrySelect2" name="study_abroad_country" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="&#xf02b  Add tags...">
                     {% for country_option in country_options %}
-                    <option value="{{country_option}}">{{country_option.name}}</option>
+                    <option value="{{country_option.name}}">{{country_option.name}}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -79,9 +79,9 @@
                 <label class="tag-label" for="study_abroad_school">                                  
                 Study Abroad School
                 </label>                                
-                <select name="study_abroad_school" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="&#xf02b  Add tags...">
+                <select id="studyAbroadSchoolSelect2" name="study_abroad_school" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="&#xf02b  Add tags...">
                     {% for school_option in school_options %}
-                    <option value="{{school_option}}">{{school_option.name}}</option>
+                    <option value="{{school_option.name}}">{{school_option.name}}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -90,9 +90,9 @@
                 <label class="tag-label" for="study_abroad_major">                                 
                 Study Abroad Major
                 </label>                                
-                <select name="study_abroad_major" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="&#xf02b  Add tags...">
+                <select id="studyAbroadMajorSelect2" name="study_abroad_major" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="&#xf02b  Add tags...">
                     {% for major_option in major_options %}
-                    <option value="{{major_option}}">{{major_option.name}}</option>
+                    <option value="{{major_option.name}}">{{major_option.name}}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -122,27 +122,6 @@
                 Living City
                 </label>
                 <select name="living_city" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="&#xf02b  Add tags...">
-                <optgroup label="Alaskan/Hawaiian Time Zone">
-                    <option value="AK">Alaska</option>
-                    <option value="HI" disabled="disabled">Hawaii</option>
-                </optgroup>
-                <optgroup label="Pacific Time Zone">
-                    <option value="CA">California</option>
-                    <option value="NV">Nevada</option>
-                    <option value="OR">Oregon</option>
-                    <option value="WA">Washington</option>
-                </optgroup>
-                <optgroup label="Eastern Time Zone">
-                    <option value="CT">Connecticut</option>
-                    <option value="DE">Delaware</option>
-                    <option value="FL">Florida</option>
-                    <option value="VT">Vermont</option>
-                    <option value="VA">Virginia</option>
-                    <option value="WV">West Virginia</option>
-                </optgroup>
-                <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
-                <option value="TPZ">The Panic Zone</option>
-                <option value="TTZ">The Twilight Zone</option>
                 </select>                               
             </div> {% endcomment %}
             </div>
@@ -157,19 +136,19 @@
 <!-- Asks Area -->
 {% for ask in ask_list %}
 <div class="card card-blog card-zoom" data-header="pattern" data-animation="zooming">
-    <a href="javascript:;">
+    <a href="{% url 'inquiry:detail' ask.value.id %}">
     <img class="img pattern rounded" src="{% static 'img/ill/presentation_bg.png' %}">
     </a>
     <div class="card-body">
-    {% if school_tag %}
+    {% if ask.school_tag %}
     <h6 class="card-category text-danger">
-        <i class="ni ni-badge"></i> {{ school_tag }}
+        <i class="ni ni-badge"></i> {{ ask.school_tag }}
     </h6>
     {% endif %}
     <h5 class="card-title">
-        <a href="javascript:;">{{ ask.value.title }}</a>
+        <a href="{% url 'inquiry:detail' ask.value.id %}">{{ ask.value.title | truncatechars:30 }}</a>
     </h5>
-    <p class="card-description">{{ ask.value.body }}</p>
+    <p class="card-description">{{ ask.value.body | truncatechars:80 }}</p>
     <div class="author">
         {% if ask.value.user.profile_image %}
         <img src={{ask.value.user.profile_image.image.src}} alt="..." class="avatar">
@@ -185,18 +164,21 @@
     </div>
     <div class="card-footer">
         <div class="icon-actions">
-            <a href="javascript:;" class="like active">
-            <i class="ni ni-like-2"></i>
-            <span class="text-muted">0</span>
-            </a>
-            <a href="javascript:;">
+            <form action="{% url 'feed:like-ask' ask.value.id %}" method="POST" class="float-left">
+                {% csrf_token %}
+                <button type="submit" class="like-button  {% if ask.liked %}active{% endif %}">
+                <i class="ni ni-like-2"></i>
+                <span class="text-muted">{{ ask.value.likes.count }}</span>
+                </button>
+            </form>
+            <a href="{% url 'inquiry:detail' ask.value.id %}">
             <i class="ni ni-chat-round"></i>
-            <span class="text-muted">0</span>
+            <span class="text-muted">{{ ask.value.comments.count }}</span>
             </a>
-            <a href="javascript:;">
+            {% comment %} <a href="javascript:;">
             <i class="ni ni-curved-next"></i>
             <span class="text-muted">0</span>
-            </a>
+            </a> {% endcomment %}
         </div>
     </div>
 </div>

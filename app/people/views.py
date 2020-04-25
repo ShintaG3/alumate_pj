@@ -41,11 +41,10 @@ def update_result(request, *args, **kwargs):
 
     # relative_url = '{}?{}'.format((reverse('people:index')), urlencode(query_params))
     search_result = get_search_result(query_params, request.user)
-    print(search_result)
     return render(request, 'people/result.html', context={'result': search_result, 'searched': True})
 
 def get_search_result(query_params, user):
-    search_result = BasicInfo.objects.exclude(user)
+    search_result = BasicInfo.objects.exclude(user=user)
     search_result_education = Education.objects.all()
     for key in query_params.keys():
         value_list = query_params.get(key)

@@ -5,7 +5,7 @@
 <!-- Post Form -->
 <div class="card shadow p-4">
     <div class="card-body p-0">
-    <form action="post" method="POST" enctype="multipart/form-data">
+    <form action="{% url 'feed:create-post' %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
         <div class="media align-items-center">
         <img alt="Image placeholder" class="avatar avatar-lg rounded-circle mb-4" src="
@@ -145,7 +145,7 @@
             </div>
             <p class="text-sm lh-160">{{ comment.body }}</p>
             <div class="icon-actions">
-                <form action="{% url 'feed:like-comment' comment.id %}" method="POST">
+                <form action="{% url 'feed:like-post-comment' comment.id %}" method="POST">
                 {% csrf_token %}
                 <button type="submit" class="like-button {% for like in comment.comment_likes.all %}{% if like.user == user %}active{% endif %}{% endfor %}">
                     <i class="ni ni-like-2"></i>
@@ -166,7 +166,7 @@
         </div>
     {% endfor %}
     <!-- Comment form for a post -->
-        <form action="{% url 'feed:comment' post.value.id %}" method="POST" enctype="multipart/form-data">
+        <form action="{% url 'feed:comment-post' post.value.id %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="media align-items-center">
             <img alt="Image placeholder" class="avatar avatar-lg rounded-circle mb-4" src="

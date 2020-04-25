@@ -380,7 +380,7 @@
 
 {% block content %}
 <div class="bg-secondary" style="min-height: 100%">
-
+  
   <!-- Modal "updateFilter" -->
   <div class="modal fade" id="updateFilter" tabindex="-1" role="dialog" aria-labelledby="updateFilter"
     aria-hidden="true">
@@ -400,51 +400,31 @@
                   <!-- Alumate status -->
                   <div class="form-group focused">
                     <span class="tag-label">
-                      
                       Alumate Status
                     </span>
                     <div class="custom-control custom-checkbox my-3">
-                      <input class="custom-control-input" id="customCheck1-modal" type="checkbox">
+                      <input class="custom-control-input" id="customCheck1-modal" type="checkbox" checked>
                       <label class="custom-control-label" for="customCheck1-modal">Future Student</label>
                     </div>
                     <div class="custom-control custom-checkbox ">
-                      <input class="custom-control-input" id="customCheck2-modal" type="checkbox">
+                      <input class="custom-control-input" id="customCheck2-modal" type="checkbox" checked>
                       <label class="custom-control-label" for="customCheck2-modal">Current Student</label>
                     </div>
                     <div class="custom-control custom-checkbox my-3">
-                      <input class="custom-control-input" id="customCheck3-modal" type="checkbox">
+                      <input class="custom-control-input" id="customCheck3-modal" type="checkbox" checked>
                       <label class="custom-control-label" for="customCheck3-modal">Alumni</label>
                     </div>
                   </div>
                   <!-- Home Country -->
                   <div class="form-group focused">
                     <label class="tag-label" for="home_country">
-                      
                       Home Country
                     </label>
                     <select id="homeCountrySelect2-modal" name="home_country" class="select2-multiple select2-hidden-accessible" multiple="multiple"
                       tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
-                      <optgroup label="Alaskan/Hawaiian Time Zone">
-                        <option value="AK">Alaska</option>
-                        <option value="HI" disabled="disabled">Hawaii</option>
-                      </optgroup>
-                      <optgroup label="Pacific Time Zone">
-                        <option value="CA">California</option>
-                        <option value="NV">Nevada</option>
-                        <option value="OR">Oregon</option>
-                        <option value="WA">Washington</option>
-                      </optgroup>
-                      <optgroup label="Eastern Time Zone">
-                        <option value="CT">Connecticut</option>
-                        <option value="DE">Delaware</option>
-                        <option value="FL">Florida</option>
-                        <option value="VT">Vermont</option>
-                        <option value="VA">Virginia</option>
-                        <option value="WV">West Virginia</option>
-                      </optgroup>
-                      <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
-                      <option value="TPZ">The Panic Zone</option>
-                      <option value="TTZ">The Twilight Zone</option>
+                      {% for country in home_country_options %}
+                      <option value="{{country}}">{{country}}</option>
+                      {% endfor %}
                     </select>
                   </div>
                   <!-- Study Abroad Country -->
@@ -455,27 +435,9 @@
                     </label>
                     <select id="studyAbroadCountrySelect2-modal" name="study_abroad_country" class="select2-multiple select2-hidden-accessible" multiple="multiple"
                       tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
-                      <optgroup label="Alaskan/Hawaiian Time Zone">
-                        <option value="AK">Alaska</option>
-                        <option value="HI" disabled="disabled">Hawaii</option>
-                      </optgroup>
-                      <optgroup label="Pacific Time Zone">
-                        <option value="CA">California</option>
-                        <option value="NV">Nevada</option>
-                        <option value="OR">Oregon</option>
-                        <option value="WA">Washington</option>
-                      </optgroup>
-                      <optgroup label="Eastern Time Zone">
-                        <option value="CT">Connecticut</option>
-                        <option value="DE">Delaware</option>
-                        <option value="FL">Florida</option>
-                        <option value="VT">Vermont</option>
-                        <option value="VA">Virginia</option>
-                        <option value="WV">West Virginia</option>
-                      </optgroup>
-                      <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
-                      <option value="TPZ">The Panic Zone</option>
-                      <option value="TTZ">The Twilight Zone</option>
+                      {% for country in study_abroad_country_options %}
+                      <option value="{{country}}">{{country}}</option>
+                      {% endfor %}
                     </select>
                   </div>
                   <!-- Study Abroad School -->
@@ -486,64 +448,26 @@
                     </label>
                     <select id="studyAbroadSchoolSelect2-modal" name="study_abroad_school" class="select2-multiple select2-hidden-accessible" multiple="multiple"
                       tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
-                      <optgroup label="Alaskan/Hawaiian Time Zone">
-                        <option value="AK">Alaska</option>
-                        <option value="HI" disabled="disabled">Hawaii</option>
-                      </optgroup>
-                      <optgroup label="Pacific Time Zone">
-                        <option value="CA">California</option>
-                        <option value="NV">Nevada</option>
-                        <option value="OR">Oregon</option>
-                        <option value="WA">Washington</option>
-                      </optgroup>
-                      <optgroup label="Eastern Time Zone">
-                        <option value="CT">Connecticut</option>
-                        <option value="DE">Delaware</option>
-                        <option value="FL">Florida</option>
-                        <option value="VT">Vermont</option>
-                        <option value="VA">Virginia</option>
-                        <option value="WV">West Virginia</option>
-                      </optgroup>
-                      <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
-                      <option value="TPZ">The Panic Zone</option>
-                      <option value="TTZ">The Twilight Zone</option>
+                      {% for school in school_options %}
+                      <option value="{{school}}">{{school}}</option>
+                      {% endfor %}
                     </select>
                   </div>
                   <!-- Study Abroad Major -->
                   <div class="form-group">
                     <label class="tag-label" for="study_abroad_major">
-                      
                       Study Abroad Major
                     </label>
                     <select id="studyAbroadMajorSelect2-modal" name="study_abroad_major" class="select2-multiple select2-hidden-accessible" multiple="multiple"
                       tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
-                      <optgroup label="Alaskan/Hawaiian Time Zone">
-                        <option value="AK">Alaska</option>
-                        <option value="HI" disabled="disabled">Hawaii</option>
-                      </optgroup>
-                      <optgroup label="Pacific Time Zone">
-                        <option value="CA">California</option>
-                        <option value="NV">Nevada</option>
-                        <option value="OR">Oregon</option>
-                        <option value="WA">Washington</option>
-                      </optgroup>
-                      <optgroup label="Eastern Time Zone">
-                        <option value="CT">Connecticut</option>
-                        <option value="DE">Delaware</option>
-                        <option value="FL">Florida</option>
-                        <option value="VT">Vermont</option>
-                        <option value="VA">Virginia</option>
-                        <option value="WV">West Virginia</option>
-                      </optgroup>
-                      <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
-                      <option value="TPZ">The Panic Zone</option>
-                      <option value="TTZ">The Twilight Zone</option>
+                      {% for major in major_options %}
+                      <option value="{{major}}">{{major}}</option>
+                      {% endfor %}
                     </select>
                   </div>
                   <!-- Study Abroad Year -->
                   <div class="form-group">
                     <label class="tag-label" for="home_countries">
-                      
                       Study Abroad Year
                     </label>
                     <div class="my-4">
@@ -564,36 +488,15 @@
                     </div>
                   </div>
                   <!-- Living City -->
-                  <div class="form-group">
+                  {% comment %} <div class="form-group">
                     <label class="tag-label" for="living_city">
-                      
                       Living City
                     </label>
                     <select name="living_city" class="select2-multiple select2-hidden-accessible" multiple="multiple"
                       tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
-                      <optgroup label="Alaskan/Hawaiian Time Zone">
-                        <option value="AK">Alaska</option>
-                        <option value="HI" disabled="disabled">Hawaii</option>
-                      </optgroup>
-                      <optgroup label="Pacific Time Zone">
-                        <option value="CA">California</option>
-                        <option value="NV">Nevada</option>
-                        <option value="OR">Oregon</option>
-                        <option value="WA">Washington</option>
-                      </optgroup>
-                      <optgroup label="Eastern Time Zone">
-                        <option value="CT">Connecticut</option>
-                        <option value="DE">Delaware</option>
-                        <option value="FL">Florida</option>
-                        <option value="VT">Vermont</option>
-                        <option value="VA">Virginia</option>
-                        <option value="WV">West Virginia</option>
-                      </optgroup>
-                      <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
-                      <option value="TPZ">The Panic Zone</option>
-                      <option value="TTZ">The Twilight Zone</option>
+                      
                     </select>
-                  </div>
+                  </div> {% endcomment %}
                   <!-- Apply button -->
                   <div class="text-center mb-lg">
                     <button type="button" class="btn btn-primary" onclick="applyChange()" data-dismiss="modal">Apply</button>
@@ -616,139 +519,10 @@
       </div>
     </div>
     <div class="row">
-      <!-- Tags Section -->
+      <!-- Tag filter -->
       <div class="col-lg-3 d-none d-lg-block">
-        <form action="">
-          <div class="mr-3 tags-section">
-            <!-- Alumate status -->
-            <div class="form-group focused">
-              <span class="tag-label">
-                Alumate Status
-              </span>
-              <div class="custom-control custom-checkbox my-3">
-                <input class="custom-control-input" id="customCheck1" type="checkbox" checked>
-                <label class="custom-control-label" for="customCheck1">Future Student</label>
-              </div>
-              <div class="custom-control custom-checkbox my-3">
-                <input class="custom-control-input" id="customCheck2" type="checkbox" checked>
-                <label class="custom-control-label" for="customCheck2">Current Student</label>
-              </div>
-              <div class="custom-control custom-checkbox my-3">
-                <input class="custom-control-input" id="customCheck3" type="checkbox" checked>
-                <label class="custom-control-label" for="customCheck3">Alumni</label>
-              </div>
-            </div>
-            <!-- Home Country -->
-            <div class="form-group focused">
-              <label class="tag-label" for="home_country">
-                Home Country
-              </label>
-              <select id="homeCountrySelect2" name="home_country" class="select2-multiple select2-hidden-accessible" multiple="multiple"
-                tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
-                {% for country in home_country_options %}
-                <option value="{{country}}">{{country}}</option>
-                {% endfor %}
-              </select>
-            </div>
-            <!-- Study Abroad Country -->
-            <div class="form-group">
-              <label class="tag-label" for="study_abroad_country">
-                Study Abroad Country
-              </label>
-              <select id="studyAbroadCountrySelect2" name="study_abroad_country" class="select2-multiple select2-hidden-accessible" multiple="multiple"
-                tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
-                {% for country in study_abroad_country_options %}
-                <option value="{{country}}">{{country}}</option>
-                {% endfor %}
-              </select>
-            </div>
-            <!-- Study Abroad School -->
-            <div class="form-group">
-              <label class="tag-label" for="study_abroad_school">
-                Study Abroad School
-              </label>
-              <select id="studyAbroadSchoolSelect2" name="study_abroad_school" class="select2-multiple select2-hidden-accessible" multiple="multiple"
-                tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
-                {% for school in school_options %}
-                <option value="{{school}}">{{school}}</option>
-                {% endfor %}
-              </select>
-            </div>
-            <!-- Study Abroad Major -->
-            <div class="form-group">
-              <label class="tag-label" for="study_abroad_major">
-                Study Abroad Major
-              </label>
-              <select id="studyAbroadMajorSelect2" name="study_abroad_major" class="select2-multiple select2-hidden-accessible" multiple="multiple"
-                tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
-                {% for major in major_options %}
-                <option value="{{major}}">{{major}}</option>
-                {% endfor %}
-              </select>
-            </div>
-            <!-- Study Abroad Year -->
-            <div class="form-group">
-              <label class="tag-label" for="home_countries">
-                Study Abroad Year
-              </label>
-              <div class="my-4">
-                <span class="slider-year">Start Year</span>
-                <input class="d-none" type="text" name="startYear_start_input" id="startYear_start_input">
-                <input class="d-none" type="text" name="startYear_end_input" id="startYear_end_input">
-                <span><small class="text-muted"><span data-range-value-low="1970" id="startYear_start"></span> -
-                    <span data-range-value-high="2040" id="startYear_end"></span></small></span>
-                <div id="startYear" data-range-value-min="1980" data-range-value-max="2030"></div>
-              </div>
-              <div class="my-4">
-                <span class="slider-year">End Year</span>
-                <input class="d-none" type="text" name="endYear_start_input" id="endYear_start_input">
-                <input class="d-none" type="text" name="endYear_end_input" id="endYear_end_input">
-                <span><small class="text-muted"><span data-range-value-low="1970" id="endYear_start"></span> - <span
-                      data-range-value-high="2040" id="endYear_end"></span></small></span>
-                <div id="endYear" data-range-value-min="1980" data-range-value-max="2030"></div>
-              </div>
-            </div>
-            <!-- Living City -->
-            {% comment %} <div class="form-group">
-              <label class="tag-label" for="living_city">
-                Living City
-              </label>
-              <select name="living_city" class="select2-multiple select2-hidden-accessible" multiple="multiple"
-                tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
-                <optgroup label="Alaskan/Hawaiian Time Zone">
-                  <option value="AK">Alaska</option>
-                  <option value="HI" disabled="disabled">Hawaii</option>
-                </optgroup>
-                <optgroup label="Pacific Time Zone">
-                  <option value="CA">California</option>
-                  <option value="NV">Nevada</option>
-                  <option value="OR">Oregon</option>
-                  <option value="WA">Washington</option>
-                </optgroup>
-                <optgroup label="Eastern Time Zone">
-                  <option value="CT">Connecticut</option>
-                  <option value="DE">Delaware</option>
-                  <option value="FL">Florida</option>
-                  <option value="VT">Vermont</option>
-                  <option value="VA">Virginia</option>
-                  <option value="WV">West Virginia</option>
-                </optgroup>
-                <option value="TNOGZ" disabled="disabled">The No Optgroup Zone</option>
-                <option value="TPZ">The Panic Zone</option>
-                <option value="TTZ">The Twilight Zone</option>
-              </select>
-            </div> {% endcomment %}
-            <!-- Apply button -->
-            <div class="text-center mb-lg">
-              <button type="button" class="btn btn-primary" onclick="applyChange()">Apply</button>
-            </div>
-          </div>
-        </form>
+      {% include "include/search_filter.html" %}
       </div>
-      <!-- End Tags Section-->
-      
-      
-     
       <!-- Results area -->
       <div id="result-area" class="col-lg-9 col-12">
       {% include "./result.html" %}

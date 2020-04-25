@@ -1,8 +1,10 @@
 from django.contrib.auth.models import User
 from django.views import View
 from django.views.generic.base import TemplateView
+from accounts.models import Country, School, Major
 from .models import *
-from .forms import PostForm, PostCommentForm
+from .forms import *
+from inquiry.models import *
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -52,10 +54,17 @@ class FeedView(LoginRequiredMixin, TemplateView):
         asks = Ask.objects.all()[:10]
         for ask in asks:
             school_tags = list(AskTagSchool.objects.filter(ask=ask).values_list('body', flat=True))
+            print(school_tags)
             school_tags_str = ', '.join(school_tags)
+
+            try:
+                liked = AskLike.objects.get(user=user, ask=ask)
+            except AskLike.DoesNotExist:
+                liked = None
 
             ask_list.append({
                 'value': ask,
+                'liked': liked,
                 'school_tag': school_tags_str,
             })
 
@@ -78,7 +87,7 @@ class PostCommentView(LoginRequiredMixin, View):
     
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST, request.FILES)
-        post = Post.objects.get(pk=kwargs['post_id'])
+        post = Post.objects.get(pk=kwargs['id'])
         if form.is_valid:
             comment = form.save(commit=False)
             comment.user = self.request.user
@@ -91,7 +100,7 @@ class PostCommentView(LoginRequiredMixin, View):
 class PostLikeView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         user = request.user
-        post = Post.objects.get(pk=kwargs['post_id'])
+        post = Post.objects.get(pk=kwargs['id'])
         try:
             like = PostLike.objects.get(user=user, post=post)
             like.delete()
@@ -103,7 +112,7 @@ class PostLikeView(LoginRequiredMixin, View):
 class PostCommentLikeView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         user = request.user
-        comment = PostComment.objects.get(pk=kwargs['comment_id'])
+        comment = PostComment.objects.get(pk=kwargs['id'])
         try:
             like = PostCommentLike.objects.get(user=user, comment=comment)
             like.delete()
@@ -117,11 +126,18 @@ class AskView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         user = request.user
         data = json.loads(request.body)
+        
+        print(data)
 
         ask = Ask.objects.create(user=user, title=data['title'], body=data['body'])
         
         for tag in data.get('status', []):
-            AskTagStatus.objects.create(ask=ask, body=tag)
+            if tag == 'FU':
+                AskTagStatus.objects.create(ask=ask, body=CurrentStatus.FUTURE_STUDENT)
+            elif tag == 'CU':
+                AskTagStatus.objects.create(ask=ask, body=CurrentStatus.CURRENT_STUDENT)
+            elif tag == 'AL':
+                AskTagStatus.objects.create(ask=ask, body=CurrentStatus.ALUMNI)
         
         for tag in data.get('home_countries', []):
             country = Country.objects.get(name=tag)
@@ -144,11 +160,16 @@ class AskView(LoginRequiredMixin, View):
 def doubleStrToInt(str):
     int_str = str[0:4]
     return int(int_str)
-    
-class AskDetail(LoginRequiredMixin, View):
-    def get(self, request, *args, **kwargs):
-        
-        return
-    
+
+
+class AskLikeView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
-        return
+        user = request.user
+        ask = Ask.objects.get(pk=kwargs['id'])
+        try:
+            like = AskLike.objects.get(user=user, ask=ask)
+            like.delete()
+        except AskLike.DoesNotExist:
+            AskLike(user=user, ask=ask).save()
+            
+        return redirect('/feed/')
