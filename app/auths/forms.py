@@ -51,7 +51,7 @@ class UserLoginForm(forms.Form):
     username = forms.CharField(widget=forms.TextInput(
         attrs={
             'class': 'form-control',
-            'placeholder': 'Email'
+            'placeholder': 'Email or username'
         }
     ))
     password = forms.CharField(widget=forms.PasswordInput(
@@ -65,14 +65,14 @@ class UserLoginForm(forms.Form):
     )
 
     def clean(self, *args, **kwargs):
-        username = self.cleaned_data.get('username')
+        username_or_email = self.cleaned_data.get('username')
         password = self.cleaned_data.get('password')
         remember_me = self.cleaned_data.get('remember_me')
 
-        if username and password:
+        if username_or_email and password:
             try:
-                user = User.objects.get(Q(username=username) | 
-                                        Q(email=username))
+                user = User.objects.get(Q(username=username_or_email) | 
+                                        Q(email=username_or_email))
             except:
                 raise forms.ValidationError('Sorry, email/username not registered')
             username = user.username

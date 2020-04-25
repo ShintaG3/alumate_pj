@@ -9,6 +9,7 @@ from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
+from django.db.models import Q
 
 
 class SignupView(FormView):
@@ -38,7 +39,10 @@ class LoginView(FormView):
         cd = form.cleaned_data
         if not cd['remember_me']:
             self.request.session.set_expiry(0)
-        user = authenticate(self.request, username=cd['username'], password=cd['password'])
+        get_user = User.objects.get(Q(username=cd['username']) | 
+                                Q(email=cd['username'])) 
+        username = get_user.username
+        user = authenticate(self.request, username=username, password=cd['password'])
         if (user is not None):
             login(self.request, user)
             if next and next != '/':
