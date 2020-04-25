@@ -1,6 +1,6 @@
 from django.urls import path
 from django.views.generic import TemplateView
-from .views import *
+from .views import InquiryView, InquiryDetailView, InquiryLikeView, InquiryCommentLikeView, InquiryCommentView, FollowView, update_result
 
 app_name="inquiry"
 

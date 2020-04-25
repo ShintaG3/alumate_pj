@@ -4,8 +4,8 @@ from django.views import View
 from django.views.generic.base import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect, reverse, render
-from .models import *
-from .forms import *
+from .models import Ask, AskLike, AskComment, AskCommentLike, AskTagStatus, AskTagHomeCountry, AskTagStudyAbroadCountry, AskTagSchool, AskTagMajor, AskTagStartYear, AskTagEndYear
+from .forms import AskCommentForm
 from accounts.models import Follow
 import json
 
