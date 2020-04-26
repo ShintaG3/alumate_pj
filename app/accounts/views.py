@@ -96,7 +96,7 @@ class AccountView(LoginRequiredMixin, TemplateView):
             'education_already_added': educations,
             'study_abroad': study_abroad,
             'study_abroad_choice_form': StudyAbroadSelectForm(user=account),
-            'study_abroad_new_form': StudyAbroadEducationForm(),
+            'study_abroad_new_form': StudyAbroadEducationForm(user=account),
             'basic_info_form': BasicInfoForm(instance=basic_info),
             'goals': goals,
             'goals_values': goals_str,
