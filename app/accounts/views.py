@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from .forms import *
-from .models import BasicInfo, Goal, StudyInterest, About, Education, WorkExperience
+from .models import BasicInfo, Goal, StudyInterest, About, Education, WorkExperience, Follow
+from feed.models import Post, PostLike
 from django.views.generic.base import TemplateView
 from django.contrib.auth.models import User
 from django.views import View
@@ -78,6 +79,8 @@ class AccountView(LoginRequiredMixin, TemplateView):
             study_abroad = None
 
         new_message_form = DirectMessageForm()
+
+        post_list = self.get_post_list(user=account)
         
         context = {
             'account_user': account,
@@ -108,7 +111,8 @@ class AccountView(LoginRequiredMixin, TemplateView):
             'is_following': following,
             'followers': followers,
             'followings': followings,
-            'new_message_form': new_message_form
+            'new_message_form': new_message_form,
+            'post_list': post_list,
         }
         return context
     
@@ -189,6 +193,30 @@ class AccountView(LoginRequiredMixin, TemplateView):
                 'form': SocialLinkForm(instance=social_link)
             })
         return social_link_lists
+    
+    # this is same function as in feed
+    def get_post_list(self, user):
+        posts = Post.objects.all()[:10]
+        post_list = []
+        
+        for post in posts:
+            try:
+                liked = PostLike.objects.get(user=user, post=post)
+            except PostLike.DoesNotExist:
+                liked = None
+            try:
+                following = Follow.objects.get(follower=user, followed=post.user)
+            except Follow.DoesNotExist:
+                following = None
+            
+            print(following)
+                
+            post_list.append({
+                'value': post,
+                'liked': liked,
+                'user_following': following
+            })
+        return post_list
                                 
 class BasicInfoUpdateView(LoginRequiredMixin, View):
     form_class = BasicInfoForm
