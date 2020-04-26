@@ -1,0 +1,203 @@
+{% load static %}
+{% load widget_tweaks %}
+{% load tz %}
+
+<!-- Post Form -->
+<div class="card shadow p-4">
+    <div class="card-body p-0">
+    <form action="{% url 'feed:create-post' %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+        <div class="media align-items-center">
+        <img alt="Image placeholder" class="avatar avatar-lg rounded-circle mb-4" src="
+        {% if user.profile_image %}
+        {{ user.profile_image.image.url }}
+        {% else %}
+        {% static 'img/placeholder.jpg' %}
+        {% endif %}
+        ">
+        <div class="media-body">
+            {% render_field new_post_form.body class+="form-control" placeholder="Write your post" rows="3" %}
+        </div>
+        </div>
+        <div id="image-preview-container" class="d-none">
+        <img id="post-preview-image" class="w-100 h-100">
+        </div>
+        <div class="text-right ml-auto">
+        <div class="btn p-0 upload-btn-wrapper align-middle">
+            <button type="button" class="btn mr-0 btn-icon rounded">
+            <span class="btn-inner--icon icon-big"><i class="fa fa-image"></i></span>
+            </button>
+            {% render_field new_post_form.image id="post-image-input" %}
+        </div>
+        <button type="submit" class="btn btn-sm btn-primary btn-icon">
+            <span class="btn-inner--icon icon-big"><i class="ni ni-fat-add"></i></span>
+            <span class="btn-inner--text">Post</span>
+        </button>
+        </div>
+    </form>
+    </div>
+</div>
+<!-- End Post Form -->
+
+<!-- Posts Area -->
+{% for post in post_list %}
+<div class="card mt-sm">
+    <div class="card-header d-flex align-items-center">
+    <div class="d-flex align-items-center">
+        <a href="javascript:;">
+        <img src="
+        {% if post.value.user.profile_image %}
+        {{ post.value.user.profile_image.image.url }}
+        {% else %}
+        {% static 'img/placeholder.jpg' %}
+        {% endif %}
+        " class="avatar">
+        </a>
+        <div class="mx-3">
+        <a href="{% url 'accounts:account-page' post.value.user.username %}" class="text-dark font-weight-600 text-sm">
+        {% if post.value.user.basicinfo.name %}
+        {{ post.value.user.basicinfo.name }}
+        {% else %}
+        @{{ post.value.user.username }}
+        {% endif %}
+        </a>
+        <small class="d-block text-muted">{{ post.created_at|localtime }}</small>
+        </div>
+    </div>
+    {% if not post.user_following and user != post.value.user %}
+    <div class="text-right ml-auto">
+        <form action="{% url 'accounts:follow' post.value.user.username %}" method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-sm btn-primary btn-icon">
+            <span class="btn-inner--icon icon-big"><i class="ni ni-fat-add"></i></span>
+            <span class="btn-inner--text">Follow</span>
+        </button>
+        </form>
+    </div>
+    {% endif %}
+    </div>
+    <div class="card-body">
+    <p class="mb-4">
+    {{ post.value.body }}
+    </p>
+    {% if post.value.image %}
+        <img alt="Image placeholder" src={{ post.value.image.url }} class="img-fluid rounded">
+    {% endif %}
+    <div class="row align-items-center my-3 pb-3 border-bottom">
+        <div class="col-sm-6">
+        <div class="icon-actions">
+            <form action="{% url 'feed:like-post' post.value.id %}" method="POST" class="float-left">
+            {% csrf_token %}
+            <button type="submit" class="like-button {% if post.liked %}active{% endif %} ">
+            {% comment %} <button href="javascript:;" class="like active"> {% endcomment %}
+                <i class="ni ni-like-2"></i>
+                <span class="text-muted">{{ post.value.post_likes.count }}</span>
+            </button>
+            </form>
+            <a href="javascript:;">
+            <i class="ni ni-chat-round"></i>
+            <span class="text-muted">{{ post.value.comments.count }}</span>
+            </a>
+            {% comment %} <a href="javascript:;">
+            <i class="ni ni-curved-next"></i>
+            <span class="text-muted">{{ post.shares }}</span>
+            </a> {% endcomment %}
+        </div>
+        </div>
+        {% comment %} <div class="col-sm-6 d-none d-sm-block">
+        <div class="d-flex align-items-center justify-content-sm-end">
+            <div class="avatar-group">
+            <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-toggle="tooltip" data-original-title="Jessica Rowland">
+                <img alt="Image placeholder" src="{% static 'img/faces/team-1.jpg' %}" class="">
+            </a>
+            <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-toggle="tooltip" data-original-title="Audrey Love">
+                <img alt="Image placeholder" src="{% static 'img/faces/team-2.jpg' %}" class="rounded-circle">
+            </a>
+            <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-toggle="tooltip" data-original-title="Michael Lewis">
+                <img alt="Image placeholder" src="{% static 'img/faces/team-3.jpg' %}" class="rounded-circle">
+            </a>
+            </div>
+            <small class="pl-2 font-weight-bold">and 30+ more</small>
+        </div>
+        </div> {% endcomment %}
+    </div>
+    <!-- Comments -->
+    <div class="mb-1">
+    {% for comment in post.value.comments.all %}
+        <div class="media media-comment">
+        <img alt="Image placeholder" class="avatar avatar-lg rounded-circle" src="
+        {% if comment.user.profile_image %}
+        {{ comment.user.profile_image.image.url }}
+        {% else %}
+        {% static 'img/placeholder.jpg' %}
+        {% endif %}
+        ">
+        <div class="media-body">
+            <div class="media-comment-text">
+            <div class="mb-2">
+                <a href="{% url 'accounts:account-page' comment.user.username %}" class="text-dark font-weight-600 text-sm">
+                {% if comment.user.basicinfo.name %}
+                {{ comment.user.basicinfo.name }}
+                {% else %}
+                @{{ comment.user }}
+                {% endif %}
+                </a>
+            </div>
+            <p class="text-sm lh-160">{{ comment.body }}</p>
+            <div class="icon-actions">
+                <form action="{% url 'feed:like-post-comment' comment.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="like-button {% for like in comment.comment_likes.all %}{% if like.user == user %}active{% endif %}{% endfor %}">
+                    <i class="ni ni-like-2"></i>
+                    {% if comment.comment_likes.count != 0 %}
+                    <span class="text-muted">{{ comment.comment_likes.count }}</span>
+                    {% endif %}
+                </button>
+                </form>
+                {% comment %} <a href="javascript:;" class="like active"> {% endcomment %}
+                
+                {% comment %} <a href="javascript:;">
+                <i class="ni ni-curved-next"></i>
+                <span class="text-muted">2 shares</span>
+                </a> {% endcomment %}
+            </div>
+            </div>
+        </div>
+        </div>
+    {% endfor %}
+    <!-- Comment form for a post -->
+        <form action="{% url 'feed:comment-post' post.value.id %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="media align-items-center">
+            <img alt="Image placeholder" class="avatar avatar-lg rounded-circle mb-4" src="
+            {% if user.profile_image %}
+            {{ user.profile_image.image.url }}
+            {% else %}
+            {% static 'img/placeholder.jpg' %}
+            {% endif %}
+            ">
+            <div class="media-body">
+            {% render_field comment_form.body class+="form-control" placeholder="Write your post" rows="1" %}
+            </div>
+        </div>
+        <div class="d-none">
+            <img class="w-100 h-100">
+        </div>
+        <div class="text-right ml-auto">
+            {% comment %} <div class="btn p-0 upload-btn-wrapper align-middle">
+            <button type="button" class="btn mr-0 btn-icon rounded">
+                <span class="btn-inner--icon icon-big"><i class="fa fa-image"></i></span>
+            </button>
+            {% render_field comment_form.image id="post-image-input" %}
+            </div> {% endcomment %}
+            <button type="submit" class="btn btn-sm btn-primary btn-icon">
+            <span class="btn-inner--icon icon-big"><i class="ni ni-fat-add"></i></span>
+            <span class="btn-inner--text">Comment</span>
+            </button>
+        </div>
+        </form>
+    </div>
+    </div>
+</div>
+{% endfor %}
+<!-- Posts Area -->

@@ -5,15 +5,171 @@
 {% endblock %}
 
 {% block style %}
-<link type="text/css" href="{% static 'vendor/select2/css/select2.min.css' %}" rel="stylesheet">
-<!-- <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" /> -->
-<!-- Bootstrap -->
-<!-- <link type="text/css" href="{% static 'css/bootstrap/bootstrap.min.css' %}" rel="stylesheet"> -->
-<!-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css"> -->
-<link type="text/css" href="{% static 'vendor/select2-bootstrap/select2-bootstrap.min.css' %}" rel="stylesheet">
-<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css"> -->
+  <!-- select2 -->
+  <link type="text/css" href="{% static 'vendor/select2/css/select2.min.css' %}" rel="stylesheet">
+  <link type="text/css" href="{% static 'vendor/select2-bootstrap/select2-argon.min.css' %}" rel="stylesheet">
+  <style>
+    /* this will be removed in the future as it is the same css as in people.html */
+    /* overwright select2.min.css */
+    .select2-container--open .select2-dropdown--below {
+      border: none;
+    }
 
-<style>
+    .select2-container--open .select2-dropdown--above {
+      border: none;
+    }
+
+    /* tags */
+    .tag-label {
+      border-bottom: .0625rem solid rgba(0, 0, 0, .05);
+      display: block;
+      padding: .25rem 0;
+      color: #172b4d;
+    }
+
+    .tags-section {
+      /* max-width: 15rem; */
+      width: 12rem;
+      margin-right: 1.5rem;
+      flex: 0 1 27%;
+      text-align: left;
+    }
+
+    .tags-section .form-group {
+      margin-bottom: 30px;
+    }
+
+    .modal-body .tags-section {
+      /* width: 12rem; */
+      /* font-size: 0.875rem; */
+      margin-left:auto;
+      margin-right: auto;
+      flex: 0 1 27%;
+      /* text-align: center; */
+      /* margin-bottom: 2rem; */
+    }
+
+
+    .list-name {
+      font-size:.9rem;
+      font-family: inherit;
+      font-weight: 600;
+      /* line-height: 1.5; */
+      color: #32325d;
+    }
+    .list-image{
+      width: 1rem;
+    }
+    .list-uni{
+      font-size:.9rem;
+      font-family: inherit;
+      font-weight: 400;
+      /* line-height: 1.5; */
+      color: #5e72e4;
+    }
+    .list-major{
+      font-size:.9rem;
+      font-family: inherit;
+      font-weight: 400;
+      /* line-height: 1.5; */
+      color: #8898aa;
+    }
+
+    .list-border{
+      border-bottom: .0625rem solid rgba(0, 0, 0, .05);
+      display: block;
+      padding-bottom: 1rem;
+      padding-top: 1rem;
+    }
+    .card {
+        margin-bottom: 30px;
+        box-shadow: 0 1px 1px rgba(50,50,93,.1), 0 1px 1px rgba(0,0,0,.07);
+        border: 0;
+    }
+
+    /* image */
+    .avatar-responsive {
+      /* xs */
+      /* width: 24px;
+      height: 24px;
+      font-size: .75rem; */
+      /* sm */
+      /* width: 36px;
+      height: 36px;
+      font-size: .875rem; */
+      /* md */
+      /* width: 48px;
+      height: 48px;
+      font-size: 1rem; */
+      /* lg */
+      /* width: 58px;
+      height: 58px; */
+      font-size: .875rem;
+      /* xl */
+      width: 58px;
+      height: 58px;
+
+    }
+
+    /* media */
+    @media (min-width: 1200px) {}
+
+    @media (min-width: 992px) {
+      .avatar-responsive {
+        width: 100px;
+        height: 100px;
+      }
+      .list-border{
+      border-bottom: none;
+      display: block;
+      padding-bottom: 0;
+      padding-top: 0;
+
+      }
+      .list-name{
+      font-size:calc(1.25rem * 0.875);
+      margin-bottom:calc( 0.5rem * 0.875);
+      font-family: inherit;
+      font-weight: 400;
+      line-height: 1.5;
+      color: #32325d;
+      }
+      .list-image{
+        width: 1.25rem;
+      }
+      .list-uni{
+      font-size:calc(1rem * 0.875);
+      font-family: inherit;
+      font-weight: 600;
+      line-height: 1.5;
+      color: #32325d;
+    }
+    .list-major{
+      font-size:calc(1rem * 0.875);
+      font-family: inherit;
+      font-weight: 500;
+      /* line-height: 1.5; */
+      color: #8898aa;
+    }
+
+    @media (min-width: 768px) {
+
+    }
+
+    @media (min-width: 576px) {
+
+    }
+  </style>
+  <!-- Slider -->
+  <link href="{% static 'vendor/nouislider/css/nouislider.min.css' %}" rel="stylesheet">
+  <style>
+    .slider-year {
+      font-weight: 700;
+      font-size: .75rem;
+      display: block;
+    }
+  </style>
+  <style>
   /* select2 input style */
   .select2-search__field {
     width:100% !important;
@@ -28,147 +184,410 @@
   -webkit-transform: scale(1.07);
   z-index: 2;
   }
-</style>
+  </style>
+  <style>
+   .like-button {
+    background-color: transparent;
+    border: none;
+    text-decoration: none;
+    display: inline-block;
+    margin-right: .75rem;
+    font-size: .875rem;
+    color: #32325d;
+    padding: 0;
+  }
+
+  .like-button.active, 
+  .like-button:hover {
+    color: #5e72e4;
+  }
+
+  .like-button:focus {
+    outline: none;
+  }
+
+  .like-button>span {
+    margin-left: .1875rem;
+    font-weight: 600;
+  }
+  </style>
 {% endblock %}
+
 {% block scripts %}
-<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script> -->
-<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script> -->
-<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/i18n/ja.js"></script> -->
-<!-- <script src="{% static 'js/argon-d.min.js' %}"></script> -->
-<!-- <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.full.js"></script> -->
-<!-- <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script> -->
-<!-- <script src="{% static 'vendor/select2/js/select2.min.js' %}"></script> -->
-<!-- <script src="{% static 'vendor/jquery-scrollbar/jquery.scrollbar.min.js' %}"></script> -->
-<!-- <script src="{% static 'vendor/jquery-scroll-lock/jquery-scrollLock.min.js' %}"></script> -->
-<!-- <script src="{% static 'vendor/bootstrap/bootstrap.min.js' %}"></script> -->
-<!-- <script src="{% static 'vendor/anchor-js/anchor.min.js' %}"></script> -->
+  <!-- Select2 -->
+  <script src="{% static 'vendor/anchor-js/anchor.min.js' %}"></script>
+  <script src="{% static 'vendor/select2/js/select2.full.js' %}"></script>
+  <!-- Select2 config -->
+  <script>
+    $.fn.select2.defaults.set("theme", "bootstrap");
+    $(window).on('load resize', function(){
+      var winW = $(window).width();
+      var devW = 991.87;
+      var dropdownParent = $(document.body);
+      if (winW <= devW) {
+        var dropdownParent = $("#dropdownParent");
+      } else {
+        var dropdownParent = $(document.body);
+      }
+      $(".select2-single, .select2-multiple").select2({
+        placeholder: function () {
+          $(this).data('placeholder');
+        },
+        width: null,
+        containerCssClass: ':all:',
+        dropdownParent: dropdownParent, //change dropdownParent between modal and large screen
+      });
+    });
+    $(".select2-single, .select2-multiple, .select2-allow-clear, .js-data-example-ajax").on("select2:open", function () {
+      if ($(this).parents("[class*='has-']").length) {
+        var classNames = $(this).parents("[class*='has-']")[0].className.split(/\s+/);
+        for (var i = 0; i < classNames.length; ++i) {
+          if (classNames[i].match("has-")) {
+            $("body > .select2-container").addClass(classNames[i]);
+          }
+        }
+      }
+    });
+  </script>
+  <!-- noUIslider for Study abroad year-->
+  <script>
+    // for larg screen filter
+    var startYear = document.getElementById("startYear"),
+        startYear_start = document.getElementById("startYear_start"),
+        startYear_start_input = document.getElementById("startYear_start_input"),
+        startYear_end = document.getElementById("startYear_end"),
+        startYear_end_input = document.getElementById("startYear_end_input"),
+        starYear_span = [startYear_start, startYear_end];
+        starYear_input = [startYear_start_input, startYear_end_input];
+    noUiSlider.create(startYear, {
+      start: [parseInt(startYear_start.getAttribute('data-range-value-low')), parseInt(startYear_end.getAttribute('data-range-value-high'))],
+      connect: !0,
+      start: ['2000', '2010'],
+      step: 1,
+      range: {
+        min: parseInt(startYear.getAttribute('data-range-value-min')),
+        max: parseInt(startYear.getAttribute('data-range-value-max'))
+      }
+    }), startYear.noUiSlider.on("update", function (a, b) {
+      starYear_span[b].textContent = Math.round(a[b])
+      starYear_input[b].value = Math.round(a[b])
+    })
+    var endYear = document.getElementById("endYear"),
+        endYear_start = document.getElementById("endYear_start"),
+        endYear_start_input = document.getElementById("endYear_start_input"),
+        endYear_end = document.getElementById("endYear_end"),
+        endYear_end_input = document.getElementById("endYear_end_input"),
+        endYear_span = [endYear_start, endYear_end];
+        endYear_input = [endYear_start_input, endYear_end_input];
+    noUiSlider.create(endYear, {
+      start: [parseInt(endYear_start.getAttribute('data-range-value-low')), parseInt(endYear_end.getAttribute('data-range-value-high'))],
+      connect: !0,
+      start: ['2000', '2010'],
+      step: 1,
+      range: {
+        min: parseInt(endYear.getAttribute('data-range-value-min')),
+        max: parseInt(endYear.getAttribute('data-range-value-max'))
+      }
+    }), endYear.noUiSlider.on("update", function (a, b) {
+      endYear_span[b].textContent = Math.round(a[b])
+      endYear_input[b].value = Math.round(a[b])
+    })
+
+    // for modal filter
+    var startYear_modal = document.getElementById("startYear-modal"),
+        startYear_start_modal = document.getElementById("startYear_start-modal"),
+        startYear_start_input_modal = document.getElementById("startYear_start_input-modal"),
+        startYear_end_modal = document.getElementById("startYear_end-modal"),
+        startYear_end_input_modal = document.getElementById("startYear_end_input-modal"),
+        starYear_span_modal = [startYear_start_modal, startYear_end_modal];
+        starYear_input_modal = [startYear_start_input_modal, startYear_end_input_modal];
+    noUiSlider.create(startYear_modal, {
+      start: [parseInt(startYear_start_modal.getAttribute('data-range-value-low')), parseInt(startYear_end_modal.getAttribute('data-range-value-high'))],
+      connect: !0,
+      start: ['2000', '2010'],
+      step: 1,
+      range: {
+        min: parseInt(startYear_modal.getAttribute('data-range-value-min')),
+        max: parseInt(startYear_modal.getAttribute('data-range-value-max'))
+      }
+    }), startYear_modal.noUiSlider.on("update", function (a, b) {
+      starYear_span_modal[b].textContent = Math.round(a[b])
+      starYear_input_modal[b].value = Math.round(a[b])
+    })
+    var endYear_modal = document.getElementById("endYear-modal"),
+        endYear_start_modal = document.getElementById("endYear_start-modal"),
+        endYear_start_input_modal = document.getElementById("endYear_start_input-modal"),
+        endYear_end_modal = document.getElementById("endYear_end-modal"),
+        endYear_end_input_modal = document.getElementById("endYear_end_input-modal"),
+        endYear_span_modal = [endYear_start_modal, endYear_end_modal];
+        endYear_input_modal = [endYear_start_input_modal, endYear_end_input_modal];
+    noUiSlider.create(endYear_modal, {
+      start: [parseInt(endYear_start_modal.getAttribute('data-range-value-low')), parseInt(endYear_end_modal.getAttribute('data-range-value-high'))],
+      connect: !0,
+      start: ['2000', '2010'],
+      step: 1,
+      range: {
+        min: parseInt(endYear_modal.getAttribute('data-range-value-min')),
+        max: parseInt(endYear_modal.getAttribute('data-range-value-max'))
+      }
+    }), endYear_modal.noUiSlider.on("update", function (a, b) {
+      endYear_span_modal[b].textContent = Math.round(a[b])
+      endYear_input_modal[b].value = Math.round(a[b])
+    })
+  </script>
+  <!-- filter form -->
+  <script>
+    function csrfSafeMethod(method) {
+      // these HTTP methods do not require CSRF protection
+      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    function applyChange() {
+      var futureStudentId = 'customCheck1';
+      var currentStudentId = 'customCheck2';
+      var alumniId = 'customCheck3';
+
+      var homeCountryId = 'homeCountrySelect2'
+      var studyAbroadCountryId = 'studyAbroadCountrySelect2';
+      var studyAbroadSchoolId = 'studyAbroadSchoolSelect2';
+      var studyAbroadMajorId = 'studyAbroadMajorSelect2';
+      
+      var startYearId = 'startYear';
+      var endYearId = 'endYear';
+
+      if (window.innerWidth < 992) { // modal
+        var modalId = '-modal';
+        futureStudentId += modalId;
+        currentStudentId += modalId;
+        alumniId += modalId;
+        homeCountryId += modalId;
+        studyAbroadCountryId += modalId;
+        studyAbroadSchoolId += modalId;
+        studyAbroadMajorId += modalId;
+        startYearId += modalId;
+        endYearId += modalId;
+      }
+
+      var futureStudent = document.getElementById(futureStudentId).checked;
+      var currentStudent = document.getElementById(currentStudentId).checked;
+      var alumni = document.getElementById(alumniId).checked;
+
+      var homeCountries = $(`#${homeCountryId}`).val();
+      var studyAbroadCountries = $(`#${studyAbroadCountryId}`).val();
+      var studyAbroadSchools = $(`#${studyAbroadSchoolId}`).val();
+      var studyAbroadMajors = $(`#${studyAbroadMajorId}`).val();
+      
+      var startYear = document.getElementById(startYearId).noUiSlider.get();
+      var endYear = document.getElementById(endYearId).noUiSlider.get();
+
+      var status = []
+      if (futureStudent) {
+        status.push('FU')
+      }
+      if (currentStudent) {
+        status.push('CU')
+      }
+      if (alumni) {
+        status.push('AL')
+      }
+      var csrftoken = Cookies.get('csrftoken');
+      var jsonData = {
+        'status': status,
+        'home_countries': homeCountries,
+        'study_abroad_countries': studyAbroadCountries,
+        'schools': studyAbroadSchools,
+        'majors': studyAbroadMajors,
+        'start_year': startYear,
+        'end_year': endYear
+      };
+      console.log(jsonData)
+      console.log('applying change...')
+      $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+          if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+              xhr.setRequestHeader("X-CSRFToken", csrftoken);
+          }
+        }
+      });
+      $.ajax({
+        url: 'update-result',
+        method: 'POST',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(jsonData),
+        success: function(result) {
+          console.log(result);
+          $('#result-area').html(result);
+        },
+        error: function(error) {
+          console.log(error);
+        }
+      });
+    }
+  </script>
 {% endblock %}
 
 {% block content %}
-
-    <div class="wrapper">     
-      <div class="main">
-        <div class="pt-lg mb-5 container">
-
-          <div class="row mb-5">
-            <div class="col-md-8">
-              <h3 class="display-3">Inquiries</h3>
-              <p class="lead mt-1">Share the information and richen the collective knowledge to maximize the possibility that all people are able to reach the write information. Making a inquiry is the best way to reach your goals. Answering questions is the best way to support your mates.</p>
+<div class="bg-secondary" style="min-height: 100%">
+  
+  <!-- this modal should be shared in the future as it is the same as in people.html -->
+  <!-- Modal "updateFilter" -->
+  <div class="modal fade" id="updateFilter" tabindex="-1" role="dialog" aria-labelledby="updateFilter"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0" id="dropdownParent">
+          <div class="card bg-secondary shadow border-0 mb-0">
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Find Alumate Filter</h6>
+              </div>
             </div>
-          </div>
-          {% include 'include/search_filter.html' %}
-          <div class="row">
-            <div class="col-lg-4 col-md-6">
-              <div class="card card-blog card-zoom" data-header="pattern" data-animation="zooming">
-                <a href="{% url 'inquiry:inquiry-detail' %}">
-                  <img class="img pattern rounded" src="{% static 'img/ill/presentation_bg.png' %}">
-                </a>
-                <div class="card-body">
-                  <h6 class="card-category text-danger">
-                    <i class="ni ni-badge"></i> Oxford
-                  </h6>
-                  <h5 class="card-title">
-                    <a href="{% url 'inquiry:inquiry-detail' %}">Looking for accommodation</a>
-                  </h5>
-                  <p class="card-description">
-                    Hi, I enrole in Oxford University in 2021. My college is Crist charch. I am looking for afordable accommodations around Oxford...
-                  </p>
-                </div>
-                <div class="card-footer">
-                    <div class="icon-actions">
-                        <a href="javascript:;" class="like active">
-                          <i class="ni ni-like-2"></i>
-                          <span class="text-muted">150</span>
-                        </a>
-                        <a href="javascript:;">
-                          <i class="ni ni-chat-round"></i>
-                          <span class="text-muted">36</span>
-                        </a>
-                        <a href="javascript:;">
-                          <i class="ni ni-curved-next"></i>
-                          <span class="text-muted">12</span>
-                        </a>
+            <div class="card-body p-4">
+              <!-- Form -->
+              <form action="" >
+                <div class="tags-section">
+                  <!-- Alumate status -->
+                  <div class="form-group focused">
+                    <span class="tag-label">
+                      Alumate Status
+                    </span>
+                    <div class="custom-control custom-checkbox my-3">
+                      <input class="custom-control-input" id="customCheck1-modal" type="checkbox" checked>
+                      <label class="custom-control-label" for="customCheck1-modal">Future Student</label>
                     </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-              <div class="card card-blog card-zoom" data-header="pattern" data-animation="zooming">
-                  <!-- <img class="card-img-top" src="{% static 'img/ill/linth3.svg' %}" alt=""> -->
-                  <!-- <div class="card-header">
-                </div> -->
-                <a href="{% url 'inquiry:inquiry-detail' %}">
-                  <img class="img pattern rounded" src="{% static 'img/ill/linth3.svg' %}">
-                </a>
-                <div class="card-body">
-                  <h6 class="card-category text-danger">
-                    <i class="ni ni-badge"></i> Job hunting
-                  </h6>
-                  <h5 class="card-title">
-                    <a href="{% url 'inquiry:inquiry-detail' %}">How to increase the possibility to get job?</a>
-                  </h5>
-                  <p class="card-description">
-                    I am undergraduate student studing accounting at Coventry University. I want to wark in the ...
-                  </p>
-                </div>
-                <div class="card-footer">
-                    <div class="icon-actions">
-                        <a href="javascript:;" class="like active">
-                          <i class="ni ni-like-2"></i>
-                          <span class="text-muted">150</span>
-                        </a>
-                        <a href="javascript:;">
-                          <i class="ni ni-chat-round"></i>
-                          <span class="text-muted">36</span>
-                        </a>
-                        <a href="javascript:;">
-                          <i class="ni ni-curved-next"></i>
-                          <span class="text-muted">12</span>
-                        </a>
+                    <div class="custom-control custom-checkbox ">
+                      <input class="custom-control-input" id="customCheck2-modal" type="checkbox" checked>
+                      <label class="custom-control-label" for="customCheck2-modal">Current Student</label>
                     </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-              <div class="card card-blog card-zoom" data-header="pattern" data-animation="zooming">
-                <a href="{% url 'inquiry:inquiry-detail' %}">
-                  <img class="img pattern rounded" src="{% static 'img/ill/p2.svg' %}">
-                </a>
-                <div class="card-body">
-                  <h6 class="card-category text-danger">
-                    <i class="ni ni-badge"></i> Fashion
-                  </h6>
-                  <h5 class="card-title">
-                    <a href="{% url 'inquiry:inquiry-detail' %}">Wardrobe essentials</a>
-                  </h5>
-                  <p class="card-description">
-                    Trends may come and go, but wardrobe essentials are here to stay. Basic pieces tend to be universal across.
-                  </p>
-                </div>
-                <div class="card-footer">
-                    <div class="icon-actions">
-                        <a href="javascript:;" class="like active">
-                          <i class="ni ni-like-2"></i>
-                          <span class="text-muted">150</span>
-                        </a>
-                        <a href="javascript:;">
-                          <i class="ni ni-chat-round"></i>
-                          <span class="text-muted">36</span>
-                        </a>
-                        <a href="javascript:;">
-                          <i class="ni ni-curved-next"></i>
-                          <span class="text-muted">12</span>
-                        </a>
+                    <div class="custom-control custom-checkbox my-3">
+                      <input class="custom-control-input" id="customCheck3-modal" type="checkbox" checked>
+                      <label class="custom-control-label" for="customCheck3-modal">Alumni</label>
                     </div>
+                  </div>
+                  <!-- Home Country -->
+                  <div class="form-group focused">
+                    <label class="tag-label" for="home_country">
+                      Home Country
+                    </label>
+                    <select id="homeCountrySelect2-modal" name="home_country" class="select2-multiple select2-hidden-accessible" multiple="multiple"
+                      tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
+                      {% for country in home_country_options %}
+                      <option value="{{country}}">{{country}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                  <!-- Study Abroad Country -->
+                  <div class="form-group">
+                    <label class="tag-label" for="study_abroad_country">
+                      
+                      Study Abroad Country
+                    </label>
+                    <select id="studyAbroadCountrySelect2-modal" name="study_abroad_country" class="select2-multiple select2-hidden-accessible" multiple="multiple"
+                      tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
+                      {% for country in study_abroad_country_options %}
+                      <option value="{{country}}">{{country}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                  <!-- Study Abroad School -->
+                  <div class="form-group">
+                    <label class="tag-label" for="study_abroad_school">
+                      
+                      Study Abroad School
+                    </label>
+                    <select id="studyAbroadSchoolSelect2-modal" name="study_abroad_school" class="select2-multiple select2-hidden-accessible" multiple="multiple"
+                      tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
+                      {% for school in school_options %}
+                      <option value="{{school}}">{{school}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                  <!-- Study Abroad Major -->
+                  <div class="form-group">
+                    <label class="tag-label" for="study_abroad_major">
+                      Study Abroad Major
+                    </label>
+                    <select id="studyAbroadMajorSelect2-modal" name="study_abroad_major" class="select2-multiple select2-hidden-accessible" multiple="multiple"
+                      tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
+                      {% for major in major_options %}
+                      <option value="{{major}}">{{major}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                  <!-- Study Abroad Year -->
+                  <div class="form-group">
+                    <label class="tag-label" for="home_countries">
+                      Study Abroad Year
+                    </label>
+                    <div class="my-4">
+                      <span class="slider-year">Start Year</span>
+                      <input class="d-none" type="text" name="startYear_start_input" id="startYear_start_input-modal">
+                      <input class="d-none" type="text" name="startYear_end_input" id="startYear_end_input-modal">
+                      <span><small class="text-muted"><span data-range-value-low="1970" id="startYear_start-modal"></span> -
+                          <span data-range-value-high="2040" id="startYear_end-modal"></span></small></span>
+                      <div id="startYear-modal" data-range-value-min="1980" data-range-value-max="2030"></div>
+                    </div>
+                    <div class="my-4">
+                      <span class="slider-year">End Year</span>
+                      <input class="d-none" type="text" name="endYear_start_input" id="endYear_start_input-modal">
+                      <input class="d-none" type="text" name="endYear_end_input" id="endYear_end_input-modal">
+                      <span><small class="text-muted"><span data-range-value-low="1970" id="endYear_start-modal"></span> - <span
+                            data-range-value-high="2040" id="endYear_end-modal"></span></small></span>
+                      <div id="endYear-modal" data-range-value-min="1980" data-range-value-max="2030"></div>
+                    </div>
+                  </div>
+                  <!-- Living City -->
+                  {% comment %} <div class="form-group">
+                    <label class="tag-label" for="living_city">
+                      Living City
+                    </label>
+                    <select name="living_city" class="select2-multiple select2-hidden-accessible" multiple="multiple"
+                      tabindex="-1" aria-hidden="true" data-placeholder="Add tags">
+                      
+                    </select>
+                  </div> {% endcomment %}
+                  <!-- Apply button -->
+                  <div class="text-center mb-lg">
+                    <button type="button" class="btn btn-primary" onclick="applyChange()" data-dismiss="modal">Apply</button>
+                  </div>
                 </div>
-              </div>
+              </form>
+              <!-- End Form -->
             </div>
-            <div class="col-md-3 ml-auto mr-auto mt-5 text-center">
-                <button rel="tooltip" class="btn btn-primary btn-round btn-simple">Load more...</button>
-              </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
+  <!-- End Modal "updateFilter" -->
+  
+  <div class="pt-lg mb-5 container">
+    <div class="row mb-3">
+      <div class="col-md-8">
+        <h3 class="display-3">Inquiries</h3>
+        <p class="lead mt-1">Share the information and richen the collective knowledge to maximize the possibility that all people are able to reach the write information. Making a inquiry is the best way to reach your goals. Answering questions is the best way to support your mates.</p>
+      </div>
+    </div>
+    
+    <!-- Filter Button to show modal (apper when screen width < 992px) -->
+    <div class="row d-lg-none">
+      <div class="col-md-8">
+        <button class="btn-primary btn" data-toggle="modal" data-target="#updateFilter" data-placement="top" data-container="body" data-animation="true">
+          Filter
+        </button>
+      </div>
+    </div>
+    
+    <div class="row mt-3">
+      <!-- Tag filter -->
+      <div class="col-lg-3 d-none d-lg-block">
+      {% include "include/search_filter.html" %}
+      </div>
+      <!-- Inquiries -->
+      <div class="col-lg-9 col-12" id="result-area">
+        {% include './result.html' %}
+      </div>
+    </div>
+  </div>
+</div>
 
-  {% endblock %}
+{% endblock %}
