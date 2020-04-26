@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, redirect, render
-from .forms import BasicInfoForm, ProfileImageForm, EducationForm, StudyAbroadForm, AboutForm, WorkExperienceForm, ScholarshipForm, SocialLinkForm, ProfileForm, StudyAbroadEducationForm
+from .forms import BasicInfoForm, ProfileImageForm, EducationForm, StudyAbroadSelectForm, AboutForm, WorkExperienceForm, ScholarshipForm, SocialLinkForm, ProfileForm, StudyAbroadEducationForm
 from .models import BasicInfo, Goal, StudyInterest, About, Education, WorkExperience, Major, Scholarship, SocialLink, Follow, ProfileImage, Profile, StudyAbroad
 from feed.models import Post, PostLike
 from django.views.generic.base import TemplateView
