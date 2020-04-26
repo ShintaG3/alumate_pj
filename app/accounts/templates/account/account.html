@@ -646,7 +646,7 @@
                 </div>
                 {% if study_abroad.education %}
                 <div class="h5">{{ study_abroad.education.school }}</div>
-                <div class="font-weight-500">{{ study_abroad.education.major}}</div>
+                <div class="font-weight-500">{{ study_abroad.education.get_degree_display }} in {{ study_abroad.education.major}}</div>
                 <div class="text-muted font-weight-300"><small>{{ study_abroad.education.start_year }} ~ {{ study_abroad.education.end_year }}</small></div>
                 {% endif %}
                 {% comment %} <div class="font-weight-400 mt-4"><i class="ni ni-pin-3 mr-2"></i>{{ basic_info.living_city }}</div> {% endcomment %}
@@ -834,7 +834,11 @@
                               {% endif %}
                             </div>
                             <div class="d-flex justify-content-between">
+                              {% if exp.value.degree != 'O' %}
+                              <h6 class="text-sm text-left mt-1 mb-0">{{ exp.value.get_degree_display }} in {{ exp.value.major }}</h6>
+                              {% else %}
                               <h6 class="text-sm text-left mt-1 mb-0">{{ exp.value.major }}</h6>
+                              {% endif %}
                               {% if has_edit_permission %}
                               <!-- Button trigger modal for Work-->
                               <span data-toggle="modal" data-target="#editEducation-{{ exp.value.id }}" data-toggle="tooltip"

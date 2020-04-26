@@ -207,6 +207,16 @@
                     {% render_field study_abroad_new_form.school class+="form-control" placeholder="School..." %}
                   </div>
                 </div>
+                <!-- Degree -->
+                <div class="form-group mb-3">
+                  <label>Degree</label>
+                  {% for radio in study_abroad_new_form.degree %}
+                    <div class="custom-control custom-radio mb-3">
+                      {{ radio.tag }}
+                      <label class="custom-control-label" for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                    </div>
+                  {% endfor %}
+                </div>
                 <!-- Major -->
                 <div class="form-group mb-3">
                   <label>Major</label>
@@ -214,8 +224,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                     </div>
-                    {% comment %} <input class="form-control" placeholder="Major e.g. MSc Economics..." type="text"> {% endcomment %}
-                    {% render_field study_abroad_new_form.major class+="form-control" placeholder="Major e.g. MSc Economics..." %}
+                    {% render_field study_abroad_new_form.major class+="form-control" placeholder="Major e.g. Economics..." %}
                   </div>
                 </div>
                 <!-- Education Year for "actualSchool" -->
@@ -432,6 +441,15 @@
             <div class="card-body px-lg-5 py-lg-5">
               <form action="{% url 'accounts:add-education' account_user.username %}" method="POST">
                 {% csrf_token %}
+                <!-- Is Study Abroad -->
+                <div class="form-group mb-3">
+                  <div class="custom-control custom-checkbox mb-4 mt-4">
+                    {% render_field new_education_form.is_study_abroad class+="custom-control-input" %}
+                    <label for="id_is_study_abroad" class="custom-control-label">
+                      <span>Study abroad experience</span>
+                    </label>
+                  </div>
+                </div>
                 <!-- School -->
                 <div class="form-group mb-3">
                   <label>School</label>
@@ -442,6 +460,16 @@
                     {% render_field new_education_form.school class+="form-control" placeholder="School..." %}
                   </div>
                 </div>
+                <!-- Degree -->
+                <div class="form-group mb-3 focused">
+                  <label>Degree</label>
+                  {% for radio in new_education_form.degree %}
+                    <div class="custom-control custom-radio mb-3">
+                      {{ radio.tag }}
+                      <label class="custom-control-label" for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                    </div>
+                  {% endfor %}
+                </div>
                 <!-- Major -->
                 <div class="form-group mb-3">
                   <label>Major</label>
@@ -450,16 +478,7 @@
                       <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                     </div>
                     {% comment %} <input class="form-control" placeholder="Major e.g. MSc Economics..." type="text"> {% endcomment %}
-                    {% render_field new_education_form.major class+="form-control" placeholder="Major e.g. MSc Economics..." %}
-                  </div>
-                </div>
-                <!-- Is Study Abroad -->
-                <div class="form-group mb-3">
-                  <div class="custom-control custom-checkbox mb-4 mt-4">
-                    {% render_field new_education_form.is_study_abroad class+="custom-control-input" %}
-                    <label for="id_is_study_abroad" class="custom-control-label">
-                      <span>This is study abroad</span>
-                    </label>
+                    {% render_field new_education_form.major class+="form-control" placeholder="Major e.g. Economics..." %}
                   </div>
                 </div>
                 <!-- Education Year for "actualSchool" -->
@@ -579,6 +598,15 @@
                 <div class="card-body px-lg-5 py-lg-5">
                   <form action="{% url 'accounts:update-education' account_user.username exp.value.id %}" method="POST">
                     {% csrf_token %}
+                    <!-- Is study abroad -->
+                    <div class="form-group mb-3">
+                      <div class="custom-control custom-checkbox mb-4 mt-4">
+                        {% render_field exp.form.is_study_abroad class+="custom-control-input" %}
+                        <label for="id_is_study_abroad" class="custom-control-label">
+                          <span>Study abroad experience</span>
+                        </label>
+                      </div>
+                    </div>
                     <!-- School -->
                     <div class="form-group mb-3 focused">
                       <label>School</label>
@@ -589,6 +617,16 @@
                         {% render_field exp.form.school class+="form-control" placeholder="School..." %}
                       </div>
                     </div>
+                    <!-- Degree -->
+                    <div class="form-group mb-3 focused">
+                      <label>Degree</label>
+                      {% for radio in exp.form.degree %}
+                        <div class="custom-control custom-radio mb-3">
+                          {{ radio.tag }}
+                          <label class="custom-control-label" for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                        </div>
+                      {% endfor %}
+                    </div>
                     <!-- Major -->
                     <div class="form-group mb-3 focused">
                       <label>Major</label>
@@ -596,15 +634,7 @@
                         <div class="input-group-prepend">
                           <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                         </div>
-                        {% render_field exp.form.major class+="form-control" placeholder="Major e.g. MSc Economics..." %}
-                      </div>
-                    </div>
-                    <div class="form-group mb-3">
-                      <div class="custom-control custom-checkbox mb-4 mt-4">
-                        {% render_field exp.form.is_study_abroad class+="custom-control-input" %}
-                        <label for="id_is_study_abroad" class="custom-control-label">
-                          <span>This is study abroad</span>
-                        </label>
+                        {% render_field exp.form.major class+="form-control" placeholder="Major e.g. Economics..." %}
                       </div>
                     </div>
                     <!-- Start Year -->

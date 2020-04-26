@@ -99,12 +99,17 @@ class About(models.Model):
     def __str__(self):
         return self.user.__str__() + "'s about: " + self.body[:10]
 
-class EducationStatus(models.TextChoices):
+class StudentStatus(models.TextChoices):
     CURRENT = 'C', _('I am currently studying at this school'),
     PAST = 'P', _('I studied at this school'),
     FUTURE = 'F', _('I am going to study at this school'),
     TARGET = 'T', _('This is my target school'),
-    
+
+class DegreeStatus(models.TextChoices):
+    BACHELOR = 'B', _('Bachelor'),
+    MASTER = 'M', _('Master'),
+    PHD = 'P', _('PhD'),
+    OTHER = 'O', _('Others')
 
 class History(models.Model):
     # years need to be char as they include 'target', 'still planning', 'present'
@@ -118,6 +123,7 @@ class History(models.Model):
 class Education(History):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='educations')
     school = models.ForeignKey(School, on_delete=models.CASCADE, related_name='educations')
+    degree = models.CharField(max_length=30, choices=DegreeStatus.choices, default=DegreeStatus.BACHELOR)
     major =  models.CharField(max_length=100, null=True, blank=True)
     is_study_abroad = models.BooleanField(default=False)
     # status = models.CharField(max_length=30, choices=EducationStatus.choices, default=EducationStatus.CURRENT)
