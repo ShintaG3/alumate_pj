@@ -92,27 +92,17 @@ class AccountView(LoginRequiredMixin, TemplateView):
             'has_edit_permission': has_edit_permission,
             'basic_info': basic_info,
             'profile_image': profile_image,
-            'profile_image_form': ProfileImageForm(),
             'education_already_added': educations,
             'study_abroad': study_abroad,
-            'study_abroad_choice_form': StudyAbroadSelectForm(user=account),
-            'study_abroad_new_form': StudyAbroadEducationForm(user=account),
-            'basic_info_form': BasicInfoForm(instance=basic_info),
             'goals': goals,
             'goals_values': goals_str,
             'study_interests': study_interests,
             'study_interests_values': study_interests_str,
             'about': about,
-            'about_form': AboutForm(instance=about),
-            'new_education_form': EducationForm(user=account),
-            'new_work_form': WorkExperienceForm(),
             'exp_history': exp_history,
             'scholarship_history': scholarship_history,
-            'new_scholarship_form': ScholarshipForm(),
             'social_links': social_link_lists,
-            'new_social_link_form': SocialLinkForm(),
             'profile': profile,
-            'profile_form': ProfileForm(),
             'is_following': following,
             'followers': followers,
             'followings': followings,
@@ -121,6 +111,22 @@ class AccountView(LoginRequiredMixin, TemplateView):
             'comment_form': comment_form,
             'ask_list': ask_list
         }
+
+        if has_edit_permission:
+            additional_form_context = {
+                'profile_image_form': ProfileImageForm(),
+                'study_abroad_choice_form': StudyAbroadSelectForm(user=account),
+                'study_abroad_new_form': StudyAbroadEducationForm(user=account),
+                'basic_info_form': BasicInfoForm(instance=basic_info),
+                'about_form': AboutForm(instance=about),
+                'new_education_form': EducationForm(user=account),
+                'new_work_form': WorkExperienceForm(),
+                'new_scholarship_form': ScholarshipForm(),
+                'new_social_link_form': SocialLinkForm(),
+                'profile_form': ProfileForm(),
+            }
+            context = { **context, **additional_form_context }
+        
         return context
     
     def get_exp_history(self, educations, workexperiences):
