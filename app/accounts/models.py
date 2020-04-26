@@ -107,8 +107,9 @@ class EducationStatus(models.TextChoices):
     
 
 class History(models.Model):
-    start_year =  models.IntegerField(null=True, blank=True)
-    end_year = models.IntegerField(null=True, blank=True)
+    # years need to be char as they include 'target', 'still planning', 'present'
+    start_year =  models.CharField(max_length=15, null=True, blank=True)
+    end_year = models.CharField(max_length=15, null=True, blank=True)
     
     class Meta:
         abstract = True
