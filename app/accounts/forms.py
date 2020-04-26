@@ -60,22 +60,23 @@ class StudyAbroadSelectForm(forms.ModelForm):
     
 class StudyAbroadEducationForm(forms.ModelForm):
     # status = forms.CharField(widget=forms.RadioSelect(attrs={'class': 'custom-control-input'}, choices=EducationStatus.choices))
+    degree = forms.CharField(widget=forms.RadioSelect(attrs={'class': 'custom-control-input'}, choices=DegreeStatus.choices))
     school = forms.ModelChoiceField(queryset=None)
     start_year = forms.ChoiceField(choices=get_start_year_choices())
     end_year = forms.ChoiceField(choices=get_end_year_choices(10))
 
     class Meta:
         model = Education
-        fields = ('school', 'major', 'start_year', 'end_year')
+        fields = ('school', 'degree', 'major', 'start_year', 'end_year')
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
-        basic_info = BasicInfo.objects.get(user=user)
-        if basic_info:
+        try:
+            basic_info = BasicInfo.objects.get(user=user)
             country1 = Country.objects.get(name=basic_info.country_study_abroad)
             country2 = Country.objects.get(name=basic_info.country_origin)
             schools = School.objects.filter(Q(country=country1) | Q(country=country2))
-        else:
+        except BasicInfo.DoesNotExist:
             schools = School.objects.all()
         super(StudyAbroadEducationForm, self).__init__(*args, **kwargs)
         self.fields['school'].queryset = schools
@@ -89,22 +90,23 @@ class AboutForm(forms.ModelForm):
 
 class EducationForm(forms.ModelForm):
     # status = forms.CharField(widget=forms.RadioSelect(attrs={'class': 'custom-control-input'}, choices=EducationStatus.choices))
+    degree = forms.CharField(widget=forms.RadioSelect(attrs={'class': 'custom-control-input'}, choices=DegreeStatus.choices))
     school = forms.ModelChoiceField(queryset=None)
     start_year = forms.ChoiceField(choices=get_start_year_choices())
     end_year = forms.ChoiceField(choices=get_end_year_choices(10))
 
     class Meta:
         model = Education
-        fields = ('is_study_abroad', 'school', 'major', 'start_year', 'end_year')
+        fields = ('is_study_abroad', 'degree', 'school', 'major', 'start_year', 'end_year')
     
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
-        basic_info = BasicInfo.objects.get(user=user)
-        if basic_info:
+        try:
+            basic_info = BasicInfo.objects.get(user=user)
             country1 = Country.objects.get(name=basic_info.country_study_abroad)
             country2 = Country.objects.get(name=basic_info.country_origin)
             schools = School.objects.filter(Q(country=country1) | Q(country=country2))
-        else:
+        except BasicInfo.DoesNotExist:
             schools = School.objects.all()
         super(EducationForm, self).__init__(*args, **kwargs)
         self.fields['school'].queryset = schools

@@ -18,12 +18,12 @@ class FeedView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         user = self.request.user
-        basic_info = BasicInfo.objects.get(user=user)
-        if basic_info:
+        try:
+            basic_info = BasicInfo.objects.get(user=user)
             country1 = Country.objects.get(name=basic_info.country_origin)
             country2 = Country.objects.get(name=basic_info.country_study_abroad)
             school_options = School.objects.filter(Q(country=country1) | Q(country=country2))
-        else:
+        except BasicInfo.DoesNotExist:
             school_options = School.objects.all()
         context = {
             'new_post_form': PostForm(),
