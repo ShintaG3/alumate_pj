@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.db.models import Q
 from django.views import View
 from django.views.generic.base import TemplateView
 from accounts.models import Country, School, Major
@@ -17,12 +18,19 @@ class FeedView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         user = self.request.user
+        basic_info = BasicInfo.objects.get(user=user)
+        if basic_info:
+            country1 = Country.objects.get(name=basic_info.country_origin)
+            country2 = Country.objects.get(name=basic_info.country_study_abroad)
+            school_options = School.objects.filter(Q(country=country1) | Q(country=country2))
+        else:
+            school_options = School.objects.all()
         context = {
             'new_post_form': PostForm(),
             'comment_form': PostCommentForm(),
             'post_list': self.get_post_list(user),
             'country_options': Country.objects.all(),
-            'school_options': School.objects.all(),
+            'school_options': school_options,
             'major_options': Major.objects.all(),
             'ask_list': self.get_ask_list(user)
         }
