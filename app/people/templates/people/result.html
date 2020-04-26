@@ -21,9 +21,14 @@
 {% if result %}
 <div class="card py-5 px-4">
 {% for basic_info in result %}
-{% if forloop.counter0|divisibleby:3 %}
-<div class="row">
-{% endif %}
+    {% if forloop.counter0|divisibleby:3 %}
+    {% if forloop.first %}
+    <div class="row">
+    {% else %}
+    </div>
+    <div class="row">
+    {% endif %}
+    {% endif %}
     <!-- user-1 -->
     <div class="col-12 col-lg-4">
         <div class="d-flex flex-row flex-lg-column justify-content-lg-center my-lg-4">
@@ -40,10 +45,10 @@
             </div>
             <div class="align-self-lg-center mx-2 list-border">
                 <div class="list-name">
-                {{ basic_info.name }}
+                    {{ basic_info.name }}
                     {% if basic_info.status == "FU"%}
                     <img class="img-fluid rounded shadow ml-2 list-image"
-                    src="{% static 'img/brand/logo_current.png' %}">  
+                    src="{% static 'img/brand/logo_future.png' %}">  
                     {% elif basic_info.status == "CU" %}
                     <img class="img-fluid rounded shadow ml-2 list-image"
                     src="{% static 'img/brand/logo_current.png' %}">
@@ -78,9 +83,9 @@
             </div> {% endcomment %}
         </div>
     </div>
-{% if forloop.counter0|divisibleby:3 %}
-</div>
-{% endif %}
+    {% if forloop.last %}
+    </div>
+    {% endif %}
 {% endfor %}
 {% endif %}
 </div>
