@@ -53,8 +53,7 @@ class FeedView(LoginRequiredMixin, TemplateView):
         ask_list = []
         asks = Ask.objects.all()[:10]
         for ask in asks:
-            school_tags = list(AskTagSchool.objects.filter(ask=ask).values_list('body', flat=True))
-            print(school_tags)
+            school_tags = list(AskTagSchool.objects.filter(ask=ask).values_list('body__name', flat=True))
             school_tags_str = ', '.join(school_tags)
 
             try:

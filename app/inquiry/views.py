@@ -35,7 +35,7 @@ class InquiryView(LoginRequiredMixin, TemplateView):
         ask_list = []
         asks = Ask.objects.all()[:10]
         for ask in asks:
-            school_tags = list(AskTagSchool.objects.filter(ask=ask).values_list('body', flat=True))
+            school_tags = list(AskTagSchool.objects.filter(ask=ask).values_list('body__name', flat=True))
             school_tags_str = ', '.join(school_tags)
 
             try:
@@ -61,7 +61,7 @@ def update_result(request, *args, **kwargs):
     ask_list = []
 
     for ask in search_result:
-        school_tags = list(AskTagSchool.objects.filter(ask=ask).values_list('body', flat=True))
+        school_tags = list(AskTagSchool.objects.filter(ask=ask).values_list('body__name', flat=True))
         school_tags_str = ', '.join(school_tags)
 
         try:

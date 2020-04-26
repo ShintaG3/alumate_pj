@@ -1136,7 +1136,7 @@
         <!-- Collection Area -->
         <div class="col">
           <!-- Nav button -->
-          <div class="row">
+          <div class="row mb-4">
             <div class="col-md-8 mx-auto">
               <div class="profile-tabs">
                 <ul class="nav nav-pills nav-pills-icons justify-content-sm-center" role="tablist">
@@ -1181,7 +1181,7 @@
           <div class="tab-content tab-space">
             <div class="tab-pane active show" id="post">
               <!-- Post -->
-              <div class="col-lg-10 mx-auto">
+              <div class="col-lg-8 mx-auto">
               {% for post in post_list %}
                 <div class="card mt-sm">
                   <div class="card-header d-flex align-items-center">
@@ -1328,8 +1328,52 @@
             <!-- inquiry -->
             <div class="tab-pane" id="ask">
               <div class="row">
-                <!-- cards -->
                 <div class="col-md-8 mx-auto pr-lg-0">
+                  <div class="row collections">
+                  <!-- cards -->
+                  {% for ask in ask_list %}
+                    <div class="col-md-6">
+                      <div class="card card-blog card-zoom" data-animation="zooming">
+                          {% comment %} <a href="{% url 'inquiry:inquiry-detail' %}" >
+                          <img class="img pattern rounded" src="{% static 'img/ill/presentation_bg.png' %}">
+                          </a> {% endcomment %}
+                          <div class="card-body" style="background-color: white;">
+                          {% if ask.school_tag %}
+                          <h6 class="card-category text-danger">
+                              <i class="ni ni-badge"></i> {{ ask.school_tag }}
+                          </h6>
+                          {% endif %}
+                          <h5 class="card-title">
+                              <a href="{% url 'inquiry:detail' ask.value.id %}">{{ ask.value.title | truncatechars:70 | linebreaksbr }}</a>
+                          </h5>
+                          <p class="card-description">{{ ask.value.body | truncatechars:150  }}</p>
+                          </div>
+                          <div class="card-footer">
+                              <div class="icon-actions">
+                              <form action="{% url 'accounts:inquiry-like' account_user.username ask.value.id %}" method="POST" class="float-left">
+                                  {% csrf_token %}
+                                  <button type="submit" class="like-button {% if ask.liked %}active{% endif %}">
+                                  <i class="ni ni-like-2"></i>
+                                  <span class="text-muted">{{ ask.value.likes.count }}</span>
+                                  </button>
+                              </form>
+                              <a href="{% url 'inquiry:detail' ask.value.id %}">
+                                  <i class="ni ni-chat-round"></i>
+                                  <span class="text-muted">{{ ask.value.comments.count }}</span>
+                              </a>
+                                  {% comment %} <a href="javascript:;">
+                                  <i class="ni ni-curved-next"></i>
+                                  <span class="text-muted">12</span>
+                                  </a> {% endcomment %}
+                              </div>
+                          </div>
+                      </div>
+                    </div>
+                  {% endfor %}
+                  </div>
+                </div>
+
+                {% comment %} <div class="col-md-8 mx-auto pr-lg-0">
                   <h4 class="title">Latest Collections</h4>
                   <div class="row collections">
                     <div class="col-md-6">
@@ -1473,10 +1517,10 @@
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> {% endcomment %}
 
                 <!-- side bar stats -->
-                <div class="col-md-2 ml-lg--2 pl-lg-0">
+                {% comment %} <div class="col-md-2 ml-lg--2 pl-lg-0">
                   <h4 class="title text-sm-center text-md-left">Tags</h4>
                   <table class="mx-sm-auto">
                     <tbody>
@@ -1500,7 +1544,7 @@
                       </tr>
                     </tbody>
                   </table>
-                </div>
+                </div> {% endcomment %}
 
               </div>
             </div>

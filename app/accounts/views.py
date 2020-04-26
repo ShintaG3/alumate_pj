@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from .forms import BasicInfoForm, ProfileImageForm, EducationForm, StudyAbroadSelectForm, AboutForm, WorkExperienceForm, ScholarshipForm, SocialLinkForm, ProfileForm, StudyAbroadEducationForm
 from .models import BasicInfo, Goal, StudyInterest, About, Education, WorkExperience, Major, Scholarship, SocialLink, Follow, ProfileImage, Profile, StudyAbroad
 from feed.models import Post, PostLike, PostComment, PostCommentLike
+from inquiry.models import Ask, AskTagSchool, AskLike
 from feed.forms import PostCommentForm
 from django.views.generic.base import TemplateView
 from django.contrib.auth.models import User
@@ -83,6 +84,8 @@ class AccountView(LoginRequiredMixin, TemplateView):
 
         post_list = self.get_post_list(user=account)
         comment_form = PostCommentForm()
+
+        ask_list = self.get_ask_list(user=account)
         
         context = {
             'account_user': account,
@@ -115,7 +118,8 @@ class AccountView(LoginRequiredMixin, TemplateView):
             'followings': followings,
             'new_message_form': new_message_form,
             'post_list': post_list,
-            'comment_form': comment_form
+            'comment_form': comment_form,
+            'ask_list': ask_list
         }
         return context
     
@@ -220,6 +224,27 @@ class AccountView(LoginRequiredMixin, TemplateView):
                 'user_following': following
             })
         return post_list
+   
+    # this is same function as in feed
+    def get_ask_list(self, user):
+        ask_list = []
+        asks = Ask.objects.all()[:10]
+        for ask in asks:
+            school_tags = list(AskTagSchool.objects.filter(ask=ask).values_list('body__name', flat=True))
+            school_tags_str = ', '.join(school_tags)
+
+            try:
+                liked = AskLike.objects.get(user=user, ask=ask)
+            except AskLike.DoesNotExist:
+                liked = None
+
+            ask_list.append({
+                'value': ask,
+                'liked': liked,
+                'school_tag': school_tags_str,
+            })
+
+        return ask_list
                                 
 class BasicInfoUpdateView(LoginRequiredMixin, View):
     form_class = BasicInfoForm
@@ -594,5 +619,18 @@ class PostCommentLikeView(LoginRequiredMixin, View):
             like.delete()
         except PostCommentLike.DoesNotExist:
             PostCommentLike(user=user, comment=comment).save()
+            
+        return redirect('/accounts/' + kwargs['username'])
+
+
+class InquiryLikeView(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        ask = Ask.objects.get(pk=kwargs['id'])
+        try:
+            like = AskLike.objects.get(user=user, ask=ask)
+            like.delete()
+        except AskLike.DoesNotExist:
+            AskLike(user=user, ask=ask).save()
             
         return redirect('/accounts/' + kwargs['username'])

@@ -29,6 +29,7 @@ urlpatterns = [
     path('<str:username>/post/comment/<int:id>', PostCommentView.as_view(), name='comment-post'),
     path('<str:username>/post/like/<int:id>', PostLikeView.as_view(), name='like-post'),
     path('<str:username>/post/comment/like/<int:id>', PostCommentLikeView.as_view(), name='like-post-comment'),
+    path('<str:username>/inquiry/like/<int:id>', InquiryLikeView.as_view(), name="inquiry-like"),
     path('<str:username>/', AccountView.as_view(), name="account-page"),
 ]
 
