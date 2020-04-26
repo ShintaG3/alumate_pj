@@ -34,7 +34,7 @@
                   </a>
                   {% else %}
                   <a href="{% url 'auths:register' %}" class="btn btn-info btn-icon mb-3 mb-sm-0">
-                    <span class="btn-inner--icon"><i class="fa fa-code"></i></span>
+                    <!-- <span class="btn-inner--icon"><i class="fa fa-code"></i></span> -->
                     <span class="btn-inner--text">Get started</span>
                   </a>
                   {% endif %}
@@ -71,7 +71,7 @@
                   <div class="d-flex align-items-center">
                     <div>
                       <div class="badge badge-circle badge-success mr-3">
-                        <i class="ni ni-settings-gear-65"></i>
+                        <i class="ni ni-atom"></i>
                       </div>
                     </div>
                     <div>
@@ -83,7 +83,7 @@
                   <div class="d-flex align-items-center">
                     <div>
                       <div class="badge badge-circle badge-success mr-3">
-                        <i class="ni ni-html5"></i>
+                        <i class="ni ni-sound-wave"></i>
                       </div>
                     </div>
                     <div>
@@ -95,7 +95,7 @@
                   <div class="d-flex align-items-center">
                     <div>
                       <div class="badge badge-circle badge-success mr-3">
-                        <i class="ni ni-satisfied"></i>
+                        <i class="ni ni-spaceship"></i>
                       </div>
                     </div>
                     <div>
@@ -107,7 +107,7 @@
               <div class="btn-wrapper">
                 {% if not user.is_authenticated %}
                 <a href="{% url 'auths:register' %}" class="btn btn-info btn-icon mb-3 mb-sm-0">
-                  <span class="btn-inner--icon"><i class="fa fa-code"></i></span>
+                  <!-- <span class="btn-inner--icon"><i class="fa fa-code"></i></span> -->
                   <span class="btn-inner--text">Join Alumate</span>
                 </a>
                 {% endif %}
@@ -123,10 +123,12 @@
             <div class="col-lg-10">
               <h2 class="display-3 text-white">Who is Alumate for?</h2>
               <p class="lead text-white">Anyone looking to navigate the dream ahead of studying abroad.</p>
+              <br><br>
               <blockquote class="blockquote">
                 <p class="text-white">Where there's a will, there's a way</p>
-                <footer class="blockquote-footer text-white">Abraham Lincoln, the 16th president of the United States</footer>
+                <footer class="blockquote-footer text-white">Abraham Lincoln</footer>
               </blockquote>
+              <br>
               
             </div>
           </div>
@@ -156,7 +158,7 @@
           <div class="btn-wrapper text-center mt-5">
             {% if not user.is_authenticated %}
             <a href="{% url 'auths:register' %}" class="btn btn-info btn-icon mb-3 mb-sm-0">
-              <span class="btn-inner--icon"><i class="fa fa-code"></i></span>
+              <!-- <span class="btn-inner--icon"><i class="fa fa-code"></i></span> -->
               <span class="btn-inner--text">Join Alumate</span>
             </a>
             {% endif %}
@@ -187,7 +189,7 @@
                     <div class="row">
                       <div class="col-md-5 p-5">
                         <div class="p-4">
-                          <img class="rounded shadow transform-perspective-left img-center" style="object-fit:cover; width:100%;" src="{% static 'img/yen.png' %}" alt="First slide">
+                          <img class="rounded shadow transform-perspective-left img-center" style="object-fit:cover; width:100%;" src="{% static 'img/theme/kareya-saleh.jpg' %}" alt="First slide">
                         </div>
                       </div>
                       <div class="col-md-7">
@@ -196,12 +198,13 @@
                           <div class="lead">
                             Network, connect, share information and be motivated by the people that encourage you to keep challenging.
                           </div>
+                          <h4 class="card-title">Kareya Saleh</h4>
                           <ul class="list-unstyled mb-0">
                             <li class="py-1">
                               <div class="d-flex align-items-center">
                                 <div>
                                   <div class="badge badge-circle badge-info mr-3">
-                                    <i class="ni ni-atom"></i>
+                                    <i class="ni ni-badge"></i>
                                   </div>
                                 </div>
                                 <div>
@@ -213,11 +216,11 @@
                               <div class="d-flex align-items-center">
                                 <div>
                                   <div class="badge badge-circle badge-success mr-3">
-                                    <i class="ni ni-user-run"></i>
+                                    <i class="ni ni-hat-3"></i>
                                   </div>
                                 </div>
                                 <div>
-                                  <p class="mb-1">Oxford Uniersity</p>
+                                  <p class="mb-1">Oxford University</p>
                                 </div>
                               </div>
                             </li>
@@ -225,18 +228,18 @@
                               <div class="d-flex align-items-center">
                                 <div>
                                   <div class="badge badge-circle badge-success mr-3">
-                                    <i class="ni ni-user-run"></i>
+                                    <i class="ni ni-books"></i>
                                   </div>
                                 </div>
                                 <div>
-                                  <p class="mb-1">Connect</p>
+                                  <p class="mb-1">MBA</p>
                                 </div>
                               </div>
                             </li>
                           </ul>
                           <div class="btn-wrapper mt-5">
                             <a href="{% url 'auths:register' %}" class="btn btn-info btn-icon mb-3 mb-sm-0">
-                              <span class="btn-inner--icon"><i class="fa fa-code"></i></span>
+                              <!-- <span class="btn-inner--icon"><i class="fa fa-code"></i></span> -->
                               <span class="btn-inner--text">Join Alumate</span>
                             </a>
                           </div>
@@ -251,7 +254,7 @@
                     <div class="row">
                       <div class="col-md-5 p-5">
                         <div class="p-4">
-                          <img class="rounded shadow transform-perspective-left img-center" style="object-fit:cover; width:100%;" src="{% static 'img/sam.png' %}" alt="First slide">
+                          <img class="rounded shadow transform-perspective-left img-center" style="object-fit:cover; width:100%;" src="{% static 'img/theme/fezbot.jpg' %}" alt="First slide">
                         </div>
                       </div>
                       <div class="col-md-7">
@@ -260,12 +263,13 @@
                           <div class="lead">
                             Ask any problems that you face to current students and alumnis. As they experienced the similar problems, they can lead you to the right direction.
                           </div>
+                          <h4 class="card-title">Lucy</h4>
                           <ul class="list-unstyled mb-0">
                             <li class="py-1">
                               <div class="d-flex align-items-center">
                                 <div>
                                   <div class="badge badge-circle badge-info mr-3">
-                                    <i class="ni ni-atom"></i>
+                                    <i class="ni ni-badge"></i>
                                   </div>
                                 </div>
                                 <div>
@@ -277,11 +281,11 @@
                               <div class="d-flex align-items-center">
                                 <div>
                                   <div class="badge badge-circle badge-success mr-3">
-                                    <i class="ni ni-user-run"></i>
+                                    <i class="ni ni-hat-3"></i>
                                   </div>
                                 </div>
                                 <div>
-                                  <p class="mb-1">Harvard Uniersity</p>
+                                  <p class="mb-1">Harvard University</p>
                                 </div>
                               </div>
                             </li>
@@ -289,18 +293,18 @@
                                 <div class="d-flex align-items-center">
                                   <div>
                                     <div class="badge badge-circle badge-success mr-3">
-                                      <i class="ni ni-user-run"></i>
+                                      <i class="ni ni-books"></i>
                                     </div>
                                   </div>
                                   <div>
-                                    <p class="mb-1">Connect</p>
+                                    <p class="mb-1">Public Health</p>
                                   </div>
                                 </div>
                               </li>
                           </ul>
                           <div class="btn-wrapper mt-5">
                             <a href="{% url 'auths:register' %}" class="btn btn-info btn-icon mb-3 mb-sm-0">
-                              <span class="btn-inner--icon"><i class="fa fa-code"></i></span>
+                              <!-- <span class="btn-inner--icon"><i class="fa fa-code"></i></span> -->
                               <span class="btn-inner--text">Join Alumate</span>
                             </a>
                           </div>
