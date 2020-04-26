@@ -209,7 +209,7 @@ class AccountView(LoginRequiredMixin, TemplateView):
     
     # this is same function as in feed
     def get_post_list(self, user):
-        posts = Post.objects.all()[:10]
+        posts = Post.objects.filter(user=user)[:10]
         post_list = []
         
         for post in posts:
@@ -234,7 +234,7 @@ class AccountView(LoginRequiredMixin, TemplateView):
     # this is same function as in feed
     def get_ask_list(self, user):
         ask_list = []
-        asks = Ask.objects.all()[:10]
+        asks = Ask.objects.filter(user=user)[:10]
         for ask in asks:
             school_tags = list(AskTagSchool.objects.filter(ask=ask).values_list('body__name', flat=True))
             school_tags_str = ', '.join(school_tags)
