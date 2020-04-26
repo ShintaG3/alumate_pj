@@ -1,0 +1,65 @@
+[
+    {
+        "model": "auth.user",
+        "pk": 4,
+        "fields": {
+            "password": "pbkdf2_sha256$180000$56nSLYLUYJim$TkjPwerB1wc+RRh01YpjKZ5VMX/ihbIxppOdxXbsYts=",
+            "username": "apple",
+            "email": "apple@email.com"
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 5,
+        "fields": {
+            "password": "pbkdf2_sha256$180000$56nSLYLUYJim$TkjPwerB1wc+RRh01YpjKZ5VMX/ihbIxppOdxXbsYts=",
+            "username": "ben",
+            "email": "ben@email.com"
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 6,
+        "fields": {
+            "password": "pbkdf2_sha256$180000$56nSLYLUYJim$TkjPwerB1wc+RRh01YpjKZ5VMX/ihbIxppOdxXbsYts=",
+            "username": "cookie",
+            "email": "cookie@email.com"
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 7,
+        "fields": {
+            "password": "pbkdf2_sha256$180000$56nSLYLUYJim$TkjPwerB1wc+RRh01YpjKZ5VMX/ihbIxppOdxXbsYts=",
+            "username": "doggo",
+            "email": "doggo@email.com"
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 8,
+        "fields": {
+            "password": "pbkdf2_sha256$180000$56nSLYLUYJim$TkjPwerB1wc+RRh01YpjKZ5VMX/ihbIxppOdxXbsYts=",
+            "username": "earlgrey",
+            "email": "earlgrey@email.com"
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 9,
+        "fields": {
+            "password": "pbkdf2_sha256$180000$56nSLYLUYJim$TkjPwerB1wc+RRh01YpjKZ5VMX/ihbIxppOdxXbsYts=",
+            "username": "fray",
+            "email": "fray@email.com"
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 10,
+        "fields": {
+            "password": "pbkdf2_sha256$180000$56nSLYLUYJim$TkjPwerB1wc+RRh01YpjKZ5VMX/ihbIxppOdxXbsYts=",
+            "username": "goo",
+            "email": "goo@email.com"
+        }
+    }
+]
