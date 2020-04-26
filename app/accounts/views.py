@@ -1,7 +1,8 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from .forms import BasicInfoForm, ProfileImageForm, EducationForm, StudyAbroadSelectForm, AboutForm, WorkExperienceForm, ScholarshipForm, SocialLinkForm, ProfileForm, StudyAbroadEducationForm
 from .models import BasicInfo, Goal, StudyInterest, About, Education, WorkExperience, Major, Scholarship, SocialLink, Follow, ProfileImage, Profile, StudyAbroad
-from feed.models import Post, PostLike
+from feed.models import Post, PostLike, PostComment, PostCommentLike
+from feed.forms import PostCommentForm
 from django.views.generic.base import TemplateView
 from django.contrib.auth.models import User
 from django.views import View
@@ -81,6 +82,7 @@ class AccountView(LoginRequiredMixin, TemplateView):
         new_message_form = DirectMessageForm()
 
         post_list = self.get_post_list(user=account)
+        comment_form = PostCommentForm()
         
         context = {
             'account_user': account,
@@ -113,6 +115,7 @@ class AccountView(LoginRequiredMixin, TemplateView):
             'followings': followings,
             'new_message_form': new_message_form,
             'post_list': post_list,
+            'comment_form': comment_form
         }
         return context
     
@@ -553,4 +556,43 @@ class UnfollowView(LoginRequiredMixin, View):
             return redirect('/accounts/' + account_to_unfollow.username)
         except Follow.DoesNotExist:
             return redirect('/accounts/' + account_to_unfollow.username)
+
+class PostCommentView(LoginRequiredMixin, View):
+    form_class = PostCommentForm
+    
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        form = self.form_class(request.POST, request.FILES)
+        post = Post.objects.get(pk=kwargs['id'])
+        if form.is_valid:
+            comment = form.save(commit=False)
+            comment.user = user
+            comment.post = post
+            comment.save()
             
+        return redirect('/accounts/' + kwargs['username'])
+
+
+class PostLikeView(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        post = Post.objects.get(pk=kwargs['id'])
+        try:
+            like = PostLike.objects.get(user=user, post=post)
+            like.delete()
+        except PostLike.DoesNotExist:
+            PostLike(user=user, post=post).save()
+            
+        return redirect('/accounts/' + kwargs['username'])
+    
+class PostCommentLikeView(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        comment = PostComment.objects.get(pk=kwargs['id'])
+        try:
+            like = PostCommentLike.objects.get(user=user, comment=comment)
+            like.delete()
+        except PostCommentLike.DoesNotExist:
+            PostCommentLike(user=user, comment=comment).save()
+            
+        return redirect('/accounts/' + kwargs['username'])

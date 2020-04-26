@@ -26,6 +26,9 @@ urlpatterns = [
     path('<str:username>/update/profile', ProfileView.as_view(), name="update-profile"),
     path('<str:username>/add/study-abroad', CreateStudyAbroad.as_view(), name="add-study-abroad"),
     path('<str:username>/update/study-abroad', SelectStudyAbroad.as_view(), name="update-study-abroad"),
+    path('<str:username>/post/comment/<int:id>', PostCommentView.as_view(), name='comment-post'),
+    path('<str:username>/post/like/<int:id>', PostLikeView.as_view(), name='like-post'),
+    path('<str:username>/post/comment/like/<int:id>', PostCommentLikeView.as_view(), name='like-post-comment'),
     path('<str:username>/', AccountView.as_view(), name="account-page"),
 ]
 
