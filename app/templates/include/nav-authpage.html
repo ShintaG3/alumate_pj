@@ -102,7 +102,7 @@
         <!-- account -->
         <li class="nav-item dropdown" style="line-height: 100%;">
           <a href="javascript:;" class="avatar avatar-sm rounded-circle" data-toggle="dropdown" role="button">
-            {% if user.profile_image %}
+            {% if user.profile_image.image %}
             <img src={{ user.profile_image.image.url }} />
             {% else %}
             <img src={% static 'img/placeholder.jpg' %} />

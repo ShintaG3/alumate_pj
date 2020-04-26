@@ -269,7 +269,7 @@ class UploadProfileImageView(LoginRequiredMixin, View):
     
     def post(self, request, *args, **kwargs):
         user = request.user
-        
+
         try:
             profile_image = ProfileImage.objects.get(user=user)
             if request.POST.get('delete') is not None:
@@ -282,6 +282,10 @@ class UploadProfileImageView(LoginRequiredMixin, View):
         
         if form.is_valid():
             profile_image = form.save(commit=False)
+            
+            if not profile_image.image: # saved without image
+                return redirect('/accounts/' + user.username)
+            
             profile_image.user = user
             profile_image.save()
 
