@@ -49,6 +49,7 @@ class AccountView(LoginRequiredMixin, TemplateView):
             about = None
         
         educations = Education.objects.filter(user=account)
+        
         workexperiences = WorkExperience.objects.filter(user=account)
         exp_history = self.get_exp_history(educations, workexperiences)
         
@@ -86,7 +87,7 @@ class AccountView(LoginRequiredMixin, TemplateView):
             'profile_image_form': ProfileImageForm(),
             'education_already_added': educations,
             'study_abroad': study_abroad,
-            'study_abroad_choice_form': StudyAbroadForm(),
+            'study_abroad_choice_form': StudyAbroadSelectForm(user=account),
             'study_abroad_new_form': StudyAbroadEducationForm(),
             'basic_info_form': BasicInfoForm(instance=basic_info),
             'goals': goals,
@@ -95,7 +96,7 @@ class AccountView(LoginRequiredMixin, TemplateView):
             'study_interests_values': study_interests_str,
             'about': about,
             'about_form': AboutForm(instance=about),
-            'new_education_form': EducationForm(),
+            'new_education_form': EducationForm(user=account),
             'new_work_form': WorkExperienceForm(),
             'exp_history': exp_history,
             'scholarship_history': scholarship_history,
@@ -116,6 +117,7 @@ class AccountView(LoginRequiredMixin, TemplateView):
         n = len(workexperiences)
         i= 0
         j = 0
+        user = self.request.user
         history = []
         while (i < m or j < n):
             if i >= m:
@@ -131,7 +133,7 @@ class AccountView(LoginRequiredMixin, TemplateView):
                 {
                     'is_work': False,
                     'value': educations[i],
-                    'form': EducationForm(instance=educations[i])
+                    'form': EducationForm(instance=educations[i], user=user)
                 })
                 i += 1
             elif educations[i].start_year == 'Target':
@@ -139,7 +141,7 @@ class AccountView(LoginRequiredMixin, TemplateView):
                 {
                     'is_work': False,
                     'value': educations[i],
-                    'form': EducationForm(instance=educations[i])
+                    'form': EducationForm(instance=educations[i], user=user)
                 })
                 i += 1
             elif workexperiences[i].start_year == 'Target':
@@ -155,7 +157,7 @@ class AccountView(LoginRequiredMixin, TemplateView):
                 {
                     'is_work': False,
                     'value': educations[i],
-                    'form': EducationForm(instance=educations[i])
+                    'form': EducationForm(instance=educations[i], user=user)
                 })
                 i += 1
             else:
@@ -234,7 +236,7 @@ class CreateStudyAbroad(LoginRequiredMixin, View):
     
     def post(self, request, *args, **kwargs):
         user = request.user
-        form = self.form_class(request.POST)
+        form = self.form_class(request.POST, user=user)
         
         if form.is_valid:
             education = form.save(commit=False)
@@ -255,7 +257,7 @@ class CreateStudyAbroad(LoginRequiredMixin, View):
 
 
 class SelectStudyAbroad(LoginRequiredMixin, View):
-    form_class = StudyAbroadForm
+    form_class = StudyAbroadSelectForm
     
     def post(self, request, *args, **kwargs):
         user = request.user
@@ -263,7 +265,7 @@ class SelectStudyAbroad(LoginRequiredMixin, View):
             study_abroad_info = StudyAbroad.objects.get(user=user)
         except StudyAbroad.DoesNotExist:
             study_abroad_info = None
-        form = self.form_class(request.POST, instance=study_abroad_info)
+        form = self.form_class(request.POST, instance=study_abroad_info, user=user)
         
         if form.is_valid:
             study_abroad_info = form.save(commit=False)
@@ -353,22 +355,40 @@ class AboutUpdateView(LoginRequiredMixin, View):
             about.user = user
             about.save()
         return redirect('/accounts/' + user.username)
+
+
+class EducationCreateView(LoginRequiredMixin, View):
+    form_class = EducationForm
     
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        form = self.form_class(request.POST, user=user)
+
+        if form.is_valid:
+            education = form.save(commit=False)
+            education.user = request.user
+            try:
+                Major.objects.get(name=education.major)
+            except Major.DoesNotExist:
+                Major.objects.create(name=education.major)
+            if education.start_year == "Target":
+                education.end_year = "Target"
+            education.save()
+        
+        return redirect('/accounts/' + user.username)
+
+
 class EducationUpdateView(LoginRequiredMixin, View):
     form_class = EducationForm
     
     def post(self, request, pk=None, *args, **kwargs):
         user = request.user
-        try:
-            education = Education.objects.get(pk=pk)
-            if request.POST.get('delete') is not None:
-                education.delete()
-                return redirect('/accounts/' + user.username)
-            
-        except Education.DoesNotExist:
-            education = None
+        education = Education.objects.get(pk=pk)
+        if request.POST.get('delete') is not None:
+            education.delete()
+            return redirect('/accounts/' + user.username)
         
-        form = self.form_class(request.POST, instance=education)
+        form = self.form_class(request.POST, instance=education, user=user)
 
         if form.is_valid:
             education = form.save(commit=False)
@@ -506,4 +526,3 @@ class UnfollowView(LoginRequiredMixin, View):
         except Follow.DoesNotExist:
             return redirect('/accounts/' + account_to_unfollow.username)
             
-        

@@ -12,7 +12,7 @@ current_year = date.today().year
 
 
 class School(models.Model):
-    name = models.CharField(max_length=120, primary_key=True)
+    name = models.CharField(max_length=120)
     country = models.ForeignKey('Country', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
@@ -22,7 +22,7 @@ class School(models.Model):
         ordering= ['name']
 
 class Major(models.Model):
-    name = models.CharField(max_length=120, primary_key=True)
+    name = models.CharField(max_length=120)
 
     def __str__(self):
         return self.name
@@ -31,7 +31,7 @@ class Major(models.Model):
         ordering= ['name']
 
 class Country(models.Model):
-    name = models.CharField(max_length=70, primary_key=True)   # change in to choose filed
+    name = models.CharField(max_length=70)   # change in to choose filed
     
     def __str__(self):
         return self.name

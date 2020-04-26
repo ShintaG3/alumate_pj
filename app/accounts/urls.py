@@ -6,7 +6,7 @@ app_name="accounts"
 
 urlpatterns = [
     # path('', TemplateView.as_view(template_name="account/account.html")),
-    path('edit/', TemplateView.as_view(template_name="account/account-edit.html"), name="account-edit"),
+    # path('edit/', TemplateView.as_view(template_name="account/account-setting.html"), name="account-setting"),
     path('base-inquiry/', BaseInquiryView.as_view(), name="base-inquiry"),
     path('follow/<str:username>', FollowView.as_view(), name="follow"),
     path('unfollow/<str:username>', UnfollowView.as_view(), name="unfollow"),
@@ -15,7 +15,7 @@ urlpatterns = [
     path('<str:username>/update/goals', GoalUpdateView.as_view(), name="update-goals"),
     path('<str:username>/update/study-interests', StudyInterestUpdateView.as_view(), name="update-study-interests"),
     path('<str:username>/update/about', AboutUpdateView.as_view(), name="update-about"),
-    path('<str:username>/add/education', EducationUpdateView.as_view(), name="add-education"),
+    path('<str:username>/add/education', EducationCreateView.as_view(), name="add-education"),
     path('<str:username>/update/education/<int:pk>', EducationUpdateView.as_view(), name="update-education"),
     path('<str:username>/add/work', WorkExperienceUpdateView.as_view(), name="add-work"),
     path('<str:username>/update/work/<int:pk>', WorkExperienceUpdateView.as_view(), name="update-work"),
