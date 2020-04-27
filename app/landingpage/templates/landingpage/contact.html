@@ -10,15 +10,15 @@
     
 {% load widget_tweaks %}
 
-<div class="pt-150 bg-default pb-lg" style="background-image: url('{% static 'img/ill/1.svg' %}'); height: 100vh;">
+<div class="pt-lg bg-default" style="background-image: url('{% static 'img/ill/1.svg' %}'); height: 100vh;">
     <div class="container">
         <div class="row">
             <div class="col-lg-5 col-md-5 d-flex flex-column">
                 {% if sent %}
                 <h2 class="title text-white">Thank you for the feedback!</h2>
                 {% else %}
-                <h2 class="title text-white">Your opinion is awesome!</h2>
-                <h3 class="description text-white">Please share your though with us.</h3>
+                <h2 class="title text-white">We'd love to hear from you.</h2>
+                <h3 class="description text-white">Send us a message and we'll respond as soon as possible.</h3>
                 {% endif %}
             </div>
             <div class="col-lg-5 col-md-7 ml-auto mr-auto">
@@ -78,7 +78,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <button type="submit" class="btn btn-primary pull-right">Send Message</button>
+                                    <button type="submit" class="btn btn-primary pull-right">Send</button>
                                 </div>
                             </div>
                         </div>
