@@ -153,7 +153,8 @@ class AskView(LoginRequiredMixin, View):
             country = Country.objects.get(name=tag)
             AskTagStudyAbroadCountry.objects.create(ask=ask, body=country)
         for tag in data.get('schools', []):
-            school = School.objects.get(name=tag)
+            print(tag)
+            school = School.objects.filter(name=tag).first()
             AskTagSchool.objects.create(ask=ask, body=school)
         for tag in data.get('majors', []):
             major = Major.objects.get(name=tag)
