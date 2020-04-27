@@ -3,10 +3,28 @@
 {% block navbar %}
 {% include 'include/nav-trans.html' %}
 {% endblock %}
+{% block style %}
+<style>
+  .section {
+    height: 100vh;
+  }
+
+  /* media */
+  @media (min-width: 1200px) {
+  }
+  @media (min-width: 992px) {}
+
+  @media (min-width: 768px) {
+
+  }
+
+  @media (min-width: 576px) {}
+</style>
+{% endblock %}
 
 {% block content %}
 {% load widget_tweaks %}
-<section class="section section-shaped section-lg" style="height: 100vh;">
+<section class="section section-shaped section-lg">
   <div class="shape shape-style-1 bg-gradient-default">
     <span></span>
     <span></span>
@@ -17,10 +35,10 @@
     <span></span>
     <span></span>
   </div>
-  <div class="container pt-lg-md">
-    <div class="row justify-content-center">
+  <div class="container">
+    <div class="row justify-content-center align-items-center" style="height: 100%;">
       <div class="col-lg-5">
-        <div class="card bg-secondary shadow border-0">
+        <div class="card bg-secondary shadow border-0 mb-0">
           <div class="card-header bg-white pb-5">
             <div class="text-muted text-center mb-3"><small>Sign in with</small></div>
             <div class="btn-wrapper text-center">
