@@ -1,0 +1,33 @@
+{% load static %}
+<nav id="navbar-main" class="navbar navbar-main navbar-expand-lg navbar-dark bg-default headroom">
+    <div class="container">
+      <a class="navbar-brand mr-lg-5" href="/">
+        <img src="{% static 'img/brand/logo_text_alumate_dark.png' %}" style="width: 128px; height: auto;">
+
+      </a>
+      <div class="navbar-collapse collapse" id="navbar_global">
+        <ul class="navbar-nav align-items-lg-center ml-lg-auto">
+          {% if user.is_authenticated %}
+          <li>
+            <a href="{% url 'auths:logout' %}" class="nav-link">
+            <span class="nav-link-inner--text">Log out</span>
+            </a>
+          </li>
+          {% else %}
+          <li>
+            <a href="{% url 'auths:login' %}?next={{request.path}}" class="nav-link">
+            <span class="nav-link-inner--text">Log in</span>
+            </a>
+          </li>
+          {% endif %}
+          {% if not user.is_authenticated %}
+          <li class="nav-item d-none d-lg-block ml-lg-4">
+          <a href="{% url 'auths:register' %}" class="nav-link">
+              <span class="nav-link-inner--text">Join now</span>
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+</nav>
