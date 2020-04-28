@@ -94,7 +94,19 @@
                   {% for radio in basic_info_form.status %}
                     <div class="custom-control custom-radio mb-3">
                       {{ radio.tag }}
-                      <label class="custom-control-label" for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+
+                      <label class="custom-control-label" for="{{ radio.id_for_label }}">
+                        {% if radio.choice_label == 'Future Student' %}
+                                <img class="img-fluid rounded shadow ml-2" style="width: 1.1rem;" src="{% static 'img/brand/logo_future.png' %}" >
+                                {% elif radio.choice_label == 'Current Student' %}
+                                <img class="img-fluid rounded shadow ml-2" style="width: 1.1rem;" src="{% static 'img/brand/logo_current.png' %}" >
+                                {% elif radio.choice_label == 'Alumni' %}
+                                <img class="img-fluid rounded shadow ml-2" style="width: 1.1rem;" src="{% static 'img/brand/logo_alumni.png' %}" >
+                                {% endif %}
+                        <span class="ml-1">
+                          {{ radio.choice_label }}
+                        </span>
+                      </label>
                     </div>
                   {% endfor %}
                 </div>
