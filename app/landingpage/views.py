@@ -29,8 +29,9 @@ class ContactView(View):
             subject = 'Message from {} {} via contact form'\
                 .format(inputs['first_name'], inputs['last_name'])
             email = inputs['email']
-            message = inputs['message']
-            to = 'alumate.info@gmail.com'
-            send_mail(subject, message, email, [to])
+            message = str(inputs['message']) + "\nMessage from " + str(email) #google's SMTP does not allow to change from email field
+            to = ['alumate.info@gmail.com','snishino2013@gmail.com']
+            send_mail(subject, message, email, to)
             self.sent = True
+            form = self.class_form()
         return render(request, self.template_name, {'form': form, 'sent': self.sent})
