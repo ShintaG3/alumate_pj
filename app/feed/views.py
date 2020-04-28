@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.db.models import Q
 from django.views import View
 from django.views.generic.base import TemplateView
 from accounts.models import Country, School, Major
@@ -17,12 +18,19 @@ class FeedView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         user = self.request.user
+        try:
+            basic_info = BasicInfo.objects.get(user=user)
+            country1 = Country.objects.get(name=basic_info.country_origin)
+            country2 = Country.objects.get(name=basic_info.country_study_abroad)
+            school_options = School.objects.filter(Q(country=country1) | Q(country=country2))
+        except BasicInfo.DoesNotExist:
+            school_options = School.objects.all()
         context = {
             'new_post_form': PostForm(),
             'comment_form': PostCommentForm(),
             'post_list': self.get_post_list(user),
             'country_options': Country.objects.all(),
-            'school_options': School.objects.all(),
+            'school_options': school_options,
             'major_options': Major.objects.all(),
             'ask_list': self.get_ask_list(user)
         }
@@ -53,8 +61,7 @@ class FeedView(LoginRequiredMixin, TemplateView):
         ask_list = []
         asks = Ask.objects.all()[:10]
         for ask in asks:
-            school_tags = list(AskTagSchool.objects.filter(ask=ask).values_list('body', flat=True))
-            print(school_tags)
+            school_tags = list(AskTagSchool.objects.filter(ask=ask).values_list('body__name', flat=True))
             school_tags_str = ', '.join(school_tags)
 
             try:
@@ -146,7 +153,8 @@ class AskView(LoginRequiredMixin, View):
             country = Country.objects.get(name=tag)
             AskTagStudyAbroadCountry.objects.create(ask=ask, body=country)
         for tag in data.get('schools', []):
-            school = School.objects.get(name=tag)
+            print(tag)
+            school = School.objects.filter(name=tag).first()
             AskTagSchool.objects.create(ask=ask, body=school)
         for tag in data.get('majors', []):
             major = Major.objects.get(name=tag)
