@@ -11,5 +11,6 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', views.logoutUser, name='logout'),
     path('base-connect/', views.baseConnect, name='baseConnect'),
-    path('register/ajax/checkpwdstrength/', views.checkpwdstrength, name='checkpwdstrength')
+    path('register/ajax/checkpwdstrength/', views.checkpwdstrength, name='checkpwdstrength'),
+    path('privacy-policy/', TemplateView.as_view(template_name='auths/privacypolicy.html'), name='privacy-policy')
     ]

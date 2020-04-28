@@ -3,90 +3,91 @@
 {% block navbar %}
 {% include 'include/nav-trans.html' %}
 {% endblock %}
+{% block footer %}
+  {% include 'include/footer-dark.html' %}
+{% endblock %}
 {% block content %}
     
 {% load widget_tweaks %}
-<div class="cd-section" id="contact-us">
-    <!--     *********     CONTACT US 1      *********      -->
-    <div class="contactus-1 bg-default pt-200 pb-lg" style="background-image: url('{% static 'img/ill/1.svg' %}')">
-        <div class="container">
+
+<div class="pt-lg bg-default" style="background-image: url('{% static 'img/ill/1.svg' %}'); height: 100vh;">
+    <div class="container">
         <div class="row">
             <div class="col-lg-5 col-md-5 d-flex flex-column">
-            {% if sent %}
+                {% if sent %}
                 <h2 class="title text-white">Thank you for the feedback!</h2>
-            {% else %}
-                <h2 class="title text-white">Your opinion is awesome!</h2>
-                <h3 class="description text-white">Please share your though with us.</h3>
-            {% endif %}
+                {% else %}
+                <h2 class="title text-white">We'd love to hear from you.</h2>
+                <h3 class="description text-white">Send us a message and we'll respond as soon as possible.</h3>
+                {% endif %}
             </div>
             <div class="col-lg-5 col-md-7 ml-auto mr-auto">
-            <div class="card card-contact card-raised">
-                <form action="" role="form" id="contact-form" method="POST">
-                {% csrf_token %}
-                    <div class="card-header text-center">
-                        <h4 class="card-title">Contact Us</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>First name</label>
-                                <div class="input-group mb-4">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="ni ni-circle-08"></i></span>
-                                    </div>
+                <div class="card card-contact card-raised">
+                    <form action="" role="form" id="contact-form" method="POST">
+                        {% csrf_token %}
+                        <div class="card-header text-center">
+                            <h4 class="card-title">Contact Us</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>First name</label>
+                                        <div class="input-group mb-4">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="ni ni-circle-08"></i></span>
+                                            </div>
 
-                                    {% render_field form.first_name class+="form-control" placeholder="First Name..." aria-label="First Name..." %}
+                                            {% render_field form.first_name class+="form-control" placeholder="First Name..." aria-label="First Name..." %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 pl-2">
+                                    <div class="form-group">
+                                        <label>Last name</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="ni ni-collection"></i></span>
+                                            </div>
+
+                                            {% render_field form.last_name class+="form-control" placeholder="Last Name..." aria-label="Last Name..." %}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-6 pl-2">
                             <div class="form-group">
-                                <label>Last name</label>
+                                <label>Email address</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="ni ni-collection"></i></span>
+                                        <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                                     </div>
-                                    
-                                    {% render_field form.last_name class+="form-control" placeholder="Last Name..." aria-label="Last Name..." %}
+                                    {% render_field form.email class+="form-control" placeholder="Email Here..." %}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Your message</label>
+                                {% render_field form.message class+="form-control" name="message" id="message"%}
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="custom-control custom-checkbox mt-2">
+                                        <input class="custom-control-input" id="customCheck" type="checkbox">
+                                        <label class="custom-control-label" for="customCheck">
+                                            <span>I'm not a robot</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <button type="submit" class="btn btn-primary pull-right">Send</button>
                                 </div>
                             </div>
                         </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Email address</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="ni ni-email-83"></i></span>
-                                </div>
-                                {% render_field form.email class+="form-control" placeholder="Email Here..." %}
-                            </div>
-                        </div>
-                        <div class="form-group">
-                        <label>Your message</label>
-                        {% render_field form.message class+="form-control" name="message" id="message"%}
-                        </div>
-                        <div class="row">
-                        <div class="col-md-6">
-                            <div class="custom-control custom-checkbox mt-2">
-                            <input class="custom-control-input" id="customCheck" type="checkbox">
-                            <label class="custom-control-label" for="customCheck">
-                                <span>I'm not a robot</span>
-                            </label>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <button type="submit" class="btn btn-primary pull-right">Send Message</button>
-                        </div>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
-            </div>
-        </div>
         </div>
     </div>
-    
 </div>
+    
 
 {% endblock %}
