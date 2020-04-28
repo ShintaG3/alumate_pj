@@ -1,0 +1,966 @@
+{% load static %}
+{% load widget_tweaks  %}
+
+  <!-- Modal "editProfileImage" -->
+  <div class="modal fade" id="editProfileImage" tabindex="-1" role="dialog" aria-labelledby="editProfileImage"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Change Profile Image</h6>
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form action="{% url 'accounts:upload-profile-image' account_user.username %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <!-- Image -->
+                <div class="text-center">
+                  <div class="fileinput fileinput-new" data-provides="fileinput">
+                    <div class="fileinput-new thumbnail">
+                      {% if profile_image.image %}
+                      <img src="{{ profile_image.image.url }}" alt="..." width="180" height="180">
+                      {% else %}
+                      <img src="{% static 'img/placeholder.jpg' %}" alt="...">
+                      {% endif %}
+                    </div>
+                    <div class="fileinput-preview fileinput-exists thumbnail"></div>
+                    <div>
+                      {% if not profile_image.image %}
+                      <span class="btn btn-raised btn-round btn-primary btn-file btn-sm">
+                        <span class="fileinput-new">Add Photo</span>
+                        <span class="fileinput-exists">Change</span>
+                        {% render_field profile_image_form.image class+="hidden" %}
+                      </span>
+                      <span class="btn btn-danger btn-round fileinput-exists btn-sm" data-dismiss="fileinput">
+                        <i class="fa fa-times"></i>
+                        Remove
+                      </span>
+                      {% else %}
+                      <span class="btn btn-raised btn-round btn-primary btn-file btn-sm">
+                        <span>Change</span>
+                        {% render_field profile_image_form.image class+="hidden" %}
+                      </span>
+                      <button type="submit" name="delete" class="btn btn-danger btn-round btn-sm">
+                        <i class="fa fa-times"></i>
+                        Remove
+                      </button>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+                <!-- Button -->
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary my-4" id="saveProfileImageButton">Save changes</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal "editBasicInfo" -->
+  <div class="modal fade" id="editBasicInfo" tabindex="-1" role="dialog" aria-labelledby="editBasicInfo"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Edit Basic Info</h6>
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form action="{% url "accounts:update-basic-info" account_user.username %}" method="POST" >
+                {% csrf_token %}
+                <!--     Name -->
+                <div class="form-group mb-3 focused"><label>Name</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-circle-08"></i></span>
+                    </div>
+                    {% render_field basic_info_form.name class+="form-control" placeholder="Name..." %}
+                  </div>
+                </div>
+                <!--     Alumate Status -->
+                <div class="form-group focused">
+                  <label>Alumate Status</label>
+                  {% for radio in basic_info_form.status %}
+                    <div class="custom-control custom-radio mb-3">
+                      {{ radio.tag }}
+                      <label class="custom-control-label" for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                    </div>
+                  {% endfor %}
+                </div>
+                <!--  Country of origin -->
+                <div class="form-group focused">
+                  <label>Country of origin</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-world"></i></span>
+                    </div>
+                    {% render_field basic_info_form.country_origin class+="form-control" placeholder="Country of origin..." %}
+                    {% comment %} <input class="form-control" placeholder="Country of origin..." type="text"> {% endcomment %}
+                  </div>
+                </div>
+                <!--     Study abroad country -->
+                <div class="form-group focused">
+                  <label>Study abroad country</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-world"></i></span>
+                    </div>
+                    {% render_field basic_info_form.country_study_abroad class+="form-control" placeholder="Study abroad country..." %}
+                    {% comment %} <input class="form-control" placeholder="Study abroad country..." type="text"> {% endcomment %}
+                  </div>
+                </div>
+                {% comment %} <!--     Living city -->
+                <div class="form-group focused">
+                  <label>Living city (optional)</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-pin-3"></i></span>
+                    </div>
+                    {% render_field basic_info_form.living_city class+="form-control" placeholder="Living city e.g. Boston..." %}
+                  </div>
+                </div> {% endcomment %}
+                <!-- Button -->
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary my-4">Save changes</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modals for editStudyAbroad -->
+  <div class="modal fade" id="editStudyAbroad" tabindex="-1" role="dialog" aria-labelledby="editStudyAbroad"
+    aria-hidden="true">
+    {% if education_already_added %}
+    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+    {% else %}
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    {% endif %}
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+          
+          {% if education_already_added %}
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Select From Your Educations</h6>
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form action="{% url 'accounts:update-study-abroad' account_user.username %}" method="POST">
+                {% csrf_token %}
+                <!-- Education -->
+                <div class="form-group mb-3">
+                  <label>Your education</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                    </div>
+                    {% render_field study_abroad_choice_form.education class+="form-control" %}
+                  </div>
+                </div>
+                <!-- Button -->
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary my-4">Select Education</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+            <div class="border-bottom"></div>
+          {% endif %}
+            
+
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+              {% if education_already_added %}
+                <h6 class="text-muted my-0">Or Add New Study Abroad Info</h6>
+              {% else %}
+                <h6 class="text-muted my-0">Add Study Abroad Info</h6>
+              {% endif %}
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form action="{% url 'accounts:add-study-abroad' account_user.username %}" method="POST">
+                {% csrf_token %}
+                <!-- School -->
+                <div class="form-group mb-3">
+                  <label>School</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                    </div>
+                    {% render_field study_abroad_new_form.school class+="form-control" placeholder="School..." %}
+                  </div>
+                </div>
+                <!-- Degree -->
+                <div class="form-group mb-3">
+                  <label>Degree</label>
+                  {% for radio in study_abroad_new_form.degree %}
+                    <div class="custom-control custom-radio mb-3">
+                      {{ radio.tag }}
+                      <label class="custom-control-label" for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                    </div>
+                  {% endfor %}
+                </div>
+                <!-- Major -->
+                <div class="form-group mb-3">
+                  <label>Major</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                    </div>
+                    {% render_field study_abroad_new_form.major class+="form-control" placeholder="Major e.g. Economics..." %}
+                  </div>
+                </div>
+                <!-- Education Year for "actualSchool" -->
+                <div class="year-act" style="height: 12rem; display: block;">
+                  <!-- Start Year for "actualSchool" -->
+                  <div class="form-group">
+                    <label>Study from</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      </div>
+                      {% render_field study_abroad_new_form.start_year class+="form-control" %}
+                    </div>
+                  </div>
+                  <!-- End Year for "actualSchool"-->
+                  <div class="form-group">
+                    <label>Study until</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      </div>
+                      {% render_field study_abroad_new_form.end_year class+="form-control" %}
+                    </div>
+                  </div>
+                </div>
+                <!-- Button -->
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary my-4">Add Study Abroad</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal "editGoals" -->
+  <div class="modal fade" id="editGoals" tabindex="-1" role="dialog" aria-labelledby="editGoals" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Edit Goals</h6>
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form>
+              {% csrf_token %}
+                <!-- Goals -->
+                <div class="form-group mb-3 focused">
+                  <label>Goals</label>
+                  <input class="form-control" type="text" name="goals" id="goals"
+                    value="{{ goals_values }}" placeholder="Add Goals"
+                    data-toggle="tags-success">
+                </div>
+                <!-- Button -->
+                <div class="text-center">
+                  <button onclick="sendGoals()" type="submit" class="btn btn-primary my-4">Save changes</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal "editStudyInterests" -->
+  <div class="modal fade" id="editStudyInterests" tabindex="-1" role="dialog" aria-labelledby="editStudyInterests"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Edit Study Interests</h6>
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form>
+              {% csrf_token %}
+                <!-- Study Interests -->
+                <div class="form-group mb-3 focused">
+                  <label>Study Interests</label>
+                  <input class="form-control" type="text" name="studyInterests" id="studyInterests"
+                    value="{{ study_interests_values }}" placeholder="Add Study Interest"
+                    data-toggle="tags-danger">
+                </div>
+                <!-- Button -->
+                <div class="text-center">
+                  <button onclick="sendStudyInterests()" type="submit" class="btn btn-primary my-4">Save changes</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> 
+
+  <!-- Modal "editAbout" -->
+  <div class="modal fade" id="editAbout" tabindex="-1" role="dialog" aria-labelledby="editAbout" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Edit About</h6>
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form action="{% url 'accounts:update-about' account_user.username %}" method="POST">
+                {% csrf_token %}
+                <!-- About -->
+                <div class="form-group mb-3 focused">
+                  <label>About</label>
+                  {% render_field about_form.body class+="form-control" name="about" id="about" rows="5" placeholder="Please introduce yourself..." %}
+                </div>
+                <!-- Button -->
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary my-4">Save changes</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal "addWork" -->
+  <div class="modal fade" id="addWork" tabindex="-1" role="dialog" aria-labelledby="addWork" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Add Work</h6>
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form action="{% url 'accounts:add-work' account_user.username %}" method="POST">
+                {% csrf_token %}
+                <!-- Company -->
+                <div class="form-group mb-3 focused">
+                  <label>Company</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-building"></i></span>
+                    </div>
+                    {% render_field new_work_form.company class+="form-control" placeholder="Company..." %}
+                    {% comment %} <input class="form-control" placeholder="Company..." type="text"> {% endcomment %}
+                  </div>
+                </div>
+                <!-- Work Title -->
+                <div class="form-group mb-3 focused">
+                  <label>Title</label>
+                  {% render_field new_work_form.position class+="form-control" placeholder="Title e.g. Ratail Sales Manager..." %}
+                </div>
+                <!-- Start Year for "previousCompany" -->
+                <div class="form-group">
+                  <label>Work from</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                    </div>
+                    {% render_field new_work_form.start_year class+="form-control" %}
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Work until</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                    </div>
+                    {% render_field new_work_form.end_year class+="form-control" %}
+                  </div>
+                </div>
+                <!-- Button -->
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary my-4">Add work</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal "addEducation" -->
+  <div class="modal fade" id="addEducation" tabindex="-1" role="dialog" aria-labelledby="addEducation"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Add Education</h6>
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form action="{% url 'accounts:add-education' account_user.username %}" method="POST">
+                {% csrf_token %}
+                <!-- Is Study Abroad -->
+                <div class="form-group mb-3">
+                  <div class="custom-control custom-checkbox mb-4 mt-4">
+                    {% render_field new_education_form.is_study_abroad class+="custom-control-input" %}
+                    <label for="id_is_study_abroad" class="custom-control-label">
+                      <span>Study abroad experience</span>
+                    </label>
+                  </div>
+                </div>
+                <!-- School -->
+                <div class="form-group mb-3">
+                  <label>School</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                    </div>
+                    {% render_field new_education_form.school class+="form-control" placeholder="School..." %}
+                  </div>
+                </div>
+                <!-- Degree -->
+                <div class="form-group mb-3 focused">
+                  <label>Degree</label>
+                  {% for radio in new_education_form.degree %}
+                    <div class="custom-control custom-radio mb-3">
+                      {{ radio.tag }}
+                      <label class="custom-control-label" for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                    </div>
+                  {% endfor %}
+                </div>
+                <!-- Major -->
+                <div class="form-group mb-3">
+                  <label>Major</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                    </div>
+                    {% comment %} <input class="form-control" placeholder="Major e.g. MSc Economics..." type="text"> {% endcomment %}
+                    {% render_field new_education_form.major class+="form-control" placeholder="Major e.g. Economics..." %}
+                  </div>
+                </div>
+                <!-- Education Year for "actualSchool" -->
+                <div class="year-act" style="height: 12rem; display: block;">
+                  <!-- Start Year for "actualSchool" -->
+                  <div class="form-group">
+                    <label>Study from</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      </div>
+                      {% render_field new_education_form.start_year class+="form-control" %}
+                    </div>
+                  </div>
+                  <!-- End Year for "actualSchool"-->
+                  <div class="form-group">
+                    <label>Study until</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      </div>
+                      {% render_field new_education_form.end_year class+="form-control" %}
+                    </div>
+                  </div>
+                </div>
+                <!-- Button -->
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary my-4">Add Education</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal "edit work experience and education" -->
+  {% for exp in exp_history %}
+    {% if exp.is_work %}
+      <!-- Modal "editWork" -->
+      <div class="modal fade" id="editWork-{{exp.value.id}}" tabindex="-1" role="dialog" aria-labelledby="editWork-{{exp.value.id}}" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+          <div class="modal-content">
+            <div class="modal-body p-0">
+              <div class="card bg-secondary shadow border-0 mb-0">
+                <div class="card-header bg-secondary">
+                  <div class="text-muted text-center">
+                    <h6 class="text-muted my-0">Edit Work</h6>
+                  </div>
+                </div>
+                <div class="card-body px-lg-5 py-lg-5">
+                  <form action="{% url 'accounts:update-work' account_user.username exp.value.id %}" method="POST">
+                    {% csrf_token %}
+                    <!-- Company -->
+                    <div class="form-group mb-3 focused">
+                    <label>Company</label>
+                      <div class="input-group input-group-alternative">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="ni ni-building"></i></span>
+                        </div>
+                        {% render_field exp.form.company class+="form-control" placeholder="Company..." %}
+                      </div>
+                    </div>
+                    <!-- Position -->
+                    <div class="form-group mb-3 focused">
+                      <label>Position</label>
+                      {% render_field exp.form.position class+="form-control" placeholder="Title e.g. Ratail Sales Manager..." %}
+                    </div>
+                    <!-- Start Year for "previousCompany" -->
+                    <div class="form-group focused">
+                      <label>Work from</label>
+                      <div class="input-group input-group-alternative">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                        </div>
+                        {% render_field exp.form.start_year class+="form-control" %}
+                      </div>
+                    </div>
+                    <!-- End Year for "previousCompany"-->
+                    <div class="form-group focused">
+                      <label>Work until</label>
+                      <div class="input-group input-group-alternative">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                        </div>
+                        {% render_field exp.form.end_year class+="form-control" %}
+                      </div>
+                    </div>
+                    <!-- Button -->
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-primary my-4">Save Change</button>
+                      <button type="submit" class="btn btn-danger my-4" name="delete">Delete</button>
+                      <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <!-- Modal "editEducation" -->
+      <div class="modal fade" id="editEducation-{{exp.value.id}}" tabindex="-1" role="dialog" aria-labelledby="editEducation-{{exp.value.id}}"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+          <div class="modal-content">
+            <div class="modal-body p-0">
+              <div class="card bg-secondary shadow border-0 mb-0">
+                <div class="card-header bg-secondary">
+                  <div class="text-muted text-center">
+                    <h6 class="text-muted my-0">Edit Education</h6>
+                  </div>
+                </div>
+                <div class="card-body px-lg-5 py-lg-5">
+                  <form action="{% url 'accounts:update-education' account_user.username exp.value.id %}" method="POST">
+                    {% csrf_token %}
+                    <!-- Is study abroad -->
+                    <div class="form-group mb-3">
+                      <div class="custom-control custom-checkbox mb-4 mt-4">
+                        {% render_field exp.form.is_study_abroad class+="custom-control-input" %}
+                        <label for="id_is_study_abroad" class="custom-control-label">
+                          <span>Study abroad experience</span>
+                        </label>
+                      </div>
+                    </div>
+                    <!-- School -->
+                    <div class="form-group mb-3 focused">
+                      <label>School</label>
+                      <div class="input-group input-group-alternative">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                        </div>
+                        {% render_field exp.form.school class+="form-control" placeholder="School..." %}
+                      </div>
+                    </div>
+                    <!-- Degree -->
+                    <div class="form-group mb-3 focused">
+                      <label>Degree</label>
+                      {% for radio in exp.form.degree %}
+                        <div class="custom-control custom-radio mb-3">
+                          {{ radio.tag }}
+                          <label class="custom-control-label" for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                        </div>
+                      {% endfor %}
+                    </div>
+                    <!-- Major -->
+                    <div class="form-group mb-3 focused">
+                      <label>Major</label>
+                      <div class="input-group input-group-alternative">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                        </div>
+                        {% render_field exp.form.major class+="form-control" placeholder="Major e.g. Economics..." %}
+                      </div>
+                    </div>
+                    <!-- Start Year -->
+                    <div class="year-act" style="height: 12rem; display: block;">
+                      <!-- Start Year for "actualSchool" -->
+                      <div class="form-group focused">
+                        <label>Study from</label>
+                        <div class="input-group input-group-alternative">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                          </div>
+                        {% render_field exp.form.start_year class+="form-control" %}
+                        </div>
+                      </div>
+                      <!-- End Year -->
+                      <div class="form-group focused">
+                        <label>Study until</label>
+                        <div class="input-group input-group-alternative">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                          </div>
+                          {% render_field exp.form.end_year class+="form-control" %}
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Button -->
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-primary my-4">Save Change</button>
+                      <button type="submit" class="btn btn-danger my-4" name="delete">Delete</button>
+                      <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  {% endfor %}
+
+
+  <!-- Modal "addScholarship" -->
+  <div class="modal fade" id="addScholarship" tabindex="-1" role="dialog" aria-labelledby="addScholarship"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Add Scholarship</h6>
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form action="{% url 'accounts:add-scholarship' account_user.username %}" method="POST">
+                {% csrf_token %}
+                <!-- Scholarship Organization -->
+                <div class="form-group mb-3 focused">
+                  <label>Organization</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-university"></i></span>
+                    </div>
+                    {% render_field new_scholarship_form.organization class+="form-control" placeholder="Organization..." %}
+                  </div>
+                </div>
+                <!-- Scholarship program -->
+                <div class="form-group mb-3 focused"><label>Scholarship Title</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-paper-diploma"></i></span>
+                    </div>
+                    {% render_field new_scholarship_form.title class+="form-control" placeholder="Scholarship Title..."  %}
+                  </div>
+                </div>
+                <!-- Scholarship Start Year -->
+                <div class="form-group focused">
+                  <label>From</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                    </div>
+                    {% render_field new_scholarship_form.start_year class+="form-control" %}
+                  </div>
+                </div>
+                <!-- Scholarship End Year -->
+                <div class="form-group focused">
+                  <label>To</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                    </div>
+                    {% render_field new_scholarship_form.end_year class+="form-control" %}
+                  </div>
+                </div>
+                <!-- Button -->
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary my-4">Add</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal "editScholarship" -->
+  {% for scholarship in scholarship_history %}
+    <!-- Modal "editScholarship-1" -->
+    <div class="modal fade" id="editScholarship-{{ scholarship.value.id }}" tabindex="-1" role="dialog" aria-labelledby="editScholarship-{{ scholarship.value.id }}"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+          <div class="modal-body p-0">
+            <div class="card bg-secondary shadow border-0 mb-0">
+              <div class="card-header bg-secondary">
+                <div class="text-muted text-center">
+                  <h6 class="text-muted my-0">Add Scholarship</h6>
+                </div>
+              </div>
+              <div class="card-body px-lg-5 py-lg-5">
+                <form action="{% url 'accounts:update-scholarship' account_user.username scholarship.value.id %}" method="POST">
+                  {% csrf_token %}
+                  <!-- Scholarship Organization -->
+                  <div class="form-group mb-3 focused">
+                    <label>Organization</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-university"></i></span>
+                      </div>
+                      {% render_field scholarship.form.organization class+="form-control" placeholder="Organization..." %}
+                    </div>
+                  </div>
+                  <!-- Scholarship program -->
+                  <div class="form-group mb-3 focused"><label>Scholarship Title</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-paper-diploma"></i></span>
+                      </div>
+                      {% render_field scholarship.form.title class+="form-control" placeholder="Organization..." %}
+                    </div>
+                  </div>
+                  <!-- Scholarship Start Year -->
+                  <div class="form-group focused">
+                    <label>From</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      </div>
+                      {% render_field scholarship.form.start_year class+="form-control" %}
+                    </div>
+                  </div>
+                  <!-- Scholarship End Year -->
+                  <div class="form-group focused">
+                    <label>To</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      </div>
+                      {% render_field scholarship.form.end_year class+="form-control" %}
+                    </div>
+                  </div>
+                  
+                  <!-- Button -->
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-primary my-4">Save Change</button>
+                    <button type="submit" name="delete" class="btn btn-danger my-4">Delete</button>
+                    <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+
+  
+  <!-- Modal "addSocialLink" -->
+  <div class="modal fade" id="addSocialLink" tabindex="-1" role="dialog" aria-labelledby="addSocialLink"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Add Social Link</h6>
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form action="{% url 'accounts:add-social-link' account_user.username %}" method="POST">
+                {% csrf_token %}
+                <!-- Link title -->
+                <div class="form-group mb-3 focused">
+                  <label>Title</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-world"></i></span>
+                    </div>
+                    {% render_field new_social_link_form.title class+="form-control" placeholder="Title..." %}
+                  </div>
+                </div>
+                <!-- Link url -->
+                <div class="form-group mb-3 focused"><label>URL</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-link"></i></span>
+                    </div>
+                    {% render_field new_social_link_form.url class+="form-control" placeholder="URL..."  %}
+                  </div>
+                </div>
+                <!-- Button -->
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary my-4">Add Social Link</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal "editSocialLink" -->
+  {% for social_link in social_links %}
+    <div class="modal fade" id="editSocialLink-{{ social_link.value.id }}" tabindex="-1" role="dialog" aria-labelledby="editSocialLink-{{ social_link.value.id }}"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+          <div class="modal-body p-0">
+            <div class="card bg-secondary shadow border-0 mb-0">
+              <div class="card-header bg-secondary">
+                <div class="text-muted text-center">
+                  <h6 class="text-muted my-0">Edit Social Link</h6>
+                </div>
+              </div>
+              <div class="card-body px-lg-5 py-lg-5">
+                <form action="{% url 'accounts:update-social-link' account_user.username social_link.value.id %}" method="POST">
+                  {% csrf_token %}
+                  <!-- Link title -->
+                  <div class="form-group mb-3 focused">
+                    <label>Title</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-world"></i></span>
+                      </div>
+                      {% render_field social_link.form.title class="form-control" placeholder="Title..." %}
+                    </div>
+                  </div>
+                  <!-- Link url -->
+                  <div class="form-group mb-3 focused">
+                    <label>URL</label>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-link"></i></span>
+                      </div>
+                      {% render_field social_link.form.url class="form-control" placeholder="URL..." %}
+                    </div>
+                  </div>
+                  <!-- Button -->
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-primary my-4">Save change</button>
+                    <button type="submit" name="delete" class="btn btn-danger my-4">Delete</button>
+                    <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+
+
+  <!-- Modal "editProfile" -->
+  <div class="modal fade" id="editProfile" tabindex="-1" role="dialog" aria-labelledby="editProfile" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card bg-secondary shadow border-0 mb-0">
+            <div class="card-header bg-secondary">
+              <div class="text-muted text-center">
+                <h6 class="text-muted my-0">Edit Profile</h6>
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form action="{% url 'accounts:update-profile' account_user.username %}" method="POST">
+                {% csrf_token %}
+                <!-- Gender -->
+                <div class="form-group focused">
+                  <label>Gender (optional)</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-single-02"></i></span>
+                    </div>
+                    {% render_field profile_form.gender class+="form-control" %}
+                  </div>
+                </div>
+                <!--  Birth year -->
+                <div class="form-group focused">
+                  <label>Born in (optional)</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                    </div>
+                    {% render_field profile_form.birthday class+="form-control" %}
+                  </div>
+                </div>
+                <!-- Button -->
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary my-4">Save changes</button>
+                  <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+ 

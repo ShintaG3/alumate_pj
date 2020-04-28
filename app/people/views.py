@@ -17,9 +17,9 @@ class PeopleView(LoginRequiredMixin, TemplateView):
         user = self.request.user
         all_basic_info = BasicInfo.objects.exclude(user=user)
         all_educations = Education.objects.all()
-        home_country_options = all_basic_info.values_list('country_origin', flat=True).distinct()
-        study_abroad_country_options = all_basic_info.values_list('country_study_abroad', flat=True).distinct()
-        school_options = all_educations.values_list('school', flat=True).distinct()
+        home_country_options = all_basic_info.values_list('country_origin__name', flat=True).distinct()
+        study_abroad_country_options = all_basic_info.values_list('country_study_abroad__name', flat=True).distinct()
+        school_options = all_educations.values_list('school__name', flat=True).distinct()
         major_options = all_educations.values_list('major', flat=True).distinct()
         context = super().get_context_data(**kwargs)
         context = {
@@ -48,32 +48,42 @@ def get_search_result(query_params, user):
     search_result_education = Education.objects.all()
     for key in query_params.keys():
         value_list = query_params.get(key)
+        print(key, value_list)
         # basic info
+        print('basic info before', key, search_result)
+        print('education before', key, search_result_education)
+
         if key == 'status':
             search_result = search_result.filter(status__in=value_list)
-        if key == 'home_countries':
-            search_result = search_result.filter(country_origin__in=value_list)
-        if key == 'study_abroad_countries':
-            search_result = search_result.filter(country_study_abroad__in=value_list)
+        elif key == 'home_countries':
+            search_result = search_result.filter(country_origin__name__in=value_list)
+        elif key == 'study_abroad_countries':
+            search_result = search_result.filter(country_study__name__abroad__in=value_list)
         
         # education
-        if key == 'school':
-            search_result_education = search_result_education.filter(school__in=value_list)
-        if key == 'major':
-            search_result_education = search_result_education.filter(major__in=value_list)
-        if key == 'start_year':
+        elif key == 'school':
+            search_result_education = search_result_education.filter(school__name__in=value_list)
+        elif key == 'major':
+            search_result_education = search_result_education.filter(major__name__in=value_list)
+        elif key == 'start_year':
             lower_bound = int(value_list[0][0:4])
             upper_bound = int(value_list[1][0:4])
             search_result_education = search_result_education.filter(
                 start_year__gte=lower_bound, 
                 start_year__lte=upper_bound)
-        if key == 'end_year':
+        elif key == 'end_year':
             lower_bound = int(value_list[0][0:4])
             upper_bound = int(value_list[1][0:4])
             search_result_education = search_result_education.filter(
                 start_year__gte=lower_bound, 
                 start_year__lte=upper_bound)
+        
+        print('basic info after', key, search_result)
+        print('education after', key, search_result_education)
+    
 
-    search_result_education_users = search_result_education.values_list('user', flat=True)
+    search_result_education_users = set(search_result_education.values_list('user', flat=True))
+    print('search_result_education_users', search_result_education_users)
     search_result = search_result.filter(user__in=search_result_education_users)
+    print('after education', search_result)
     return search_result

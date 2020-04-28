@@ -1,6 +1,9 @@
 from django.shortcuts import get_object_or_404, redirect, render
-from .forms import BasicInfoForm, ProfileImageForm, EducationForm, StudyAbroadForm, AboutForm, WorkExperienceForm, ScholarshipForm, SocialLinkForm, ProfileForm, StudyAbroadEducationForm
+from .forms import BasicInfoForm, ProfileImageForm, EducationForm, StudyAbroadSelectForm, AboutForm, WorkExperienceForm, ScholarshipForm, SocialLinkForm, ProfileForm, StudyAbroadEducationForm
 from .models import BasicInfo, Goal, StudyInterest, About, Education, WorkExperience, Major, Scholarship, SocialLink, Follow, ProfileImage, Profile, StudyAbroad
+from feed.models import Post, PostLike, PostComment, PostCommentLike
+from inquiry.models import Ask, AskTagSchool, AskLike
+from feed.forms import PostCommentForm
 from django.views.generic.base import TemplateView
 from django.contrib.auth.models import User
 from django.views import View
@@ -49,6 +52,7 @@ class AccountView(LoginRequiredMixin, TemplateView):
             about = None
         
         educations = Education.objects.filter(user=account)
+        
         workexperiences = WorkExperience.objects.filter(user=account)
         exp_history = self.get_exp_history(educations, workexperiences)
         
@@ -77,38 +81,52 @@ class AccountView(LoginRequiredMixin, TemplateView):
             study_abroad = None
 
         new_message_form = DirectMessageForm()
+
+        post_list = self.get_post_list(user=account)
+        comment_form = PostCommentForm()
+
+        ask_list = self.get_ask_list(user=account)
         
         context = {
             'account_user': account,
             'has_edit_permission': has_edit_permission,
             'basic_info': basic_info,
             'profile_image': profile_image,
-            'profile_image_form': ProfileImageForm(),
             'education_already_added': educations,
             'study_abroad': study_abroad,
-            'study_abroad_choice_form': StudyAbroadForm(),
-            'study_abroad_new_form': StudyAbroadEducationForm(),
-            'basic_info_form': BasicInfoForm(instance=basic_info),
             'goals': goals,
             'goals_values': goals_str,
             'study_interests': study_interests,
             'study_interests_values': study_interests_str,
             'about': about,
-            'about_form': AboutForm(instance=about),
-            'new_education_form': EducationForm(),
-            'new_work_form': WorkExperienceForm(),
             'exp_history': exp_history,
             'scholarship_history': scholarship_history,
-            'new_scholarship_form': ScholarshipForm(),
             'social_links': social_link_lists,
-            'new_social_link_form': SocialLinkForm(),
             'profile': profile,
-            'profile_form': ProfileForm(),
             'is_following': following,
             'followers': followers,
             'followings': followings,
-            'new_message_form': new_message_form
+            'new_message_form': new_message_form,
+            'post_list': post_list,
+            'comment_form': comment_form,
+            'ask_list': ask_list
         }
+
+        if has_edit_permission:
+            additional_form_context = {
+                'profile_image_form': ProfileImageForm(),
+                'study_abroad_choice_form': StudyAbroadSelectForm(user=account),
+                'study_abroad_new_form': StudyAbroadEducationForm(user=account),
+                'basic_info_form': BasicInfoForm(instance=basic_info),
+                'about_form': AboutForm(instance=about),
+                'new_education_form': EducationForm(user=account),
+                'new_work_form': WorkExperienceForm(),
+                'new_scholarship_form': ScholarshipForm(),
+                'new_social_link_form': SocialLinkForm(),
+                'profile_form': ProfileForm(),
+            }
+            context = { **context, **additional_form_context }
+        
         return context
     
     def get_exp_history(self, educations, workexperiences):
@@ -116,6 +134,7 @@ class AccountView(LoginRequiredMixin, TemplateView):
         n = len(workexperiences)
         i= 0
         j = 0
+        user = self.request.user
         history = []
         while (i < m or j < n):
             if i >= m:
@@ -131,7 +150,7 @@ class AccountView(LoginRequiredMixin, TemplateView):
                 {
                     'is_work': False,
                     'value': educations[i],
-                    'form': EducationForm(instance=educations[i])
+                    'form': EducationForm(instance=educations[i], user=user)
                 })
                 i += 1
             elif educations[i].start_year == 'Target':
@@ -139,7 +158,7 @@ class AccountView(LoginRequiredMixin, TemplateView):
                 {
                     'is_work': False,
                     'value': educations[i],
-                    'form': EducationForm(instance=educations[i])
+                    'form': EducationForm(instance=educations[i], user=user)
                 })
                 i += 1
             elif workexperiences[i].start_year == 'Target':
@@ -155,7 +174,7 @@ class AccountView(LoginRequiredMixin, TemplateView):
                 {
                     'is_work': False,
                     'value': educations[i],
-                    'form': EducationForm(instance=educations[i])
+                    'form': EducationForm(instance=educations[i], user=user)
                 })
                 i += 1
             else:
@@ -187,6 +206,51 @@ class AccountView(LoginRequiredMixin, TemplateView):
                 'form': SocialLinkForm(instance=social_link)
             })
         return social_link_lists
+    
+    # this is same function as in feed
+    def get_post_list(self, user):
+        posts = Post.objects.filter(user=user)[:10]
+        post_list = []
+        
+        for post in posts:
+            try:
+                liked = PostLike.objects.get(user=user, post=post)
+            except PostLike.DoesNotExist:
+                liked = None
+            try:
+                following = Follow.objects.get(follower=user, followed=post.user)
+            except Follow.DoesNotExist:
+                following = None
+            
+            print(following)
+                
+            post_list.append({
+                'value': post,
+                'liked': liked,
+                'user_following': following
+            })
+        return post_list
+   
+    # this is same function as in feed
+    def get_ask_list(self, user):
+        ask_list = []
+        asks = Ask.objects.filter(user=user)[:10]
+        for ask in asks:
+            school_tags = list(AskTagSchool.objects.filter(ask=ask).values_list('body__name', flat=True))
+            school_tags_str = ', '.join(school_tags)
+
+            try:
+                liked = AskLike.objects.get(user=user, ask=ask)
+            except AskLike.DoesNotExist:
+                liked = None
+
+            ask_list.append({
+                'value': ask,
+                'liked': liked,
+                'school_tag': school_tags_str,
+            })
+
+        return ask_list
                                 
 class BasicInfoUpdateView(LoginRequiredMixin, View):
     form_class = BasicInfoForm
@@ -211,7 +275,7 @@ class UploadProfileImageView(LoginRequiredMixin, View):
     
     def post(self, request, *args, **kwargs):
         user = request.user
-        
+
         try:
             profile_image = ProfileImage.objects.get(user=user)
             if request.POST.get('delete') is not None:
@@ -224,6 +288,10 @@ class UploadProfileImageView(LoginRequiredMixin, View):
         
         if form.is_valid():
             profile_image = form.save(commit=False)
+            
+            if not profile_image.image: # saved without image
+                return redirect('/accounts/' + user.username)
+            
             profile_image.user = user
             profile_image.save()
 
@@ -234,7 +302,7 @@ class CreateStudyAbroad(LoginRequiredMixin, View):
     
     def post(self, request, *args, **kwargs):
         user = request.user
-        form = self.form_class(request.POST)
+        form = self.form_class(request.POST, user=user)
         
         if form.is_valid:
             education = form.save(commit=False)
@@ -255,7 +323,7 @@ class CreateStudyAbroad(LoginRequiredMixin, View):
 
 
 class SelectStudyAbroad(LoginRequiredMixin, View):
-    form_class = StudyAbroadForm
+    form_class = StudyAbroadSelectForm
     
     def post(self, request, *args, **kwargs):
         user = request.user
@@ -263,7 +331,7 @@ class SelectStudyAbroad(LoginRequiredMixin, View):
             study_abroad_info = StudyAbroad.objects.get(user=user)
         except StudyAbroad.DoesNotExist:
             study_abroad_info = None
-        form = self.form_class(request.POST, instance=study_abroad_info)
+        form = self.form_class(request.POST, instance=study_abroad_info, user=user)
         
         if form.is_valid:
             study_abroad_info = form.save(commit=False)
@@ -353,22 +421,40 @@ class AboutUpdateView(LoginRequiredMixin, View):
             about.user = user
             about.save()
         return redirect('/accounts/' + user.username)
+
+
+class EducationCreateView(LoginRequiredMixin, View):
+    form_class = EducationForm
     
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        form = self.form_class(request.POST, user=user)
+
+        if form.is_valid:
+            education = form.save(commit=False)
+            education.user = request.user
+            try:
+                Major.objects.get(name=education.major)
+            except Major.DoesNotExist:
+                Major.objects.create(name=education.major)
+            if education.start_year == "Target":
+                education.end_year = "Target"
+            education.save()
+        
+        return redirect('/accounts/' + user.username)
+
+
 class EducationUpdateView(LoginRequiredMixin, View):
     form_class = EducationForm
     
     def post(self, request, pk=None, *args, **kwargs):
         user = request.user
-        try:
-            education = Education.objects.get(pk=pk)
-            if request.POST.get('delete') is not None:
-                education.delete()
-                return redirect('/accounts/' + user.username)
-            
-        except Education.DoesNotExist:
-            education = None
+        education = Education.objects.get(pk=pk)
+        if request.POST.get('delete') is not None:
+            education.delete()
+            return redirect('/accounts/' + user.username)
         
-        form = self.form_class(request.POST, instance=education)
+        form = self.form_class(request.POST, instance=education, user=user)
 
         if form.is_valid:
             education = form.save(commit=False)
@@ -505,5 +591,56 @@ class UnfollowView(LoginRequiredMixin, View):
             return redirect('/accounts/' + account_to_unfollow.username)
         except Follow.DoesNotExist:
             return redirect('/accounts/' + account_to_unfollow.username)
+
+class PostCommentView(LoginRequiredMixin, View):
+    form_class = PostCommentForm
+    
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        form = self.form_class(request.POST, request.FILES)
+        post = Post.objects.get(pk=kwargs['id'])
+        if form.is_valid:
+            comment = form.save(commit=False)
+            comment.user = user
+            comment.post = post
+            comment.save()
             
-        
+        return redirect('/accounts/' + kwargs['username'])
+
+
+class PostLikeView(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        post = Post.objects.get(pk=kwargs['id'])
+        try:
+            like = PostLike.objects.get(user=user, post=post)
+            like.delete()
+        except PostLike.DoesNotExist:
+            PostLike(user=user, post=post).save()
+            
+        return redirect('/accounts/' + kwargs['username'])
+    
+class PostCommentLikeView(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        comment = PostComment.objects.get(pk=kwargs['id'])
+        try:
+            like = PostCommentLike.objects.get(user=user, comment=comment)
+            like.delete()
+        except PostCommentLike.DoesNotExist:
+            PostCommentLike(user=user, comment=comment).save()
+            
+        return redirect('/accounts/' + kwargs['username'])
+
+
+class InquiryLikeView(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        ask = Ask.objects.get(pk=kwargs['id'])
+        try:
+            like = AskLike.objects.get(user=user, ask=ask)
+            like.delete()
+        except AskLike.DoesNotExist:
+            AskLike(user=user, ask=ask).save()
+            
+        return redirect('/accounts/' + kwargs['username'])

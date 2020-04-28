@@ -151,7 +151,7 @@
     <p class="card-description">{{ ask.value.body | truncatechars:80 }}</p>
     <div class="author">
         {% if ask.value.user.profile_image %}
-        <img src={{ask.value.user.profile_image.image.src}} alt="..." class="avatar">
+        <img src={{ask.value.user.profile_image.image.url}} alt="..." class="avatar">
         {% else %}
         <img src="{% static 'img/placeholder.jpg' %}" alt="..." class="avatar">
         {% endif %}
