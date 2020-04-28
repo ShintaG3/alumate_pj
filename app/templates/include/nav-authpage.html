@@ -85,12 +85,12 @@
             <span>Account Page</span>
           </a>          
         </li>
-        <li class="nav-item d-lg-none">
-          <a class="nav-link d-flex" href="{% url 'accounts:account-edit' %}">
+        {% comment %} <li class="nav-item d-lg-none">
+          <a class="nav-link d-flex" href="{% url 'accounts:account-setting' %}">
             <span style="flex-basis: 30px;"><i class="ni ni-lock-circle-open text-muted"></i></span>
             <span>Account Settings</span>
           </a>          
-        </li>
+        </li> {% endcomment %}
         <li class="nav-item d-lg-none">
           <a class="nav-link d-flex" href="{% url 'auths:logout' %}">
             <span style="flex-basis: 30px;"><i class="ni ni-tv-2 text-danger"></i></span>
@@ -103,6 +103,7 @@
         <li class="nav-item dropdown" style="line-height: 0.95rem;">
           <a href="javascript:;" class="avatar avatar-sm rounded-circle" data-toggle="dropdown" role="button" style="margin-top:7px;">
             {% if user.profile_image %}
+
             <img src={{ user.profile_image.image.url }} />
             {% else %}
             <img src={% static 'img/placeholder.jpg' %} />
@@ -113,10 +114,10 @@
               <i class="ni ni-compass-04 text-muted"></i>
               Account Page
             </a>
-            <a class="dropdown-item" href="{% url 'accounts:account-edit' %}">
+            {% comment %} <a class="dropdown-item" href="{% url 'accounts:account-setting' %}">
               <i class="ni ni-lock-circle-open text-muted"></i>
               Account Settings
-            </a>
+            </a> {% endcomment %}
             <a class="dropdown-item" href="{% url 'auths:logout' %}">
               <i class="ni ni-tv-2 text-danger"></i>
               Logout
