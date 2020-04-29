@@ -12,6 +12,15 @@
 
 <div class="pt-lg bg-default" style="background-image: url('{% static 'img/ill/1.svg' %}'); height: 100vh;">
     <div class="container">
+        {% if sent %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <span class="alert-inner--icon"><i class="ni ni-like-2"></i></span>
+            <span class="alert-inner--text"><strong>Success!</strong> Your message has been sent!</span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endif %}
         <div class="row">
             <div class="col-lg-5 col-md-5 d-flex flex-column">
                 {% if sent %}
