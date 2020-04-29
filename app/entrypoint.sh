@@ -19,5 +19,4 @@ python manage.py loaddata university.json --app accounts
 python manage.py loaddata major.json --app accounts
 
 python manage.py collectstatic --no-input --clear
-
 exec "$@"
