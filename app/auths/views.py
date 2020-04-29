@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from .forms import SignUpForm, BaseInfoForm, UserLoginForm, SignUpForm
 from django.contrib.auth import login, authenticate, logout
 from accounts.models import Follow, BasicInfo
+from feed.models import Post
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.views.generic.edit import FormView
@@ -27,6 +28,7 @@ class SignupView(FormView):
         cd = form.cleaned_data
         user = authenticate(username=cd['username'], password=cd['password1'])
         login(self.request, user)
+        Post.objects.create(user=user,body="@" + user.username + " has joined Alumate!")
         return super().form_valid(form)
 
 class LoginView(FormView):
