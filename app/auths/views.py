@@ -1,12 +1,15 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from .forms import SignUpForm, BaseInfoForm, UserLoginForm, SignUpForm
 from django.contrib.auth import login, authenticate, logout
-from accounts.models import Follow, BasicInfo
+from accounts.models import Follow, BasicInfo, CurrentStatus
 from feed.models import Post
 from django.http import JsonResponse
 from django.contrib.auth.models import User
+from django.views import View
 from django.views.generic.edit import FormView
+from django.views.generic.base import TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
@@ -56,27 +59,36 @@ def logoutUser(request):
     logout(request)
     return redirect('/')
 
-def baseConnect(request):
-    user1 = User.objects.get(username=request.user.username)
-    futures = BasicInfo.objects.filter(status='future')[:4]
-    students = BasicInfo.objects.filter(status='student')[:4]
-    alumnis = BasicInfo.objects.filter(status='alumni')[:4]
-    context = {
-        'futures': futures,
-        'students': students,
-        'alumnis': alumnis
-    }
-    return render(request, 'auths/base-connect.html', context=context)
+class BaseConnect(LoginRequiredMixin, TemplateView):
+    template_name = 'auths/base-connect.html'
 
-def follow(request):
-    followed_id = request.GET.get('follow', None)
-    followed = BasicInfo.objects.get(id=followed_id).user
-    follower = User.objects.get(username=request.user.username)
-    follow = Follow.objects.create(follower=follower, followed=followed)
-    data = {
-        'success': followed_id
-    }
-    return JsonResponse(data)
+    def get_context_data(self, **kwargs):
+        user = self.request.user
+        user_basic_info = get_object_or_404(BasicInfo, user=user)
+        same_home_country_users = BasicInfo.objects.filter(country_origin=user_basic_info.country_origin).exclude(user=user)
+        futures = same_home_country_users.filter(status=CurrentStatus.FUTURE_STUDENT)[:4]
+        students = same_home_country_users.filter(status=CurrentStatus.CURRENT_STUDENT)[:4]
+        alumnis = same_home_country_users.filter(status=CurrentStatus.ALUMNI)[:4]
+        context = {
+            'futures': futures,
+            'students': students,
+            'alumnis': alumnis,
+        }
+        return context
+
+class FollowView(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        follower = request.user
+        account_to_follow = get_object_or_404(User, id=kwargs['id'])
+
+        try:
+            Follow.objects.get(follower=follower, followed=account_to_follow)
+            return JsonResponse({'data': 'already following'})
+        except Follow.DoesNotExist:
+            follow = Follow(follower=follower, followed=account_to_follow)
+            follow.save()
+            
+            return JsonResponse({'data': 'success'})
 
 def checkpwdstrength(request):
     pwd = request.GET.get('password', None)
