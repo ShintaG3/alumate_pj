@@ -399,8 +399,6 @@
         'start_year': startYear,
         'end_year': endYear
       };
-      console.log(jsonData)
-      console.log('applying change...')
       $.ajaxSetup({
         beforeSend: function(xhr, settings) {
           if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
@@ -414,11 +412,10 @@
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(jsonData),
         success: function(result) {
-          console.log(result);
           $('#result-area').html(result);
         },
         error: function(error) {
-          console.log(error);
+          console.error(error);
         }
       });
     }

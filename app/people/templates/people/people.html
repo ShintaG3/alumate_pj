@@ -344,7 +344,6 @@
       status.push('AL')
     }
     var csrftoken = Cookies.get('csrftoken');
-    console.log('apply change...')
     $.ajaxSetup({
       beforeSend: function(xhr, settings) {
         if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
@@ -365,7 +364,6 @@
         'end_year': endYear
       },
       success: function(result) {
-        console.log(result);
         $('#result-area').html(result);
       }
     });
