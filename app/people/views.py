@@ -15,7 +15,8 @@ class PeopleView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         user = self.request.user
-        all_basic_info = BasicInfo.objects.exclude(user=user)
+        followings_id = Follow.objects.filter(follower=user).values_list('followed', flat=True)
+        all_basic_info = BasicInfo.objects.exclude(user=user).exclude(user__id__in=followings_id)
         all_educations = Education.objects.all()
         home_country_options = all_basic_info.values_list('country_origin__name', flat=True).distinct()
         study_abroad_country_options = all_basic_info.values_list('country_study_abroad__name', flat=True).distinct()
@@ -40,7 +41,8 @@ def update_result(request, *args, **kwargs):
         query_params[key.replace('[]', '')] = value
 
     # relative_url = '{}?{}'.format((reverse('people:index')), urlencode(query_params))
-    search_result = get_search_result(query_params, request.user)
+    followings_id = Follow.objects.filter(follower=request.user).values_list('followed', flat=True)
+    search_result = get_search_result(query_params, request.user).exclude(user__id__in=followings_id)
     return render(request, 'people/result.html', context={'result': search_result, 'searched': True})
 
 def get_search_result(query_params, user):

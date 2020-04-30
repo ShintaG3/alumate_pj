@@ -45,15 +45,15 @@
             </div>
             <div class="align-self-lg-center mx-2 list-border">
                 <div class="list-name d-flex justify-content-lg-center">
-                    {{ basic_info.name }}
+                    <span class="mr-2">{{ basic_info.name }}</span>
                     {% if basic_info.status == "FU"%}
-                    <img class="img-fluid rounded shadow ml-2 list-image"
+                    <img class="img-fluid rounded shadow" style="height: 26px; width: 26px;"
                     src="{% static 'img/brand/logo_future.png' %}">  
                     {% elif basic_info.status == "CU" %}
-                    <img class="img-fluid rounded shadow ml-2 list-image"
+                    <img class="img-fluid rounded shadow" style="height: 26px; width: 26px;"
                     src="{% static 'img/brand/logo_current.png' %}">
                     {% elif basic_info.status == "AL" %}
-                    <img class="img-fluid rounded shadow ml-2 list-image"
+                    <img class="img-fluid rounded shadow" style="height: 26px; width: 26px;"
                     src="{% static 'img/brand/logo_alumni.png' %}">
                     {% endif %}                   
                 </div>
