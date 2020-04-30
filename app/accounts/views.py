@@ -222,8 +222,6 @@ class AccountView(LoginRequiredMixin, TemplateView):
             except Follow.DoesNotExist:
                 following = None
             
-            print(following)
-                
             post_list.append({
                 'value': post,
                 'liked': liked,

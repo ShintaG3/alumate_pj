@@ -48,11 +48,7 @@ def get_search_result(query_params, user):
     search_result_education = Education.objects.all()
     for key in query_params.keys():
         value_list = query_params.get(key)
-        print(key, value_list)
         # basic info
-        print('basic info before', key, search_result)
-        print('education before', key, search_result_education)
-
         if key == 'status':
             search_result = search_result.filter(status__in=value_list)
         elif key == 'home_countries':
@@ -78,14 +74,8 @@ def get_search_result(query_params, user):
                 start_year__gte=lower_bound, 
                 start_year__lte=upper_bound)
         
-        print('basic info after', key, search_result)
-        print('education after', key, search_result_education)
-    
-
     search_result_education_users = set(search_result_education.values_list('user', flat=True))
-    print('search_result_education_users', search_result_education_users)
     search_result = search_result.filter(user__in=search_result_education_users)
-    print('after education', search_result)
     return search_result
 
 

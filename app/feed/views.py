@@ -134,8 +134,6 @@ class AskView(LoginRequiredMixin, View):
         user = request.user
         data = json.loads(request.body)
         
-        print(data)
-
         ask = Ask.objects.create(user=user, title=data['title'], body=data['body'])
         
         for tag in data.get('status', []):
@@ -153,7 +151,6 @@ class AskView(LoginRequiredMixin, View):
             country = Country.objects.get(name=tag)
             AskTagStudyAbroadCountry.objects.create(ask=ask, body=country)
         for tag in data.get('schools', []):
-            print(tag)
             school = School.objects.filter(name=tag).first()
             AskTagSchool.objects.create(ask=ask, body=school)
         for tag in data.get('majors', []):

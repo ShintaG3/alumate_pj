@@ -92,7 +92,6 @@ def get_search_result(query_params, user):
         
         ask_id_list = None
         if key == 'status':
-            print(value_list)
             ask_id_list = AskTagStatus.objects.filter(body__in=value_list).values_list('ask__id', flat=True)
         elif key == 'home_countries':
             ask_id_list = AskTagHomeCountry.objects.filter(body__name__in=value_list).values_list('ask__id', flat=True)
