@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from accounts.models import *
 from django.contrib.auth.models import User
 from django.views import View
@@ -87,3 +87,18 @@ def get_search_result(query_params, user):
     search_result = search_result.filter(user__in=search_result_education_users)
     print('after education', search_result)
     return search_result
+
+
+class FollowView(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        follower = request.user
+        account_to_follow = get_object_or_404(User, id=kwargs['id'])
+
+        try:
+            Follow.objects.get(follower=follower, followed=account_to_follow)
+            return JsonResponse({'data': 'already following'})
+        except Follow.DoesNotExist:
+            follow = Follow(follower=follower, followed=account_to_follow)
+            follow.save()
+            
+            return JsonResponse({'data': 'success'})
