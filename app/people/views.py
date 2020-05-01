@@ -48,7 +48,9 @@ def update_result(request, *args, **kwargs):
 def get_search_result(query_params, user):
     search_result = BasicInfo.objects.exclude(user=user)
     search_result_education = Education.objects.all()
-    for key in query_params.keys():
+    query_keys = query_params.keys()
+    education_filter = False
+    for key in query_keys:
         value_list = query_params.get(key)
         # basic info
         if key == 'status':
@@ -61,21 +63,31 @@ def get_search_result(query_params, user):
         # education
         elif key == 'school':
             search_result_education = search_result_education.filter(school__name__in=value_list)
+            education_filter = True
         elif key == 'major':
             search_result_education = search_result_education.filter(major__name__in=value_list)
+            education_filter = True
         elif key == 'start_year':
             lower_bound = int(value_list[0][0:4])
             upper_bound = int(value_list[1][0:4])
+            if lower_bound == 1980 and upper_bound == 2030:
+                continue
             search_result_education = search_result_education.filter(
                 start_year__gte=lower_bound, 
                 start_year__lte=upper_bound)
+            education_filter = True
         elif key == 'end_year':
             lower_bound = int(value_list[0][0:4])
             upper_bound = int(value_list[1][0:4])
+            if lower_bound == 1980 and upper_bound == 2030:
+                continue
             search_result_education = search_result_education.filter(
                 start_year__gte=lower_bound, 
                 start_year__lte=upper_bound)
-        
+            education_filter = True
+    
+    if not education_filter:
+        return search_result
     search_result_education_users = set(search_result_education.values_list('user', flat=True))
     search_result = search_result.filter(user__in=search_result_education_users)
     return search_result

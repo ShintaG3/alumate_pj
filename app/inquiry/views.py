@@ -104,10 +104,14 @@ def get_search_result(query_params, user):
         elif key == 'start_year':
             lower_bound = int(value_list[0][0:4])
             upper_bound = int(value_list[1][0:4])
+            if lower_bound == 1980 and upper_bound == 2030:
+                continue
             ask_id_list = AskTagStartYear.objects.filter(lower_bound__gte=lower_bound, upper_bound__lte=upper_bound).values_list('ask__id', flat=True)
         elif key == 'end_year':
             lower_bound = int(value_list[0][0:4])
             upper_bound = int(value_list[1][0:4])
+            if lower_bound == 1980 and upper_bound == 2030:
+                continue
             ask_id_list = AskTagEndYear.objects.filter(lower_bound__gte=lower_bound, upper_bound__lte=upper_bound).values_list('ask__id', flat=True)
 
         search_result = search_result.filter(id__in=ask_id_list)
