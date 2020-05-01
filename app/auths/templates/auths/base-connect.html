@@ -1,34 +1,45 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block navbar %}
-{% include 'include/nav-black.html' %}
+{% include 'include/nav-authpage.html' %}
 {% endblock %}
 
 {% block content %}
 <main>
   <section class="section section-lg">
     <div class="container">
+      {% if futures %}
       <div class="row mb-sm">
         <div class="col-lg-8">
           <h3 class="display-3">Future students</h3>
         </div>
       </div>
       <div class="row mb-lg">
-        {% for user in futures %}
+        {% for basic_info in futures %}
         <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
           <div class="px-4">
-            <img src="{% static 'img/theme/team-1-800x800.jpg' %}" class="rounded-circle img-center img-fluid shadow shadow-lg--hover" style="width: 200px;" alt="image">
+            {% if basic_info.user.profile_image.image %}
+            <img src="{{ basic_info.user.profile_image.image.url }}" class="rounded-circle img-center img-fluid shadow shadow-lg--hover" style="width: 200px;" alt="image">
+            {% else %}
+            <img src="{% static 'img/placeholder.jpg' %}" class="rounded-circle img-center img-fluid shadow shadow-lg--hover" style="width: 200px;" alt="image">
+            {% endif %}
             <div class="pt-4 text-center">
               <h5 class="title">
-                <span class="d-block mb-1">{{ user.user.username }}</span>
-                {% for school in user.school.all %}
-                <small class="h6 text-muted">{{ school.school_name }}</small>
-                {% endfor %}
+                <span class="d-block mb-1">{{ basic_info.name }}</span>
+                {% if user.basic_info.user.study_abroad  %}
+                {% with basic_info.user.study_abroad.education as study_abroad %}
+                <div>
+                  <small class="h6 text-muted">{{ study_abroad.school }}</small>
+                </div>
+                <div>
+                  <small class="h6 text-muted">{{ study_abroad.start_year }} ~ {{ study_abroad.end_year }}</small>
+                </div>
+                {% endwith %}
+                {% endif %}
               </h5>
               <div class="mt-1">
-                <button class="btn btn-transparent rounded" data-follow="{{ user.id }}">
-                  <i class="fa fa-plus text-danger"></i>
-                  <small>Follow</small>
+                <button type="button" onclick="follow({{basic_info.user.id}})" class="btn btn-sm btn-primary btn-icon">
+                  <span class="btn-inner--text" id="btn-text-{{basic_info.user.id}}">Follow</span>
                 </button>
               </div>
             </div>
@@ -36,28 +47,41 @@
         </div>
         {% endfor %}
       </div>
+      {% endif %}
 
+
+      {% if students %}
       <div class="row mb-sm">
         <div class="col-lg-8">
           <h3 class="display-3">Current students</h3>
         </div>
       </div>
       <div class="row mb-lg">
-        {% for user in students %}
+        {% for basic_info in students %}
         <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
           <div class="px-4">
-            <img src="{% static 'img/sam.png' %}" class="rounded-circle img-center shadow shadow-lg--hover" style="object-fit:cover; width:182px; height:182px;" alt="image">
+            {% if basic_info.user.profile_image.image %}
+            <img src="{{ basic_info.user.profile_image.image.url }}" class="rounded-circle img-center img-fluid shadow shadow-lg--hover" style="width: 200px;" alt="image">
+            {% else %}
+            <img src="{% static 'img/placeholder.jpg' %}" class="rounded-circle img-center img-fluid shadow shadow-lg--hover" style="width: 200px;" alt="image">
+            {% endif %}
             <div class="pt-4 text-center">
               <h5 class="title">
-                <span class="d-block mb-1">{{ user.user.username }}</span>
-                {% for  school in user.school.all %}
-                <small class="h6 text-muted">{{ school.school_name }}</small>
-                {% endfor %}
+                <span class="d-block mb-1">{{ basic_info.name }}</span>
+                {% if basic_info.user.study_abroad  %}
+                {% with basic_info.user.study_abroad.education as study_abroad %}
+                <div>
+                  <small class="h6 text-muted">{{ study_abroad.school }}</small>
+                </div>
+                <div>
+                  <small class="h6 text-muted">{{ study_abroad.start_year }} ~ {{ study_abroad.end_year }}</small>
+                </div>
+                {% endwith %}
+                {% endif %}
               </h5>
               <div class="mt-1">
-                <button class="btn btn-transparent rounded" data-follow="{{ user.id }}">
-                  <i class="fa fa-plus text-danger"></i>
-                  <small>Follow</small>
+                <button type="button" onclick="follow({{basic_info.user.id}})" class="btn btn-sm btn-primary btn-icon">
+                  <span class="btn-inner--text" id="btn-text-{{basic_info.user.id}}">Follow</span>
                 </button>
               </div>
             </div>
@@ -65,63 +89,90 @@
         </div>
         {% endfor %}
       </div>
+      {% endif %}
 
+      {% if alumnis %}
       <div class="row mb-sm">
         <div class="col-lg-8">
           <h3 class="display-3">Alumni</h3>
         </div>
       </div>
       <div class="row mb-md">
-          {% for user in alumnis %}
+        {% for basic_info in alumnis %}
         <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
           <div class="px-4">
-            <img src="{% static 'img/shinta.jpg' %}" class="rounded-circle img-center shadow shadow-lg--hover" style="object-fit:cover; width:182px; height:182px;" alt="image">
+            {% if basic_info.user.profile_image.image %}
+            <img src="{{ basic_info.user.profile_image.image.url }}" class="rounded-circle img-center img-fluid shadow shadow-lg--hover" style="width: 200px;" alt="image">
+            {% else %}
+            <img src="{% static 'img/placeholder.jpg' %}" class="rounded-circle img-center img-fluid shadow shadow-lg--hover" style="width: 200px;" alt="image">
+            {% endif %}
             <div class="pt-4 text-center">
               <h5 class="title">
-                <span class="d-block mb-1">{{ user.user.username }}</span>
-                {% for  school in user.school.all %}
-                <small class="h6 text-muted">{{ school.school_name }}</small>
-                {% endfor %}
+                <span class="d-block mb-1">{{ basic_info.name }}</span>
+                {% if basic_info.user.study_abroad  %}
+                {% with basic_info.user.study_abroad.education as study_abroad %}
+                <div>
+                  <small class="h6 text-muted">{{ study_abroad.school }}</small>
+                </div>
+                <div>
+                  <small class="h6 text-muted">{{ study_abroad.start_year }} ~ {{ study_abroad.end_year }}</small>
+                </div>
+                {% endwith %}
+                {% endif %}
               </h5>
               <div class="mt-1">
-                <button class="btn btn-transparent rounded" data-follow="{{ user.id }}">
-                  <i class="fa fa-plus text-danger"></i>
-                  <small>Follow</small>
+                <button type="button" onclick="follow({{basic_info.user.id}})" class="btn btn-sm btn-primary btn-icon">
+                  <span class="btn-inner--text" id="btn-text-{{basic_info.user.id}}">Follow</span>
                 </button>
               </div>
             </div>
           </div>
         </div>
         {% endfor %}
+        {% endif %}
+
+        {% if not futures and not students and not alumnis %}
+          <div class="d-flex justify-content-center px-4 my-5">
+            <p>
+              You are the very first user of Alumate from your home country! </br>
+              This page is supposed to connect with other users. </br>
+              Wait for others to join or go to "Find Alumates" page to find other students!
+            </p>
+        </div>
+        {% endif %}
       </div>
       <div class="row justify-content-center">
         <a href="{% url 'feed:feed' %}" class="btn btn-primary mt-4">Welcome to Alumate!</a>
       </div>
+
     </div>
   </section>
 
 </main>
 
-<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
-
 <script>
-   let follow;
-   document.querySelectorAll('button').forEach(function(button){
-        button.onclick = function(){
-        follow = button.dataset.follow;
-        $.ajax({
-        url: 'ajax/follow/',
-        data: {
-          'follow': follow
-        },
-        dataType: 'json',
-        success: function (data) {
-            console.log(data);
+  function csrfSafeMethod(method) {
+      // these HTTP methods do not require CSRF protection
+      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+  }
+
+  function follow(id) {
+    var btn = document.getElementById('follow-btn-' + id);
+    var csrftoken = Cookies.get('csrftoken');
+    $.ajaxSetup({
+      beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
         }
-      });
-    }
-     
-   }); 
-          
+      }
+    });
+    $.ajax({
+      url: 'follow/' + id,
+      method: 'POST',
+      success: function(data) {
+        document.getElementById('btn-text-' + id).innerText = 'Followed';
+      }
+    });
+  }
 </script>
 {% endblock %}

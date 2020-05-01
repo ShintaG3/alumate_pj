@@ -44,20 +44,20 @@
                 </a>
             </div>
             <div class="align-self-lg-center mx-2 list-border">
-                <div class="list-name">
-                    {{ basic_info.name }}
+                <div class="list-name d-flex justify-content-lg-center align-content-center">
+                    <span class="mr-2">{{ basic_info.name }}</span>
                     {% if basic_info.status == "FU"%}
-                    <img class="img-fluid rounded shadow ml-2 list-image"
+                    <img class="img-fluid rounded shadow my-auto" style="height: 20px; width: 20px;"
                     src="{% static 'img/brand/logo_future.png' %}">  
                     {% elif basic_info.status == "CU" %}
-                    <img class="img-fluid rounded shadow ml-2 list-image"
+                    <img class="img-fluid rounded shadow my-auto" style="height: 20px; width: 20px;"
                     src="{% static 'img/brand/logo_current.png' %}">
                     {% elif basic_info.status == "AL" %}
-                    <img class="img-fluid rounded shadow ml-2 list-image"
+                    <img class="img-fluid rounded shadow my-auto" style="height: 20px; width: 20px;"
                     src="{% static 'img/brand/logo_alumni.png' %}">
                     {% endif %}                   
                 </div>
-                <div class="text-muted font-weight-500 small d-none d-lg-block">
+                <div class="text-muted font-weight-500 small d-none d-lg-flex justify-content-center">
                 from {{ basic_info.country_origin }} to {{ basic_info.country_study_abroad }}
                 </div>
                 {% with basic_info.user.study_abroad.education as user_education %}
@@ -70,7 +70,11 @@
                 {% comment %} <div class="font-weight-400 d-none d-lg-block"><small><i class="ni ni-pin-3 mr-2"></i>Boston,
                     U.S.</small></div> {% endcomment %}
                 {% endwith %}
-                
+            </div>
+            <div class="d-lg-flex justify-content-lg-center ml-lg-0 ml-md-auto mt-3">
+                <button type="button" onclick="follow({{basic_info.user.id}})" class="btn btn-sm btn-primary btn-icon">
+                    <span class="btn-inner--text" id="btn-text-{{basic_info.user.id}}">Follow</span>
+                </button>
             </div>
             {% comment %} <div class="flex-grow-1 text-right text-lg-center list-border">
                 <form action="{% url 'accounts:follow' basic_info.user.username %}">

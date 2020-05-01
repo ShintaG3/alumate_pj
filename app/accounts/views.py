@@ -10,13 +10,13 @@ from django.views import View
 from django.views.generic import FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from message.forms import DirectMessageForm
-
+from django.urls import reverse_lazy
 
 # Create your views here.
 class BaseInquiryView(LoginRequiredMixin, FormView):
     template_name = 'account/base-inquiry.html'
     form_class = BasicInfoForm
-    success_url = '/feed/'
+    success_url = reverse_lazy('auths:base-connect')
     
     def form_valid(self, form):
         basic_info = form.save(commit=False)
@@ -222,8 +222,6 @@ class AccountView(LoginRequiredMixin, TemplateView):
             except Follow.DoesNotExist:
                 following = None
             
-            print(following)
-                
             post_list.append({
                 'value': post,
                 'liked': liked,

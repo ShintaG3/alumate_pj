@@ -259,14 +259,16 @@
         startYear_end_input = document.getElementById("startYear_end_input"),
         starYear_span = [startYear_start, startYear_end];
         starYear_input = [startYear_start_input, startYear_end_input];
+    var minStr = startYear.getAttribute('data-range-value-min');
+    var maxStr = startYear.getAttribute('data-range-value-max');
     noUiSlider.create(startYear, {
       start: [parseInt(startYear_start.getAttribute('data-range-value-low')), parseInt(startYear_end.getAttribute('data-range-value-high'))],
       connect: !0,
-      start: ['2000', '2010'],
+      start: [minStr, maxStr],
       step: 1,
       range: {
-        min: parseInt(startYear.getAttribute('data-range-value-min')),
-        max: parseInt(startYear.getAttribute('data-range-value-max'))
+        min: parseInt(minStr),
+        max: parseInt(maxStr)
       }
     }), startYear.noUiSlider.on("update", function (a, b) {
       starYear_span[b].textContent = Math.round(a[b])
@@ -282,11 +284,11 @@
     noUiSlider.create(endYear, {
       start: [parseInt(endYear_start.getAttribute('data-range-value-low')), parseInt(endYear_end.getAttribute('data-range-value-high'))],
       connect: !0,
-      start: ['2000', '2010'],
+      start: [minStr, maxStr],
       step: 1,
       range: {
-        min: parseInt(endYear.getAttribute('data-range-value-min')),
-        max: parseInt(endYear.getAttribute('data-range-value-max'))
+        min: parseInt(minStr),
+        max: parseInt(maxStr)
       }
     }), endYear.noUiSlider.on("update", function (a, b) {
       endYear_span[b].textContent = Math.round(a[b])
@@ -304,11 +306,11 @@
     noUiSlider.create(startYear_modal, {
       start: [parseInt(startYear_start_modal.getAttribute('data-range-value-low')), parseInt(startYear_end_modal.getAttribute('data-range-value-high'))],
       connect: !0,
-      start: ['2000', '2010'],
+      start: [minStr, maxStr],
       step: 1,
       range: {
-        min: parseInt(startYear_modal.getAttribute('data-range-value-min')),
-        max: parseInt(startYear_modal.getAttribute('data-range-value-max'))
+        min: parseInt(minStr),
+        max: parseInt(maxStr)
       }
     }), startYear_modal.noUiSlider.on("update", function (a, b) {
       starYear_span_modal[b].textContent = Math.round(a[b])
@@ -324,11 +326,11 @@
     noUiSlider.create(endYear_modal, {
       start: [parseInt(endYear_start_modal.getAttribute('data-range-value-low')), parseInt(endYear_end_modal.getAttribute('data-range-value-high'))],
       connect: !0,
-      start: ['2000', '2010'],
+      start: [minStr, maxStr],
       step: 1,
       range: {
-        min: parseInt(endYear_modal.getAttribute('data-range-value-min')),
-        max: parseInt(endYear_modal.getAttribute('data-range-value-max'))
+        min: parseInt(minStr),
+        max: parseInt(maxStr)
       }
     }), endYear_modal.noUiSlider.on("update", function (a, b) {
       endYear_span_modal[b].textContent = Math.round(a[b])
@@ -399,8 +401,6 @@
         'start_year': startYear,
         'end_year': endYear
       };
-      console.log(jsonData)
-      console.log('applying change...')
       $.ajaxSetup({
         beforeSend: function(xhr, settings) {
           if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
@@ -414,11 +414,10 @@
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(jsonData),
         success: function(result) {
-          console.log(result);
           $('#result-area').html(result);
         },
         error: function(error) {
-          console.log(error);
+          console.error(error);
         }
       });
     }
@@ -564,7 +563,7 @@
     <div class="row mb-3">
       <div class="col-md-8">
         <h3 class="display-3">Inquiries</h3>
-        <p class="lead mt-1">Share the information and richen the collective knowledge to maximize the possibility that all people are able to reach the write information. Making a inquiry is the best way to reach your goals. Answering questions is the best way to support your mates.</p>
+        <p class="lead mt-1">Share the information and richen the collective knowledge to maximize the possibility that all people are able to reach the right information. Making a inquiry is the best way to reach your goals. Answering questions is the best way to support your mates.</p>
       </div>
     </div>
     

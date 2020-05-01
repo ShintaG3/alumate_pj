@@ -217,14 +217,16 @@
       startYear_end_input = document.getElementById("startYear_end_input"),
       starYear_span = [startYear_start, startYear_end];
       starYear_input = [startYear_start_input, startYear_end_input];
+  var minStr = startYear.getAttribute('data-range-value-min');
+  var maxStr = startYear.getAttribute('data-range-value-max');
   noUiSlider.create(startYear, {
     start: [parseInt(startYear_start.getAttribute('data-range-value-low')), parseInt(startYear_end.getAttribute('data-range-value-high'))],
     connect: !0,
-    start: ['2000', '2010'],
+    start: [minStr, maxStr],
     step: 1,
     range: {
-      min: parseInt(startYear.getAttribute('data-range-value-min')),
-      max: parseInt(startYear.getAttribute('data-range-value-max'))
+      min: parseInt(minStr),
+      max: parseInt(maxStr)
     }
   }), startYear.noUiSlider.on("update", function (a, b) {
     starYear_span[b].textContent = Math.round(a[b])
@@ -240,11 +242,11 @@
   noUiSlider.create(endYear, {
     start: [parseInt(endYear_start.getAttribute('data-range-value-low')), parseInt(endYear_end.getAttribute('data-range-value-high'))],
     connect: !0,
-    start: ['2000', '2010'],
+    start: [minStr, maxStr],
     step: 1,
     range: {
-      min: parseInt(endYear.getAttribute('data-range-value-min')),
-      max: parseInt(endYear.getAttribute('data-range-value-max'))
+      min: parseInt(minStr),
+      max: parseInt(maxStr)
     }
   }), endYear.noUiSlider.on("update", function (a, b) {
     endYear_span[b].textContent = Math.round(a[b])
@@ -262,11 +264,11 @@
   noUiSlider.create(startYear_modal, {
     start: [parseInt(startYear_start_modal.getAttribute('data-range-value-low')), parseInt(startYear_end_modal.getAttribute('data-range-value-high'))],
     connect: !0,
-    start: ['2000', '2010'],
+    start: [minStr, maxStr],
     step: 1,
     range: {
-      min: parseInt(startYear_modal.getAttribute('data-range-value-min')),
-      max: parseInt(startYear_modal.getAttribute('data-range-value-max'))
+      min: parseInt(minStr),
+      max: parseInt(maxStr)
     }
   }), startYear_modal.noUiSlider.on("update", function (a, b) {
     starYear_span_modal[b].textContent = Math.round(a[b])
@@ -282,11 +284,11 @@
   noUiSlider.create(endYear_modal, {
     start: [parseInt(endYear_start_modal.getAttribute('data-range-value-low')), parseInt(endYear_end_modal.getAttribute('data-range-value-high'))],
     connect: !0,
-    start: ['2000', '2010'],
+    start: [minStr, maxStr],
     step: 1,
     range: {
-      min: parseInt(endYear_modal.getAttribute('data-range-value-min')),
-      max: parseInt(endYear_modal.getAttribute('data-range-value-max'))
+      min: parseInt(minStr),
+      max: parseInt(maxStr)
     }
   }), endYear_modal.noUiSlider.on("update", function (a, b) {
     endYear_span_modal[b].textContent = Math.round(a[b])
@@ -344,7 +346,6 @@
       status.push('AL')
     }
     var csrftoken = Cookies.get('csrftoken');
-    console.log('apply change...')
     $.ajaxSetup({
       beforeSend: function(xhr, settings) {
         if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
@@ -365,15 +366,33 @@
         'end_year': endYear
       },
       success: function(result) {
-        console.log(result);
         $('#result-area').html(result);
       }
     });
+  }
 
-    function csrfSafeMethod(method) {
-      // these HTTP methods do not require CSRF protection
-      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-    }
+  function follow(id) {
+    var btn = document.getElementById('follow-btn-' + id);
+    var csrftoken = Cookies.get('csrftoken');
+    $.ajaxSetup({
+      beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+      }
+    });
+    $.ajax({
+      url: 'follow/' + id,
+      method: 'POST',
+      success: function(data) {
+        document.getElementById('btn-text-' + id).innerText = 'Followed';
+      }
+    });
+  }
+
+  function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
   }
 </script>
 {% endblock %}
