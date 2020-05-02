@@ -3,46 +3,200 @@
 {% block navbar %}
 {% include 'include/nav-authpage.html' %}
 {% endblock %}
+{% block style %}
+<!-- select2 -->
+<link type="text/css" href="{% static 'vendor/select2/css/select2.min.css' %}" rel="stylesheet">
+<link type="text/css" href="{% static 'vendor/select2-bootstrap/select2-argon.min.css' %}" rel="stylesheet">
+<style>
+  .list-name {
+    font-size:.9rem;
+    font-family: inherit;
+    font-weight: 600;
+    /* line-height: 1.5; */
+    color: #32325d;
+  }
+  .list-image{
+    width: 1rem;
+  }
+  .list-uni{
+    font-size:.9rem;
+    font-family: inherit;
+    font-weight: 400;
+    /* line-height: 1.5; */
+    color: #5e72e4;
+  }
+  .list-major{
+    font-size:.9rem;
+    font-family: inherit;
+    font-weight: 400;
+    /* line-height: 1.5; */
+    color: #8898aa;
+  }
+
+  .list-border{
+    border-bottom: .0625rem solid rgba(0, 0, 0, .05);
+    display: block;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+  }
+  .status-border{
+    border-bottom: none;
+    display: block;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    margin-bottom: 1rem; 
+  }
+  .card {
+      margin-bottom: 30px;
+      box-shadow: 0 1px 1px rgba(50,50,93,.1), 0 1px 1px rgba(0,0,0,.07);
+      border: 0;
+  }
+
+  /* image */
+  .avatar-responsive {
+    /* xs */
+    /* width: 24px;
+    height: 24px;
+    font-size: .75rem; */
+    /* sm */
+    /* width: 36px;
+    height: 36px;
+    font-size: .875rem; */
+    /* md */
+    /* width: 48px;
+    height: 48px;
+    font-size: 1rem; */
+    /* lg */
+    /* width: 58px;
+    height: 58px; */
+    font-size: .875rem;
+    /* xl */
+    width: 58px;
+    height: 58px;
+
+  }
+
+  /* media */
+  @media (min-width: 1200px) {}
+
+  @media (min-width: 992px) {
+    .avatar-responsive {
+      width: 100px;
+      height: 100px;
+    }
+    .list-border{
+    border-bottom: none;
+    display: block;
+    padding-bottom: 0;
+    padding-top: 0;
+
+    }
+    .list-name{
+    font-size:calc(1.25rem * 0.875);
+    margin-bottom:calc( 0.5rem * 0.875);
+    font-family: inherit;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #32325d;
+    }
+    .list-image{
+      width: 1.25rem;
+    }
+    .list-uni{
+    font-size:calc(1rem * 0.875);
+    font-family: inherit;
+    font-weight: 600;
+    line-height: 1.5;
+    color: #32325d;
+  }
+  .list-major{
+    font-size:calc(1rem * 0.875);
+    font-family: inherit;
+    font-weight: 500;
+    /* line-height: 1.5; */
+    color: #8898aa;
+  }
+  .status-border{
+  border-bottom: .0625rem solid rgba(0, 0, 0, .05);
+  display: block;
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+  margin-bottom: 1rem; 
+  }
+
+  }
+
+  @media (min-width: 768px) {
+
+  }
+
+  @media (min-width: 576px) {
+
+  }
+</style>
+{% endblock %}
 
 {% block content %}
 <main>
   <section class="section section-lg">
-    <div class="container">
+    <div class="container pt-3">
+      <div class="row">
+        <div class="col">
+
+          <h2>Make your timeline yours.</h2>
+          <p><span class="font-weight-400 text-primary">Follow</span> some of the users below and you'll see what they post in your timeline.</p>
+        </div>
+      </div>
       {% if futures %}
       <div class="row mb-sm">
-        <div class="col-lg-8">
-          <h3 class="display-3">Future students</h3>
+        <div class="col">
+          <h3 class="display-3 status-border">Future students</h3>
         </div>
       </div>
       <div class="row mb-lg">
         {% for basic_info in futures %}
-        <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
-          <div class="px-4">
-            {% if basic_info.user.profile_image.image %}
-            <img src="{{ basic_info.user.profile_image.image.url }}" class="rounded-circle img-center img-fluid shadow shadow-lg--hover" style="width: 200px;" alt="image">
-            {% else %}
-            <img src="{% static 'img/placeholder.jpg' %}" class="rounded-circle img-center img-fluid shadow shadow-lg--hover" style="width: 200px;" alt="image">
-            {% endif %}
-            <div class="pt-4 text-center">
-              <h5 class="title">
-                <span class="d-block mb-1">{{ basic_info.name }}</span>
-                {% if user.basic_info.user.study_abroad  %}
-                {% with basic_info.user.study_abroad.education as study_abroad %}
-                <div>
-                  <small class="h6 text-muted">{{ study_abroad.school }}</small>
-                </div>
-                <div>
-                  <small class="h6 text-muted">{{ study_abroad.start_year }} ~ {{ study_abroad.end_year }}</small>
-                </div>
-                {% endwith %}
-                {% endif %}
-              </h5>
-              <div class="mt-1">
-                <button type="button" onclick="follow({{basic_info.user.id}})" class="btn btn-sm btn-primary btn-icon">
-                  <span class="btn-inner--text" id="btn-text-{{basic_info.user.id}}">Follow</span>
-                </button>
-              </div>
+        <div class="col col-lg-3 mb-5 mb-lg-0">
+          <div class="d-flex flex-row flex-lg-column justify-content-lg-center my-lg-4">
+            <div class="align-self-center mr-3 mr-lg-0 mb-lg-3">
+              {% if basic_info.user.profile_image.image %}
+              <img src="{{ basic_info.user.profile_image.image.url }}" class="img-fluid rounded-circle avatar-responsive" alt="image">
+              {% else %}
+              <img src="{% static 'img/placeholder.jpg' %}" class="img-fluid rounded-circle avatar-responsive" alt="image">
+              {% endif %}
             </div>
+            <div class="align-self-lg-center mx-lg-2 list-border">
+              <div class="list-name d-flex justify-content-lg-center align-content-center">
+                  <span class="mr-2">{{ basic_info.name }}</span>
+                  {% if basic_info.status == "FU"%}
+                  <img class="img-fluid rounded shadow my-auto" style="height: 20px; width: 20px;"
+                  src="{% static 'img/brand/logo_future.png' %}">  
+                  {% elif basic_info.status == "CU" %}
+                  <img class="img-fluid rounded shadow my-auto" style="height: 20px; width: 20px;"
+                  src="{% static 'img/brand/logo_current.png' %}">
+                  {% elif basic_info.status == "AL" %}
+                  <img class="img-fluid rounded shadow my-auto" style="height: 20px; width: 20px;"
+                  src="{% static 'img/brand/logo_alumni.png' %}">
+                  {% endif %}                   
+              </div>
+              <div class="text-muted font-weight-500 small d-none d-lg-flex justify-content-center">
+              from {{ basic_info.country_origin }} to {{ basic_info.country_study_abroad }}
+              </div>
+              {% with basic_info.user.study_abroad.education as user_education %}
+              {% if user_education %}
+              <div class="list-uni mb-0">{{ user_education.school }}</div>
+              <div class="list-major">{{ user_education.major }} <span class="text-muted font-weight-300">
+                  <small>({{ user_education.start_year }} ~ {{ user_education.end_year }})</small>
+              </div>
+              {% endif %}
+              {% comment %} <div class="font-weight-400 d-none d-lg-block"><small><i class="ni ni-pin-3 mr-2"></i>Boston,
+                  U.S.</small></div> {% endcomment %}
+              {% endwith %}
+            </div>
+            <div class="flex-grow-1 text-right text-lg-center list-border">
+              <button type="button" onclick="follow({{basic_info.user.id}})" class="mt-lg-3 btn btn-outline-primary btn-sm btn-icon btn-round">
+                  <span class="btn-inner--text" id="btn-text-{{basic_info.user.id}}"><i class="fa fa-plus mr-1"></i>Follow</span>
+              </button>
+            </div>           
           </div>
         </div>
         {% endfor %}
@@ -52,39 +206,54 @@
 
       {% if students %}
       <div class="row mb-sm">
-        <div class="col-lg-8">
-          <h3 class="display-3">Current students</h3>
+        <div class="col">
+          <h3 class="display-3 status-border">Current students</h3>
         </div>
       </div>
       <div class="row mb-lg">
         {% for basic_info in students %}
-        <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
-          <div class="px-4">
-            {% if basic_info.user.profile_image.image %}
-            <img src="{{ basic_info.user.profile_image.image.url }}" class="rounded-circle img-center img-fluid shadow shadow-lg--hover" style="width: 200px;" alt="image">
-            {% else %}
-            <img src="{% static 'img/placeholder.jpg' %}" class="rounded-circle img-center img-fluid shadow shadow-lg--hover" style="width: 200px;" alt="image">
-            {% endif %}
-            <div class="pt-4 text-center">
-              <h5 class="title">
-                <span class="d-block mb-1">{{ basic_info.name }}</span>
-                {% if basic_info.user.study_abroad  %}
-                {% with basic_info.user.study_abroad.education as study_abroad %}
-                <div>
-                  <small class="h6 text-muted">{{ study_abroad.school }}</small>
-                </div>
-                <div>
-                  <small class="h6 text-muted">{{ study_abroad.start_year }} ~ {{ study_abroad.end_year }}</small>
-                </div>
-                {% endwith %}
-                {% endif %}
-              </h5>
-              <div class="mt-1">
-                <button type="button" onclick="follow({{basic_info.user.id}})" class="btn btn-sm btn-primary btn-icon">
-                  <span class="btn-inner--text" id="btn-text-{{basic_info.user.id}}">Follow</span>
-                </button>
-              </div>
+        <div class="col col-lg-3 mb-5 mb-lg-0">
+          <div class="d-flex flex-row flex-lg-column justify-content-lg-center my-lg-4">
+            <div class="align-self-center mr-3 mr-lg-0 mb-lg-3">
+              {% if basic_info.user.profile_image.image %}
+              <img src="{{ basic_info.user.profile_image.image.url }}" class="img-fluid rounded-circle avatar-responsive" alt="image">
+              {% else %}
+              <img src="{% static 'img/placeholder.jpg' %}" class="img-fluid rounded-circle avatar-responsive" alt="image">
+              {% endif %}
             </div>
+            <div class="align-self-lg-center mx-lg-2 list-border">
+              <div class="list-name d-flex justify-content-lg-center align-content-center">
+                  <span class="mr-2">{{ basic_info.name }}</span>
+                  {% if basic_info.status == "FU"%}
+                  <img class="img-fluid rounded shadow my-auto" style="height: 20px; width: 20px;"
+                  src="{% static 'img/brand/logo_future.png' %}">  
+                  {% elif basic_info.status == "CU" %}
+                  <img class="img-fluid rounded shadow my-auto" style="height: 20px; width: 20px;"
+                  src="{% static 'img/brand/logo_current.png' %}">
+                  {% elif basic_info.status == "AL" %}
+                  <img class="img-fluid rounded shadow my-auto" style="height: 20px; width: 20px;"
+                  src="{% static 'img/brand/logo_alumni.png' %}">
+                  {% endif %}                   
+              </div>
+              <div class="text-muted font-weight-500 small d-none d-lg-flex justify-content-center">
+              from {{ basic_info.country_origin }} to {{ basic_info.country_study_abroad }}
+              </div>
+              {% with basic_info.user.study_abroad.education as user_education %}
+              {% if user_education %}
+              <div class="list-uni mb-0">{{ user_education.school }}</div>
+              <div class="list-major">{{ user_education.major }} <span class="text-muted font-weight-300">
+                  <small>({{ user_education.start_year }} ~ {{ user_education.end_year }})</small>
+              </div>
+              {% endif %}
+              {% comment %} <div class="font-weight-400 d-none d-lg-block"><small><i class="ni ni-pin-3 mr-2"></i>Boston,
+                  U.S.</small></div> {% endcomment %}
+              {% endwith %}
+            </div>
+            <div class="flex-grow-1 text-right text-lg-center list-border">
+              <button type="button" onclick="follow({{basic_info.user.id}})" class="mt-lg-3 btn btn-outline-primary btn-sm btn-icon btn-round">
+                  <span class="btn-inner--text" id="btn-text-{{basic_info.user.id}}"><i class="fa fa-plus mr-1"></i>Follow</span>
+              </button>
+            </div>           
           </div>
         </div>
         {% endfor %}
@@ -93,39 +262,54 @@
 
       {% if alumnis %}
       <div class="row mb-sm">
-        <div class="col-lg-8">
-          <h3 class="display-3">Alumni</h3>
+        <div class="col">
+          <h3 class="display-3 status-border">Alumni</h3>
         </div>
       </div>
       <div class="row mb-md">
         {% for basic_info in alumnis %}
-        <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
-          <div class="px-4">
-            {% if basic_info.user.profile_image.image %}
-            <img src="{{ basic_info.user.profile_image.image.url }}" class="rounded-circle img-center img-fluid shadow shadow-lg--hover" style="width: 200px;" alt="image">
-            {% else %}
-            <img src="{% static 'img/placeholder.jpg' %}" class="rounded-circle img-center img-fluid shadow shadow-lg--hover" style="width: 200px;" alt="image">
-            {% endif %}
-            <div class="pt-4 text-center">
-              <h5 class="title">
-                <span class="d-block mb-1">{{ basic_info.name }}</span>
-                {% if basic_info.user.study_abroad  %}
-                {% with basic_info.user.study_abroad.education as study_abroad %}
-                <div>
-                  <small class="h6 text-muted">{{ study_abroad.school }}</small>
-                </div>
-                <div>
-                  <small class="h6 text-muted">{{ study_abroad.start_year }} ~ {{ study_abroad.end_year }}</small>
-                </div>
-                {% endwith %}
-                {% endif %}
-              </h5>
-              <div class="mt-1">
-                <button type="button" onclick="follow({{basic_info.user.id}})" class="btn btn-sm btn-primary btn-icon">
-                  <span class="btn-inner--text" id="btn-text-{{basic_info.user.id}}">Follow</span>
-                </button>
-              </div>
+        <div class="col col-lg-3 mb-5 mb-lg-0">
+          <div class="d-flex flex-row flex-lg-column justify-content-lg-center my-lg-4">
+            <div class="align-self-center mr-3 mr-lg-0 mb-lg-3">
+              {% if basic_info.user.profile_image.image %}
+              <img src="{{ basic_info.user.profile_image.image.url }}" class="img-fluid rounded-circle avatar-responsive" alt="image">
+              {% else %}
+              <img src="{% static 'img/placeholder.jpg' %}" class="img-fluid rounded-circle avatar-responsive" alt="image">
+              {% endif %}
             </div>
+            <div class="align-self-lg-center mx-lg-2 list-border">
+              <div class="list-name d-flex justify-content-lg-center align-content-center">
+                  <span class="mr-2">{{ basic_info.name }}</span>
+                  {% if basic_info.status == "FU"%}
+                  <img class="img-fluid rounded shadow my-auto" style="height: 20px; width: 20px;"
+                  src="{% static 'img/brand/logo_future.png' %}">  
+                  {% elif basic_info.status == "CU" %}
+                  <img class="img-fluid rounded shadow my-auto" style="height: 20px; width: 20px;"
+                  src="{% static 'img/brand/logo_current.png' %}">
+                  {% elif basic_info.status == "AL" %}
+                  <img class="img-fluid rounded shadow my-auto" style="height: 20px; width: 20px;"
+                  src="{% static 'img/brand/logo_alumni.png' %}">
+                  {% endif %}                   
+              </div>
+              <div class="text-muted font-weight-500 small d-none d-lg-flex justify-content-center">
+              from {{ basic_info.country_origin }} to {{ basic_info.country_study_abroad }}
+              </div>
+              {% with basic_info.user.study_abroad.education as user_education %}
+              {% if user_education %}
+              <div class="list-uni mb-0">{{ user_education.school }}</div>
+              <div class="list-major">{{ user_education.major }} <span class="text-muted font-weight-300">
+                  <small>({{ user_education.start_year }} ~ {{ user_education.end_year }})</small>
+              </div>
+              {% endif %}
+              {% comment %} <div class="font-weight-400 d-none d-lg-block"><small><i class="ni ni-pin-3 mr-2"></i>Boston,
+                  U.S.</small></div> {% endcomment %}
+              {% endwith %}
+            </div>
+            <div class="flex-grow-1 text-right text-lg-center list-border">
+              <button type="button" onclick="follow({{basic_info.user.id}})" class="mt-lg-3 btn btn-outline-primary btn-sm btn-icon btn-round">
+                  <span class="btn-inner--text" id="btn-text-{{basic_info.user.id}}"><i class="fa fa-plus mr-1"></i>Follow</span>
+              </button>
+            </div>           
           </div>
         </div>
         {% endfor %}
