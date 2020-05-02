@@ -71,10 +71,10 @@
                     U.S.</small></div> {% endcomment %}
                 {% endwith %}
             </div>
-            <div class="d-lg-flex justify-content-lg-center ml-lg-0 ml-md-auto mt-3">
-                <button type="button" onclick="follow({{basic_info.user.id}})" class="btn btn-sm btn-primary btn-icon">
-                    <span class="btn-inner--text" id="btn-text-{{basic_info.user.id}}">Follow</span>
-                </button>
+            <div class="flex-grow-1 text-right text-lg-center list-border">
+              <button type="button" onclick="follow({{basic_info.user.id}})" class="mt-lg-3 btn btn-outline-primary btn-sm btn-icon btn-round">
+                  <span class="btn-inner--text" id="btn-text-{{basic_info.user.id}}"><i class="fa fa-plus mr-1"></i>Follow</span>
+              </button>
             </div>
             {% comment %} <div class="flex-grow-1 text-right text-lg-center list-border">
                 <form action="{% url 'accounts:follow' basic_info.user.username %}">
