@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { faUniversity } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-landingpage',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./landingpage.component.css']
 })
 export class LandingpageComponent implements OnInit {
+  faUniversity = faUniversity;
 
   constructor() { }
 

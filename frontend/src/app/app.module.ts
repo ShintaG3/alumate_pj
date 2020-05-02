@@ -6,11 +6,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LandingpageComponent } from './landingpage/landingpage.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { FooterWhiteComponent } from './shared/footer-white/footer-white.component';
+import { NavbarNonAuthComponent } from './shared/navbar-non-auth/navbar-non-auth.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LandingpageComponent
+    LandingpageComponent,
+    FooterWhiteComponent,
+    NavbarNonAuthComponent
   ],
   imports: [
     NgbModule,
