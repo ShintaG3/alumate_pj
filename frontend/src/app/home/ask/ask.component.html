@@ -1,122 +1,118 @@
 <!-- Ask Form -->
 <div class="card shadow ">
   <div class="card-body p-4 bg-secondary" style="border-radius: 0.25rem;">
-    <form [formGroup]="">
-      <div class="d-flex flex-wrap">
-        <!-- Inquiry -->
-        <div class="order-1 order-lg-2 flex-grow-1" style="min-width: 300px;">
-          <!-- <div class="mb-3">
+    <!-- <form [formGroup]=""> -->
+    <div class="d-flex flex-wrap">
+      <!-- Inquiry -->
+      <div class="order-1 order-lg-2 flex-grow-1" style="min-width: 300px;">
+        <!-- <div class="mb-3">
             <span class="text-primary" style="font-size: 1rem;">
                 <small>Expected answers are
                 <span class="font-weight-bold">many</span>
                 </small>
             </span>
             </div> -->
-          <!-- Input feeld -->
-          <div class="mb-3">
-            <input id="input-title" type="text" class="form-control" placeholder="Title" required>
-          </div>
-          <div class="mb-4">
-            <textarea id="input-body" class="form-control" placeholder="Write your question" rows="15"
-              required></textarea>
-          </div>
-          <!-- Ask Button -->
-          <div class="text-right mb-4 ml-auto">
-            <button type="submit" class="btn btn-sm btn-primary btn-icon">
-              <span class="btn-inner--icon icon-big"><fa-icon [icon]="faQuestion" size="lg"></fa-icon></span>
-              <span class="btn-inner--text">Ask</span>
-            </button>
-          </div>
+        <!-- Input feeld -->
+        <div class="mb-3">
+          <input id="input-title" type="text" class="form-control" placeholder="Title" required>
         </div>
-        <!-- Tags Section -->
-        <div class="order-2 order-lg-1">
-          <div class="mr-3 tags-section">
-            <div class="display-4 mb-4">Tags<small class="text-muted align-baseline ml-2" data-toggle="tooltip"
-                data-placement="top" title="You can add tags! The inquiry appers in the tagged people's feed."
-                data-container="body" data-animation="true"><i class="fa fa-question-circle-o"></i></small></div>
-            <!-- Alumate status -->
-            <div class="form-group focused">
-              <span class="tag-label">
-                Alumate Status
-              </span>
-              <div class="custom-control custom-checkbox my-3">
-                <input class="custom-control-input" id="customCheck1" type="checkbox">
-                <label class="custom-control-label" for="customCheck1"><i class="fa fa-tag text-muted mr-2"></i>Future
-                  Student</label>
-              </div>
-              <div class="custom-control custom-checkbox my-3">
-                <input class="custom-control-input" id="customCheck2" type="checkbox">
-                <label class="custom-control-label" for="customCheck2"><i class="fa fa-tag text-muted mr-2"></i>Current
-                  Student</label>
-              </div>
-              <div class="custom-control custom-checkbox my-3">
-                <input class="custom-control-input" id="customCheck3" type="checkbox">
-                <label class="custom-control-label" for="customCheck3"><i
-                    class="fa fa-tag text-muted mr-2"></i>Alumni</label>
-              </div>
+        <div class="mb-4">
+          <textarea id="input-body" class="form-control" placeholder="Write your question" rows="15"
+            required></textarea>
+        </div>
+        <!-- Ask Button -->
+        <div class="text-right mb-4 ml-auto">
+          <button type="submit" class="btn btn-sm btn-primary btn-icon">
+            <span class="btn-inner--icon icon-big">
+              <fa-icon [icon]="faQuestion" size="lg"></fa-icon>
+            </span>
+            <span class="btn-inner--text">Ask</span>
+          </button>
+        </div>
+      </div>
+      <!-- Tags Section -->
+      <div class="order-2 order-lg-1">
+        <div class="mr-3 tags-section">
+          <div class="display-4 mb-4">Tags<small class="text-muted align-baseline ml-2" data-toggle="tooltip"
+              data-placement="top" title="You can add tags! The inquiry appers in the tagged people's feed."
+              data-container="body" data-animation="true"><i class="fa fa-question-circle-o"></i></small></div>
+          <!-- Alumate status -->
+          <div class="form-group focused">
+            <span class="tag-label">
+              Alumate Status
+            </span>
+            <div class="custom-control custom-checkbox my-3">
+              <input class="custom-control-input" id="customCheck1" type="checkbox">
+              <label class="custom-control-label" for="customCheck1"><i class="fa fa-tag text-muted mr-2"></i>Future
+                Student</label>
             </div>
-            <!-- Home Country -->
-            <div class="form-group focused">
-              <label class="tag-label" for="home_country">
-                Home Country
-              </label>
-              <!-- <select id="homeCountrySelect2" name="home_country" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="&#xf02b  Add tags...">
-                    <option value="a">a</option>
-                    <option value="b">b</option>
-                </select> -->
+            <div class="custom-control custom-checkbox my-3">
+              <input class="custom-control-input" id="customCheck2" type="checkbox">
+              <label class="custom-control-label" for="customCheck2"><i class="fa fa-tag text-muted mr-2"></i>Current
+                Student</label>
             </div>
-            <!-- Study Abroad Country -->
-            <div class="form-group">
-              <label class="tag-label" for="study_abroad_country">
-                Study Abroad Country
-              </label>
-              <!-- <select id="studyAbroadCountrySelect2" name="study_abroad_country" class="select2-multiple select2-hidden-accessible"
-                  multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="&#xf02b  Add tags...">
-                    <option value="{{country_option.name}}">{{country_option.name}}</option>
-                </select> -->
+            <div class="custom-control custom-checkbox my-3">
+              <input class="custom-control-input" id="customCheck3" type="checkbox">
+              <label class="custom-control-label" for="customCheck3"><i
+                  class="fa fa-tag text-muted mr-2"></i>Alumni</label>
             </div>
-            <!-- Study Abroad School -->
-            <div class="form-group">
-              <label class="tag-label" for="study_abroad_school">
-                Study Abroad School
-              </label>
-              <!-- <select id="studyAbroadSchoolSelect2" name="study_abroad_school" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="&#xf02b  Add tags...">
-                    <option value="{{school_option.name}}">{{school_option.name}}</option>
-                </select> -->
-            </div>
-            <!-- Study Abroad Major -->
-            <div class="form-group">
-              <label class="tag-label" for="study_abroad_major">
-                Study Abroad Major
-              </label>
-              <!-- <select id="studyAbroadMajorSelect2" name="study_abroad_major" class="select2-multiple select2-hidden-accessible" multiple="multiple" tabindex="-1" aria-hidden="true" data-placeholder="&#xf02b  Add tags...">
-                    <option value="{{major_option.name}}">{{major_option.name}}</option>
-                </select> -->
-            </div>
-            <!-- Study Abroad Year -->
-            <div class="form-group">
-              <label class="tag-label" for="home_countries">
-                Study Abroad Year
-              </label>
-              <div class="my-4">
-                <span class="slider-year">Start Year</span>
-                <input class="d-none" type="text" name="startYear_start_input" id="startYear_start_input">
-                <input class="d-none" type="text" name="startYear_end_input" id="startYear_end_input">
-                <span><small class="text-muted"><span data-range-value-low="1970" id="startYear_start"></span> - <span
-                      data-range-value-high="2040" id="startYear_end"></span></small></span>
-                <div id="startYear" data-range-value-min="1980" data-range-value-max="2030"></div>
-              </div>
-              <div class="my-4">
-                <span class="slider-year">End Year</span>
-                <input class="d-none" type="text" name="endYear_start_input" id="endYear_start_input">
-                <input class="d-none" type="text" name="endYear_end_input" id="endYear_end_input">
-                <span><small class="text-muted"><span data-range-value-low="1970" id="endYear_start"></span> - <span
-                      data-range-value-high="2040" id="endYear_end"></span></small></span>
-                <div id="endYear" data-range-value-min="1980" data-range-value-max="2030"></div>
-              </div>
-            </div>
-            <!-- Living City -->
-            <!-- <div class="form-group">
+          </div>
+          <!-- Home Country -->
+          <div class="form-group focused">
+            <label class="tag-label" for="home_country">
+              Home Country
+            </label>
+            <ng-select [multiple]="true" [(ngModel)]="selectedHomeCountries">
+              <ng-option *ngFor="let country of countries" [value]="country.id">{{ country.name }}</ng-option>
+            </ng-select>
+          </div>
+          <!-- Study Abroad Country -->
+          <div class="form-group">
+            <label class="tag-label" for="study_abroad_country">
+              Study Abroad Country
+            </label>
+            <ng-select [multiple]="true" [(ngModel)]="selectedStudyAbroadCountries">
+              <ng-option *ngFor="let country of countries" [value]="country.id">{{ country.name }}</ng-option>
+            </ng-select>
+          </div>
+          <!-- Study Abroad School -->
+          <div class="form-group">
+            <label class="tag-label" for="study_abroad_school">
+              Study Abroad School
+            </label>
+            <ng-select [items]="schools$ | async" bindLabel="name" [addTag]="true" [multiple]="true"
+              [hideSelected]="true" [trackByFn]="trackByFn" [minTermLength]="2" [loading]="schoolLoading"
+              typeToSearchText="Please enter 2 or more characters" [typeahead]="schoolInput$"
+              [(ngModel)]="selectedSchools">
+            </ng-select>
+          </div>
+          <!-- Study Abroad Major -->
+          <div class="form-group">
+            <label class="tag-label" for="study_abroad_major">
+              Study Abroad Major
+            </label>
+            <ng-select [multiple]="true" [(ngModel)]="selectedMajors">
+              <ng-option *ngFor="let major of majors" [value]="major.id">{{ major.name }}</ng-option>
+            </ng-select>
+          </div>
+          <!-- Study Abroad Year -->
+          <div class="form-group">
+            <label class="tag-label">
+              Study Abroad Year
+            </label>
+            <app-slider [sliderName]="'Start Year'"></app-slider>
+            <div class="mb-3"></div>
+            <app-slider [sliderName]="'End Year'"></app-slider>
+
+            <!-- <div class="my-4">
+              <span class="slider-year">End Year</span>
+              <ng5-slider [value]="endYearLb" [highValue]="endYearUb" [options]="sliderOptions"></ng5-slider>
+              <span><small class="text-muted">{{ endYearLb }} - {{ endYearUb}}</small></span>
+              <div id="endYear" data-range-value-min="1980" data-range-value-max="2030"></div>
+            </div> -->
+          </div>
+          <!-- Living City -->
+          <!-- <div class="form-group">
               <label class="tag-label" for="living_city">
                 Living City
               </label>
@@ -124,11 +120,11 @@
                 tabindex="-1" aria-hidden="true" data-placeholder="&#xf02b  Add tags...">
               </select>
             </div> -->
-          </div>
         </div>
-        <!-- End Tags Section-->
       </div>
-    </form>
+      <!-- End Tags Section-->
+    </div>
+    <!-- </form> -->
   </div>
 </div>
 <!-- End Ask Form -->
