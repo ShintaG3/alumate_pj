@@ -10,6 +10,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FooterWhiteComponent } from './shared/footer-white/footer-white.component';
 import { NavbarNonAuthComponent } from './shared/navbar-non-auth/navbar-non-auth.component';
 import { SignupComponent } from './auths/signup/signup.component';
+import { LoginComponent } from './auths/login/login.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { SignupComponent } from './auths/signup/signup.component';
     LandingpageComponent,
     FooterWhiteComponent,
     NavbarNonAuthComponent,
-    SignupComponent
+    SignupComponent,
+    LoginComponent
   ],
   imports: [
     NgbModule,
