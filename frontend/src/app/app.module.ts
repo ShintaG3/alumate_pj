@@ -21,6 +21,10 @@ import { SliderComponent } from './shared/slider/slider.component';
 import { LikeBtnComponent } from './shared/button/like-btn/like-btn.component';
 import { ReplyBtnComponent } from './shared/button/reply-btn/reply-btn.component';
 import { ShareBtnComponent } from './shared/button/share-btn/share-btn.component';
+import { PostFormComponent } from './home/post/post-form/post-form.component';
+import { PostContentComponent } from './home/post/post-content/post-content.component';
+import { PostCommentComponent } from './home/post/post-content/post-comment/post-comment.component';
+import { PostCommentFormComponent } from './home/post/post-content/post-comment-form/post-comment-form.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +41,11 @@ import { ShareBtnComponent } from './shared/button/share-btn/share-btn.component
     SliderComponent,
     LikeBtnComponent,
     ReplyBtnComponent,
-    ShareBtnComponent
+    ShareBtnComponent,
+    PostFormComponent,
+    PostContentComponent,
+    PostCommentComponent,
+    PostCommentFormComponent,
   ],
   imports: [
     NgbModule,

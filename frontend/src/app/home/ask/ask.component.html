@@ -137,10 +137,10 @@
   <div class="card-body">
     <h6 class="card-category text-danger">
       <i class="ni ni-badge"></i>
-      <span>School</span>
+      <span class="ml-1">School</span>
     </h6>
     <h5 class="card-title">
-      <a href="{% url 'inquiry:detail' ask.value.id %}">Title</a>
+      <a href="#">Title</a>
     </h5>
     <p class="card-description">Description</p>
     <div class="author">
@@ -150,17 +150,9 @@
     </div>
   </div>
   <div class="card-footer">
-    <div class="icon-actions">
-      <form [formGroup]="">
-        <button type="submit" class="like-button  {% if ask.liked %}active{% endif %}">
-          <i class="ni ni-like-2"></i>
-          <span class="text-muted">0</span>
-        </button>
-      </form>
-      <a href="">
-        <i class="ni ni-chat-round"></i>
-        <span class="text-muted">0</span>
-      </a>
+    <div class="d-flex">
+      <app-like-btn></app-like-btn>
+
       <!-- <a href="javascript:;">
         <i class="ni ni-curved-next"></i>
         <span class="text-muted">0</span>
