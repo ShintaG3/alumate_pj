@@ -1,1 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
+
+.btn-transparent {
+  background-color: transparent;
+  border: none;
+  text-decoration: none;
+  display: inline-block;
+  margin-right: .75rem;
+  font-size: .875rem;
+  color: #32325d;
+  padding: 0;
+}
+
+.btn-transparent.active,
+.btn-transparent:hover {
+  color: #5e72e4;
+}
+
+.btn-transparent:focus {
+  outline: none;
+}
+
+.btn-transparent>span {
+  margin-left: .1875rem;
+  font-weight: 600;
+}

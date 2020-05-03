@@ -18,6 +18,9 @@ import { PostComponent } from './home/post/post.component';
 import { AskComponent } from './home/ask/ask.component';
 import { NavbarAuthComponent } from './shared/navbar/navbar-auth/navbar-auth.component';
 import { SliderComponent } from './shared/slider/slider.component';
+import { LikeBtnComponent } from './shared/button/like-btn/like-btn.component';
+import { ReplyBtnComponent } from './shared/button/reply-btn/reply-btn.component';
+import { ShareBtnComponent } from './shared/button/share-btn/share-btn.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +34,10 @@ import { SliderComponent } from './shared/slider/slider.component';
     PostComponent,
     AskComponent,
     NavbarAuthComponent,
-    SliderComponent
+    SliderComponent,
+    LikeBtnComponent,
+    ReplyBtnComponent,
+    ShareBtnComponent
   ],
   imports: [
     NgbModule,
