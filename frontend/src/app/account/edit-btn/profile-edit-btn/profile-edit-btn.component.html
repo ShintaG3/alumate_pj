@@ -1,0 +1,33 @@
+<!-- "editProfile" -->
+<div *ngIf="profile; else noProfile"  class="row mb-2 justify-content-end">
+  <div class="col text-right">
+    <!-- Button trigger modal -->
+    <span data-toggle="modal" data-target="#editProfile" data-toggle="tooltip" data-placement="top"
+      data-container="body" data-animation="true">
+      <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+        data-toggle="tooltip" data-original-title="Edit Profile">
+        <i class="ni ni-settings-gear-65 text-gray"></i>
+      </a>
+    </span>
+  </div>
+</div>
+<div class="row mb-3">
+  <div class="col">
+    <div class="icon icon-sm icon-shape icon-shape-default shadow rounded-circle mr-2">
+      <i class="ni ni-single-02 text-default"></i>
+    </div>
+    <span class="h5 font-weight-bold text-muted text-uppercase">Profile</span>
+  </div>
+</div>
+<div #noProfile class="row mb-2 justify-content-end">
+  <div class="col text-right">
+    <!-- Button trigger modal -->
+    <span data-toggle="modal" data-target="#editProfile" data-toggle="tooltip" data-placement="top"
+      data-container="body" data-animation="true">
+      <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+        data-toggle="tooltip" data-original-title="Add Profile">
+        <i class="fa fa-plus text-gray"></i>
+      </a>
+    </span>
+  </div>
+</div>

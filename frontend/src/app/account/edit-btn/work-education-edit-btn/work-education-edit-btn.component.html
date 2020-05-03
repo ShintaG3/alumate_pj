@@ -1,0 +1,32 @@
+<app-work-modal></app-work-modal>
+<app-education-modal></app-education-modal>
+
+<div *ngIf="!expHistory"  class="row mb-3">
+  <div class="col">
+    <div class="icon icon-sm icon-shape icon-shape-danger shadow rounded-circle mr-2">
+      <i class="ni ni-paper-diploma text-danger"></i>
+    </div>
+    <span class="h5 font-weight-bold text-muted text-uppercase">Work Experiences & Educations</span>
+  </div>
+</div>
+<!-- "add Work add Education" -->
+<div class="row mb-2 justify-content-end">
+  <div class="col text-right">
+    <!-- Button trigger modal for Work-->
+    <span data-toggle="modal" data-target="#addWork" data-toggle="tooltip" data-placement="top"
+      data-container="body" data-animation="true">
+      <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+        data-toggle="tooltip" data-original-title="Add Work">
+        <i class="ni ni-briefcase-24 text-gray"></i>
+      </a>
+    </span>
+    <!-- Button trigger modal for Education-->
+    <span class="ml-2" data-toggle="modal" data-target="#addEducation" data-toggle="tooltip"
+      data-placement="top" data-container="body" data-animation="true">
+      <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+        data-toggle="tooltip" data-original-title="Add Education">
+        <i class="ni ni-hat-3 text-gray"></i>
+      </a>
+    </span>
+  </div>
+</div>

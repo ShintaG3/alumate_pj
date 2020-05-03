@@ -1,0 +1,33 @@
+<div *ngIf="studyInterests"  class="row justify-content-end">
+  <div class="col text-right">
+    <!-- Button trigger modal -->
+    <span data-toggle="modal" data-target="#editStudyInterests" data-toggle="tooltip" data-placement="top"
+      title="Edit Study Interests" data-container="body" data-animation="true">
+      <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+        data-toggle="tooltip" data-original-title="Edit Study Interests">
+        <i class="ni ni-settings-gear-65 text-gray"></i>
+      </a>
+    </span>
+  </div>
+</div>
+<!-- display study interests -->
+<div class="row mb-3">
+  <div class="col">
+    <div class="icon icon-sm icon-shape icon-shape-danger shadow rounded-circle mr-2">
+      <i class="ni ni-books text-danger"></i>
+    </div>
+    <span class="h5 font-weight-bold text-muted text-uppercase">Study Interests</span>
+  </div>
+</div>
+<div *ngIf="!studyInterests"  class="row mb-2 justify-content-end">
+  <div class="col text-right">
+    <!-- Button trigger modal -->
+    <span data-toggle="modal" data-target="#editStudyInterests" data-toggle="tooltip" data-placement="top"
+      data-container="body" data-animation="true">
+      <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
+        data-toggle="tooltip" data-original-title="Add Study Interests">
+        <i class="fa fa-plus text-gray"></i>
+      </a>
+    </span>
+  </div>
+</div>

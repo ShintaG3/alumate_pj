@@ -1,0 +1,110 @@
+<!-- Modal "editBasicInfo" -->
+<div class="modal fade" id="editBasicInfo" tabindex="-1" role="dialog" aria-labelledby="editBasicInfo"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-body p-0">
+        <div class="card bg-secondary shadow border-0 mb-0">
+          <div class="card-header bg-secondary">
+            <div class="text-muted text-center">
+              <h6 class="text-muted my-0">Edit Basic Info</h6>
+            </div>
+          </div>
+          <div class="card-body px-lg-5 py-lg-5">
+            <form [formGroup]="">
+              <!-- Name -->
+              <div class="form-group mb-3 focused"><label>Name</label>
+                <div class="input-group input-group-alternative">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-circle-08"></i></span>
+                  </div>
+                  <input type="text" name="name" maxlength="40" class="form-control" placeholder="Name..." required=""
+                    id="id_name">
+                </div>
+              </div>
+              <!-- Alumate Status -->
+              <div class="form-group focused">
+                <label>Alumate Status</label>
+                <div class="form-group focused">
+                  <label>Alumate Status</label>
+
+                  <div class="custom-control custom-radio mb-3">
+                    <input type="radio" name="status" value="FU" class="custom-control-input" id="id_status_0"
+                      required="">
+                    <label class="custom-control-label" for="id_status_0">
+                      <img class="img-fluid rounded shadow ml-2" style="width: 1.1rem;"
+                        src="assets/img/brand/logo_future.png">
+                      <span class="ml-1">
+                        Future Student
+                      </span>
+                    </label>
+                  </div>
+
+                  <div class="custom-control custom-radio mb-3">
+                    <input type="radio" name="status" value="CU" class="custom-control-input" id="id_status_1"
+                      required="" checked="">
+                    <label class="custom-control-label" for="id_status_1">
+                      <img class="img-fluid rounded shadow ml-2" style="width: 1.1rem;"
+                        src="assets/img/brand/logo_current.png">
+                      <span class="ml-1">
+                        Current Student
+                      </span>
+                    </label>
+                  </div>
+
+                  <div class="custom-control custom-radio mb-3">
+                    <input type="radio" name="status" value="AL" class="custom-control-input" id="id_status_2"
+                      required="">
+                    <label class="custom-control-label" for="id_status_2">
+                      <img class="img-fluid rounded shadow ml-2" style="width: 1.1rem;"
+                        src="assets/img/brand/logo_alumni.png">
+                      <span class="ml-1">
+                        Alumni
+                      </span>
+                    </label>
+                  </div>
+
+                </div>
+              </div>
+              <!--  Country of origin -->
+              <div class="form-group focused">
+                <label>Country of origin</label>
+                <div class="input-group input-group-alternative">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-world"></i></span>
+                  </div>
+                  <input class="form-control" placeholder="Country of origin..." type="text">
+                </div>
+              </div>
+              <!--     Study abroad country -->
+              <div class="form-group focused">
+                <label>Study abroad country</label>
+                <div class="input-group input-group-alternative">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-world"></i></span>
+                  </div>
+                  <input class="form-control" placeholder="Study abroad country..." type="text">
+                </div>
+              </div>
+              <!--     Living city -->
+              <!-- <div class="form-group focused">
+                <label>Living city (optional)</label>
+                <div class="input-group input-group-alternative">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-pin-3"></i></span>
+                  </div>
+                  {% render_field basic_info_form.living_city class+="form-control" placeholder="Living city e.g. Boston..." %}
+                </div>
+              </div> -->
+              <!-- Button -->
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary my-4">Save changes</button>
+                <button type="button" class="btn btn-outline-primary my-4" data-dismiss="modal">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
