@@ -1,7 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { Ng5SliderModule } from 'ng5-slider';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,6 +17,7 @@ import { HomeComponent } from './home/home.component';
 import { PostComponent } from './home/post/post.component';
 import { AskComponent } from './home/ask/ask.component';
 import { NavbarAuthComponent } from './shared/navbar/navbar-auth/navbar-auth.component';
+import { SliderComponent } from './shared/slider/slider.component';
 
 @NgModule({
   declarations: [
@@ -27,14 +30,18 @@ import { NavbarAuthComponent } from './shared/navbar/navbar-auth/navbar-auth.com
     HomeComponent,
     PostComponent,
     AskComponent,
-    NavbarAuthComponent
+    NavbarAuthComponent,
+    SliderComponent
   ],
   imports: [
     NgbModule,
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    FormsModule,
+    NgSelectModule,
+    Ng5SliderModule
   ],
   providers: [],
   bootstrap: [AppComponent]
