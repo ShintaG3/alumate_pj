@@ -1,0 +1,9 @@
+app-profile-image-edit-btn[_ngcontent-c1] {
+  position: absolute;
+  top: 70px;
+  left: 50%;
+  margin: auto;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  z-index: 3;
+}

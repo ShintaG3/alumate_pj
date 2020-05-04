@@ -6,11 +6,16 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./profile-image-edit-btn.component.css']
 })
 export class ProfileImageEditBtnComponent implements OnInit {
-  @Input() hasEditPermission: boolean;
+  @Input() showButton = true;
 
   constructor() { }
 
   ngOnInit(): void {
   }
+
+  onHover() {
+    this.showButton = true;
+  }
+
 
 }

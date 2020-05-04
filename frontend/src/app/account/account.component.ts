@@ -9,11 +9,15 @@ import { Component, OnInit } from '@angular/core';
 export class AccountComponent implements OnInit {
   hasEditPermission = true;
   isFollowing = false;
+  profileImageOnHover = false;
 
   basicInfo: BasicInfo = {
     user: null,
     name: 'Hiroki',
-    status: 'Current',
+    status: {
+      value: 'CU',
+      displayName: 'Current Student'
+    },
     homeCountry: {
       name: 'Japan',
     },
@@ -31,6 +35,14 @@ export class AccountComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  showProfileImageEditButton() {
+    this.profileImageOnHover = true;
+  }
+
+  hideProfileImageEditButton() {
+    this.profileImageOnHover = false;
   }
 
 }

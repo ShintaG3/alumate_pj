@@ -4,9 +4,14 @@ import { Url } from 'url';
 export interface BasicInfo {
   user: User;
   name: string;
-  status: string;
+  status: CurrentStatus;
   homeCountry: Country;
   studyAbroadCountry: Country;
+}
+
+export interface CurrentStatus {
+  value: string;
+  displayName: string;
 }
 
 export interface Profile {
