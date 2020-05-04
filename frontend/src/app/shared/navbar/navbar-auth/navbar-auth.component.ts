@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./navbar-auth.component.css']
 })
 export class NavbarAuthComponent implements OnInit {
+  isCollapsed = true;
 
   constructor() { }
 
