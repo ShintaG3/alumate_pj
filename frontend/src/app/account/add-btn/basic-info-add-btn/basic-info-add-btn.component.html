@@ -1,7 +1,5 @@
-<span data-toggle="modal" data-target="#editBasicInfo" data-toggle="tooltip"
-  data-placement="top" data-container="body" data-animation="true">
-  <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button" data-toggle="tooltip"
-    data-original-title="Add Basic Info">
-    <fa-icon [icon]="faPlus"  class="text-gray"></fa-icon>
-  </a>
-</span>
+<button (click)="openModal()"
+  class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle"
+  type="button" data-toggle="tooltip" data-original-title="Add Basic Info">
+  <fa-icon [icon]="faPlus"  class="text-gray"></fa-icon>
+</button>
