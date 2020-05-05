@@ -1,5 +1,7 @@
 import { BasicInfo } from './../../account.model';
 import { Component, OnInit } from '@angular/core';
+import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
+import { BasicInfoModalComponent } from '../../modal/basic-info-modal/basic-info-modal.component';
 
 @Component({
   selector: 'app-basic-info-edit-btn',
@@ -11,9 +13,15 @@ export class BasicInfoEditBtnComponent implements OnInit {
   isFollowing = false;
   basicInfo: BasicInfo;
 
-  constructor() { }
+  constructor(private dialog: MatDialog) { }
 
   ngOnInit(): void {
   }
 
+  openModal(): void {
+    const dialogConfig: MatDialogConfig = {
+      disableClose: true
+    };
+    this.dialog.open(BasicInfoModalComponent, dialogConfig);
+  }
 }

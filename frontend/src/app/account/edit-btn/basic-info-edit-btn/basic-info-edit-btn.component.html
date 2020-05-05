@@ -1,7 +1,6 @@
-<span data-toggle="modal" data-target="#editBasicInfo" data-toggle="tooltip" data-placement="top"
-  data-container="body" data-animation="true">
-  <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button" data-toggle="tooltip"
-    data-original-title="Edit Basic Info">
-    <i class="ni ni-settings-gear-65 text-gray"></i>
-  </a>
-</span>
+<button mat-mini-fab
+      matTooltip="Edit Basic Info"
+      [matTooltipPosition]="'above'"
+      (click)="openModal()" onclick="this.blur()" >
+  <i class="ni ni-settings-gear-65 text-gray"></i>
+</button>

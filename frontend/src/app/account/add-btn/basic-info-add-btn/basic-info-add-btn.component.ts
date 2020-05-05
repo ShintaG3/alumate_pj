@@ -1,5 +1,5 @@
 import { BasicInfoModalComponent } from './../../modal/basic-info-modal/basic-info-modal.component';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
@@ -20,10 +20,6 @@ export class BasicInfoAddBtnComponent implements OnInit {
     const dialogConfig: MatDialogConfig = {
       disableClose: true
     };
-    const dialogRef = this.dialog.open(BasicInfoModalComponent, dialogConfig);
-
-    dialogRef.afterClosed().subscribe(
-      data => console.log('Dialog output:', data)
-    );
+    this.dialog.open(BasicInfoModalComponent, dialogConfig);
   }
 }

@@ -96,7 +96,12 @@
                 </div>
                 <ng-template #noBasicInfo> -->
                 <div class="col text-right">
-                  <app-basic-info-add-btn></app-basic-info-add-btn>
+                  <ng-template [ngIf]="!basicInfo" [ngIfElse]="basicInfoExists" >
+                    <app-basic-info-add-btn></app-basic-info-add-btn>
+                  </ng-template>
+                  <ng-template #basicInfoExists>
+                    <app-basic-info-edit-btn></app-basic-info-edit-btn>
+                  </ng-template>
                 </div>
                 <!-- </ng-template> -->
               </div>
