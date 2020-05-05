@@ -1,1 +1,6 @@
-<p>about-add-btn works!</p>
+<button mat-mini-fab
+      matTooltip="Add Basic Info"
+      [matTooltipPosition]="'above'"
+      (click)="openModal()" onclick="this.blur()" >
+  <fa-icon [icon]="faPlus"></fa-icon>
+</button>
