@@ -1,5 +1,6 @@
-import { Profile } from './../../account.model';
-import { Component, OnInit, Input } from '@angular/core';
+import { ProfileModalComponent } from './../../modal/profile-modal/profile-modal.component';
+import { Component, OnInit } from '@angular/core';
+import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-profile-edit-btn',
@@ -7,11 +8,15 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./profile-edit-btn.component.css']
 })
 export class ProfileEditBtnComponent implements OnInit {
-  profile: Profile;
-  
-  constructor() { }
+  constructor(private dialog: MatDialog) { }
 
   ngOnInit(): void {
   }
 
+  openModal(): void {
+    const dialogConfig: MatDialogConfig = {
+      disableClose: true
+    };
+    this.dialog.open(ProfileModalComponent, dialogConfig);
+  }
 }
