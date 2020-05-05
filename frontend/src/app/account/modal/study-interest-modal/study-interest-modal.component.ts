@@ -33,8 +33,8 @@ export class StudyInterestModalComponent implements OnInit {
     public dialogRef: MatDialogRef<StudyInterestModalComponent>
   ) {
     this.filteredStudyInterests = this.studyInterestControl.valueChanges.pipe(
-      map((fruit: string | null) =>
-        fruit ? this._filter(fruit) : this.allStudyInterests.slice()
+      map((item: string | null) =>
+      item ? this._filter(item) : this.allStudyInterests.slice()
       )
     );
   }
@@ -46,7 +46,7 @@ export class StudyInterestModalComponent implements OnInit {
     const input = event.input;
     const value = event.value;
 
-    // Add our fruit
+    // Add our item
     if ((value || '').trim()) {
       this.studyInterests.push(value.trim());
     }
@@ -59,8 +59,8 @@ export class StudyInterestModalComponent implements OnInit {
     this.studyInterestControl.setValue(null);
   }
 
-  remove(fruit: string): void {
-    const index = this.studyInterests.indexOf(fruit);
+  remove(item: string): void {
+    const index = this.studyInterests.indexOf(item);
 
     if (index >= 0) {
       this.studyInterests.splice(index, 1);

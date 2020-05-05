@@ -11,7 +11,7 @@
           [selectable]="selectable"
           [removable]="removable"
           (removed)="remove(goal)">
-          {{goal}}
+          {{ goal }}
           <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
         </mat-chip>
 
@@ -26,9 +26,8 @@
       </mat-chip-list>
       <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
         <mat-option *ngFor="let goal of filteredGoals | async" [value]="goal">
-          {{goal}}
-
-  </mat-option>
+          {{ goal }}
+        </mat-option>
       </mat-autocomplete>
     </mat-form-field>
   </div>

@@ -25,15 +25,15 @@ export class GoalModalComponent implements OnInit {
   goals: string[] = [];
   allGoals: string[] = ['aa', 'bb', 'cc'];
 
-  @ViewChild('goalInput') goalsInput: ElementRef<HTMLInputElement>;
+  @ViewChild('goalsInput') goalsInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
   constructor(
     public dialogRef: MatDialogRef<GoalModalComponent>
   ) {
     this.filteredGoals = this.goalControl.valueChanges.pipe(
-      map((fruit: string | null) =>
-        fruit ? this._filter(fruit) : this.allGoals.slice()
+      map((item: string | null) =>
+      item ? this._filter(item) : this.allGoals.slice()
       )
     );
   }
@@ -46,7 +46,7 @@ export class GoalModalComponent implements OnInit {
     const input = event.input;
     const value = event.value;
 
-    // Add our fruit
+    // Add our item
     if ((value || '').trim()) {
       this.goals.push(value.trim());
     }
@@ -59,8 +59,8 @@ export class GoalModalComponent implements OnInit {
     this.goalControl.setValue(null);
   }
 
-  remove(fruit: string): void {
-    const index = this.goals.indexOf(fruit);
+  remove(item: string): void {
+    const index = this.goals.indexOf(item);
 
     if (index >= 0) {
       this.goals.splice(index, 1);
