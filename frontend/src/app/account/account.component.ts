@@ -31,7 +31,18 @@ export class AccountComponent implements OnInit {
   goals: Goal[];
   studyInterests: StudyInterest[];
   scholarships: Scholarship[];
-  socialLinks: SocialLink[];
+  socialLinks: SocialLink[] = [
+    {
+      user: null,
+      title: 'twitter',
+      url: 'https://twitter.com'
+    },
+    {
+      user: null,
+      title: 'twitter2',
+      url: 'https://twitter.com'
+    },
+  ];
 
   profile: any;
 

@@ -380,33 +380,25 @@
 
               <!-- Social Links -->
               <div *ngIf="hasEditPermission || socialLinks" class="mt-5 pt-4 border-top"></div>
-              <div class="row mb-3">
-                <div class="col">
-                  <div class="icon icon-sm icon-shape icon-shape-default shadow rounded-circle mr-2">
-                    <i class="ni ni-world text-default"></i>
-                  </div>
-                  <span class="h5 font-weight-bold text-muted text-uppercase">Social Links</span>
+              <div class="row mb-3 px-3">
+                <div class="icon icon-sm icon-shape icon-shape-default shadow rounded-circle mr-2">
+                  <i class="ni ni-world text-default"></i>
                 </div>
+                <h2 class="font-weight-bold text-muted text-uppercase">Social Links</h2>
               </div>
               <!-- "addSocialLink" -->
               <div *ngIf="hasEditPermission" class="row mb-2 justify-content-end">
                 <div class="col text-right">
                   <!-- Button trigger modal -->
-                  <span data-toggle="modal" data-target="#addSocialLink" data-toggle="tooltip" data-placement="top"
-                    data-container="body" data-animation="true">
-                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
-                      data-toggle="tooltip" data-original-title="Add Social Link">
-                      <i class="fa fa-plus text-gray"></i>
-                    </a>
-                  </span>
+                  <app-social-link-add-btn></app-social-link-add-btn>
                 </div>
               </div>
               <!-- display "Social Links" -->
               <div *ngIf="socialLinks" class="row mb-5">
                 <div class="col">
                   <div *ngFor="let socialLink of socialLinks" class="row justify-content-between px-3">
-                    <a href="">
-                      <h6 class="btn-link">socialLink</h6>
+                    <a href={{socialLink.url}}>
+                      <h4 class="btn-link">{{ socialLink.title }}</h4>
                     </a>
                     <!-- Button trigger modal -->
                     <span *ngIf="hasEditPermission" data-toggle="modal" data-target="#editSocialLink-1"

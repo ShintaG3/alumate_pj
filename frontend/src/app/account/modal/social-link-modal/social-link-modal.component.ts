@@ -1,4 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-social-link-modal',
@@ -6,11 +8,25 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./social-link-modal.component.css']
 })
 export class SocialLinkModalComponent implements OnInit {
-  @Input() hasEditPermission: boolean;
+  form: FormGroup;
 
-  constructor() { }
+  constructor(
+    private fb: FormBuilder,
+    public dialogRef: MatDialogRef<SocialLinkModalComponent>,
+  ) {}
 
   ngOnInit(): void {
+    this.form = this.fb.group({
+      title: [''],
+      url: ['']
+    });
   }
 
+  save(): void {
+    this.dialogRef.close(this.form.value);
+  }
+
+  cancel(): void {
+    this.dialogRef.close();
+  }
 }

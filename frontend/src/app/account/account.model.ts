@@ -91,7 +91,7 @@ export interface Scholarship {
 export interface SocialLink {
   user: User;
   title: string;
-  url: Url;
+  url: string;
 }
 
 export interface City {
