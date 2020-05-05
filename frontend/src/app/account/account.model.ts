@@ -84,6 +84,8 @@ export interface Scholarship {
   user: User;
   organization: string;
   title: string;
+  startYear: number;
+  endYear: number;
 }
 
 export interface SocialLink {

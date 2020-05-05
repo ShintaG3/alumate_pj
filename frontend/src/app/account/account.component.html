@@ -338,7 +338,7 @@
               </div>
 
               <!-- Scholarships -->
-              <div *ngIf="hasEditPermission || scholarshipHistory" class="mt-5 pt-4 border-top"></div>
+              <div *ngIf="hasEditPermission || scholarships" class="mt-5 pt-4 border-top"></div>
               <div class="row mb-3">
                 <div class="col">
                   <div class="icon icon-sm icon-shape icon-shape-danger shadow rounded-circle mr-2">
@@ -351,23 +351,17 @@
               <div class="row mb-2 justify-content-end" *ngIf="hasEditPermission">
                 <div class="col text-right">
                   <!-- Button trigger modal -->
-                  <span data-toggle="modal" data-target="#addScholarship" data-toggle="tooltip" data-placement="top"
-                    data-container="body" data-animation="true">
-                    <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button"
-                      data-toggle="tooltip" data-original-title="Add Scholarship">
-                      <i class="fa fa-plus text-gray"></i>
-                    </a>
-                  </span>
+                  <app-scholarship-add-btn></app-scholarship-add-btn>
                 </div>
               </div>
               <!-- display "Scholasrship" -->
-              <div class="row" *ngFor="let scholarship of scholarshipHistory">
+              <div class="row" *ngFor="let scholarship of scholarships">
                 <div class="col">
                   <div class="d-flex flex-row justify-content-between">
-                    <span class="text-muted text-sm font-weight-bold">{{ scholarship.value.organization }}</span>
+                    <span class="text-muted font-weight-bold">{{ scholarship.organization }}</span>
                     <div>
-                      <small class="text-muted">{{ scholarship.value.start_year }} -
-                        {{ scholarship.value.end_year }}</small>
+                      <small class="text-muted">{{ scholarship.startYear }} -
+                        {{ scholarship.endYear }}</small>
                       <!-- Button trigger modal -->
                       <span *ngIf="hasEditPermission" data-toggle="modal" data-toggle="tooltip" data-placement="top"
                         data-container="body" data-animation="true">
@@ -377,10 +371,9 @@
                       </span>
                     </div>
                   </div>
-                  <h6 class="text-sm text-left mt-1">
-                    <!-- {{ scholarship.value.title }} -->
-                    Something
-                  </h6>
+                  <span class="text-sm text-left mt-1">
+                    {{ scholarship.title }}
+                  </span>
                 </div>
               </div>
 

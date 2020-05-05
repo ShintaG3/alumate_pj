@@ -1,4 +1,4 @@
-import { BasicInfo, About, Goal, StudyInterest, SocialLink, StudyAbroad } from './account.model';
+import { BasicInfo, About, Goal, StudyInterest, SocialLink, StudyAbroad, Scholarship } from './account.model';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -30,7 +30,7 @@ export class AccountComponent implements OnInit {
   expHistory: any[];
   goals: Goal[];
   studyInterests: StudyInterest[];
-  scholarshipHistory: any[];
+  scholarships: Scholarship[];
   socialLinks: SocialLink[];
 
   profile: any;
