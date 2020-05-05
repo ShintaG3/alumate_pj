@@ -419,8 +419,8 @@
               </div>
 
               <!-- display "Profile" -->
-              <div *ngIf="profile">
-                <div *ngIf="!hasEditPermission" class="row mb-3">
+              <div *ngIf="hasEditPermission || profile">
+                <div class="row mb-3">
                   <div class="col">
                     <div class="icon icon-sm icon-shape icon-shape-default shadow rounded-circle mr-2">
                       <i class="ni ni-single-02 text-default"></i>
@@ -428,19 +428,24 @@
                     <span class="h5 font-weight-bold text-muted text-uppercase">Profile</span>
                   </div>
                 </div>
-                <div class="row mb-5">
+                <div class="row mb-5" *ngIf="profile">
                   <div class="col">
-                    <h6>
-                      Male
+                    <h4>
+                      {{ profile.gender.displayName }}
                       <!-- {{ profile.get_gender_display }} -->
-                    </h6>
-                    <h6>Born in 1996</h6>
+                    </h4>
+                    <h4>{{ profile.birthday | date }}</h4>
                   </div>
                 </div>
               </div>
 
-              <!-- margin -->
-              <div *ngIf="!profile && hasEditPermission" class="mb-5"></div>
+              <!-- add "Profile" -->
+              <div class="row mb-5 justify-content-end" *ngIf="hasEditPermission && !profile">
+                <div class="col text-right">
+                  <!-- Button trigger modal -->
+                  <app-profile-add-btn></app-profile-add-btn>
+                </div>
+              </div>
             </div>
           </div>
         </div>

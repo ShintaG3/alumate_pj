@@ -1,4 +1,4 @@
-import { BasicInfo, About, Goal, StudyInterest, SocialLink, StudyAbroad, Scholarship } from './account.model';
+import { BasicInfo, About, Goal, StudyInterest, SocialLink, StudyAbroad, Scholarship, Profile } from './account.model';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -31,20 +31,8 @@ export class AccountComponent implements OnInit {
   goals: Goal[];
   studyInterests: StudyInterest[];
   scholarships: Scholarship[];
-  socialLinks: SocialLink[] = [
-    {
-      user: null,
-      title: 'twitter',
-      url: 'https://twitter.com'
-    },
-    {
-      user: null,
-      title: 'twitter2',
-      url: 'https://twitter.com'
-    },
-  ];
-
-  profile: any;
+  socialLinks: SocialLink[];
+  profile: Profile;
 
   postList: any[];
 

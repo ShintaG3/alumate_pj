@@ -14,9 +14,14 @@ export interface CurrentStatus {
   displayName: string;
 }
 
+export interface Gender {
+  value: string;
+  displayName: string;
+}
+
 export interface Profile {
   user: User;
-  gender: string;
+  gender: Gender;
   birthday: Date;
 }
 
