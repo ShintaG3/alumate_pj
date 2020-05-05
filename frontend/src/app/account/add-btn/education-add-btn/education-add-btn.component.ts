@@ -1,6 +1,5 @@
 import { EducationModalComponent } from './../../modal/education-modal/education-modal.component';
 import { Component, OnInit } from '@angular/core';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 @Component({
@@ -9,8 +8,6 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
   styleUrls: ['./education-add-btn.component.css']
 })
 export class EducationAddBtnComponent implements OnInit {
-  faPlus = faPlus;
-
   constructor(private dialog: MatDialog) { }
 
   ngOnInit(): void {

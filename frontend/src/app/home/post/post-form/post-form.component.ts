@@ -1,6 +1,5 @@
 import { FormGroup, FormControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { faImage } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
   selector: 'app-post-form',
@@ -8,8 +7,6 @@ import { faImage } from '@fortawesome/free-regular-svg-icons';
   styleUrls: ['./post-form.component.css']
 })
 export class PostFormComponent implements OnInit {
-  faImage = faImage;
-
   postForm = new FormGroup({
     body: new FormControl(),
     image: new FormControl()

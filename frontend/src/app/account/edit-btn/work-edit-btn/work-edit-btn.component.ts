@@ -1,4 +1,4 @@
-import { WorkExperience } from './../../account.model';
+import { Work } from './../../account.model';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./work-edit-btn.component.css']
 })
 export class WorkEditBtnComponent implements OnInit {
-  workExperience: WorkExperience;
+  work: Work;
 
   constructor() { }
 

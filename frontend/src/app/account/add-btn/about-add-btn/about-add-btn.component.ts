@@ -1,7 +1,6 @@
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
 import { AboutModalComponent } from './../../modal/about-modal/about-modal.component';
 import { Component, OnInit } from '@angular/core';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-about-add-btn',
@@ -9,8 +8,6 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./about-add-btn.component.css']
 })
 export class AboutAddBtnComponent implements OnInit {
-  faPlus = faPlus;
-
   constructor(private dialog: MatDialog) { }
 
   ngOnInit(): void {

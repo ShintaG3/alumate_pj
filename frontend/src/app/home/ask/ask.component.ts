@@ -1,6 +1,5 @@
 import { FormGroup, FormControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { faQuestion } from '@fortawesome/free-solid-svg-icons';
 import { concat, Observable, of, Subject } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { Options } from 'ng5-slider';
@@ -23,7 +22,6 @@ interface Major {
   styleUrls: ['./ask.component.css'],
 })
 export class AskComponent implements OnInit {
-  faQuestion = faQuestion;
   selectedHomeCountries = [];
   selectedStudyAbroadCountries = [];
   selectedSchools = [];
@@ -63,7 +61,7 @@ export class AskComponent implements OnInit {
     },
   ];
 
-  
+
 
   constructor() {}
 
