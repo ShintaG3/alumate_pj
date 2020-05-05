@@ -89,33 +89,28 @@
               </div>
               <!-- display Basic Info   -->
               <div *ngIf="basicInfo" class="text-center mt-2">
-                <h2>
+                <h1>
                   {{ basicInfo.name }}
-                  <!-- {% if basic_info.status == "FU"%} -->
                   <img class="img-fluid rounded shadow ml-2" style="width: 1.75rem;"
-                    src="assets/img/brand/logo_future.png">
-                  <!-- {% elif basic_info.status == "CU" %}
+                    src="assets/img/brand/logo_future.png" *ngIf="basicInfo.status.value === 'FU'" >
                   <img class="img-fluid rounded shadow ml-2" style="width: 1.75rem;"
-                    src="{% static 'img/brand/logo_current.png' %}">
-                  {% elif basic_info.status == "AL" %}
+                    src="assets/img/brand/logo_current.png" *ngIf="basicInfo.status.value === 'CU'">
                   <img class="img-fluid rounded shadow ml-2" style="width: 1.75rem;"
-                    src="{% static 'img/brand/logo_alumni.png' %}">
-                  {% endif %} -->
-                </h2>
-                <!-- future student logo => src="{% static 'img/brand/logo_future.png' %}"-->
-                <!-- alumuni logo => src="{% static 'img/brand/logo_alumni.png' %}"-->
+                    src="assets/img/brand/logo_alumni.png" *ngIf="basicInfo.status.value === 'AL'">
+                </h1>
                 <div class="text-muted font-weight-500 mt-3 mb-2">
                   from {{ basicInfo.homeCountry.name }} to {{ basicInfo.studyAbroadCountry.name }}
                 </div>
-                <!-- {% if study_abroad.education %}
-                <div class="h5">{{ study_abroad.education.school }}</div>
-                <div class="font-weight-500">{{ study_abroad.education.get_degree_display }} in
-                  {{ study_abroad.education.major}}</div>
-                <div class="text-muted font-weight-300"><small>{{ study_abroad.education.start_year }} ~
-                    {{ study_abroad.education.end_year }}</small></div>
-                {% endif %}
-                {% comment %} <div class="font-weight-400 mt-4"><i
-                    class="ni ni-pin-3 mr-2"></i>{{ basic_info.living_city }}</div> {% endcomment %} -->
+                <div *ngIf="studyAbroad" >
+                  <div class="h5">{{ studyAbroad.education.school.name }}</div>
+                  <div class="font-weight-500">{{ studyAbroad.education.degree.displayName }} in
+                    {{ studyAbroad.education.major.name }}</div>
+                  <div class="text-muted font-weight-300"><small>{{ studyAbroad.education.startYear }} ~
+                      {{ studyAbroad.education.endYear }}</small></div>
+                  <!-- <div class="font-weight-400 mt-4"><i
+                      class="ni ni-pin-3 mr-2"></i>{{ studyAbroad.livingCity }}</div> -->
+                </div>
+
               </div>
               <!-- "editStudyAbroad" -->
               <div class="row mt-3 justify-content-end">

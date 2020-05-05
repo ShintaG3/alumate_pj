@@ -8,7 +8,7 @@
 
     <mat-form-field>
       <mat-label>School</mat-label>
-      <mat-select formControlName="homeCountry" required>
+      <mat-select formControlName="school" required>
         <mat-option>--</mat-option>
         <mat-option *ngFor="let school of schoolOptions" [value]="school">
           {{ school.name }}
@@ -22,18 +22,6 @@
         {{ degree.displayName }}
       </mat-radio-button>
     </mat-radio-group>
-
-
-
-    <mat-form-field>
-      <mat-label>School</mat-label>
-      <mat-select formControlName="school" required>
-        <mat-option>--</mat-option>
-        <mat-option *ngFor="let school of schoolOptions" [value]="school">
-          {{ school.name }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
 
     <mat-form-field>
       <mat-label>Major</mat-label>
@@ -50,7 +38,6 @@
       </mat-select>
     </mat-form-field>
 
-
     <mat-form-field>
       <mat-label>Graduate year</mat-label>
       <mat-select formControlName="studyAbroadCountry" required>
@@ -59,8 +46,8 @@
           {{ year }}
         </mat-option>
       </mat-select>
-
     </mat-form-field>
+    
   </div>
 </mat-dialog-content>
 

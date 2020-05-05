@@ -1,4 +1,4 @@
-import { StudyAbroad } from './../../account.model';
+import { StudyAbroad, School, Degree } from './../../account.model';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Component, OnInit, Input, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -9,22 +9,26 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./study-abroad-modal.component.css']
 })
 export class StudyAbroadModalComponent implements OnInit {
-  @Input() hasEditPermission: boolean;
-
   form: FormGroup;
+
+  schoolOptions: School[];
+  degreeOptions: Degree[];
+
+  startYearOptions: number[];
+  endYearOptions: number[];
 
   constructor(
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<StudyAbroadModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: StudyAbroad
-    ) {}
+  ) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      name: [''],
-      status: [],
-      homeCountry: [],
-      studyAbroadCountry: []
+      school: [''],
+      degree: [],
+      major: [''],
+      from: [],
+      until: []
     });
   }
 
