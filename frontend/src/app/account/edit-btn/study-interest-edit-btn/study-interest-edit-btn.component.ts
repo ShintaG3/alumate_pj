@@ -1,5 +1,7 @@
+import { StudyInterestModalComponent } from './../../modal/study-interest-modal/study-interest-modal.component';
 import { StudyInterest } from './../../account.model';
 import { Component, OnInit, Input } from '@angular/core';
+import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-study-interest-edit-btn',
@@ -7,11 +9,17 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./study-interest-edit-btn.component.css']
 })
 export class StudyInterestEditBtnComponent implements OnInit {
-  @Input() studyInterests: StudyInterest[];
+  studyInterests: StudyInterest[];
 
-  constructor() { }
+  constructor(private dialog: MatDialog) { }
 
   ngOnInit(): void {
   }
 
+  openModal(): void {
+    const dialogConfig: MatDialogConfig = {
+      disableClose: true
+    };
+    this.dialog.open(StudyInterestModalComponent, dialogConfig);
+  }
 }

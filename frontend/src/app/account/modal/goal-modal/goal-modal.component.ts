@@ -1,5 +1,4 @@
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
@@ -26,11 +25,10 @@ export class GoalModalComponent implements OnInit {
   goals: string[] = [];
   allGoals: string[] = ['aa', 'bb', 'cc'];
 
-  @ViewChild('goalInput') goalInput: ElementRef<HTMLInputElement>;
+  @ViewChild('goalInput') goalsInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
   constructor(
-    private fb: FormBuilder,
     public dialogRef: MatDialogRef<GoalModalComponent>
   ) {
     this.filteredGoals = this.goalControl.valueChanges.pipe(
@@ -71,7 +69,7 @@ export class GoalModalComponent implements OnInit {
 
   selected(event: MatAutocompleteSelectedEvent): void {
     this.goals.push(event.option.viewValue);
-    this.goalInput.nativeElement.value = '';
+    this.goalsInput.nativeElement.value = '';
     this.goalControl.setValue(null);
   }
 

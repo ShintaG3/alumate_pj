@@ -305,43 +305,37 @@
                 </div>
 
                 <div class="row mb-5 px-3">
-                  <mat-chip-list aria-label="Fish selection" *ngFor="let goal of goals">
+                  <mat-chip-list aria-label="Goal selection" *ngFor="let goal of goals">
                     <mat-chip class="mr-2 goal-chip">{{ goal.body }}</mat-chip>
                   </mat-chip-list>
                 </div>
               </div>
 
-              <!-- Study Interests -->
+              <!-- margin between goals and study interests -->
               <div *ngIf="hasEditPermission || studyInterests" class="mt-5 pt-4 border-top"></div>
 
+              <!-- Study Interests -->
               <!-- "editStudyInterests" -->
-
-              <!-- <app-study-interest-edit-btn></app-study-interest-edit-btn> -->
-
-              <div *ngIf="studyInterests">
-                <div class="row mb-3">
-                  <div class="col">
-                    <div class="icon icon-sm icon-shape icon-shape-danger shadow rounded-circle mr-2">
-                      <i class="ni ni-books text-danger"></i>
-                    </div>
-                    <h2 class="font-weight-bold text-muted text-uppercase">Study Interests</h2>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col">
-                    <div *ngFor="let studyInterest of studyInterests">
-                      <a href="">
-                        <span class="badge mr-1 mb-1 badge-danger">
-                          <!-- {{ studyInterest.body }} -->
-                        </span>
-                      </a>
-                    </div>
-                  </div>
+              <div class="row justify-content-end" *ngIf="hasEditPermission">
+                <div class="col text-right">
+                  <!-- Button trigger modal -->
+                  <app-study-interest-edit-btn></app-study-interest-edit-btn>
                 </div>
               </div>
-
-
-
+              <!-- display Study Interests -->
+              <div *ngIf="hasEditPermission || studyInterests">
+                <div class="row mb-3 px-3">
+                  <div class="icon icon-sm icon-shape icon-shape-danger shadow rounded-circle mr-2">
+                    <i class="ni ni-books text-danger"></i>
+                  </div>
+                  <h2 class="font-weight-bold text-muted text-uppercase">Study Interests</h2>
+                </div>
+                <div class="row mb-5 px-3">
+                  <mat-chip-list aria-label="Study interest selection" *ngFor="let studyInterest of studyInterests">
+                    <mat-chip class="mr-2 study-interest-chip">{{ studyInterest.body }}</mat-chip>
+                  </mat-chip-list>
+                </div>
+              </div>
 
               <!-- Scholarships -->
               <div *ngIf="hasEditPermission || scholarshipHistory" class="mt-5 pt-4 border-top"></div>
