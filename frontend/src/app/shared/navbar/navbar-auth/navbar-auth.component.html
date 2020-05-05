@@ -6,31 +6,14 @@
     <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar_global" aria-controls="navbar_global" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button> -->
-    <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed"
-            [attr.aria-expanded]="!isCollapsed" aria-controls="navbar_global" >
+    <button class="navbar-toggler" type="button" (click)="openMenuModal()">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="navbar-collapse collapse" id="navbar_global" [ngbCollapse]="isCollapsed">
-      <div class="navbar-collapse-header">
-        <div class="row">
-          <div class="col-6 collapse-brand">
-            <a href="/">
-              <img src="assets/img/brand/logo_text_alumate_white.png" style="width: 128px; height: auto;">
-            </a>
-          </div>
-          <div class="col-6 collapse-close">
-            <button type="button" class="navbar-toggler" (click)="isCollapsed = !isCollapsed"
-                  [attr.aria-expanded]="!isCollapsed" aria-controls="navbar_global">
-              <span></span>
-              <span></span>
-            </button>
-          </div>
-        </div>
-      </div>
+    <div class="navbar-collapse collapse">
       <ul class="navbar-nav mx-auto">
         <!-- home -->
         <li class="nav-item">
-          <a href="/" class="nav-link py-lg-0 d-flex">
+          <a routerLink="home" class="nav-link py-lg-0 d-flex">
             <!-- <span class="mx-2" style="font-size: 1.4em; color: #f3f4f6;"> -->
             <span class="d-lg-none" style="flex-basis: 30px;">
               <i class="fa fa-home mr-1"></i>
@@ -40,7 +23,7 @@
         </li>
         <!-- people -->
         <li class="nav-item">
-          <a href="{% url 'people:index' %}" class="nav-link py-lg-0 d-flex">
+          <a routerLink="/people" class="nav-link py-lg-0 d-flex">
             <!-- <span class="mx-2" style="font-size: 1.4em; color: #f3f4f6;"> -->
             <span class="d-lg-none" style="flex-basis: 30px;">
               <i class="fa fa-users mr-1"></i>
@@ -50,7 +33,7 @@
         </li>
         <!-- inquiry -->
         <li class="nav-item">
-          <a href="{% url 'inquiry:inquiry' %}" class="nav-link py-lg-0 d-flex">
+          <a routerLink="/inquiry" class="nav-link py-lg-0 d-flex">
             <!-- <span class="mx-2" style="font-size: 1.5em; color: #f3f4f6;"> -->
             <span class="d-lg-none" style="flex-basis: 30px;">
               <i class="fa fa-question ml-1 mr-2"></i>
@@ -69,7 +52,7 @@
         </li> -->
         <!-- message -->
         <li class="nav-item">
-          <a class="nav-link py-lg-0 d-flex" href="{% url 'message:index' %}">
+          <a routerLink="/message" class="nav-link py-lg-0 d-flex">
             <!-- <span class="mx-2 " style="font-size: 1.5em; color: #f3f4f6;"> -->
             <span class="d-lg-none" style="flex-basis: 30px;">
               <i class="fa fa-comments mr-1"></i>
@@ -82,7 +65,7 @@
         </li>
         <!-- account page -->
         <li class="nav-item d-lg-none">
-          <a class="nav-link d-flex" routerLink="/account">
+          <a routerLink="/account" class="nav-link d-flex" >
             <span style="flex-basis: 30px;"><i class="ni ni-compass-04 text-muted"></i></span>
             <span>Account Page</span>
           </a>
@@ -94,7 +77,7 @@
           </a>
         </li> {% endcomment %} -->
         <li class="nav-item d-lg-none">
-          <a class="nav-link d-flex" href="{% url 'auths:logout' %}">
+          <a routerLink="/" class="nav-link d-flex">
             <span style="flex-basis: 30px;"><i class="n4i ni-tv-2 text-danger"></i></span>
             <span>Logout</span>
           </a>
