@@ -5,9 +5,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Ng5SliderModule } from 'ng5-slider';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -31,17 +28,6 @@ import { PostCommentComponent } from './home/post/post-content/post-comment/post
 import { PostCommentFormComponent } from './home/post/post-content/post-comment-form/post-comment-form.component';
 import { AccountComponent } from './account/account.component';
 import { BasicInfoModalComponent } from './account/modal/basic-info-modal/basic-info-modal.component';
-import { BasicInfoEditBtnComponent } from './account/edit-btn/basic-info-edit-btn/basic-info-edit-btn.component';
-import { StudyAbroadEditBtnComponent } from './account/edit-btn/study-abroad-edit-btn/study-abroad-edit-btn.component';
-import { AboutEditBtnComponent } from './account/edit-btn/about-edit-btn/about-edit-btn.component';
-import { WorkEditBtnComponent } from './account/edit-btn/work-edit-btn/work-edit-btn.component';
-import { EducationEditBtnComponent } from './account/edit-btn/education-edit-btn/education-edit-btn.component';
-import { GoalEditBtnComponent } from './account/edit-btn/goal-edit-btn/goal-edit-btn.component';
-import { StudyInterestEditBtnComponent } from './account/edit-btn/study-interest-edit-btn/study-interest-edit-btn.component';
-import { ScholarshipEditBtnComponent } from './account/edit-btn/scholarship-edit-btn/scholarship-edit-btn.component';
-import { SocialLinkEditBtnComponent } from './account/edit-btn/social-link-edit-btn/social-link-edit-btn.component';
-import { ProfileEditBtnComponent } from './account/edit-btn/profile-edit-btn/profile-edit-btn.component';
-import { StudyAbroadModalComponent } from './account/modal/study-abroad-modal/study-abroad-modal.component';
 import { AboutModalComponent } from './account/modal/about-modal/about-modal.component';
 import { WorkModalComponent } from './account/modal/work-modal/work-modal.component';
 import { EducationModalComponent } from './account/modal/education-modal/education-modal.component';
@@ -51,8 +37,6 @@ import { ScholarshipModalComponent } from './account/modal/scholarship-modal/sch
 import { SocialLinkModalComponent } from './account/modal/social-link-modal/social-link-modal.component';
 import { ProfileModalComponent } from './account/modal/profile-modal/profile-modal.component';
 import { ProfileImageModalComponent } from './account/modal/profile-image-modal/profile-image-modal.component';
-import { ProfileImageEditBtnComponent } from './account/edit-btn/profile-image-edit-btn/profile-image-edit-btn.component';
-import { WorkEducationEditBtnComponent } from './account/edit-btn/work-education-edit-btn/work-education-edit-btn.component';
 import { BasicInfoAddBtnComponent } from './account/add-btn/basic-info-add-btn/basic-info-add-btn.component';
 import { AboutAddBtnComponent } from './account/add-btn/about-add-btn/about-add-btn.component';
 import { WorkAddBtnComponent } from './account/add-btn/work-add-btn/work-add-btn.component';
@@ -64,6 +48,18 @@ import { ProfileAddBtnComponent } from './account/add-btn/profile-add-btn/profil
 import { SocialLinkAddBtnComponent } from './account/add-btn/social-link-add-btn/social-link-add-btn.component';
 import { StudyAbroadAddBtnComponent } from './account/add-btn/study-abroad-add-btn/study-abroad-add-btn.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BasicInfoEditBtnComponent } from './account/edit-btn/basic-info-edit-btn/basic-info-edit-btn.component';
+import { GoalEditBtnComponent } from './account/edit-btn/goal-edit-btn/goal-edit-btn.component';
+import { WorkEducationEditBtnComponent } from './account/edit-btn/work-education-edit-btn/work-education-edit-btn.component';
+import { StudyInterestEditBtnComponent } from './account/edit-btn/study-interest-edit-btn/study-interest-edit-btn.component';
+import { StudyAbroadEditBtnComponent } from './account/edit-btn/study-abroad-edit-btn/study-abroad-edit-btn.component';
+import { SocialLinkEditBtnComponent } from './account/edit-btn/social-link-edit-btn/social-link-edit-btn.component';
+import { ScholarshipEditBtnComponent } from './account/edit-btn/scholarship-edit-btn/scholarship-edit-btn.component';
+import { ProfileImageEditBtnComponent } from './account/edit-btn/profile-image-edit-btn/profile-image-edit-btn.component';
+import { ProfileEditBtnComponent } from './account/edit-btn/profile-edit-btn/profile-edit-btn.component';
+import { EducationEditBtnComponent } from './account/edit-btn/education-edit-btn/education-edit-btn.component';
+import { AboutEditBtnComponent } from './account/edit-btn/about-edit-btn/about-edit-btn.component';
+import { StudyAbroadModalComponent } from './account/modal/study-abroad-modal/study-abroad-modal.component';
 
 @NgModule({
   declarations: [
@@ -87,28 +83,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     PostCommentFormComponent,
     AccountComponent,
     BasicInfoModalComponent,
-    BasicInfoEditBtnComponent,
-    StudyAbroadEditBtnComponent,
-    AboutEditBtnComponent,
-    WorkEditBtnComponent,
-    EducationEditBtnComponent,
-    GoalEditBtnComponent,
-    StudyInterestEditBtnComponent,
-    ScholarshipEditBtnComponent,
-    SocialLinkEditBtnComponent,
-    ProfileEditBtnComponent,
-    StudyAbroadModalComponent,
     AboutModalComponent,
     WorkModalComponent,
     EducationModalComponent,
     GoalModalComponent,
     StudyInterestModalComponent,
+    StudyAbroadModalComponent,
     ScholarshipModalComponent,
     SocialLinkModalComponent,
     ProfileModalComponent,
     ProfileImageModalComponent,
-    ProfileImageEditBtnComponent,
-    WorkEducationEditBtnComponent,
     BasicInfoAddBtnComponent,
     AboutAddBtnComponent,
     WorkAddBtnComponent,
@@ -119,6 +103,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ProfileAddBtnComponent,
     SocialLinkAddBtnComponent,
     StudyAbroadAddBtnComponent,
+    AboutEditBtnComponent,
+    BasicInfoEditBtnComponent,
+    EducationEditBtnComponent,
+    GoalEditBtnComponent,
+    ProfileEditBtnComponent,
+    ProfileImageEditBtnComponent,
+    ScholarshipEditBtnComponent,
+    SocialLinkEditBtnComponent,
+    StudyAbroadEditBtnComponent,
+    StudyInterestEditBtnComponent,
+    WorkEducationEditBtnComponent,
   ],
   imports: [
     NgbModule,

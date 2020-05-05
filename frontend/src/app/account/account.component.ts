@@ -1,4 +1,4 @@
-import { BasicInfo, About, Goal, StudyInterest } from './account.model';
+import { BasicInfo, About, Goal, StudyInterest, SocialLink, StudyAbroad } from './account.model';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -13,7 +13,7 @@ export class AccountComponent implements OnInit {
 
   basicInfo: BasicInfo = {
     user: null,
-    name: 'Hiroki',
+    name: 'Hiroki Koketsu',
     status: {
       value: 'CU',
       displayName: 'Current Student'
@@ -25,12 +25,17 @@ export class AccountComponent implements OnInit {
       name: 'Canada'
     }
   };
+  studyAbroad: StudyAbroad;
   about: About;
   expHistory: any[];
   goals: Goal[];
   studyInterests: StudyInterest[];
   scholarshipHistory: any[];
+  socialLinks: SocialLink[];
 
+  profile: any;
+
+  postList: any[];
 
   constructor() { }
 

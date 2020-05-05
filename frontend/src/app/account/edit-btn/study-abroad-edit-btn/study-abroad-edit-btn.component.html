@@ -1,18 +1,6 @@
-
-  <div class="col text-right">
-    <div class="mt-3"></div>
-    <span *ngIf="studyAbroad; else noStudyAbroad" data-toggle="modal" data-target="#editStudyAbroad" data-toggle="tooltip" data-placement="top"
-      data-container="body" data-animation="true">
-      <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button" data-toggle="tooltip"
-        data-original-title="Add Study Abroad Info">
-        <i class="fa fa-plus text-gray"></i>
-      </a>
-    </span>
-    <span #noStudyAbroad data-toggle="modal" data-target="#editStudyAbroad" data-toggle="tooltip" data-placement="top"
-      data-container="body" data-animation="true">
-      <a class="icon icon-sm icon-shape icon-shape-gray shadow rounded-circle" type="button" data-toggle="tooltip"
-        data-original-title="Edit Study Abroad Info">
-        <i class="ni ni-settings-gear-65 text-gray"></i>
-      </a>
-    </span>
-  </div>
+<button mat-mini-fab
+      matTooltip="Edit Study Abroad Info"
+      [matTooltipPosition]="'above'"
+      (click)="openModal()" onclick="this.blur()" >
+  <i class="ni ni-settings-gear-65 text-gray"></i>
+</button>
