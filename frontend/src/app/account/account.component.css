@@ -7,3 +7,8 @@ app-profile-image-edit-btn[_ngcontent-c1] {
   -webkit-transform: translateX(-50%);
   z-index: 3;
 }
+
+.goal-chip {
+  color: #fff;
+  background-color: #2dce89;
+}

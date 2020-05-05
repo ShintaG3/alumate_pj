@@ -138,7 +138,7 @@
               </div>
               <!-- "editStudyAbroad" -->
               <div class="row mt-3 justify-content-end">
-                <div *ngIf="studyAbroad; else noStudyAbroadInfo"  class="col text-right">
+                <div *ngIf="studyAbroad; else noStudyAbroadInfo" class="col text-right">
                   <app-study-abroad-edit-btn></app-study-abroad-edit-btn>
                 </div>
                 <ng-template #noStudyAbroadInfo>
@@ -153,7 +153,7 @@
               <!-- About -->
               <!-- "editAbout" -->
               <div *ngIf="hasEditPermission">
-                <div class="row mb-2 justify-content-end" *ngIf="about; else noAbout" >
+                <div class="row mb-2 justify-content-end" *ngIf="about; else noAbout">
                   <div class="col text-right">
                     <!-- Button trigger modal -->
                     <app-about-edit-btn></app-about-edit-btn>
@@ -186,7 +186,7 @@
               <div *ngIf="expHistory || hasEditPermission" class="mt-4 pt-4 border-top"></div>
 
               <div *ngIf="hasEditPermission">
-                <div *ngIf="!expHistory"  class="row mb-3">
+                <div *ngIf="!expHistory" class="row mb-3">
                   <div class="col">
                     <div class="icon icon-sm icon-shape icon-shape-danger shadow rounded-circle mr-2">
                       <i class="ni ni-paper-diploma text-danger"></i>
@@ -205,10 +205,10 @@
               <!-- display "Works & Educations" -->
               <div class="row mb-md-2">
                 <div class="col">
-                  <div class="timeline timeline-one-side" data-timeline-content="axis"
-                    data-timeline-axis-style="dashed" *ngFor="let exp of expHistory">
+                  <div class="timeline timeline-one-side" data-timeline-content="axis" data-timeline-axis-style="dashed"
+                    *ngFor="let exp of expHistory">
                     <!-- work experience -->
-                    <div >
+                    <div>
                       <div *ngIf="exp.isWork; else education" class="timeline-block">
                         <span class="timeline-step badge-success">
                           <i class="ni ni-briefcase-24"></i>
@@ -283,16 +283,19 @@
                 </div>
               </div>
 
-              <!-- Goals-->
+              <!-- margin between work & education and goals -->
               <div *ngIf="hasEditPermission || goals" class="mt-5 pt-4 border-top"></div>
 
+              <!-- Goals -->
               <!-- "editGoals" -->
-              <div *ngIf="hasEditPermission">
-                <!-- <app-goal-edit-btn></app-goal-edit-btn> -->
+              <div class="row mb-2 justify-content-end" *ngIf="hasEditPermission">
+                <div class="col text-right">
+                  <app-goal-edit-btn></app-goal-edit-btn>
+                </div>
               </div>
               <!-- display Goals -->
-              <div *ngIf="goals">
-                <div *ngIf="!hasEditPermission" class="row mb-3">
+              <div *ngIf="hasEditPermission || goals">
+                <div class="row mb-3">
                   <div class="col">
                     <div class="icon icon-sm icon-shape icon-shape-success shadow rounded-circle mr-2">
                       <i class="fa fa-flag text-success"></i>
@@ -300,14 +303,11 @@
                     <span class="h5 font-weight-bold text-muted text-uppercase">Goals</span>
                   </div>
                 </div>
-                <div class="row mb-5">
-                  <div class="col">
-                    <div *ngFor="let goal of goals">
-                      <a href="#">
-                        <span class="badge mr-1 mb-1 badge-success">{{ goal.body }}</span>
-                      </a>
-                    </div>
-                  </div>
+
+                <div class="row mb-5 px-3">
+                  <mat-chip-list aria-label="Fish selection" *ngFor="let goal of goals">
+                    <mat-chip class="mr-2 goal-chip">{{ goal.body }}</mat-chip>
+                  </mat-chip-list>
                 </div>
               </div>
 
@@ -315,17 +315,16 @@
               <div *ngIf="hasEditPermission || studyInterests" class="mt-5 pt-4 border-top"></div>
 
               <!-- "editStudyInterests" -->
-              <div *ngIf="hasEditPermission">
-                <!-- <app-study-interest-edit-btn></app-study-interest-edit-btn> -->
-              </div>
+
+              <!-- <app-study-interest-edit-btn></app-study-interest-edit-btn> -->
 
               <div *ngIf="studyInterests">
-                <div *ngIf="!hasEditPermission" class="row mb-3">
+                <div class="row mb-3">
                   <div class="col">
                     <div class="icon icon-sm icon-shape icon-shape-danger shadow rounded-circle mr-2">
                       <i class="ni ni-books text-danger"></i>
                     </div>
-                    <span class="h5 font-weight-bold text-muted text-uppercase">Study Interests</span>
+                    <h2 class="font-weight-bold text-muted text-uppercase">Study Interests</h2>
                   </div>
                 </div>
                 <div class="row">
@@ -334,7 +333,6 @@
                       <a href="">
                         <span class="badge mr-1 mb-1 badge-danger">
                           <!-- {{ studyInterest.body }} -->
-                          aa
                         </span>
                       </a>
                     </div>
@@ -356,7 +354,7 @@
                 </div>
               </div>
               <!-- "addScholarship" -->
-              <div class="row mb-2 justify-content-end" *ngIf="hasEditPermission" >
+              <div class="row mb-2 justify-content-end" *ngIf="hasEditPermission">
                 <div class="col text-right">
                   <!-- Button trigger modal -->
                   <span data-toggle="modal" data-target="#addScholarship" data-toggle="tooltip" data-placement="top"
@@ -369,7 +367,7 @@
                 </div>
               </div>
               <!-- display "Scholasrship" -->
-              <div class="row" *ngFor="let scholarship of scholarshipHistory" >
+              <div class="row" *ngFor="let scholarship of scholarshipHistory">
                 <div class="col">
                   <div class="d-flex flex-row justify-content-between">
                     <span class="text-muted text-sm font-weight-bold">{{ scholarship.value.organization }}</span>
@@ -377,10 +375,9 @@
                       <small class="text-muted">{{ scholarship.value.start_year }} -
                         {{ scholarship.value.end_year }}</small>
                       <!-- Button trigger modal -->
-                      <span *ngIf="hasEditPermission"  data-toggle="modal"
-                        data-toggle="tooltip" data-placement="top" data-container="body" data-animation="true">
-                        <a class="ml-2" type="button" data-toggle="tooltip"
-                          data-original-title="Edit Scholarship">
+                      <span *ngIf="hasEditPermission" data-toggle="modal" data-toggle="tooltip" data-placement="top"
+                        data-container="body" data-animation="true">
+                        <a class="ml-2" type="button" data-toggle="tooltip" data-original-title="Edit Scholarship">
                           <i class="fa fa-pencil text-gray"></i>
                         </a>
                       </span>
@@ -395,7 +392,7 @@
 
 
               <!-- Social Links -->
-              <div *ngIf="hasEditPermission || socialLinks"  class="mt-5 pt-4 border-top"></div>
+              <div *ngIf="hasEditPermission || socialLinks" class="mt-5 pt-4 border-top"></div>
               <div class="row mb-3">
                 <div class="col">
                   <div class="icon icon-sm icon-shape icon-shape-default shadow rounded-circle mr-2">
@@ -405,7 +402,7 @@
                 </div>
               </div>
               <!-- "addSocialLink" -->
-              <div *ngIf="hasEditPermission"  class="row mb-2 justify-content-end">
+              <div *ngIf="hasEditPermission" class="row mb-2 justify-content-end">
                 <div class="col text-right">
                   <!-- Button trigger modal -->
                   <span data-toggle="modal" data-target="#addSocialLink" data-toggle="tooltip" data-placement="top"
@@ -418,14 +415,14 @@
                 </div>
               </div>
               <!-- display "Social Links" -->
-              <div *ngIf="socialLinks"  class="row mb-5">
+              <div *ngIf="socialLinks" class="row mb-5">
                 <div class="col">
-                  <div *ngFor="let socialLink of socialLinks"  class="row justify-content-between px-3">
+                  <div *ngFor="let socialLink of socialLinks" class="row justify-content-between px-3">
                     <a href="">
                       <h6 class="btn-link">socialLink</h6>
                     </a>
                     <!-- Button trigger modal -->
-                    <span *ngIf="hasEditPermission"  data-toggle="modal" data-target="#editSocialLink-1"
+                    <span *ngIf="hasEditPermission" data-toggle="modal" data-target="#editSocialLink-1"
                       data-toggle="tooltip" data-placement="top" data-container="body" data-animation="true">
                       <a type="button" data-toggle="tooltip" data-original-title="Edit Blog">
                         <i class="fa fa-pencil text-gray"></i>
