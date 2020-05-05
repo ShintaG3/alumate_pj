@@ -61,6 +61,7 @@ import { ProfileEditBtnComponent } from './account/edit-btn/profile-edit-btn/pro
 import { EducationEditBtnComponent } from './account/edit-btn/education-edit-btn/education-edit-btn.component';
 import { AboutEditBtnComponent } from './account/edit-btn/about-edit-btn/about-edit-btn.component';
 import { StudyAbroadModalComponent } from './account/modal/study-abroad-modal/study-abroad-modal.component';
+import { DirectMessageModalComponent } from './account/modal/direct-message-modal/direct-message-modal.component';
 
 @NgModule({
   declarations: [
@@ -116,6 +117,7 @@ import { StudyAbroadModalComponent } from './account/modal/study-abroad-modal/st
     StudyInterestEditBtnComponent,
     WorkEducationEditBtnComponent,
     WorkEditBtnComponent,
+    DirectMessageModalComponent,
   ],
   imports: [
     NgbModule,

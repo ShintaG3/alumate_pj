@@ -40,23 +40,6 @@
                 </div>
               </div>
 
-
-              <!-- <div class="row justify-content-center">
-                <div class="col-lg-12">
-                  <div class="card-profile-actions text-center py-4">
-                    <button *ngIf="!hasEditPermission && !isFollowing" type="button"
-                      class="btn btn-sm btn-info">Follow</button>
-                    <div *ngIf="isFollowing" class="d-flex justify-content-center">
-                      <button type="button" class="btn btn-sm btn-info">Following</button>
-                      <div class="ml-3"></div>
-                      <button type="button" class="btn btn-sm btn-primary" data-toggle="modal"
-                        data-target="#sendNewMessage" data-toggle="tooltip" data-placement="top" data-container="body"
-                        data-animation="true">Message</button>
-                    </div>
-                  </div>
-                </div>
-              </div> -->
-
               <div class="row justify-content-center">
                 <div class="col-lg-12">
                   <div class="card-profile-actions text-center py-4">
@@ -64,9 +47,7 @@
                       class="btn btn-sm btn-info">Follow</button>
                     <div class="d-flex justify-content-center">
                       <button type="button" class="btn btn-sm btn-info">Following</button>
-                      <button type="button" class="btn btn-sm btn-primary ml-1" data-toggle="modal"
-                        data-target="#sendNewMessage" data-toggle="tooltip" data-placement="top" data-container="body"
-                        data-animation="true">Message</button>
+                      <button type="button" class="btn btn-sm btn-primary ml-1" (click)="openDirectMessageModal()">Message</button>
                     </div>
                   </div>
                 </div>

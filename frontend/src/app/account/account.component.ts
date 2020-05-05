@@ -1,5 +1,7 @@
+import { DirectMessageModalComponent } from './modal/direct-message-modal/direct-message-modal.component';
 import { BasicInfo, About, Goal, StudyInterest, SocialLink, StudyAbroad, Scholarship, Profile } from './account.model';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-account',
@@ -36,7 +38,7 @@ export class AccountComponent implements OnInit {
 
   postList: any[];
 
-  constructor() { }
+  constructor(private dialog: MatDialog) { }
 
   ngOnInit(): void {
   }
@@ -47,6 +49,14 @@ export class AccountComponent implements OnInit {
 
   hideProfileImageEditButton() {
     this.profileImageOnHover = false;
+  }
+
+
+  openDirectMessageModal(): void {
+    const dialogConfig: MatDialogConfig = {
+      disableClose: true
+    };
+    this.dialog.open(DirectMessageModalComponent, dialogConfig);
   }
 
 }
