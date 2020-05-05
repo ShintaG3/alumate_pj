@@ -1,3 +1,4 @@
+import { WorkEditBtnComponent } from './account/edit-btn/work-edit-btn/work-edit-btn.component';
 import { MaterialModule } from './shared/material/material.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -114,6 +115,7 @@ import { StudyAbroadModalComponent } from './account/modal/study-abroad-modal/st
     StudyAbroadEditBtnComponent,
     StudyInterestEditBtnComponent,
     WorkEducationEditBtnComponent,
+    WorkEditBtnComponent,
   ],
   imports: [
     NgbModule,

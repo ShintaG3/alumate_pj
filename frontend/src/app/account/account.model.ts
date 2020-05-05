@@ -43,11 +43,16 @@ export interface About {
 export interface Education {
   user: User;
   school: School;
-  degree: string;
+  degree: Degree;
   major: Major;
   isStudyAbroad: boolean;
   startYear: string;
   endYear: string;
+}
+
+export interface Degree {
+  value: string;
+  displayName: string;
 }
 
 export interface School {
@@ -67,7 +72,7 @@ export interface StudyAbroad {
   education: Education;
 }
 
-export interface WorkExperience {
+export interface Work {
   user: User;
   company: string;
   position: string;

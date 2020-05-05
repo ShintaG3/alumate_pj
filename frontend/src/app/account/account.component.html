@@ -148,11 +148,31 @@
                 </ng-template>
               </div>
 
-              <!-- About -->
+              <!-- margin between study abroad and about -->
               <div *ngIf="about || hasEditPermission" class="mt-5 pt-4 border-top"></div>
+              <!-- About -->
               <!-- "editAbout" -->
               <div *ngIf="hasEditPermission">
-
+                <div class="row mb-2 justify-content-end" *ngIf="about; else noAbout" >
+                  <div class="col text-right">
+                    <!-- Button trigger modal -->
+                    <app-about-edit-btn></app-about-edit-btn>
+                  </div>
+                </div>
+                <ng-template #noAbout>
+                  <div class="row mb-3 px-3">
+                    <div class="icon icon-sm icon-shape icon-shape-danger shadow rounded-circle mr-2">
+                      <i class="ni ni-books text-danger"></i>
+                    </div>
+                    <h2 class="font-weight-bold text-muted text-uppercase">About</h2>
+                  </div>
+                  <div class="row mb-2 justify-content-end">
+                    <div class="col text-right">
+                      <!-- Button trigger modal -->
+                      <app-about-add-btn></app-about-add-btn>
+                    </div>
+                  </div>
+                </ng-template>
               </div>
               <!-- display about -->
               <div *ngIf="about" class="row justify-content-center">
@@ -166,7 +186,21 @@
               <div *ngIf="expHistory || hasEditPermission" class="mt-4 pt-4 border-top"></div>
 
               <div *ngIf="hasEditPermission">
-                <app-work-education-edit-btn></app-work-education-edit-btn>
+                <div *ngIf="!expHistory"  class="row mb-3">
+                  <div class="col">
+                    <div class="icon icon-sm icon-shape icon-shape-danger shadow rounded-circle mr-2">
+                      <i class="ni ni-paper-diploma text-danger"></i>
+                    </div>
+                    <span class="h5 font-weight-bold text-muted text-uppercase">Works & Educations</span>
+                  </div>
+                </div>
+                <div class="row mb-2 justify-content-end">
+                  <div class="col text-right">
+                    <app-work-add-btn></app-work-add-btn>
+                    <span class="mx-1"></span>
+                    <app-education-add-btn></app-education-add-btn>
+                  </div>
+                </div>
               </div>
               <!-- display "Works & Educations" -->
               <div class="row mb-md-2">
