@@ -1,6 +1,8 @@
 <form action="{% url 'inquiry:comment' ask.id %}" method="POST">
   <div class="media align-items-center mt-5">
-    <img src="{{ profileImageUrl }}" class="avatar avatar-lg rounded-circle mb-4 mr-3">
+    <a routerLink="/account" class="mr-3">
+      <img src="{{ profileImageUrl }}" class="avatar avatar-lg rounded-circle mb-4">
+    </a>
     <mat-form-field>
       <mat-label>Comment</mat-label>
       <textarea matNativeControl [formControl]="body" rows="5"></textarea>

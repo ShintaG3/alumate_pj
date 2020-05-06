@@ -10,9 +10,15 @@ export class PostContentComponent implements OnInit {
   @Input() post: Post;
   comments: Comment[];
 
+  commentShown = false;
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  displayComments(): void {
+    this.commentShown = !this.commentShown;
   }
 
 }
