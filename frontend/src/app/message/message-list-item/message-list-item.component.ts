@@ -1,6 +1,7 @@
 import { User } from './../../auths/auths.model';
 import { Message } from '../message.model';
 import { Component, OnInit, Input } from '@angular/core';
+import { ProfileImageService } from '../../services/profile-image.service';
 
 @Component({
   selector: 'app-message-list-item',
@@ -13,20 +14,17 @@ export class MessageListItemComponent implements OnInit {
   user: User;
   profileImageUrl: string;
 
-  constructor() { }
+  constructor(
+    private profileImageService: ProfileImageService
+  ) { }
 
   ngOnInit(): void {
     this.name = this.getName();
-    this.profileImageUrl = this.getProfileImageUrl();
+    this.profileImageUrl = this.profileImageService.getProfileImageUrl(null);
   }
 
   getName() {
     // from basic info: sender is user ? or not ?
     return 'Hiroki Koketsu';
-  }
-
-  getProfileImageUrl(): string {
-    // sender is user ? or not ?
-    return 'assets/img/placeholder.png';
   }
 }

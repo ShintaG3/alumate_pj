@@ -1,3 +1,4 @@
+import { inquiryRoutes } from './inquiry/inquiry.route';
 import { PeopleComponent } from './people/people.component';
 import { InquiryComponent } from './inquiry/inquiry.component';
 import { accountRoutes } from './account/account.route';
@@ -13,7 +14,7 @@ const routes: Routes = [
   { path: 'auths', children: [...authsRoutes]},
   { path: 'account', children: [...accountRoutes]},
   { path: 'home', children: [...homeRoutes]},
-  { path: 'inquiry', component: InquiryComponent },
+  { path: 'inquiry', children: [...inquiryRoutes] },
   { path: 'people', component: PeopleComponent },
   { path: 'message', children: [...messageRoutes] },
   { path: '', component: LandingpageComponent, pathMatch: 'full' },

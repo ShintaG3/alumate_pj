@@ -78,6 +78,12 @@ import { InquiryCardComponent } from './inquiry/inquiry-card/inquiry-card.compon
 import { MessageModalComponent } from './message/message-modal/message-modal.component';
 import { MessageListItemComponent } from './message/message-list-item/message-list-item.component';
 import { MessageDetailComponent } from './message/message-detail/message-detail.component';
+import { InquiryDetailComponent } from './inquiry/inquiry-detail/inquiry-detail.component';
+import { InquiryDetailListTagSectionComponent } from './inquiry/inquiry-detail/inquiry-detail-list-tag-section/inquiry-detail-list-tag-section.component';
+import { InquiryDetailListTagComponent } from './inquiry/inquiry-detail/inquiry-detail-list-tag/inquiry-detail-list-tag.component';
+import { InquiryDetailCommentSectionComponent } from './inquiry/inquiry-detail/inquiry-detail-comment-section/inquiry-detail-comment-section.component';
+import { InquiryDetailCommentFormComponent } from './inquiry/inquiry-detail/inquiry-detail-comment-form/inquiry-detail-comment-form.component';
+import { InquiryDetailCommentComponent } from './inquiry/inquiry-detail/inquiry-detail-comment/inquiry-detail-comment.component';
 
 
 @NgModule({
@@ -151,6 +157,12 @@ import { MessageDetailComponent } from './message/message-detail/message-detail.
     MessageDetailComponent,
     MessageDetailSectionComponent,
     MessageDetailFormComponent,
+    InquiryDetailComponent,
+    InquiryDetailListTagSectionComponent,
+    InquiryDetailListTagComponent,
+    InquiryDetailCommentSectionComponent,
+    InquiryDetailCommentFormComponent,
+    InquiryDetailCommentComponent,
   ],
   imports: [
     NgbModule,

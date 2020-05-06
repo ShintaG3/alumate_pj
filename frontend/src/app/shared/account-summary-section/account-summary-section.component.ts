@@ -1,6 +1,7 @@
 import { User } from './../../auths/auths.model';
 import { ProfileImage, BasicInfo, Education } from './../../account/account.model';
 import { Component, OnInit, Input } from '@angular/core';
+import { ProfileImageService } from '../../services/profile-image.service';
 
 @Component({
   selector: 'app-account-summary-section',
@@ -17,19 +18,17 @@ export class AccountSummarySectionComponent implements OnInit {
   logoUrl: string;
   followed = false;
 
-  constructor() { }
+  constructor(
+    private profileImageService: ProfileImageService
+  ) { }
 
   ngOnInit(): void {
     this.user = this.basicInfo.user;
     this.profileImage = {
       user: null,
-      imageUrl: this.getProfileImageUrl()
+      imageUrl: this.profileImageService.getProfileImageUrl(null)
     };
     this.logoUrl = this.getLogoUrl();
-  }
-
-  getProfileImageUrl(): string {
-    return 'assets/img/placeholder.png';
   }
 
   getLogoUrl(): string {

@@ -2,11 +2,11 @@
 
 .btn-transparent {
   background-color: transparent;
-
+  border: none;
+  cursor: pointer;
 }
 
 .btn-feed-action {
-  border: none;
   text-decoration: none;
   display: inline-block;
   margin-right: .75rem;

@@ -18,3 +18,7 @@ export interface InquiryComment {
   body: string;
   created_at: Date;
 }
+
+export interface Tag {
+  body: string;
+}

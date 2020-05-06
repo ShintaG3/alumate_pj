@@ -1,3 +1,4 @@
+import { ProfileImageService } from './../services/profile-image.service';
 import { DirectMessageModalComponent } from './modal/direct-message-modal/direct-message-modal.component';
 import { BasicInfo, About, Goal, StudyInterest, SocialLink, StudyAbroad, Scholarship, Profile } from './account.model';
 import { Component, OnInit } from '@angular/core';
@@ -35,12 +36,16 @@ export class AccountComponent implements OnInit {
   scholarships: Scholarship[];
   socialLinks: SocialLink[];
   profile: Profile;
+  profileImageUrl: string;
 
   postList: any[];
 
-  constructor(private dialog: MatDialog) { }
+  constructor(
+    private dialog: MatDialog,
+    private profileImageService: ProfileImageService) { }
 
   ngOnInit(): void {
+    this.profileImageUrl = this.profileImageService.getProfileImageUrl(null);
   }
 
   showProfileImageEditButton() {
@@ -50,7 +55,6 @@ export class AccountComponent implements OnInit {
   hideProfileImageEditButton() {
     this.profileImageOnHover = false;
   }
-
 
   openDirectMessageModal(): void {
     const dialogConfig: MatDialogConfig = {

@@ -1,3 +1,4 @@
+import { ProfileImageService } from './../../../services/profile-image.service';
 import { Message } from './../../message.model';
 import { Component, OnInit, Input } from '@angular/core';
 
@@ -10,13 +11,11 @@ export class MessageDetailSectionComponent implements OnInit {
   @Input() message: Message;
   profileImageUrl: string;
 
-  constructor() { }
+  constructor(
+    private profileImageService: ProfileImageService
+  ) { }
 
   ngOnInit(): void {
-    this.profileImageUrl = this.getProfileImageUrl();
-  }
-
-  getProfileImageUrl(): string {
-    return 'assets/img/placeholder.png';
+    this.profileImageUrl = this.profileImageService.getProfileImageUrl(null);
   }
 }
