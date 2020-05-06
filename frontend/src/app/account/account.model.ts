@@ -27,7 +27,7 @@ export interface Profile {
 
 export interface ProfileImage {
   user: User;
-  image: File;
+  imageUrl: string;
 }
 
 export interface Goal {

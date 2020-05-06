@@ -33,12 +33,11 @@
     <div class="row">
       <!-- Tag filter -->
       <div class="col-lg-3 d-none d-lg-block">
-        <!-- {% include "include/search_filter.html" %} -->
-        <app-search-side-section></app-search-side-section>
+        <app-search-side-section (updateClicked)="updateResult($event)"></app-search-side-section>
       </div>
       <!-- Results area -->
       <div id="result-area" class="col-lg-9 col-12">
-        <!-- {% include "./result.html" %} -->
+        <app-people-result-section [filter]="filter"></app-people-result-section>
       </div>
       <!-- End results area -->
     </div>

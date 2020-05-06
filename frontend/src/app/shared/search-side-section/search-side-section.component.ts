@@ -1,6 +1,6 @@
 import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
 import { School, Major, Country, CurrentStatus } from './../../account/account.model';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { SliderValues } from '../input/slider-input/slider-input.component';
 
@@ -24,6 +24,8 @@ export class SearchSideSectionComponent implements OnInit {
   majorTags: string[] = [];
   startYearRange: SliderValues;
   endYearRange: SliderValues;
+
+  @Output() updateClicked: EventEmitter<any> = new EventEmitter();
 
   constructor(private fb: FormBuilder) { }
 
@@ -58,13 +60,17 @@ export class SearchSideSectionComponent implements OnInit {
   }
 
   applyChange(): void {
-    console.log('selectedStatus', this.selectedStatus);
-    console.log('homeCountryTags', this.homeCountryTags);
-    console.log('studyAbroadCountryTags', this.studyAbroadCountryTags);
-    console.log('schoolTags', this.schoolTags);
-    console.log('majorTags', this.majorTags);
-    console.log('startYearRange', this.startYearRange);
-    console.log('endYearRange', this.endYearRange);
+    const filter = {
+      selectedStatus: this.selectedStatus,
+      homeCountryTags: this.homeCountryTags,
+      studyAbroadCountryTags: this.studyAbroadCountryTags,
+      schoolTags: this.schoolTags,
+      majorTags: this.majorTags,
+      startYearRange: this.startYearRange,
+      endYearRange: this.endYearRange
+    };
+    console.log(filter);
+    this.updateClicked.emit(filter);
   }
 
   onHomeCountryTagsChanged(newTags: string[]) {
