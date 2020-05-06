@@ -1,4 +1,3 @@
-import { ProfileImageService } from './../../../services/profile-image.service';
 import { BasicInfo } from './../../../account/account.model';
 import { Inquiry, InquiryComment, InquiryLike } from './../../inquiry.model';
 import { Component, OnInit, Input } from '@angular/core';

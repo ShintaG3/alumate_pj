@@ -1,6 +1,6 @@
 import { FormControl } from '@angular/forms';
-import { ProfileImageService } from './../../../../services/profile-image.service';
 import { Component, OnInit } from '@angular/core';
+import { AccountService } from '../../../../services/account.service';
 
 @Component({
   selector: 'app-post-comment-form',
@@ -14,11 +14,11 @@ export class PostCommentFormComponent implements OnInit {
   profileImageUrl: string;
 
   constructor(
-    private profileImageService: ProfileImageService,
+    private accountService: AccountService
   ) { }
 
   ngOnInit(): void {
-    this.profileImageUrl = this.profileImageService.getProfileImageUrl(null);
+    this.profileImageUrl = this.accountService.getProfileImageUrl(null);
   }
 
   onFileChanged(event: { target: HTMLInputElement; }) {

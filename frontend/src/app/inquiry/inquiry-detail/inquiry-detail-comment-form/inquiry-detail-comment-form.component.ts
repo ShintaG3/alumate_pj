@@ -1,5 +1,5 @@
+import { AccountService } from './../../../services/account.service';
 import { User } from './../../../auths/auths.model';
-import { ProfileImageService } from './../../../services/profile-image.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
@@ -15,10 +15,11 @@ export class InquiryDetailCommentFormComponent implements OnInit {
   body = new FormControl('');
   selectedFile: File;
 
-  constructor(private profileImageService: ProfileImageService) { }
+  constructor(
+    private accountService: AccountService) { }
 
   ngOnInit(): void {
-    this.profileImageUrl = this.profileImageService.getProfileImageUrl(this.user);
+    this.profileImageUrl = this.accountService.getProfileImageUrl(this.user);
   }
 
   onFileChanged(event: { target: HTMLInputElement; }) {

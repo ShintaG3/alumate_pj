@@ -1,5 +1,5 @@
+import { AccountService } from './../../../services/account.service';
 import { InquiryLike, InquiryComment } from './../../inquiry.model';
-import { ProfileImageService } from './../../../services/profile-image.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { BasicInfo } from '../../../account/account.model';
 
@@ -18,11 +18,11 @@ export class InquiryDetailCommentComponent implements OnInit {
   replyFormShown = false;
 
   constructor(
-    private profileImageService: ProfileImageService
+    private accountService: AccountService
   ) {}
 
   ngOnInit(): void {
-    this.profileImageUrl = this.profileImageService.getProfileImageUrl(null);
+    this.profileImageUrl = this.accountService.getProfileImageUrl(null);
     this.basicInfo = {
       user: {
         username: 'hkoketsu',

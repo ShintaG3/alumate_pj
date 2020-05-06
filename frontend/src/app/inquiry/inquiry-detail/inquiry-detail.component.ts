@@ -1,7 +1,7 @@
 import { BasicInfo, StudyAbroad } from './../../account/account.model';
 import { Inquiry, InquiryComment } from './../inquiry.model';
 import { Component, OnInit } from '@angular/core';
-import { ProfileImageService } from '../../services/profile-image.service';
+import { AccountService } from '../../services/account.service';
 
 @Component({
   selector: 'app-inquiry-detail',
@@ -10,17 +10,19 @@ import { ProfileImageService } from '../../services/profile-image.service';
 })
 export class InquiryDetailComponent implements OnInit {
   inquiry: Inquiry;
-  
+
 
   basicInfo: BasicInfo;
   profileImageUrl: string;
   logoUrl: string;
   studyAbroad: StudyAbroad;
 
-  constructor(private profileImageService: ProfileImageService) {}
+  constructor(
+    private accountService: AccountService,
+  ) {}
 
   ngOnInit(): void {
-    this.profileImageUrl = this.profileImageService.getProfileImageUrl(null);
+    this.profileImageUrl = this.accountService.getProfileImageUrl(null);
     this.logoUrl = this.getLogoUrl();
     this.basicInfo = {
       user: {

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProfileImageService } from '../../../../services/profile-image.service';
+import { AccountService } from '../../../../services/account.service';
 
 @Component({
   selector: 'app-post-comment',
@@ -10,11 +10,11 @@ export class PostCommentComponent implements OnInit {
   profileImageUrl: string;
 
   constructor(
-    private profileImageService: ProfileImageService
+    private accountService: AccountService
   ) { }
 
   ngOnInit(): void {
-    this.profileImageUrl = this.profileImageService.getProfileImageUrl(null);
+    this.profileImageUrl = this.accountService.getProfileImageUrl(null);
   }
 
 }

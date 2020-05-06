@@ -1,4 +1,5 @@
-import { ProfileImageService } from './../../../services/profile-image.service';
+import { AccountService } from './../../../services/account.service';
+
 import { Message } from './../../message.model';
 import { Component, OnInit, Input } from '@angular/core';
 
@@ -12,10 +13,10 @@ export class MessageDetailSectionComponent implements OnInit {
   profileImageUrl: string;
 
   constructor(
-    private profileImageService: ProfileImageService
+    private accountService: AccountService
   ) { }
 
   ngOnInit(): void {
-    this.profileImageUrl = this.profileImageService.getProfileImageUrl(null);
+    this.profileImageUrl = this.accountService.getProfileImageUrl(null);
   }
 }
