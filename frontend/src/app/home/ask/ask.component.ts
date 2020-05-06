@@ -1,3 +1,4 @@
+import { Inquiry } from './../../inquiry/inquiry.model';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { concat, Observable, of, Subject } from 'rxjs';
@@ -10,6 +11,8 @@ import { Options } from 'ng5-slider';
   styleUrls: ['./ask.component.css'],
 })
 export class AskComponent implements OnInit {
+  inquiries: Inquiry[] = [];
+
   constructor() {}
 
   ngOnInit(): void {}

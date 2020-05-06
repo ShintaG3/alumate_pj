@@ -84,6 +84,8 @@ import { InquiryDetailListTagComponent } from './inquiry/inquiry-detail/inquiry-
 import { InquiryDetailCommentSectionComponent } from './inquiry/inquiry-detail/inquiry-detail-comment-section/inquiry-detail-comment-section.component';
 import { InquiryDetailCommentFormComponent } from './inquiry/inquiry-detail/inquiry-detail-comment-form/inquiry-detail-comment-form.component';
 import { InquiryDetailCommentComponent } from './inquiry/inquiry-detail/inquiry-detail-comment/inquiry-detail-comment.component';
+import { AskContentComponent } from './home/ask/ask-content/ask-content.component';
+import { AskFormComponent } from './home/ask/ask-form/ask-form.component';
 
 
 @NgModule({
@@ -163,6 +165,8 @@ import { InquiryDetailCommentComponent } from './inquiry/inquiry-detail/inquiry-
     InquiryDetailCommentSectionComponent,
     InquiryDetailCommentFormComponent,
     InquiryDetailCommentComponent,
+    AskContentComponent,
+    AskFormComponent,
   ],
   imports: [
     NgbModule,

@@ -1,80 +1,11 @@
 <!-- Ask Form -->
-<div class="card shadow ">
-  <div class="card-body p-4 bg-secondary" style="border-radius: 0.25rem;">
-    <!-- <form [formGroup]=""> -->
-    <div class="d-flex flex-wrap">
-      <!-- Inquiry -->
-      <div class="order-1 order-lg-2 flex-grow-1" style="min-width: 300px;">
-        <!-- <div class="mb-3">
-            <span class="text-primary" style="font-size: 1rem;">
-                <small>Expected answers are
-                <span class="font-weight-bold">many</span>
-                </small>
-            </span>
-            </div> -->
-        <!-- Input feeld -->
-        <div class="mb-3">
-          <input id="input-title" type="text" class="form-control" placeholder="Title" required>
-        </div>
-        <div class="mb-4">
-          <textarea id="input-body" class="form-control" placeholder="Write your question" rows="15"
-            required></textarea>
-        </div>
-        <!-- Ask Button -->
-        <div class="text-right mb-4 ml-auto">
-          <button type="submit" class="btn btn-sm btn-primary btn-icon">
-            <span class="btn-inner--icon icon-big">
-              <i class="fa fa-question"></i>
-            </span>
-            <span class="btn-inner--text">Ask</span>
-          </button>
-        </div>
-      </div>
-      <!-- Tags Section -->
-      <div class="order-2 order-lg-1">
-        <div class="mr-3 tags-section">
-          <div class="display-4 mb-4">Tags<small class="text-muted align-baseline ml-2" data-toggle="tooltip"
-              data-placement="top" title="You can add tags! The inquiry appers in the tagged people's feed."
-              data-container="body" data-animation="true"><i class="fa fa-question-circle-o"></i></small>
-          </div>
-        </div>
-      </div>
-      <!-- End Tags Section-->
-    </div>
-    <!-- </form> -->
-  </div>
+<div class="mb-4">
+  <app-ask-form></app-ask-form>
 </div>
 <!-- End Ask Form -->
 
 <!-- Asks Area -->
-<div class="card card-blog card-zoom" data-header="pattern" data-animation="zooming">
-  <a href="">
-    <img class="img pattern rounded" src="assets/img/ill/presentation_bg.png">
-  </a>
-  <div class="card-body">
-    <h6 class="card-category text-danger">
-      <i class="ni ni-badge"></i>
-      <span class="ml-1">School</span>
-    </h6>
-    <h5 class="card-title">
-      <a href="#">Title</a>
-    </h5>
-    <p class="card-description">Description</p>
-    <div class="author">
-      <!-- <img src={{ask.value.user.profile_image.image.url}} alt="..." class="avatar"> -->
-      <img src="assets/img/placeholder.png" alt="..." class="avatar">
-      <span>by Hiroki Koketsu</span>
-    </div>
-  </div>
-  <div class="card-footer">
-    <div class="d-flex">
-      <app-like-btn></app-like-btn>
-
-      <!-- <a href="javascript:;">
-        <i class="ni ni-curved-next"></i>
-        <span class="text-muted">0</span>
-      </a> -->
-    </div>
-  </div>
+<div class="">
+  <app-ask-content></app-ask-content>
 </div>
 <!-- End Asks Area -->
