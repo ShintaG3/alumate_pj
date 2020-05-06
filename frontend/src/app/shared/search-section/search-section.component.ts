@@ -1,15 +1,15 @@
 import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
-import { School, Major, Country, CurrentStatus } from './../../account/account.model';
+import { School, Major, Country, CurrentStatus } from '../../account/account.model';
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { SliderValues } from '../input/slider-input/slider-input.component';
 
 @Component({
-  selector: 'app-search-side-section',
-  templateUrl: './search-side-section.component.html',
-  styleUrls: ['./search-side-section.component.css']
+  selector: 'app-search-section',
+  templateUrl: './search-section.component.html',
+  styleUrls: ['./search-section.component.css']
 })
-export class SearchSideSectionComponent implements OnInit {
+export class SearchSectionComponent implements OnInit {
   // for auto completes; fetch from backend
   statusChoices: CurrentStatus[];
   countryChoices: string[];

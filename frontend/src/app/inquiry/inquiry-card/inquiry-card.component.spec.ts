@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SearchSideSectionComponent } from './search-side-section.component';
+import { InquiryCardComponent } from './inquiry-card.component';
 
-describe('SearchSideSectionComponent', () => {
-  let component: SearchSideSectionComponent;
-  let fixture: ComponentFixture<SearchSideSectionComponent>;
+describe('InquiryCardComponent', () => {
+  let component: InquiryCardComponent;
+  let fixture: ComponentFixture<InquiryCardComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SearchSideSectionComponent ]
+      declarations: [ InquiryCardComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SearchSideSectionComponent);
+    fixture = TestBed.createComponent(InquiryCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

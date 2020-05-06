@@ -64,12 +64,15 @@ import { DirectMessageModalComponent } from './account/modal/direct-message-moda
 import { InquiryComponent } from './inquiry/inquiry.component';
 import { MessageComponent } from './message/message.component';
 import { PeopleComponent } from './people/people.component';
-import { SearchSideSectionComponent } from './shared/search-side-section/search-side-section.component';
+import { SearchSectionComponent } from './shared/search-section/search-section.component';
 import { MenuModalComponent } from './shared/navbar/menu-modal/menu-modal.component';
 import { ChipsInputComponent } from './shared/input/chips-input/chips-input.component';
 import { SliderInputComponent } from './shared/input/slider-input/slider-input.component';
 import { PeopleResultSectionComponent } from './people/people-result-section/people-result-section.component';
 import { AccountSummarySectionComponent } from './shared/account-summary-section/account-summary-section.component';
+import { SearchModalComponent } from './shared/search-modal/search-modal.component';
+import { InquiryResultSectionComponent } from './inquiry/inquiry-result-section/inquiry-result-section.component';
+import { InquiryCardComponent } from './inquiry/inquiry-card/inquiry-card.component';
 
 @NgModule({
   declarations: [
@@ -128,12 +131,15 @@ import { AccountSummarySectionComponent } from './shared/account-summary-section
     InquiryComponent,
     MessageComponent,
     PeopleComponent,
-    SearchSideSectionComponent,
+    SearchSectionComponent,
     MenuModalComponent,
     ChipsInputComponent,
     SliderInputComponent,
     PeopleResultSectionComponent,
     AccountSummarySectionComponent,
+    SearchModalComponent,
+    InquiryResultSectionComponent,
+    InquiryCardComponent,
   ],
   imports: [
     NgbModule,
