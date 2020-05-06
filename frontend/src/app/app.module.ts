@@ -19,7 +19,6 @@ import { HomeComponent } from './home/home.component';
 import { PostComponent } from './home/post/post.component';
 import { AskComponent } from './home/ask/ask.component';
 import { NavbarAuthComponent } from './shared/navbar/navbar-auth/navbar-auth.component';
-import { SliderComponent } from './shared/slider/slider.component';
 import { LikeBtnComponent } from './shared/button/like-btn/like-btn.component';
 import { ReplyBtnComponent } from './shared/button/reply-btn/reply-btn.component';
 import { ShareBtnComponent } from './shared/button/share-btn/share-btn.component';
@@ -62,6 +61,15 @@ import { EducationEditBtnComponent } from './account/edit-btn/education-edit-btn
 import { AboutEditBtnComponent } from './account/edit-btn/about-edit-btn/about-edit-btn.component';
 import { StudyAbroadModalComponent } from './account/modal/study-abroad-modal/study-abroad-modal.component';
 import { DirectMessageModalComponent } from './account/modal/direct-message-modal/direct-message-modal.component';
+import { InquiryComponent } from './inquiry/inquiry.component';
+import { MessageComponent } from './message/message.component';
+import { PeopleComponent } from './people/people.component';
+import { SearchSideSectionComponent } from './shared/search-side-section/search-side-section.component';
+import { MenuModalComponent } from './shared/navbar/menu-modal/menu-modal.component';
+import { ChipsInputComponent } from './shared/input/chips-input/chips-input.component';
+import { SliderInputComponent } from './shared/input/slider-input/slider-input.component';
+import { PeopleResultSectionComponent } from './people/people-result-section/people-result-section.component';
+import { AccountSummarySectionComponent } from './shared/account-summary-section/account-summary-section.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +83,6 @@ import { DirectMessageModalComponent } from './account/modal/direct-message-moda
     PostComponent,
     AskComponent,
     NavbarAuthComponent,
-    SliderComponent,
     LikeBtnComponent,
     ReplyBtnComponent,
     ShareBtnComponent,
@@ -118,6 +125,15 @@ import { DirectMessageModalComponent } from './account/modal/direct-message-moda
     WorkEducationEditBtnComponent,
     WorkEditBtnComponent,
     DirectMessageModalComponent,
+    InquiryComponent,
+    MessageComponent,
+    PeopleComponent,
+    SearchSideSectionComponent,
+    MenuModalComponent,
+    ChipsInputComponent,
+    SliderInputComponent,
+    PeopleResultSectionComponent,
+    AccountSummarySectionComponent,
   ],
   imports: [
     NgbModule,
