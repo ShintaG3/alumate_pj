@@ -18,7 +18,7 @@ export class DirectMessageModalComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  save(): void {
+  sendMessage(): void {
     this.dialogRef.close(this.body.value);
   }
 

@@ -73,6 +73,10 @@ import { AccountSummarySectionComponent } from './shared/account-summary-section
 import { SearchModalComponent } from './shared/search-modal/search-modal.component';
 import { InquiryResultSectionComponent } from './inquiry/inquiry-result-section/inquiry-result-section.component';
 import { InquiryCardComponent } from './inquiry/inquiry-card/inquiry-card.component';
+import { MessageModalComponent } from './message/message-modal/message-modal.component';
+import { MessageListItemComponent } from './message/message-list-item/message-list-item.component';
+import { MessageDetailComponent } from './message/message-detail/message-detail.component';
+
 
 @NgModule({
   declarations: [
@@ -140,6 +144,9 @@ import { InquiryCardComponent } from './inquiry/inquiry-card/inquiry-card.compon
     SearchModalComponent,
     InquiryResultSectionComponent,
     InquiryCardComponent,
+    MessageModalComponent,
+    MessageListItemComponent,
+    MessageDetailComponent,
   ],
   imports: [
     NgbModule,
