@@ -1,3 +1,5 @@
+import { AccountService } from './../../services/account.service';
+import { BasicInfo } from './../../account/account.model';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,10 +8,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./base-connect.component.css']
 })
 export class BaseConnectComponent implements OnInit {
+  futures: BasicInfo[];
+  students: BasicInfo[];
+  alumni: BasicInfo[];
 
-  constructor() { }
+  constructor(
+    private accountService: AccountService,
+  ) { }
 
   ngOnInit(): void {
+    this.futures = this.accountService.getBasicInfoList();
+    this.students = this.accountService.getBasicInfoList();
+    this.alumni = this.accountService.getBasicInfoList();
   }
-
 }

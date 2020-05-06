@@ -1,4 +1,4 @@
-import { CurrentStatus, Country } from './../account/account.model';
+import { CurrentStatus, Country, BasicInfo } from './../account/account.model';
 import { Injectable } from '@angular/core';
 import { User } from '../auths/auths.model';
 
@@ -43,6 +43,101 @@ export class AccountService {
       {
         name: 'Canada'
       }
+    ];
+  }
+
+  getBasicInfoList(): BasicInfo[] {
+    return [
+      {
+        user: {
+          username: 'hkoketsu1',
+          email: 'hiroki@email.com',
+          password: 'hoge',
+        },
+        status: {
+          value: 'CU',
+          displayName: 'Current Student',
+        },
+        name: 'Hiroki Koketsu',
+        homeCountry: {
+          name: 'Japan',
+        },
+        studyAbroadCountry: {
+          name: 'Canada',
+        },
+      },
+      {
+        user: {
+          username: 'hkoketsu2',
+          email: 'hiroki@email.com',
+          password: 'hoge',
+        },
+        status: {
+          value: 'CU',
+          displayName: 'Current Student',
+        },
+        name: 'Hiroki Koketsu',
+        homeCountry: {
+          name: 'Japan',
+        },
+        studyAbroadCountry: {
+          name: 'Canada',
+        },
+      },
+      {
+        user: {
+          username: 'hkoketsu3',
+          email: 'hiroki@email.com',
+          password: 'hoge',
+        },
+        status: {
+          value: 'CU',
+          displayName: 'Current Student',
+        },
+        name: 'Hiroki Koketsu',
+        homeCountry: {
+          name: 'Japan',
+        },
+        studyAbroadCountry: {
+          name: 'Canada',
+        },
+      },
+      {
+        user: {
+          username: 'hkoketsu3',
+          email: 'hiroki@email.com',
+          password: 'hoge',
+        },
+        status: {
+          value: 'FU',
+          displayName: 'Current Student',
+        },
+        name: 'Hiroki Koketsu',
+        homeCountry: {
+          name: 'Japan',
+        },
+        studyAbroadCountry: {
+          name: 'Canada',
+        },
+      },
+      {
+        user: {
+          username: 'hkoketsu3',
+          email: 'hiroki@email.com',
+          password: 'hoge',
+        },
+        status: {
+          value: 'AL',
+          displayName: 'Current Student',
+        },
+        name: 'Hiroki Koketsu',
+        homeCountry: {
+          name: 'Japan',
+        },
+        studyAbroadCountry: {
+          name: 'Canada',
+        },
+      },
     ];
   }
 }
