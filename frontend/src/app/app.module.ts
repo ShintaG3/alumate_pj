@@ -89,6 +89,8 @@ import { AskFormComponent } from './home/ask/ask-form/ask-form.component';
 import { BaseConnectComponent } from './auths/base-connect/base-connect.component';
 import { BaseInquiryComponent } from './auths/base-inquiry/base-inquiry.component';
 import { BaseInquiryFormComponent } from './auths/base-inquiry/base-inquiry-form/base-inquiry-form.component';
+import { ContactComponent } from './contact/contact.component';
+import { ContactFormComponent } from './contact/contact-form/contact-form.component';
 
 
 @NgModule({
@@ -173,6 +175,8 @@ import { BaseInquiryFormComponent } from './auths/base-inquiry/base-inquiry-form
     BaseConnectComponent,
     BaseInquiryComponent,
     BaseInquiryFormComponent,
+    ContactComponent,
+    ContactFormComponent,
   ],
   imports: [
     NgbModule,
