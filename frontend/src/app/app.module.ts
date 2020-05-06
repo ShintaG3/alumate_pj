@@ -86,6 +86,9 @@ import { InquiryDetailCommentFormComponent } from './inquiry/inquiry-detail/inqu
 import { InquiryDetailCommentComponent } from './inquiry/inquiry-detail/inquiry-detail-comment/inquiry-detail-comment.component';
 import { AskContentComponent } from './home/ask/ask-content/ask-content.component';
 import { AskFormComponent } from './home/ask/ask-form/ask-form.component';
+import { BaseConnectComponent } from './auths/base-connect/base-connect.component';
+import { BaseInquiryComponent } from './auths/base-inquiry/base-inquiry.component';
+import { BaseInquiryFormComponent } from './auths/base-inquiry/base-inquiry-form/base-inquiry-form.component';
 
 
 @NgModule({
@@ -167,6 +170,9 @@ import { AskFormComponent } from './home/ask/ask-form/ask-form.component';
     InquiryDetailCommentComponent,
     AskContentComponent,
     AskFormComponent,
+    BaseConnectComponent,
+    BaseInquiryComponent,
+    BaseInquiryFormComponent,
   ],
   imports: [
     NgbModule,
