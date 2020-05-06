@@ -2,6 +2,10 @@
 
 .btn-transparent {
   background-color: transparent;
+
+}
+
+.btn-feed-action {
   border: none;
   text-decoration: none;
   display: inline-block;
@@ -11,16 +15,16 @@
   padding: 0;
 }
 
-.btn-transparent.active,
-.btn-transparent:hover {
+.btn-feed-action.active,
+.btn-feed-action:hover {
   color: #5e72e4;
 }
 
-.btn-transparent:focus {
+.btn-feed-action:focus {
   outline: none;
 }
 
-.btn-transparent>span {
+.btn-feed-action > span {
   margin-left: .1875rem;
   font-weight: 600;
 }

@@ -1,3 +1,5 @@
+import { MessageDetailFormComponent } from './message/message-detail/message-detail-form/message-detail-form.component';
+import { MessageDetailSectionComponent } from './message/message-detail/message-detail-section/message-detail-section.component';
 import { WorkEditBtnComponent } from './account/edit-btn/work-edit-btn/work-edit-btn.component';
 import { MaterialModule } from './shared/material/material.module';
 import { BrowserModule } from '@angular/platform-browser';
@@ -147,6 +149,8 @@ import { MessageDetailComponent } from './message/message-detail/message-detail.
     MessageModalComponent,
     MessageListItemComponent,
     MessageDetailComponent,
+    MessageDetailSectionComponent,
+    MessageDetailFormComponent,
   ],
   imports: [
     NgbModule,

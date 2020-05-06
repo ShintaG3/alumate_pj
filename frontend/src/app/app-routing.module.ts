@@ -1,13 +1,12 @@
-import { MessageComponent } from './message/message.component';
 import { PeopleComponent } from './people/people.component';
 import { InquiryComponent } from './inquiry/inquiry.component';
 import { accountRoutes } from './account/account.route';
 import { homeRoutes } from './home/home.routes';
 import { authsRoutes } from './auths/auths.routes';
-import { SignupComponent } from './auths/signup/signup.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LandingpageComponent } from './landingpage/landingpage.component';
+import { messageRoutes } from './message/message.route';
 
 
 const routes: Routes = [
@@ -16,7 +15,7 @@ const routes: Routes = [
   { path: 'home', children: [...homeRoutes]},
   { path: 'inquiry', component: InquiryComponent },
   { path: 'people', component: PeopleComponent },
-  { path: 'message', component: MessageComponent },
+  { path: 'message', children: [...messageRoutes] },
   { path: '', component: LandingpageComponent, pathMatch: 'full' },
 ];
 
