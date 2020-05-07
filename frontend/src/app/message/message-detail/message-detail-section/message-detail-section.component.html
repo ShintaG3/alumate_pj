@@ -1,11 +1,11 @@
 <div class="card-body mb-4" >
   <div class="d-flex" style="margin-left:12px;">
-    <a href="{% url 'accounts:account-page' message.sender.username %}">
+    <a routerLink="/account">
       <img src="{{ profileImageUrl }}" class="avatar avatar-sm" *ngIf="profileImageUrl">
     </a>
     <div class="mx-3 mb-4">
-      <a href="{% url 'accounts:account-page' message.sender.username %}" class="h5 card-title">{{ message.sender.username }}</a>
-      <small class="d-block text-muted">{{ message.created_at }} ago</small>
+      <a routerLink="/account" class="h5 card-title">{{ message.sender.username }}</a>
+      <small class="d-block text-muted">{{ message.created_at }}</small>
     </div>
   </div>
   <div style="margin-left: calc(48px + 1rem);margin-right: calc(48px + 1rem)">
