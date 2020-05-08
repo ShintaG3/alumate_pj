@@ -228,7 +228,7 @@ class GoalDetailUser(generics.RetrieveUpdateDestroyAPIView):
 
 
 class ScholarshipDetailUser(generics.RetrieveUpdateDestroyAPIView):
-    queryset = models.ScholarshipUser.objects.all()
+    queryset = models.Scholarship.objects.all()
     serializer_class = serializers.ScholarshipSerializer
 
     def get_object(self):
@@ -263,13 +263,13 @@ class WorkDetailUser(generics.RetrieveUpdateDestroyAPIView):
 # create
 
 class Follow(generics.CreateAPIView):
-    queryset = Follow.objects.all()
-    serializer_class = Follow
+    queryset = models.Follow.objects.all()
+    serializer_class = serializers.FollowSerializer
 
     def perform_create(self, serializer):
         user = self.request.user
         followed = self.kwargs['id']
-        serializer.save(following=user, following=followed)
+        serializer.save(following=user, followed=followed)
 
 # destroy
 
@@ -282,4 +282,4 @@ class Unfollow(generics.DestroyAPIView):
         queryset = self.get_queryset()
         following_id = self.kwargs['id']
         user = self.request.user
-        return get_object_or_404(queryset, follower=user, following=following_id)
+        return get_object_or_404(queryset, follower=user, followed=following_id)

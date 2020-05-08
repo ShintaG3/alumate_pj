@@ -36,10 +36,10 @@ urlpatterns = [
     path('works/user', views.WorkDetailUser.as_view()),
 
     # create
-    path('follow/<id:int>', views.Follow.as_view())
+    path('follow/<int:id>', views.Follow.as_view()),
     
     # delete
-    path('unfollow/<id:int>', views.Unfollow.as_view())
+    path('unfollow/<int:id>', views.Unfollow.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
