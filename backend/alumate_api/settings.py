@@ -39,21 +39,17 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'djoser',
-    'account'
+    'account',
+    'inquiry',
+    'message',
+    'people',
+    'post',
 ]
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ]
-}
-
-SIMPLE_JWT = {
-   'AUTH_HEADER_TYPES': ('JWT',),
-}
-
-DJOSER = {
-    'LOGIN_FIELD': 'User.EMAIL_FIELD',
 }
 
 MIDDLEWARE = [
