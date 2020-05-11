@@ -63,13 +63,13 @@ class ScholarshipSerializer(serializers.ModelSerializer):
 
 class SocialLinkSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Scholarship
+        model = models.SocialLink
         fields = '__all__'
 
 
 class FollowSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Scholarship
+        model = models.Follow
         fields = '__all__'
 
 

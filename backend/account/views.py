@@ -62,8 +62,6 @@ class FollowingListUser(generics.ListAPIView):
         user = self.request.user
         return user.following_users
 
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
 
 
 class FollowedListUser(generics.ListAPIView):

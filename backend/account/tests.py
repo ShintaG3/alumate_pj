@@ -222,3 +222,53 @@ class StudyInterestTestCase(TestCase):
         response = self.client.post(self.url)
         self.assertEqual(response.status_code,
                          status.HTTP_405_METHOD_NOT_ALLOWED)
+
+
+class UserFollowingTestCase(TestCase):
+    
+    def setUp(self):
+        self.client = get_auth_client()
+        self.url = reverse('account:user-following')
+        self.user = User.objects.get(username='testuser')
+        User.objects.create(username='user1', password='testing1')
+        if models.StudyInterest.objects.count() != 0:
+            models.StudyInterest.objects.clear()
+
+    def test_api_can_get_followings(self):
+        user1 = User.objects.get(username='user1')
+
+        models.Follow.objects.create(follower=self.user, followed=user1)
+
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+        for item in response.data[0].items():
+            if item[0] == 'follower':
+                self.assertEqual(item[1], self.user.id)
+            elif item[0] == 'followed':
+                self.assertEqual(item[1], user1.id)
+
+
+class UserFollowedTestCase(TestCase):
+    
+    def setUp(self):
+        self.client = get_auth_client()
+        self.url = reverse('account:user-followed')
+        self.user = User.objects.get(username='testuser')
+        User.objects.create(username='user1', password='testing1')
+        if models.StudyInterest.objects.count() != 0:
+            models.StudyInterest.objects.clear()
+
+    def test_api_can_get_followings(self):
+        user1 = User.objects.get(username='user1')
+
+        models.Follow.objects.create(follower=user1, followed=self.user)
+
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+        for item in response.data[0].items():
+            if item[0] == 'follower':
+                self.assertEqual(item[1], user1.id)
+            elif item[0] == 'followed':
+                self.assertEqual(item[1], self.user.id)
