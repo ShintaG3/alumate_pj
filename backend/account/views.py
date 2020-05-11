@@ -63,7 +63,6 @@ class FollowingListUser(generics.ListAPIView):
         return user.following_users
 
 
-
 class FollowedListUser(generics.ListAPIView):
     queryset = models.Follow.objects.all()
     serializer_class = serializers.FollowSerializer
@@ -81,9 +80,6 @@ class FollowedListUser(generics.ListAPIView):
 class BasicInfoList(generics.ListCreateAPIView):
     queryset = models.BasicInfo.objects.all()
     serializer_class = serializers.BasicInfoSerializer
-
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
 
 
 class EducationListUser(generics.ListCreateAPIView):

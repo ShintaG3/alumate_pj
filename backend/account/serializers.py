@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from . import models
 
+
 class AboutSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.About
@@ -8,10 +9,18 @@ class AboutSerializer(serializers.ModelSerializer):
 
 
 class BasicInfoSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(
+        default=serializers.CurrentUserDefault()
+    )
+
     class Meta:
         model = models.BasicInfo
         fields = '__all__'
 
+    def to_representation(self, instance):
+        self.fields['country_origin'] = CountrySerializer()
+        self.fields['country_study_abroad'] = CountrySerializer()
+        return super(BasicInfoSerializer, self).to_representation(instance)
 
 class MajorSerializer(serializers.ModelSerializer):
     class Meta:
@@ -77,6 +86,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Profile
         fields = '__all__'
+
 
 class ProfileImageSerializer(serializers.ModelSerializer):
     class Meta:

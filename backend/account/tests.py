@@ -21,8 +21,6 @@ class CountryTestCase(TestCase):
     def setUp(self):
         self.client = get_auth_client()
         self.url = reverse('account:countries')
-        if models.Country.objects.count() != 0:
-            models.Country.objects.clear()
 
     def test_api_get_all_countries(self):
         self.assertEqual(models.Country.objects.count(), 0)
@@ -54,8 +52,6 @@ class SchoolTestCase(TestCase):
     def setUp(self):
         self.client = get_auth_client()
         self.url = reverse('account:schools')
-        if models.School.objects.count() != 0:
-            models.School.objects.clear()
 
     def test_api_get_all_schools(self):
         self.assertEqual(models.School.objects.count(), 0)
@@ -87,8 +83,6 @@ class SchoolTestCase(TestCase):
     def setUp(self):
         self.client = get_auth_client()
         self.url = reverse('account:schools')
-        if models.School.objects.count() != 0:
-            models.School.objects.clear()
 
     def test_api_get_all_schools(self):
         self.assertEqual(models.School.objects.count(), 0)
@@ -120,8 +114,6 @@ class MajorTestCase(TestCase):
     def setUp(self):
         self.client = get_auth_client()
         self.url = reverse('account:majors')
-        if models.Major.objects.count() != 0:
-            models.Major.objects.clear()
 
     def test_api_get_all_majors(self):
         self.assertEqual(models.Major.objects.count(), 0)
@@ -154,8 +146,6 @@ class GoalTestCase(TestCase):
         self.client = get_auth_client()
         self.url = reverse('account:goals')
         self.user = User.objects.get(username='testuser')
-        if models.Goal.objects.count() != 0:
-            models.Goal.objects.clear()
 
     def test_api_get_all_goals(self):
         self.assertEqual(models.Goal.objects.count(), 0)
@@ -179,8 +169,6 @@ class StudyInterestTestCase(TestCase):
         self.client = get_auth_client()
         self.url = reverse('account:study-interests')
         self.user = User.objects.get(username='testuser')
-        if models.StudyInterest.objects.count() != 0:
-            models.StudyInterest.objects.clear()
 
     def test_api_get_all_study_interest(self):
         self.assertEqual(models.StudyInterest.objects.count(), 0)
@@ -204,8 +192,6 @@ class StudyInterestTestCase(TestCase):
         self.client = get_auth_client()
         self.url = reverse('account:study-interests')
         self.user = User.objects.get(username='testuser')
-        if models.StudyInterest.objects.count() != 0:
-            models.StudyInterest.objects.clear()
 
     def test_api_get_all_study_interest(self):
         self.assertEqual(models.StudyInterest.objects.count(), 0)
@@ -225,14 +211,12 @@ class StudyInterestTestCase(TestCase):
 
 
 class UserFollowingTestCase(TestCase):
-    
+
     def setUp(self):
         self.client = get_auth_client()
         self.url = reverse('account:user-following')
         self.user = User.objects.get(username='testuser')
         User.objects.create(username='user1', password='testing1')
-        if models.StudyInterest.objects.count() != 0:
-            models.StudyInterest.objects.clear()
 
     def test_api_can_get_followings(self):
         user1 = User.objects.get(username='user1')
@@ -250,14 +234,12 @@ class UserFollowingTestCase(TestCase):
 
 
 class UserFollowedTestCase(TestCase):
-    
+
     def setUp(self):
         self.client = get_auth_client()
         self.url = reverse('account:user-followed')
         self.user = User.objects.get(username='testuser')
         User.objects.create(username='user1', password='testing1')
-        if models.StudyInterest.objects.count() != 0:
-            models.StudyInterest.objects.clear()
 
     def test_api_can_get_followings(self):
         user1 = User.objects.get(username='user1')
@@ -272,3 +254,36 @@ class UserFollowedTestCase(TestCase):
                 self.assertEqual(item[1], user1.id)
             elif item[0] == 'followed':
                 self.assertEqual(item[1], self.user.id)
+
+
+class BasicInfoTestCase(TestCase):
+
+    def setUp(self):
+        self.client = get_auth_client()
+        self.url = reverse('account:basic-info')
+        self.user = User.objects.get(username='testuser')
+        country1 = models.Country.objects.create(name='Japan')
+        country2 = models.Country.objects.create(name='Canada')
+        user1 = User.objects.create(username='user1', password='testing1')
+        self.user_basic_info = models.BasicInfo.objects.create(
+            user=user1, name='testname', status=models.CurrentStatus.CURRENT_STUDENT, country_origin=country1, country_study_abroad=country2)
+
+        self.data = {
+            'name': 'client',
+            'status': models.CurrentStatus.CURRENT_STUDENT,
+            'country_origin': country1.id,
+            'country_study_abroad': country2.id
+        }
+
+    def test_api_get_all_basic_info(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+
+    def test_api_create_user_basic_info(self):
+        self.assertEqual(models.BasicInfo.objects.count(), 1)
+        response = self.client.post(self.url, data=self.data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(models.BasicInfo.objects.count(), 2)
+
+
