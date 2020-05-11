@@ -52,10 +52,16 @@ class PostLikeListView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, pk=None):
+        user = request.user
         post = get_object_or_404(Post, pk=pk)
-        post_like = PostLike.objects.create(user=request.user, post=post)
-        serializer = self.serializer_class(post_like)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        try:
+            post_like = PostLike.objects.get(user=user, post=post)
+            serializer = self.serializer_class(post_like)
+            return Response(serializer.data, status=status.HTTP_303_SEE_OTHER)
+        except PostLike.DoesNotExist: # normal case
+            post_like = PostLike.objects.create(user=user, post=post)
+            serializer = self.serializer_class(post_like)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 class PostCommentLikeListView(APIView):
     serializer_class = serializers.PostCommentLikeSerializer
@@ -66,10 +72,16 @@ class PostCommentLikeListView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, pk=None):
-        post_comment = get_object_or_404(PostComment, pk=pk)
-        post_comment_like = PostCommentLike.objects.create(user=request.user, comment=post_comment)
-        serializer = self.serializer_class(post_comment_like)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        user = request.user
+        comment = get_object_or_404(PostComment, pk=pk)
+        try:
+            post_comment_like = PostCommentLike.objects.get(user=user, comment=comment)
+            serializer = self.serializer_class(post_comment_like)
+            return Response(serializer.data, status=status.HTTP_303_SEE_OTHER)
+        except PostCommentLike.DoesNotExist: # normal case
+            post_comment_like = PostCommentLike.objects.create(user=user, comment=comment)
+            serializer = self.serializer_class(post_comment_like)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 # detail view
