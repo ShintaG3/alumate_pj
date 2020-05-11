@@ -149,7 +149,7 @@ class MajorTestCase(TestCase):
 
 
 class GoalTestCase(TestCase):
-    
+
     def setUp(self):
         self.client = get_auth_client()
         self.url = reverse('account:goals')
@@ -168,11 +168,11 @@ class GoalTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(models.Goal.objects.count(), 2)
 
-
     def test_api_cannot_create_goal(self):
         response = self.client.post(self.url)
         self.assertEqual(response.status_code,
                          status.HTTP_405_METHOD_NOT_ALLOWED)
+
 
 class StudyInterestTestCase(TestCase):
     def setUp(self):
@@ -193,6 +193,30 @@ class StudyInterestTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(models.StudyInterest.objects.count(), 2)
 
+    def test_api_cannot_create_study_interest(self):
+        response = self.client.post(self.url)
+        self.assertEqual(response.status_code,
+                         status.HTTP_405_METHOD_NOT_ALLOWED)
+
+
+class StudyInterestTestCase(TestCase):
+    def setUp(self):
+        self.client = get_auth_client()
+        self.url = reverse('account:study-interests')
+        self.user = User.objects.get(username='testuser')
+        if models.StudyInterest.objects.count() != 0:
+            models.StudyInterest.objects.clear()
+
+    def test_api_get_all_study_interest(self):
+        self.assertEqual(models.StudyInterest.objects.count(), 0)
+        models.StudyInterest.objects.create(user=self.user, body='aa')
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(models.StudyInterest.objects.count(), 1)
+        models.StudyInterest.objects.create(user=self.user, body='bb')
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(models.StudyInterest.objects.count(), 2)
 
     def test_api_cannot_create_study_interest(self):
         response = self.client.post(self.url)

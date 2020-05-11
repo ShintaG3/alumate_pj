@@ -11,8 +11,8 @@ urlpatterns = [
     path('majors', views.MajorList.as_view(), name='majors'),
     path('goals', views.GoalList.as_view(), name='goals'),
     path('study-interests', views.StudyInterestList.as_view(), name='study-interests'),
-    path('followings/user', views.FollowingListUser.as_view()),
-    path('follweds/user', views.FollowedListUser.as_view()),
+    path('followings/user', views.FollowingListUser.as_view(), name='user-following'),
+    path('follweds/user', views.FollowedListUser.as_view(), name='user-followed'),
     
     # list + create
     path('basic-info', views.BasicInfoUser.as_view()),
