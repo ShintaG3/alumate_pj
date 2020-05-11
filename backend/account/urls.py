@@ -9,7 +9,7 @@ urlpatterns = [
     path('countries', views.CountryList.as_view(), name='countries'),
     path('schools', views.SchoolList.as_view(), name='schools'),
     path('majors', views.MajorList.as_view(), name='majors'),
-    path('goals', views.GoalList.as_view()),
+    path('goals', views.GoalList.as_view(), name='goals'),
     path('study-interests', views.StudyInterestList.as_view()),
     path('followings/user', views.FollowingListUser.as_view()),
     path('follweds/user', views.FollowedListUser.as_view()),
