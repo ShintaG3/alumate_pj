@@ -6,9 +6,9 @@ app_name="account"
 
 urlpatterns = [
     # list
-    path('countries', views.CountryList.as_view()),
-    path('schools', views.SchoolList.as_view()),
-    path('majors', views.MajorList.as_view()),
+    path('countries', views.CountryList.as_view(), name='countries'),
+    path('schools', views.SchoolList.as_view(), name='schools'),
+    path('majors', views.MajorList.as_view(), name='majors'),
     path('goals', views.GoalList.as_view()),
     path('study-interests', views.StudyInterestList.as_view()),
     path('followings/user', views.FollowingListUser.as_view()),

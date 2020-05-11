@@ -40,9 +40,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'djoser',
     'account',
-    'inquiry',
-    'message',
-    'people',
+    # 'inquiry',
+    # 'message',
+    # 'people',
     'post',
 ]
 
