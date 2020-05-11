@@ -80,3 +80,71 @@ class SchoolTestCase(TestCase):
         response = self.client.post(self.url)
         self.assertEqual(response.status_code,
                          status.HTTP_405_METHOD_NOT_ALLOWED)
+
+
+class SchoolTestCase(TestCase):
+
+    def setUp(self):
+        self.client = get_auth_client()
+        self.url = reverse('account:schools')
+        if models.School.objects.count() != 0:
+            models.School.objects.clear()
+
+    def test_api_get_all_schools(self):
+        self.assertEqual(models.School.objects.count(), 0)
+        models.School.objects.create(name='UBC')
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(models.School.objects.count(), 1)
+        models.School.objects.create(name='UT')
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(models.School.objects.count(), 2)
+
+    def test_api_get_filtered_schools(self):
+        self.assertEqual(models.School.objects.count(), 0)
+        models.School.objects.create(name='UBC')
+        models.School.objects.create(name='UT')
+        response = self.client.get('{}?starts-with=ub'.format(self.url))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+
+    def test_api_cannot_create_school(self):
+        response = self.client.post(self.url)
+        self.assertEqual(response.status_code,
+                         status.HTTP_405_METHOD_NOT_ALLOWED)
+
+
+class MajorTestCase(TestCase):
+
+    def setUp(self):
+        self.client = get_auth_client()
+        self.url = reverse('account:majors')
+        if models.Major.objects.count() != 0:
+            models.Major.objects.clear()
+
+    def test_api_get_all_majors(self):
+        self.assertEqual(models.Major.objects.count(), 0)
+        models.Major.objects.create(name='Arts')
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(models.Major.objects.count(), 1)
+        models.Major.objects.create(name='Science')
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(models.Major.objects.count(), 2)
+
+    def test_api_get_filtered_majors(self):
+        self.assertEqual(models.Major.objects.count(), 0)
+        models.Major.objects.create(name='Arts')
+        models.Major.objects.create(name='Science')
+        response = self.client.get('{}?starts-with=ar'.format(self.url))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+
+    def test_api_cannot_create_majors(self):
+        response = self.client.post(self.url)
+        self.assertEqual(response.status_code,
+                         status.HTTP_405_METHOD_NOT_ALLOWED)
+
+

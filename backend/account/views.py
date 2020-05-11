@@ -15,7 +15,6 @@ class CountryList(generics.ListAPIView):
         starts_with = params.get('starts-with', None)
         if starts_with:
             queryset = queryset.filter(name__istartswith=starts_with)
-            return queryset
         return queryset
 
 
@@ -28,7 +27,7 @@ class SchoolList(generics.ListAPIView):
         queryset = super().get_queryset()
         starts_with = params.get('starts-with', None)
         if starts_with:
-            return queryset.filter(name__istartswith=starts_with)
+            queryset = queryset.filter(name__istartswith=starts_with)
         return queryset
 
 
@@ -41,7 +40,7 @@ class MajorList(generics.ListAPIView):
         queryset = super().get_queryset()
         starts_with = params.get('starts-with', None)
         if starts_with:
-            return queryset.filter(name__istartswith=starts_with)
+            queryset = queryset.filter(name__istartswith=starts_with)
         return queryset
 
 
