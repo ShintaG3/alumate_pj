@@ -1,108 +1,115 @@
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
-from rest_framework import generics
+from rest_framework import generics, status
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Post, PostComment, PostLike, PostCommentLike
-from .serializers import PostSerializer, PostCommentSerializer, PostLikeSerializer, PostCommentLikeSerializer
+from . import serializers
 
-# list / create view
-class PostList(generics.ListCreateAPIView):
+# list
+class PostListView(generics.ListAPIView):
     queryset = Post.objects.all()
-    serializer_class = PostSerializer
+    serializer_class = serializers.PostSerializer
 
-    def get_queryset(self, request, *args, **kwargs):
-        user = get_object_or_404(User, kwargs.pop('id'))
-        return super().get_queryset().filter(user=user)
-
-    def create(self, request):
-        request.data['user'] = request.user.pk
-        return super().create(request)
+# create
+class PostCreateView(generics.CreateAPIView):
+    queryset = Post.objects.all()
+    serializer_class = serializers.PostSerializer
 
 
-class PostCommentList(generics.ListCreateAPIView):
+class PostCommentListView(generics.ListCreateAPIView):
     queryset = PostComment.objects.all()
-    serializer_class = PostCommentSerializer
-
-    def get_queryset(self, request, *args, **kwargs):
-        post = get_object_or_404(Post, id=kwargs.pop('id'))
-        return super().get_queryset().filter(post=post)
-
-    def create(self, request, *args, **kwargs):
-        request.data['user'] = request.user.pk
-        post = get_object_or_404(Post, id=kwargs.pop('id'))
-        request.data['post'] = post.pk
-        return super().create(request)
-
-
-class PostLikeList(generics.ListCreateAPIView):
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
+    serializer_class = serializers.PostCommentCreateSerializer
 
     def get_queryset(self):
-        post = get_object_or_404(Post, id=kwargs.pop('id'))
-        return post.likes
+        post = get_object_or_404(Post, pk=self.kwargs.pop('pk'))
+        return post.comments
 
     def create(self, request, *args, **kwargs):
-        request.data['user'] = request.user.pk
-        post = get_object_or_404(Post, id=kwargs.pop('id'))
-        request.data['post'] = post.pk
-        return super().create(request)
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        
+        post = get_object_or_404(Post, pk=self.kwargs.pop('pk'))
+        post_comment = PostComment.objects.create(
+            user = request.user,
+            post = post,
+            body = serializer.validated_data['body'],
+            image = serializer.validated_data.get('image', None)
+        )
+        serializer = serializers.PostCommentSerializer(instance=post_comment)
+        
+        headers = self.get_success_headers(serializer.data)
+        return Response(data=serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
-class PostCommentLikeList(generics.ListCreateAPIView):
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
 
-    def get_queryset(self):
-        comment = get_object_or_404(PostComment, id=kwargs.pop('id'))
-        return comment.likes
+class PostLikeListView(APIView):
+    serializer_class = serializers.PostLikeSerializer
+    
+    def get(self, request, pk=None):
+        post = get_object_or_404(Post, pk=pk)
+        serializer = self.serializer_class(post.likes, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def create(self, request, *args, **kwargs):
-        request.data['user'] = request.user.pk
-        comment = get_object_or_404(PostComment, id=kwargs.pop('id'))
-        request.data['comment'] = comment.pk
-        return super().create(request)
+    def post(self, request, pk=None):
+        post = get_object_or_404(Post, pk=pk)
+        post_like = PostLike.objects.create(user=request.user, post=post)
+        serializer = self.serializer_class(post_like)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+class PostCommentLikeListView(APIView):
+    serializer_class = serializers.PostCommentLikeSerializer
+
+    def get(self, request, pk=None):
+        post_comment = get_object_or_404(PostComment, pk=pk)
+        serializer = self.serializer_class(post_comment.likes, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request, pk=None):
+        post_comment = get_object_or_404(PostComment, pk=pk)
+        post_comment_like = PostCommentLike.objects.create(user=request.user, comment=post_comment)
+        serializer = self.serializer_class(post_comment_like)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
 
 # detail view
-class PostDetail(generics.RetrieveUpdateDestroyAPIView, generics.CreateAPIView):
+class PostDetailView(generics.RetrieveUpdateDestroyAPIView, generics.CreateAPIView):
     queryset = Post.objects.all()
-    serializer_class = PostSerializer
+    serializer_class = serializers.PostSerializer
 
     def get_object(self, request, *args, **kwargs):
         queryset = self.get_queryset()
-        obj_id = kwargs.pop('id')
+        obj_pk = kwargs.pop('pk')
         user = self.request.user
-        return get_object_or_404(queryset, user=user, id=obj_id)
+        return get_object_or_404(queryset, user=user, pk=obj_pk)
 
 
-class PostCommentDetail(generics.RetrieveUpdateDestroyAPIView):
+class PostCommentDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = PostComment.objects.all()
-    serializer_class = PostCommentSerializer
+    serializer_class = serializers.PostCommentSerializer
 
     def get_object(self, request, *args, **kwargs):
         queryset = self.get_queryset()
-        obj_id = kwargs.pop('id')
+        obj_pk = kwargs.pop('pk')
         user = self.request.user
-        return get_object_or_404(queryset, user=user, id=obj_id)
+        return get_object_or_404(queryset, user=user, pk=obj_pk)
 
 
-class PostLikeDetail(generics.RetrieveUpdateDestroyAPIView):
+class PostLikeDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = PostLike.objects.all()
-    serializer_class = PostLikeSerializer
 
     def get_object(self, request, *args, **kwargs):
         queryset = self.get_queryset()
-        obj_id = kwargs.pop('id')
+        obj_pk = kwargs.pop('pk')
         user = self.request.user
-        return get_object_or_404(queryset, user=user, id=obj_id)
+        return get_object_or_404(queryset, user=user, pk=obj_pk)
 
 
-class PostDetail(generics.RetrieveUpdateDestroyAPIView):
+class PostCommentLikeDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = PostCommentLike.objects.all()
-    serializer_class = PostCommentLikeSerializer
 
     def get_object(self, request, *args, **kwargs):
         queryset = self.get_queryset()
-        obj_id = kwargs.pop('id')
+        obj_pk = kwargs.pop('pk')
         user = self.request.user
-        return get_object_or_404(queryset, user=user, id=obj_id)
+        return get_object_or_404(queryset, user=user, pk=obj_pk)

@@ -4,7 +4,7 @@ from account.models import School, Country, Major, BasicInfo, City
 from django.urls import reverse
 
 class Post(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
     body = models.CharField(max_length=5000)
     image = models.ImageField(upload_to='images/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
