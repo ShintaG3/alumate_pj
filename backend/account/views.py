@@ -8,7 +8,7 @@ from . import models, serializers
 
 # list view
 
-class CountryList(generics.ListAPIView):
+class CountryListView(generics.ListAPIView):
     queryset = models.Country.objects.all()
     serializer_class = serializers.CountrySerializer
 
@@ -21,7 +21,7 @@ class CountryList(generics.ListAPIView):
         return queryset
 
 
-class SchoolList(generics.ListAPIView):
+class SchoolListView(generics.ListAPIView):
     queryset = models.School.objects.all()
     serializer_class = serializers.SchoolSerializer
 
@@ -34,7 +34,7 @@ class SchoolList(generics.ListAPIView):
         return queryset
 
 
-class MajorList(generics.ListAPIView):
+class MajorListView(generics.ListAPIView):
     queryset = models.Major.objects.all()
     serializer_class = serializers.MajorSerializer
 
@@ -47,17 +47,7 @@ class MajorList(generics.ListAPIView):
         return queryset
 
 
-class GoalList(generics.ListAPIView):
-    queryset = models.Goal.objects.all()
-    serializer_class = serializers.GoalSerializer
-
-
-class StudyInterestList(generics.ListAPIView):
-    queryset = models.StudyInterest.objects.all()
-    serializer_class = serializers.StudyInterestSerializer
-
-
-class FollowingListUser(generics.ListAPIView):
+class FollowingListView(generics.ListAPIView):
     queryset = models.Follow.objects.all()
     serializer_class = serializers.FollowSerializer
 
@@ -66,7 +56,7 @@ class FollowingListUser(generics.ListAPIView):
         return user.following_users
 
 
-class FollowedListUser(generics.ListAPIView):
+class FollowedListView(generics.ListAPIView):
     queryset = models.Follow.objects.all()
     serializer_class = serializers.FollowSerializer
 
@@ -77,12 +67,12 @@ class FollowedListUser(generics.ListAPIView):
 
 # list create view
 
-class BasicInfoList(generics.ListCreateAPIView):
+class BasicInfoListView(generics.ListCreateAPIView):
     queryset = models.BasicInfo.objects.all()
     serializer_class = serializers.BasicInfoSerializer
 
 
-class EducationListUser(generics.ListCreateAPIView):
+class EducationListView(generics.ListCreateAPIView):
     queryset = models.Education.objects.all()
     serializer_class = serializers.EducationSerializer
 
@@ -91,25 +81,41 @@ class EducationListUser(generics.ListCreateAPIView):
         return user.educations
 
 
-class GoalListUser(generics.ListCreateAPIView):
+class GoalListView(generics.ListCreateAPIView):
     queryset = models.Goal.objects.all()
     serializer_class = serializers.GoalSerializer
 
     def get_queryset(self):
+        params = self.request.GET
         user = self.request.user
-        return user.goals.all()
+        if params.get('all'):
+            queryset = super().get_queryset()
+        else:
+            queryset = user.goals
+        
+        if params.get('starts-with'):
+            return queryset.filter(body__istartswith=start_with)
+        return queryset
 
 
-class StudyInterestListUser(generics.ListCreateAPIView):
+class StudyInterestListView(generics.ListCreateAPIView):
     queryset = models.StudyInterest.objects.all()
     serializer_class = serializers.StudyInterestSerializer
 
     def get_queryset(self):
+        params = self.request.GET
         user = self.request.user
-        return user.study_interests.all()
+        if params.get('all'):
+            queryset = super().get_queryset()
+        else:
+            queryset = user.study_interests
+        
+        if params.get('starts-with'):
+            return queryset.filter(body__istartswith=start_with)
+        return queryset
 
 
-class ScholarshipListUser(generics.ListCreateAPIView):
+class ScholarshipListView(generics.ListCreateAPIView):
     queryset = models.Scholarship.objects.all()
     serializer_class = serializers.ScholarshipSerializer
 
@@ -118,7 +124,7 @@ class ScholarshipListUser(generics.ListCreateAPIView):
         return user.scholarships
 
 
-class SocialLinkListUser(generics.ListCreateAPIView):
+class SocialLinkListView(generics.ListCreateAPIView):
     queryset = models.SocialLink.objects.all()
     serializer_class = serializers.SocialLinkSerializer
 
@@ -127,7 +133,7 @@ class SocialLinkListUser(generics.ListCreateAPIView):
         return user.social_links
 
 
-class WorkExperienceListUser(generics.ListCreateAPIView):
+class WorkExperienceListView(generics.ListCreateAPIView):
     queryset = models.WorkExperience.objects.all()
     serializer_class = serializers.WorkExperienceSerializer
 
@@ -138,7 +144,7 @@ class WorkExperienceListUser(generics.ListCreateAPIView):
 
 # detail view (one to one)
 
-class AboutUser(generics.RetrieveUpdateDestroyAPIView):
+class AboutDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.About.objects.all()
     serializer_class = serializers.AboutSerializer
 
@@ -148,7 +154,7 @@ class AboutUser(generics.RetrieveUpdateDestroyAPIView):
         return get_object_or_404(queryset, user=user)
 
 
-class BasicInfoUser(generics.RetrieveUpdateDestroyAPIView):
+class BasicInfoDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.BasicInfo.objects.all()
     serializer_class = serializers.BasicInfoSerializer
 
@@ -158,7 +164,7 @@ class BasicInfoUser(generics.RetrieveUpdateDestroyAPIView):
         return get_object_or_404(queryset, user=user)
 
 
-class ProfileUser(generics.RetrieveUpdateDestroyAPIView):
+class ProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Profile.objects.all()
     serializer_class = serializers.ProfileSerializer
 
@@ -168,7 +174,7 @@ class ProfileUser(generics.RetrieveUpdateDestroyAPIView):
         return get_object_or_404(queryset, user=user)
 
 
-class ProfileImageUser(generics.RetrieveUpdateDestroyAPIView):
+class ProfileImageDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.ProfileImage.objects.all()
     serializer_class = serializers.ProfileImageSerializer
 
@@ -181,7 +187,7 @@ class ProfileImageUser(generics.RetrieveUpdateDestroyAPIView):
 # detail view (one to many)
 
 
-class EducationDetailUser(generics.RetrieveUpdateDestroyAPIView):
+class EducationDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Education.objects.all()
     serializer_class = serializers.EducationSerializer
 
@@ -192,7 +198,7 @@ class EducationDetailUser(generics.RetrieveUpdateDestroyAPIView):
         return get_object_or_404(queryset, user=user, id=obj_id)
 
 
-class GoalDetailUser(generics.RetrieveDestroyAPIView):
+class GoalDetailView(generics.RetrieveDestroyAPIView):
     queryset = models.Goal.objects.all()
     serializer_class = serializers.GoalSerializer
 
@@ -202,7 +208,7 @@ class GoalDetailUser(generics.RetrieveDestroyAPIView):
         user = self.request.user
         return get_object_or_404(queryset, user=user, id=obj_id)
 
-class StudyInterestDetailUser(generics.RetrieveDestroyAPIView):
+class StudyInterestDetailView(generics.RetrieveDestroyAPIView):
     queryset = models.StudyInterest.objects.all()
     serializer_class = serializers.StudyInterestSerializer
 
@@ -213,7 +219,7 @@ class StudyInterestDetailUser(generics.RetrieveDestroyAPIView):
         return get_object_or_404(queryset, user=user, id=obj_id)
 
 
-class ScholarshipDetailUser(generics.RetrieveUpdateDestroyAPIView):
+class ScholarshipDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Scholarship.objects.all()
     serializer_class = serializers.ScholarshipSerializer
 
@@ -224,7 +230,7 @@ class ScholarshipDetailUser(generics.RetrieveUpdateDestroyAPIView):
         return get_object_or_404(queryset, user=user, id=obj_id)
 
 
-class SocialLinkDetailUser(generics.RetrieveUpdateDestroyAPIView):
+class SocialLinkDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.SocialLink.objects.all()
     serializer_class = serializers.SocialLinkSerializer
 
@@ -235,7 +241,7 @@ class SocialLinkDetailUser(generics.RetrieveUpdateDestroyAPIView):
         return get_object_or_404(queryset, user=user, id=obj_id)
 
 
-class WorkDetailUser(generics.RetrieveUpdateDestroyAPIView):
+class WorkDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.WorkExperience.objects.all()
     serializer_class = serializers.WorkExperienceSerializer
 
@@ -248,7 +254,7 @@ class WorkDetailUser(generics.RetrieveUpdateDestroyAPIView):
 
 # create
 
-class Follow(APIView):
+class FollowView(APIView):
     queryset = models.Follow.objects.all()
     serializer_class = serializers.FollowCreateSerializer
 
@@ -267,7 +273,7 @@ class Follow(APIView):
 # destroy
 
 
-class Unfollow(generics.DestroyAPIView):
+class UnfollowView(generics.DestroyAPIView):
     queryset = models.Follow.objects.all()
     serializer_class = serializers.FollowSerializer
 

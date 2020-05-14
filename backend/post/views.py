@@ -109,6 +109,7 @@ class PostCommentDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 class PostLikeDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = PostLike.objects.all()
+    serializer_class = serializers.PostLikeSerializer
 
     def get_object(self, request, *args, **kwargs):
         queryset = self.get_queryset()
@@ -119,6 +120,7 @@ class PostLikeDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 class PostCommentLikeDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = PostCommentLike.objects.all()
+    serializer_class = serializers.PostCommentLikeSerializer
 
     def get_object(self, request, *args, **kwargs):
         queryset = self.get_queryset()
