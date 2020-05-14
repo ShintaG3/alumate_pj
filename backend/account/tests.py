@@ -445,7 +445,6 @@ class AboutDetailTestCase(TestCase):
         models.About.objects.create(user=self.user, body=body)
         update_body = 'About user: updated'
         update_data = {'user': self.user.id, 'body': update_body}
-        self.url = '{}?account={}'.format(self.url, self.user.id)
         response = self.client.put(self.url, data=update_data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get('body'), update_body)
@@ -455,7 +454,6 @@ class AboutDetailTestCase(TestCase):
         models.About.objects.create(user=self.user, body=body)
         update_body = 'About user: updated'
         update_data = {'body': update_body}
-        self.url = '{}?account={}'.format(self.url, self.user.id)
         response = self.client.put(self.url, data=update_data, partial=True)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get('body'), update_body)
@@ -464,13 +462,11 @@ class AboutDetailTestCase(TestCase):
         body = 'About user'
         models.About.objects.create(user=self.user, body=body)
         self.assertEqual(models.About.objects.count(), 1)
-        self.url = '{}?account={}'.format(self.url, self.user.id)
         response = self.client.delete(self.url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_api_cannot_delete_if_not_exists(self):
         self.assertEqual(models.About.objects.count(), 0)
-        self.url = '{}?account={}'.format(self.url, self.user.id)
         response = self.client.delete(self.url)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
@@ -504,7 +500,6 @@ class BasicInfoDetailTestCase(TestCase):
         update_name = 'name: updated'
         update_data = {'user': self.user.id, 'name': update_name, 'status': models.CurrentStatus.ALUMNI,
                        'country_origin': country.id, 'country_study_abroad': country.id}
-        self.url = '{}?account={}'.format(self.url, self.user.id)
         response = self.client.put(self.url, data=update_data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get('name'), update_name)
@@ -516,7 +511,6 @@ class BasicInfoDetailTestCase(TestCase):
             user=self.user, name=name, status=models.CurrentStatus.CURRENT_STUDENT, country_origin=country, country_study_abroad=country)
         update_name = 'name: updated'
         update_data = {'name': update_name}
-        self.url = '{}?account={}'.format(self.url, self.user.id)
         response = self.client.put(self.url, data=update_data, partial=True)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get('name'), update_name)
@@ -526,13 +520,11 @@ class BasicInfoDetailTestCase(TestCase):
         models.BasicInfo.objects.create(
             user=self.user, name='some name', status=models.CurrentStatus.CURRENT_STUDENT, country_origin=country, country_study_abroad=country)
         self.assertEqual(models.BasicInfo.objects.count(), 1)
-        self.url = '{}?account={}'.format(self.url, self.user.id)
         response = self.client.delete(self.url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_api_cannot_delete_if_not_exists(self):
         self.assertEqual(models.BasicInfo.objects.count(), 0)
-        self.url = '{}?account={}'.format(self.url, self.user.id)
         response = self.client.delete(self.url)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
@@ -562,7 +554,6 @@ class ProfileDetailTestCase(TestCase):
             user=self.user, gender=models.Gender.MALE, birthday='1990-01-01')
         update_data = {'user': self.user.id,
                        'gender': models.Gender.MALE, 'birthday': '1996-06-01'}
-        self.url = '{}?account={}'.format(self.url, self.user.id)
         response = self.client.put(self.url, data=update_data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get('gender'),
@@ -572,7 +563,6 @@ class ProfileDetailTestCase(TestCase):
         models.Profile.objects.create(
             user=self.user, gender=models.Gender.MALE, birthday='1990-01-01')
         update_data = {'birthday': '1996-06-01'}
-        self.url = '{}?account={}'.format(self.url, self.user.id)
         response = self.client.put(self.url, data=update_data, partial=True)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get('birthday'),
@@ -582,13 +572,11 @@ class ProfileDetailTestCase(TestCase):
         models.Profile.objects.create(
             user=self.user, gender=models.Gender.MALE, birthday='1990-01-01')
         self.assertEqual(models.Profile.objects.count(), 1)
-        self.url = '{}?account={}'.format(self.url, self.user.id)
         response = self.client.delete(self.url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_api_cannot_delete_if_not_exists(self):
         self.assertEqual(models.Profile.objects.count(), 0)
-        self.url = '{}?account={}'.format(self.url, self.user.id)
         response = self.client.delete(self.url)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
@@ -619,7 +607,6 @@ class ProfileImageTestCase(TestCase):
         models.ProfileImage.objects.create(
             user=self.user, image_path=self.image)
         update_data = {'user': self.user.id, 'image_path': self.updated_image}
-        self.url = '{}?account={}'.format(self.url, self.user.id)
         response = self.client.put(self.url, data=update_data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get('image_path'), self.updated_image)
@@ -628,7 +615,6 @@ class ProfileImageTestCase(TestCase):
         models.ProfileImage.objects.create(
             user=self.user, image_path=self.image)
         update_data = {'image_path': self.updated_image}
-        self.url = '{}?account={}'.format(self.url, self.user.id)
         response = self.client.put(self.url, data=update_data, partial=True)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get('image_path'), self.updated_image)
@@ -637,13 +623,11 @@ class ProfileImageTestCase(TestCase):
         models.ProfileImage.objects.create(
             user=self.user, image_path=self.image)
         self.assertEqual(models.ProfileImage.objects.count(), 1)
-        self.url = '{}?account={}'.format(self.url, self.user.id)
         response = self.client.delete(self.url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_api_cannot_delete_if_not_exists(self):
         self.assertEqual(models.ProfileImage.objects.count(), 0)
-        self.url = '{}?account={}'.format(self.url, self.user.id)
         response = self.client.delete(self.url)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
@@ -681,7 +665,6 @@ class EducationDetailTestCase(TestCase):
             'degree': models.DegreeStatus.BACHELOR,
             'is_study_abroad': True
         }
-        self.url = '{}?account={}'.format(self.url, self.user.id)
         response = self.client.put(self.url, data=update_data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get('school').get('id'), school.id)
@@ -691,18 +674,15 @@ class EducationDetailTestCase(TestCase):
         major = models.Major.objects.create(name='another major')
         # school and major need to be included for partial update
         update_data = {'school': school.id, 'major': major.id}
-        self.url = '{}?account={}'.format(self.url, self.user.id)
         response = self.client.put(self.url, data=update_data, partial=True)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get('school').get('id'), school.id)
 
     def test_api_can_delete_if_exists(self):
-        self.url = '{}?account={}'.format(self.url, self.user.id)
         response = self.client.delete(self.url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_api_cannot_delete_if_not_exists(self):
-        self.url = '{}?account={}'.format(self.url, self.user.id)
         response = self.client.delete(
             reverse('account:education', kwargs={'pk': 100}))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
@@ -736,25 +716,21 @@ class ScholarshipDetailTestCase(TestCase):
             'title': 'update title',
             'organization': 'update org'
         }
-        self.url = '{}?account={}'.format(self.url, self.user.id)
         response = self.client.put(self.url, data=update_data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get('title'), update_data['title'])
 
     def test_api_can_partial_update(self):
         update_data = {'title': 'update title', 'organization': 'update org'}
-        self.url = '{}?account={}'.format(self.url, self.user.id)
         response = self.client.put(self.url, data=update_data, partial=True)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get('title'), update_data['title'])
 
     def test_api_can_delete_if_exists(self):
-        self.url = '{}?account={}'.format(self.url, self.user.id)
         response = self.client.delete(self.url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_api_cannot_delete_if_not_exists(self):
-        self.url = '{}?account={}'.format(self.url, self.user.id)
         response = self.client.delete(
             reverse('account:scholarship', kwargs={'pk': 100}))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
@@ -788,25 +764,21 @@ class SocialLinkDetailTestCase(TestCase):
             'title': 'update title',
             'url': 'http://other.com'
         }
-        self.url = '{}?account={}'.format(self.url, self.user.id)
         response = self.client.put(self.url, data=update_data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get('title'), update_data['title'])
 
     def test_api_can_partial_update(self):
         update_data = {'title': 'update title', 'url': 'http://other.com'}
-        self.url = '{}?account={}'.format(self.url, self.user.id)
         response = self.client.put(self.url, data=update_data, partial=True)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get('title'), update_data['title'])
 
     def test_api_can_delete_if_exists(self):
-        self.url = '{}?account={}'.format(self.url, self.user.id)
         response = self.client.delete(self.url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_api_cannot_delete_if_not_exists(self):
-        self.url = '{}?account={}'.format(self.url, self.user.id)
         response = self.client.delete(
             reverse('account:social-link', kwargs={'pk': 100}))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
@@ -840,7 +812,6 @@ class EducationDetailTestCase(TestCase):
             'company': 'update company',
             'position': 'update position'
         }
-        self.url = '{}?account={}'.format(self.url, self.user.id)
         response = self.client.put(self.url, data=update_data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get('id'), self.work.id)
@@ -849,18 +820,15 @@ class EducationDetailTestCase(TestCase):
     def test_api_can_partial_update(self):
         update_data = {'company': 'update company',
                        'position': 'update position'}
-        self.url = '{}?account={}'.format(self.url, self.user.id)
         response = self.client.put(self.url, data=update_data, partial=True)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get('company'), update_data['company'])
 
     def test_api_can_delete_if_exists(self):
-        self.url = '{}?account={}'.format(self.url, self.user.id)
         response = self.client.delete(self.url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_api_cannot_delete_if_not_exists(self):
-        self.url = '{}?account={}'.format(self.url, self.user.id)
         response = self.client.delete(
             reverse('account:work', kwargs={'pk': 100}))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
@@ -888,18 +856,15 @@ class GoalDetailTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_api_cannot_update(self):
-        self.url = '{}?account={}'.format(self.url, self.user.id)
         response = self.client.put(self.url)
         self.assertEqual(response.status_code,
                          status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def test_api_can_delete_if_exists(self):
-        self.url = '{}?account={}'.format(self.url, self.user.id)
         response = self.client.delete(self.url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_api_cannot_delete_if_not_exists(self):
-        self.url = '{}?account={}'.format(self.url, self.user.id)
         response = self.client.delete(
             reverse('account:goal', kwargs={'pk': 100}))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
@@ -928,18 +893,15 @@ class StudyInterestDetailTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_api_cannot_update(self):
-        self.url = '{}?account={}'.format(self.url, self.user.id)
         response = self.client.put(self.url)
         self.assertEqual(response.status_code,
                          status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def test_api_can_delete_if_exists(self):
-        self.url = '{}?account={}'.format(self.url, self.user.id)
         response = self.client.delete(self.url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_api_cannot_delete_if_not_exists(self):
-        self.url = '{}?account={}'.format(self.url, self.user.id)
         response = self.client.delete(
             reverse('account:study-interest', kwargs={'pk': 100}))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)

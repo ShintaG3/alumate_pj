@@ -166,7 +166,10 @@ class AboutDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_object(self):
         queryset = self.get_queryset()
-        account = get_object_or_404(User, pk=self.request.GET.get('account'))
+        account_id = self.request.GET.get('account')
+        if not account_id:
+            account_id = self.request.user.id
+        account = get_object_or_404(User, pk=account_id)
         return get_object_or_404(queryset, user=account)
 
 
@@ -176,7 +179,10 @@ class BasicInfoDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_object(self):
         queryset = self.get_queryset()
-        account = get_object_or_404(User, pk=self.request.GET.get('account'))
+        account_id = self.request.GET.get('account')
+        if not account_id:
+            account_id = self.request.user.id
+        account = get_object_or_404(User, pk=account_id)
         return get_object_or_404(queryset, user=account)
 
 
@@ -186,7 +192,10 @@ class ProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_object(self):
         queryset = self.get_queryset()
-        account = get_object_or_404(User, pk=self.request.GET.get('account'))
+        account_id = self.request.GET.get('account')
+        if not account_id:
+            account_id = self.request.user.id
+        account = get_object_or_404(User, pk=account_id)
         return get_object_or_404(queryset, user=account)
 
 
@@ -196,7 +205,10 @@ class ProfileImageDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_object(self):
         queryset = self.get_queryset()
-        account = get_object_or_404(User, pk=self.request.GET.get('account'))
+        account_id = self.request.GET.get('account')
+        if not account_id:
+            account_id = self.request.user.id
+        account = get_object_or_404(User, pk=account_id)
         return get_object_or_404(queryset, user=account)
 
 
