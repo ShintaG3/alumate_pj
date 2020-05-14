@@ -30,7 +30,7 @@ urlpatterns = [
     path('profile-image/user', views.ProfileImageUser.as_view(), name='user-profile-image'),
     
     path('educations/user/<int:id>', views.EducationDetailUser.as_view(), name='user-education'),
-    path('scholarshps/user/<int:id>', views.ScholarshipDetailUser.as_view()),
+    path('scholarshps/user/<int:id>', views.ScholarshipDetailUser.as_view(), name='user-scholarship'),
     path('social-links/user/<int:id>', views.SocialLinkDetailUser.as_view()),
     path('works/user/<int:id>', views.WorkDetailUser.as_view()),
 

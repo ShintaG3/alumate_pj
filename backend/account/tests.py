@@ -751,6 +751,53 @@ class EducationDetailTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
 
+class ScholarshipDetailTestCase(TestCase):
+
+    def setUp(self):
+        self.client = get_auth_client()
+        self.user = User.objects.get(username='testuser')
+        self.scholarship = models.Scholarship.objects.create(
+            user=self.user, title='some title', organization='some org')
+        self.url = reverse('account:user-scholarship',
+                           kwargs={'id': self.scholarship.id})
+
+    def test_api_can_retrieve_if_exists(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data.get('id'), self.scholarship.id)
+
+    def test_api_cannot_retrieve_if_not_exists(self):
+        response = self.client.get(
+            reverse('account:user-scholarship', kwargs={'id': 100}))
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_api_can_update(self):
+        update_data = {
+            'user': self.user.id,
+            'title': 'update title',
+            'organization': 'update org'
+        }
+        response = self.client.put(self.url, data=update_data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data.get('title'), update_data['title'])
+
+    def test_api_can_partial_update(self):
+        update_data = {'title': 'update title', 'organization': 'update org'}
+        response = self.client.put(self.url, data=update_data, partial=True)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data.get('title'), update_data['title'])
+
+    def test_api_can_delete_if_exists(self):
+        response = self.client.delete(self.url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_api_cannot_delete_if_not_exists(self):
+        response = self.client.delete(
+            reverse('account:user-scholarship', kwargs={'id': 100}))
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+
+
 class GoalDetailTestCase(TestCase):
 
     def setUp(self):
@@ -772,7 +819,8 @@ class GoalDetailTestCase(TestCase):
 
     def test_api_cannot_update(self):
         response = self.client.put(self.url)
-        self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+        self.assertEqual(response.status_code,
+                         status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def test_api_can_delete_if_exists(self):
         response = self.client.delete(self.url)
@@ -803,10 +851,11 @@ class StudyInterestDetailTestCase(TestCase):
         response = self.client.get(
             reverse('account:user-study-interest', kwargs={'id': 100}))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
-    
+
     def test_api_cannot_update(self):
         response = self.client.put(self.url)
-        self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+        self.assertEqual(response.status_code,
+                         status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def test_api_can_delete_if_exists(self):
         response = self.client.delete(self.url)
