@@ -707,7 +707,7 @@ class EducationDetailTestCase(TestCase):
         self.education = models.Education.objects.create(
             user=self.user, school=school, major=major, degree=models.DegreeStatus.BACHELOR, is_study_abroad=True)
         self.url = reverse('account:user-education',
-                           kwargs={'id': self.education.id})
+                           kwargs={'pk': self.education.id})
 
     def test_api_can_retrieve_if_exists(self):
         response = self.client.get(self.url)
@@ -716,7 +716,7 @@ class EducationDetailTestCase(TestCase):
 
     def test_api_cannot_retrieve_if_not_exists(self):
         response = self.client.get(
-            reverse('account:user-education', kwargs={'id': 100}))
+            reverse('account:user-education', kwargs={'pk': 100}))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_api_can_update(self):
@@ -747,7 +747,7 @@ class EducationDetailTestCase(TestCase):
 
     def test_api_cannot_delete_if_not_exists(self):
         response = self.client.delete(
-            reverse('account:user-education', kwargs={'id': 100}))
+            reverse('account:user-education', kwargs={'pk': 100}))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
 
@@ -759,7 +759,7 @@ class ScholarshipDetailTestCase(TestCase):
         self.scholarship = models.Scholarship.objects.create(
             user=self.user, title='some title', organization='some org')
         self.url = reverse('account:user-scholarship',
-                           kwargs={'id': self.scholarship.id})
+                           kwargs={'pk': self.scholarship.id})
 
     def test_api_can_retrieve_if_exists(self):
         response = self.client.get(self.url)
@@ -768,7 +768,7 @@ class ScholarshipDetailTestCase(TestCase):
 
     def test_api_cannot_retrieve_if_not_exists(self):
         response = self.client.get(
-            reverse('account:user-scholarship', kwargs={'id': 100}))
+            reverse('account:user-scholarship', kwargs={'pk': 100}))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_api_can_update(self):
@@ -793,7 +793,7 @@ class ScholarshipDetailTestCase(TestCase):
 
     def test_api_cannot_delete_if_not_exists(self):
         response = self.client.delete(
-            reverse('account:user-scholarship', kwargs={'id': 100}))
+            reverse('account:user-scholarship', kwargs={'pk': 100}))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
 
@@ -805,7 +805,7 @@ class SocialLinkDetailTestCase(TestCase):
         self.social_link = models.SocialLink.objects.create(
             user=self.user, title='some title', url='http://something.com')
         self.url = reverse('account:user-social-link',
-                           kwargs={'id': self.social_link.id})
+                           kwargs={'pk': self.social_link.id})
 
     def test_api_can_retrieve_if_exists(self):
         response = self.client.get(self.url)
@@ -814,7 +814,7 @@ class SocialLinkDetailTestCase(TestCase):
 
     def test_api_cannot_retrieve_if_not_exists(self):
         response = self.client.get(
-            reverse('account:user-social-link', kwargs={'id': 100}))
+            reverse('account:user-social-link', kwargs={'pk': 100}))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_api_can_update(self):
@@ -839,7 +839,7 @@ class SocialLinkDetailTestCase(TestCase):
 
     def test_api_cannot_delete_if_not_exists(self):
         response = self.client.delete(
-            reverse('account:user-social-link', kwargs={'id': 100}))
+            reverse('account:user-social-link', kwargs={'pk': 100}))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
 
@@ -851,7 +851,7 @@ class EducationDetailTestCase(TestCase):
         self.work = models.WorkExperience.objects.create(
             user=self.user, company='some company', position='some position')
         self.url = reverse('account:user-work',
-                           kwargs={'id': self.work.id})
+                           kwargs={'pk': self.work.id})
 
     def test_api_can_retrieve_if_exists(self):
         response = self.client.get(self.url)
@@ -860,7 +860,7 @@ class EducationDetailTestCase(TestCase):
 
     def test_api_cannot_retrieve_if_not_exists(self):
         response = self.client.get(
-            reverse('account:user-work', kwargs={'id': 100}))
+            reverse('account:user-work', kwargs={'pk': 100}))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_api_can_update(self):
@@ -874,9 +874,9 @@ class EducationDetailTestCase(TestCase):
         self.assertEqual(response.data.get('id'), self.work.id)
         self.assertEqual(response.data.get('company'), update_data['company'])
 
-
     def test_api_can_partial_update(self):
-        update_data = {'company': 'update company', 'position': 'update position'}
+        update_data = {'company': 'update company',
+                       'position': 'update position'}
         response = self.client.put(self.url, data=update_data, partial=True)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get('company'), update_data['company'])
@@ -887,7 +887,7 @@ class EducationDetailTestCase(TestCase):
 
     def test_api_cannot_delete_if_not_exists(self):
         response = self.client.delete(
-            reverse('account:user-work', kwargs={'id': 100}))
+            reverse('account:user-work', kwargs={'pk': 100}))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
 
@@ -898,7 +898,7 @@ class GoalDetailTestCase(TestCase):
         self.user = User.objects.get(username='testuser')
         self.goal = models.Goal.objects.create(
             user=self.user, body='some goal')
-        self.url = reverse('account:user-goal', kwargs={'id': self.goal.id})
+        self.url = reverse('account:user-goal', kwargs={'pk': self.goal.id})
 
     def test_api_can_retrieve_if_exists(self):
         response = self.client.get(self.url)
@@ -907,7 +907,7 @@ class GoalDetailTestCase(TestCase):
 
     def test_api_cannot_retrieve_if_not_exists(self):
         response = self.client.get(
-            reverse('account:user-goal', kwargs={'id': 100}))
+            reverse('account:user-goal', kwargs={'pk': 100}))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_api_cannot_update(self):
@@ -921,7 +921,7 @@ class GoalDetailTestCase(TestCase):
 
     def test_api_cannot_delete_if_not_exists(self):
         response = self.client.delete(
-            reverse('account:user-goal', kwargs={'id': 100}))
+            reverse('account:user-goal', kwargs={'pk': 100}))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
 
@@ -933,7 +933,7 @@ class StudyInterestDetailTestCase(TestCase):
         self.study_interest = models.StudyInterest.objects.create(
             user=self.user, body='some study interest')
         self.url = reverse('account:user-study-interest',
-                           kwargs={'id': self.study_interest.id})
+                           kwargs={'pk': self.study_interest.id})
 
     def test_api_can_retrieve_if_exists(self):
         response = self.client.get(self.url)
@@ -942,7 +942,7 @@ class StudyInterestDetailTestCase(TestCase):
 
     def test_api_cannot_retrieve_if_not_exists(self):
         response = self.client.get(
-            reverse('account:user-study-interest', kwargs={'id': 100}))
+            reverse('account:user-study-interest', kwargs={'pk': 100}))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_api_cannot_update(self):
@@ -956,5 +956,44 @@ class StudyInterestDetailTestCase(TestCase):
 
     def test_api_cannot_delete_if_not_exists(self):
         response = self.client.delete(
-            reverse('account:user-study-interest', kwargs={'id': 100}))
+            reverse('account:user-study-interest', kwargs={'pk': 100}))
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+
+class FollowTestCase(TestCase):
+
+    def setUp(self):
+        self.client = get_auth_client()
+        another_user = User.objects.create(
+            username='anotheruser', password='anotherpass')
+        self.user = User.objects.get(username='testuser')
+        self.url = reverse('account:follow', kwargs={'pk': another_user.id})
+
+    def test_api_create_follow(self):
+        self.assertEqual(models.Follow.objects.count(), 0)
+        response = self.client.post(self.url)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(models.Follow.objects.count(), 1)
+
+
+class UnfollowTestCase(TestCase):
+
+    def setUp(self):
+        self.client = get_auth_client()
+        self.user = User.objects.get(username='testuser')
+        another_user = User.objects.create(
+            username='anotheruser', password='anotherpass')
+        follow = models.Follow.objects.create(
+            follower=self.user, followed=another_user)
+        self.url = reverse('account:unfollow', kwargs={'pk': another_user.id})
+
+    def test_api_can_delete_if_exists(self):
+        self.assertEqual(models.Follow.objects.count(), 1)
+        response = self.client.delete(self.url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(models.Follow.objects.count(), 0)
+
+    def test_api_cannot_delete_if_not_exists(self):
+        response = self.client.delete(
+            reverse('account:unfollow', kwargs={'pk': 100}))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)

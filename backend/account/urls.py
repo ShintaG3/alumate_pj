@@ -29,20 +29,20 @@ urlpatterns = [
     path('profile/user', views.ProfileUser.as_view(), name='user-profile'),
     path('profile-image/user', views.ProfileImageUser.as_view(), name='user-profile-image'),
     
-    path('educations/user/<int:id>', views.EducationDetailUser.as_view(), name='user-education'),
-    path('scholarshps/user/<int:id>', views.ScholarshipDetailUser.as_view(), name='user-scholarship'),
-    path('social-links/user/<int:id>', views.SocialLinkDetailUser.as_view(), name='user-social-link'),
-    path('works/user/<int:id>', views.WorkDetailUser.as_view(), name='user-work'),
+    path('educations/user/<int:pk>', views.EducationDetailUser.as_view(), name='user-education'),
+    path('scholarshps/user/<int:pk>', views.ScholarshipDetailUser.as_view(), name='user-scholarship'),
+    path('social-links/user/<int:pk>', views.SocialLinkDetailUser.as_view(), name='user-social-link'),
+    path('works/user/<int:pk>', views.WorkDetailUser.as_view(), name='user-work'),
 
     # retrieve / destroy
-    path('goals/user/<int:id>', views.GoalDetailUser.as_view(), name='user-goal'),
-    path('study-interests/user/<int:id>', views.StudyInterestDetailUser.as_view(), name='user-study-interest'),
+    path('goals/user/<int:pk>', views.GoalDetailUser.as_view(), name='user-goal'),
+    path('study-interests/user/<int:pk>', views.StudyInterestDetailUser.as_view(), name='user-study-interest'),
 
     # create
-    path('follow/<int:id>', views.Follow.as_view()),
+    path('follow/<int:pk>', views.Follow.as_view(), name='follow'),
     
     # delete
-    path('unfollow/<int:id>', views.Unfollow.as_view()),
+    path('unfollow/<int:pk>', views.Unfollow.as_view(), name='unfollow'),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

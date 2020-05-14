@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from . import models
+from django.contrib.auth.models import User
 
 
 class AboutSerializer(serializers.ModelSerializer):
@@ -25,6 +26,7 @@ class BasicInfoSerializer(serializers.ModelSerializer):
         self.fields['country_origin'] = CountrySerializer()
         self.fields['country_study_abroad'] = CountrySerializer()
         return super(BasicInfoSerializer, self).to_representation(instance)
+
 
 class MajorSerializer(serializers.ModelSerializer):
     class Meta:
@@ -109,14 +111,21 @@ class SocialLinkSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+
 class FollowSerializer(serializers.ModelSerializer):
-    user = serializers.HiddenField(
+    class Meta:
+        model = models.Follow
+        fields = '__all__'
+
+
+class FollowCreateSerializer(serializers.ModelSerializer):
+    following = serializers.HiddenField(
         default=serializers.CurrentUserDefault()
     )
 
     class Meta:
         model = models.Follow
-        fields = '__all__'
+        exclude = ['followed']
 
 
 class ProfileSerializer(serializers.ModelSerializer):

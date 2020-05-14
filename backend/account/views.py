@@ -1,9 +1,12 @@
-from rest_framework import generics
-from . import models, serializers
+from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
+from rest_framework import generics, status
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from . import models, serializers
+
 
 # list view
-
 
 class CountryList(generics.ListAPIView):
     queryset = models.Country.objects.all()
@@ -70,9 +73,6 @@ class FollowedListUser(generics.ListAPIView):
     def get_queryset(self):
         user = self.request.user
         return user.followed_users
-
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
 
 
 # list create view
@@ -187,7 +187,7 @@ class EducationDetailUser(generics.RetrieveUpdateDestroyAPIView):
 
     def get_object(self):
         queryset = self.get_queryset()
-        obj_id = self.kwargs.pop('id')
+        obj_id = self.kwargs.pop('pk')
         user = self.request.user
         return get_object_or_404(queryset, user=user, id=obj_id)
 
@@ -198,7 +198,7 @@ class GoalDetailUser(generics.RetrieveDestroyAPIView):
 
     def get_object(self):
         queryset = self.get_queryset()
-        obj_id = self.kwargs.pop('id')
+        obj_id = self.kwargs.pop('pk')
         user = self.request.user
         return get_object_or_404(queryset, user=user, id=obj_id)
 
@@ -208,7 +208,7 @@ class StudyInterestDetailUser(generics.RetrieveDestroyAPIView):
 
     def get_object(self):
         queryset = self.get_queryset()
-        obj_id = self.kwargs.pop('id')
+        obj_id = self.kwargs.pop('pk')
         user = self.request.user
         return get_object_or_404(queryset, user=user, id=obj_id)
 
@@ -219,7 +219,7 @@ class ScholarshipDetailUser(generics.RetrieveUpdateDestroyAPIView):
 
     def get_object(self):
         queryset = self.get_queryset()
-        obj_id = self.kwargs.pop('id')
+        obj_id = self.kwargs.pop('pk')
         user = self.request.user
         return get_object_or_404(queryset, user=user, id=obj_id)
 
@@ -230,7 +230,7 @@ class SocialLinkDetailUser(generics.RetrieveUpdateDestroyAPIView):
 
     def get_object(self):
         queryset = self.get_queryset()
-        obj_id = self.kwargs.pop('id')
+        obj_id = self.kwargs.pop('pk')
         user = self.request.user
         return get_object_or_404(queryset, user=user, id=obj_id)
 
@@ -241,21 +241,28 @@ class WorkDetailUser(generics.RetrieveUpdateDestroyAPIView):
 
     def get_object(self):
         queryset = self.get_queryset()
-        obj_id = self.kwargs.pop('id')
+        obj_id = self.kwargs.pop('pk')
         user = self.request.user
         return get_object_or_404(queryset, user=user, id=obj_id)
 
 
 # create
 
-class Follow(generics.CreateAPIView):
+class Follow(APIView):
     queryset = models.Follow.objects.all()
-    serializer_class = serializers.FollowSerializer
+    serializer_class = serializers.FollowCreateSerializer
 
-    def perform_create(self, serializer):
-        user = self.request.user
-        followed = self.kwargs.pop('id')
-        serializer.save(following=user, followed=followed)
+    def post(self, request, pk=None):
+        user = request.user
+        follow_user = get_object_or_404(User, pk=pk)
+        try:
+            follow = models.Follow.objects.get(follower=user, followed=follow_user)
+            serializer = self.serializer_class(post_like)
+            return Response(serializer.data, status=status.HTTP_303_SEE_OTHER)
+        except models.Follow.DoesNotExist: # normal case
+            follow = models.Follow.objects.create(follower=user, followed=follow_user)
+            serializer = self.serializer_class(follow)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 # destroy
 
@@ -266,6 +273,6 @@ class Unfollow(generics.DestroyAPIView):
 
     def get_object(self):
         queryset = self.get_queryset()
-        following_id =self.kwargs.pop('id')
+        following_id =self.kwargs.pop('pk')
         user = self.request.user
         return get_object_or_404(queryset, follower=user, followed=following_id)
