@@ -225,6 +225,8 @@ class UserFollowedTestCase(TestCase):
                 self.assertEqual(item[1], self.user.id)
 
 
+# list / create
+
 class BasicInfoTestCase(TestCase):
 
     def setUp(self):
@@ -489,4 +491,53 @@ class WorkExperienceTestCase(TestCase):
         self.assertEqual(models.WorkExperience.objects.count(), 2)
 
 
-# 
+# retrieve / update / delete
+
+class AboutDetailTestCase(TestCase):
+    def setUp(self):
+        self.client = get_auth_client()
+        self.url = reverse('account:user-about')
+        self.user = User.objects.get(username='testuser')
+
+    def test_api_can_retrieve_if_exists(self):
+        body = 'About user'
+        models.About.objects.create(user=self.user, body=body)
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data.get('body'), body)
+
+    def test_api_cannot_retrieve_if_not_exists(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_api_can_update(self):
+        body = 'About user: not updated'
+        models.About.objects.create(user=self.user, body=body)
+        update_body = 'About user: updated'
+        update_data = {'user': self.user.id, 'body': update_body}
+        response = self.client.put(self.url, data=update_data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data.get('body'), update_body)
+
+    def test_api_can_partial_update(self):
+        body = 'About user: not updated'
+        models.About.objects.create(user=self.user, body=body)
+        update_body = 'About user: updated'
+        update_data = {'body': update_body}
+        response = self.client.put(self.url, data=update_data, partial=True)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data.get('body'), update_body)
+
+    def test_api_can_delete_if_exists(self):
+        body = 'About user'
+        models.About.objects.create(user=self.user, body=body)
+        self.assertEqual(models.About.objects.count(), 1)
+        response = self.client.delete(self.url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_api_cannot_delete_if_not_exists(self):
+        self.assertEqual(models.About.objects.count(), 0)
+        response = self.client.delete(self.url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+

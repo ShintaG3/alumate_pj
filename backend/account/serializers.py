@@ -2,7 +2,7 @@ from rest_framework import serializers
 from . import models
 
 
-class AboutSerializer():
+class AboutSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(
         default=serializers.CurrentUserDefault()
     )
@@ -83,7 +83,7 @@ class WorkExperienceSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(
         default=serializers.CurrentUserDefault()
     )
-    
+
     class Meta:
         model = models.WorkExperience
         fields = '__all__'
