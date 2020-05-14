@@ -187,7 +187,7 @@ class EducationDetailUser(generics.RetrieveUpdateDestroyAPIView):
 
     def get_object(self):
         queryset = self.get_queryset()
-        obj_id = self.request.kwargs['id']
+        obj_id = self.kwargs.pop('id')
         user = self.request.user
         return get_object_or_404(queryset, user=user, id=obj_id)
 

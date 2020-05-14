@@ -567,7 +567,8 @@ class BasicInfoDetailTestCase(TestCase):
         models.BasicInfo.objects.create(
             user=self.user, name=name, status=models.CurrentStatus.CURRENT_STUDENT, country_origin=country, country_study_abroad=country)
         update_name = 'name: updated'
-        update_data = {'user': self.user.id, 'name': update_name, 'status': models.CurrentStatus.ALUMNI, 'country_origin': country.id, 'country_study_abroad': country.id}
+        update_data = {'user': self.user.id, 'name': update_name, 'status': models.CurrentStatus.ALUMNI,
+                       'country_origin': country.id, 'country_study_abroad': country.id}
         response = self.client.put(self.url, data=update_data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get('name'), update_name)
@@ -605,7 +606,8 @@ class ProfileDetailTestCase(TestCase):
 
     def test_api_can_retrieve_if_exists(self):
         gender = models.Gender.MALE
-        models.Profile.objects.create(user=self.user, gender=gender, birthday='1990-01-01')
+        models.Profile.objects.create(
+            user=self.user, gender=gender, birthday='1990-01-01')
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get('gender'), gender)
@@ -615,21 +617,27 @@ class ProfileDetailTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_api_can_update(self):
-        models.Profile.objects.create(user=self.user, gender=models.Gender.MALE, birthday='1990-01-01')
-        update_data = {'user': self.user.id, 'gender': models.Gender.MALE, 'birthday': '1996-06-01'}
+        models.Profile.objects.create(
+            user=self.user, gender=models.Gender.MALE, birthday='1990-01-01')
+        update_data = {'user': self.user.id,
+                       'gender': models.Gender.MALE, 'birthday': '1996-06-01'}
         response = self.client.put(self.url, data=update_data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data.get('gender'), update_data.get('gender'))
+        self.assertEqual(response.data.get('gender'),
+                         update_data.get('gender'))
 
     def test_api_can_partial_update(self):
-        models.Profile.objects.create(user=self.user, gender=models.Gender.MALE, birthday='1990-01-01')
+        models.Profile.objects.create(
+            user=self.user, gender=models.Gender.MALE, birthday='1990-01-01')
         update_data = {'birthday': '1996-06-01'}
         response = self.client.put(self.url, data=update_data, partial=True)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data.get('birthday'), update_data.get('birthday'))
+        self.assertEqual(response.data.get('birthday'),
+                         update_data.get('birthday'))
 
     def test_api_can_delete_if_exists(self):
-        models.Profile.objects.create(user=self.user, gender=models.Gender.MALE, birthday='1990-01-01')
+        models.Profile.objects.create(
+            user=self.user, gender=models.Gender.MALE, birthday='1990-01-01')
         self.assertEqual(models.Profile.objects.count(), 1)
         response = self.client.delete(self.url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
@@ -641,6 +649,7 @@ class ProfileDetailTestCase(TestCase):
 
 
 class ProfileImageTestCase(TestCase):
+
     def setUp(self):
         self.client = get_auth_client()
         self.url = reverse('account:user-profile-image')
@@ -649,7 +658,8 @@ class ProfileImageTestCase(TestCase):
         self.updated_image = tempfile.NamedTemporaryFile(suffix=".jpg").name
 
     def test_api_can_retrieve_if_exists(self):
-        models.ProfileImage.objects.create(user=self.user, image_path=self.image)
+        models.ProfileImage.objects.create(
+            user=self.user, image_path=self.image)
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get('image_path'), self.image)
@@ -659,21 +669,24 @@ class ProfileImageTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_api_can_update(self):
-        models.ProfileImage.objects.create(user=self.user, image_path=self.image)
-        update_data = {'user': self.user.id, 'image_path': self.updated_image }
+        models.ProfileImage.objects.create(
+            user=self.user, image_path=self.image)
+        update_data = {'user': self.user.id, 'image_path': self.updated_image}
         response = self.client.put(self.url, data=update_data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get('image_path'), self.updated_image)
 
     def test_api_can_partial_update(self):
-        models.ProfileImage.objects.create(user=self.user, image_path=self.image)
-        update_data = {'image_path': self.updated_image }
+        models.ProfileImage.objects.create(
+            user=self.user, image_path=self.image)
+        update_data = {'image_path': self.updated_image}
         response = self.client.put(self.url, data=update_data, partial=True)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get('image_path'), self.updated_image)
 
     def test_api_can_delete_if_exists(self):
-        models.ProfileImage.objects.create(user=self.user, image_path=self.image)
+        models.ProfileImage.objects.create(
+            user=self.user, image_path=self.image)
         self.assertEqual(models.ProfileImage.objects.count(), 1)
         response = self.client.delete(self.url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
@@ -681,4 +694,55 @@ class ProfileImageTestCase(TestCase):
     def test_api_cannot_delete_if_not_exists(self):
         self.assertEqual(models.ProfileImage.objects.count(), 0)
         response = self.client.delete(self.url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+
+class EducationDetailTestCase(TestCase):
+
+    def setUp(self):
+        self.client = get_auth_client()
+        self.user = User.objects.get(username='testuser')
+        school = models.School.objects.create(name='some university')
+        major = models.Major.objects.create(name='some major')
+        self.education = models.Education.objects.create(
+            user=self.user, school=school, major=major, degree=models.DegreeStatus.BACHELOR, is_study_abroad=True)
+        self.url = reverse('account:user-education', kwargs={ 'id': self.education.id })
+
+    def test_api_can_retrieve_if_exists(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data.get('id'), self.education.id)
+
+    def test_api_cannot_retrieve_if_not_exists(self):
+        response = self.client.get(reverse('account:user-education', kwargs={ 'id': 100 }))
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_api_can_update(self):
+        school = models.School.objects.create(name='another school')
+        update_data = {
+            'user': self.user.id,
+            'school': school.id,
+            'major': models.Major.objects.create(name='another major').id,
+            'degree': models.DegreeStatus.BACHELOR,
+            'is_study_abroad': True
+        }
+        response = self.client.put(self.url, data=update_data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data.get('school').get('id'), school.id)
+
+    def test_api_can_partial_update(self):
+        school = models.School.objects.create(name='another school')
+        major = models.Major.objects.create(name='another major')
+        # school and major need to be included for partial update
+        update_data = {'school': school.id, 'major': major.id }
+        response = self.client.put(self.url, data=update_data, partial=True)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data.get('school').get('id'), school.id)
+
+    def test_api_can_delete_if_exists(self):
+        response = self.client.delete(self.url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_api_cannot_delete_if_not_exists(self):
+        response = self.client.delete(reverse('account:user-education', kwargs={ 'id': 100 }))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
