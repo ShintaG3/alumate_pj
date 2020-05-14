@@ -1,19 +1,9 @@
 from django.test import TestCase
 from rest_framework import status
-from rest_framework.test import APIClient, force_authenticate
 from . import models, views
 from django.urls import reverse
 from django.contrib.auth.models import User
-
-
-def get_auth_client():
-    user_data = {"username": "testuser", "password": "fortesting"}
-    client = APIClient()
-    user_response = client.post('/api/auth/users/', user_data)
-    jwt_response = client.post('/api/auth/jwt/create/', user_data)
-    client.credentials(HTTP_AUTHORIZATION='Bearer ' +
-                       jwt_response.data['access'])
-    return client
+from alumate_api.test import get_auth_client
 
 
 class PostCreateTestCase(TestCase):
