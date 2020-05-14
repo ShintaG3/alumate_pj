@@ -30,10 +30,13 @@ urlpatterns = [
     path('profile-image/user', views.ProfileImageUser.as_view(), name='user-profile-image'),
     
     path('educations/user/<int:id>', views.EducationDetailUser.as_view(), name='user-education'),
-    path('goals/user/<int:id>', views.GoalDetailUser.as_view()),
     path('scholarshps/user/<int:id>', views.ScholarshipDetailUser.as_view()),
     path('social-links/user/<int:id>', views.SocialLinkDetailUser.as_view()),
     path('works/user/<int:id>', views.WorkDetailUser.as_view()),
+
+    # retrieve / destroy
+    path('goals/user/<int:id>', views.GoalDetailUser.as_view(), name='user-goal'),
+    path('study-interests/user/<int:id>', views.StudyInterestDetailUser.as_view(), name='user-study-interest'),
 
     # create
     path('follow/<int:id>', views.Follow.as_view()),

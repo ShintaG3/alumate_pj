@@ -192,13 +192,23 @@ class EducationDetailUser(generics.RetrieveUpdateDestroyAPIView):
         return get_object_or_404(queryset, user=user, id=obj_id)
 
 
-class GoalDetailUser(generics.RetrieveUpdateDestroyAPIView):
-    queryset = models.Education.objects.all()
-    serializer_class = serializers.EducationSerializer
+class GoalDetailUser(generics.RetrieveDestroyAPIView):
+    queryset = models.Goal.objects.all()
+    serializer_class = serializers.GoalSerializer
 
     def get_object(self):
         queryset = self.get_queryset()
-        obj_id = self.request.kwargs['id']
+        obj_id = self.kwargs.pop('id')
+        user = self.request.user
+        return get_object_or_404(queryset, user=user, id=obj_id)
+
+class StudyInterestDetailUser(generics.RetrieveDestroyAPIView):
+    queryset = models.StudyInterest.objects.all()
+    serializer_class = serializers.StudyInterestSerializer
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj_id = self.kwargs.pop('id')
         user = self.request.user
         return get_object_or_404(queryset, user=user, id=obj_id)
 
@@ -209,7 +219,7 @@ class ScholarshipDetailUser(generics.RetrieveUpdateDestroyAPIView):
 
     def get_object(self):
         queryset = self.get_queryset()
-        obj_id = self.request.kwargs['id']
+        obj_id = self.kwargs.pop('id')
         user = self.request.user
         return get_object_or_404(queryset, user=user, id=obj_id)
 
@@ -220,7 +230,7 @@ class SocialLinkDetailUser(generics.RetrieveUpdateDestroyAPIView):
 
     def get_object(self):
         queryset = self.get_queryset()
-        obj_id = self.request.kwargs['id']
+        obj_id = self.kwargs.pop('id')
         user = self.request.user
         return get_object_or_404(queryset, user=user, id=obj_id)
 
@@ -231,7 +241,7 @@ class WorkDetailUser(generics.RetrieveUpdateDestroyAPIView):
 
     def get_object(self):
         queryset = self.get_queryset()
-        obj_id = self.request.kwargs['id']
+        obj_id = self.kwargs.pop('id')
         user = self.request.user
         return get_object_or_404(queryset, user=user, id=obj_id)
 
@@ -244,7 +254,7 @@ class Follow(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         user = self.request.user
-        followed = self.kwargs['id']
+        followed = self.kwargs.pop('id')
         serializer.save(following=user, followed=followed)
 
 # destroy
@@ -256,6 +266,6 @@ class Unfollow(generics.DestroyAPIView):
 
     def get_object(self):
         queryset = self.get_queryset()
-        following_id = self.kwargs['id']
+        following_id =self.kwargs.pop('id')
         user = self.request.user
         return get_object_or_404(queryset, follower=user, followed=following_id)
