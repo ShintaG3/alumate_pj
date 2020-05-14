@@ -2,7 +2,7 @@ from rest_framework import serializers
 from . import models
 
 
-class AboutSerializer(serializers.ModelSerializer):
+class AboutSerializer():
     class Meta:
         model = models.About
         fields = '__all__'
@@ -54,7 +54,7 @@ class StudyInterestSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(
         default=serializers.CurrentUserDefault()
     )
-    
+
     class Meta:
         model = models.StudyInterest
         fields = '__all__'
@@ -82,6 +82,10 @@ class WorkExperienceSerializer(serializers.ModelSerializer):
 
 
 class ScholarshipSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(
+        default=serializers.CurrentUserDefault()
+    )
+    
     class Meta:
         model = models.Scholarship
         fields = '__all__'

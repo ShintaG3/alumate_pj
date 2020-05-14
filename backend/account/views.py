@@ -90,9 +90,6 @@ class EducationListUser(generics.ListCreateAPIView):
         user = self.request.user
         return user.educations
 
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
 
 class GoalListUser(generics.ListCreateAPIView):
     queryset = models.Goal.objects.all()
@@ -101,9 +98,6 @@ class GoalListUser(generics.ListCreateAPIView):
     def get_queryset(self):
         user = self.request.user
         return user.goals.all()
-
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
 
 
 class StudyInterestListUser(generics.ListCreateAPIView):
@@ -114,20 +108,14 @@ class StudyInterestListUser(generics.ListCreateAPIView):
         user = self.request.user
         return user.study_interests.all()
 
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
 
 class ScholarshipListUser(generics.ListCreateAPIView):
-    queryset = models.WorkExperience.objects.all()
+    queryset = models.Scholarship.objects.all()
     serializer_class = serializers.ScholarshipSerializer
 
     def get_queryset(self):
         user = self.request.user
-        return user.works
-
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        return user.scholarships
 
 
 class SocialLinkListUser(generics.ListCreateAPIView):

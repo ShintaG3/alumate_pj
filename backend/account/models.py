@@ -147,7 +147,7 @@ class WorkExperience(History):
         return self.user.__str__() + ' worked at ' + self.company + ' as ' + self.position 
     
 class Scholarship(History):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='scholarships')
     organization = models.CharField(max_length=100)
     title = models.CharField(max_length=100)
 

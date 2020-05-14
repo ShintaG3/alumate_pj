@@ -394,3 +394,41 @@ class StudyInterestTestCase(TestCase):
         response = self.client.post(self.url, self.data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(models.StudyInterest.objects.count(), 2)
+
+
+class ScholarshipTestCase(TestCase):
+    def setUp(self):
+        self.client = get_auth_client()
+        self.url = reverse('account:user-scholarships')
+        self.user = User.objects.get(username='testuser')
+
+        scholarship = models.Scholarship.objects.create(
+            user=self.user, organization='Some organization', title='Some Title')
+
+        self.data = {
+            'organization': 'Another organization',
+            'title': 'Another Title'
+        }
+
+    def test_api_get_user_scholarships_cannot_get_other_users(self):
+        self.assertEqual(models.Scholarship.objects.count(), 1)
+        models.Scholarship.objects.create(
+            user=User.objects.create(
+                username='another_user', password='foranotheruser'),
+            organization='Some organization',
+            title='Some Title'
+        )
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+
+    def test_api_get_user_scholarships(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+
+    def test_api_create_user_scholarship(self):
+        self.assertEqual(models.Scholarship.objects.count(), 1)
+        response = self.client.post(self.url, self.data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(models.Scholarship.objects.count(), 2)
