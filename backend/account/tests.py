@@ -843,6 +843,54 @@ class SocialLinkDetailTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
 
+class EducationDetailTestCase(TestCase):
+
+    def setUp(self):
+        self.client = get_auth_client()
+        self.user = User.objects.get(username='testuser')
+        self.work = models.WorkExperience.objects.create(
+            user=self.user, company='some company', position='some position')
+        self.url = reverse('account:user-work',
+                           kwargs={'id': self.work.id})
+
+    def test_api_can_retrieve_if_exists(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data.get('id'), self.work.id)
+
+    def test_api_cannot_retrieve_if_not_exists(self):
+        response = self.client.get(
+            reverse('account:user-work', kwargs={'id': 100}))
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_api_can_update(self):
+        update_data = {
+            'user': self.user.id,
+            'company': 'update company',
+            'position': 'update position'
+        }
+        response = self.client.put(self.url, data=update_data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data.get('id'), self.work.id)
+        self.assertEqual(response.data.get('company'), update_data['company'])
+
+
+    def test_api_can_partial_update(self):
+        update_data = {'company': 'update company', 'position': 'update position'}
+        response = self.client.put(self.url, data=update_data, partial=True)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data.get('company'), update_data['company'])
+
+    def test_api_can_delete_if_exists(self):
+        response = self.client.delete(self.url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_api_cannot_delete_if_not_exists(self):
+        response = self.client.delete(
+            reverse('account:user-work', kwargs={'id': 100}))
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+
 class GoalDetailTestCase(TestCase):
 
     def setUp(self):
