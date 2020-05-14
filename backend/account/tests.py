@@ -323,3 +323,39 @@ class EducationTestCase(TestCase):
         response = self.client.post(self.url, self.data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(models.Education.objects.count(), 2)
+
+
+class GoalTestCase(TestCase):
+    def setUp(self):
+        self.client = get_auth_client()
+        self.url = reverse('account:user-goals')
+        self.user = User.objects.get(username='testuser')
+
+        goal = models.Goal.objects.create(user=self.user, body='some goal')
+
+        self.data = {
+            'body': 'another goal'
+        }
+
+    def test_api_get_user_goals_cannot_get_other_users(self):
+        self.assertEqual(models.Goal.objects.count(), 1)
+        models.Goal.objects.create(
+            user = User.objects.create(
+                username='another_user', password='foranotheruser'),
+            body = 'another user goal'
+        )
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+
+    def test_api_get_user_goals(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+
+    def test_api_create_user_goal(self):
+        self.assertEqual(models.Goal.objects.count(), 1)
+        response = self.client.post(self.url, self.data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(models.Goal.objects.count(), 2)
+

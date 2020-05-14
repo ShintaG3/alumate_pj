@@ -41,6 +41,10 @@ class CountrySerializer(serializers.ModelSerializer):
 
 
 class GoalSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(
+        default=serializers.CurrentUserDefault()
+    )
+    
     class Meta:
         model = models.Goal
         fields = '__all__'
