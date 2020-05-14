@@ -541,3 +541,56 @@ class AboutDetailTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
 
+class BasicInfoDetailTestCase(TestCase):
+    def setUp(self):
+        self.client = get_auth_client()
+        self.url = reverse('account:user-basic-info')
+        self.user = User.objects.get(username='testuser')
+
+    def test_api_can_retrieve_if_exists(self):
+        name = 'some name'
+        country = models.Country.objects.create(name='some country')
+        models.BasicInfo.objects.create(
+            user=self.user, name=name, status=models.CurrentStatus.CURRENT_STUDENT, country_origin=country, country_study_abroad=country)
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data.get('name'), name)
+
+    def test_api_cannot_retrieve_if_not_exists(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_api_can_update(self):
+        name = 'name: not updated'
+        country = models.Country.objects.create(name='some country')
+        models.BasicInfo.objects.create(
+            user=self.user, name=name, status=models.CurrentStatus.CURRENT_STUDENT, country_origin=country, country_study_abroad=country)
+        update_name = 'name: updated'
+        update_data = {'user': self.user.id, 'name': update_name, 'status': models.CurrentStatus.ALUMNI, 'country_origin': country.id, 'country_study_abroad': country.id}
+        response = self.client.put(self.url, data=update_data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data.get('name'), update_name)
+
+    def test_api_can_partial_update(self):
+        name = 'name: not updated'
+        country = models.Country.objects.create(name='some country')
+        models.BasicInfo.objects.create(
+            user=self.user, name=name, status=models.CurrentStatus.CURRENT_STUDENT, country_origin=country, country_study_abroad=country)
+        update_name = 'name: updated'
+        update_data = {'name': update_name}
+        response = self.client.put(self.url, data=update_data, partial=True)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data.get('name'), update_name)
+
+    def test_api_can_delete_if_exists(self):
+        country = models.Country.objects.create(name='some country')
+        models.BasicInfo.objects.create(
+            user=self.user, name='some name', status=models.CurrentStatus.CURRENT_STUDENT, country_origin=country, country_study_abroad=country)
+        self.assertEqual(models.BasicInfo.objects.count(), 1)
+        response = self.client.delete(self.url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_api_cannot_delete_if_not_exists(self):
+        self.assertEqual(models.BasicInfo.objects.count(), 0)
+        response = self.client.delete(self.url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)

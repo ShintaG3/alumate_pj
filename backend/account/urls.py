@@ -25,7 +25,7 @@ urlpatterns = [
 
     # retrieve / update / delete
     path('about/user', views.AboutUser.as_view(), name='user-about'),
-    path('basic-info/user', views.BasicInfoUser.as_view()),
+    path('basic-info/user', views.BasicInfoUser.as_view(), name='user-basic-info'),
     path('profile/user', views.ProfileUser.as_view()),
     path('profile-image/user', views.ProfileImageUser.as_view()),
     
