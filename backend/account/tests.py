@@ -594,3 +594,46 @@ class BasicInfoDetailTestCase(TestCase):
         self.assertEqual(models.BasicInfo.objects.count(), 0)
         response = self.client.delete(self.url)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+
+class ProfileDetailTestCase(TestCase):
+    def setUp(self):
+        self.client = get_auth_client()
+        self.url = reverse('account:user-profile')
+        self.user = User.objects.get(username='testuser')
+
+    def test_api_can_retrieve_if_exists(self):
+        gender = models.Gender.MALE
+        models.Profile.objects.create(user=self.user, gender=gender, birthday='1990-01-01')
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data.get('gender'), gender)
+
+    def test_api_cannot_retrieve_if_not_exists(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_api_can_update(self):
+        models.Profile.objects.create(user=self.user, gender=models.Gender.MALE, birthday='1990-01-01')
+        update_data = {'user': self.user.id, 'gender': models.Gender.MALE, 'birthday': '1996-06-01'}
+        response = self.client.put(self.url, data=update_data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data.get('gender'), update_data.get('gender'))
+
+    def test_api_can_partial_update(self):
+        models.Profile.objects.create(user=self.user, gender=models.Gender.MALE, birthday='1990-01-01')
+        update_data = {'birthday': '1996-06-01'}
+        response = self.client.put(self.url, data=update_data, partial=True)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data.get('birthday'), update_data.get('birthday'))
+
+    def test_api_can_delete_if_exists(self):
+        models.Profile.objects.create(user=self.user, gender=models.Gender.MALE, birthday='1990-01-01')
+        self.assertEqual(models.Profile.objects.count(), 1)
+        response = self.client.delete(self.url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_api_cannot_delete_if_not_exists(self):
+        self.assertEqual(models.Profile.objects.count(), 0)
+        response = self.client.delete(self.url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)

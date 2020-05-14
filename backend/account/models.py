@@ -45,7 +45,7 @@ class Gender(models.TextChoices):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
     gender = models.CharField(max_length=30, choices=Gender.choices, default=Gender.NO_ANSWER)
-    birthday = models.IntegerField(null=True)
+    birthday = models.DateField(null=True)
 
     def __str__(self):
         return self.user.__str__()
