@@ -4,6 +4,7 @@ from . import models, views
 from django.urls import reverse
 from django.contrib.auth.models import User
 from alumate_api.test import get_auth_client
+import tempfile
 
 
 # list
@@ -635,5 +636,49 @@ class ProfileDetailTestCase(TestCase):
 
     def test_api_cannot_delete_if_not_exists(self):
         self.assertEqual(models.Profile.objects.count(), 0)
+        response = self.client.delete(self.url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+
+class ProfileImageTestCase(TestCase):
+    def setUp(self):
+        self.client = get_auth_client()
+        self.url = reverse('account:user-profile-image')
+        self.user = User.objects.get(username='testuser')
+        self.image = tempfile.NamedTemporaryFile(suffix=".jpg").name
+        self.updated_image = tempfile.NamedTemporaryFile(suffix=".jpg").name
+
+    def test_api_can_retrieve_if_exists(self):
+        models.ProfileImage.objects.create(user=self.user, image_path=self.image)
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data.get('image_path'), self.image)
+
+    def test_api_cannot_retrieve_if_not_exists(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_api_can_update(self):
+        models.ProfileImage.objects.create(user=self.user, image_path=self.image)
+        update_data = {'user': self.user.id, 'image_path': self.updated_image }
+        response = self.client.put(self.url, data=update_data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data.get('image_path'), self.updated_image)
+
+    def test_api_can_partial_update(self):
+        models.ProfileImage.objects.create(user=self.user, image_path=self.image)
+        update_data = {'image_path': self.updated_image }
+        response = self.client.put(self.url, data=update_data, partial=True)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data.get('image_path'), self.updated_image)
+
+    def test_api_can_delete_if_exists(self):
+        models.ProfileImage.objects.create(user=self.user, image_path=self.image)
+        self.assertEqual(models.ProfileImage.objects.count(), 1)
+        response = self.client.delete(self.url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_api_cannot_delete_if_not_exists(self):
+        self.assertEqual(models.ProfileImage.objects.count(), 0)
         response = self.client.delete(self.url)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)

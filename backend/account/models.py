@@ -68,7 +68,7 @@ class BasicInfo(models.Model):
     
 class ProfileImage(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name="profile_image")
-    image = ResizedImageField(upload_to='images/', size=[180, 180], crop=['middle', 'center'], quality=100)
+    image_path = models.CharField(max_length=1000)
     
     def __str__(self):
         return self.user.__str__() + "'s profile image"

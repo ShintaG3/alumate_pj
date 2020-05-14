@@ -27,7 +27,7 @@ urlpatterns = [
     path('about/user', views.AboutUser.as_view(), name='user-about'),
     path('basic-info/user', views.BasicInfoUser.as_view(), name='user-basic-info'),
     path('profile/user', views.ProfileUser.as_view(), name='user-profile'),
-    path('profile-image/user', views.ProfileImageUser.as_view()),
+    path('profile-image/user', views.ProfileImageUser.as_view(), name='user-profile-image'),
     
     path('educations/user', views.EducationDetailUser.as_view()),
     path('goals/user', views.GoalDetailUser.as_view()),
