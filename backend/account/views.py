@@ -52,8 +52,8 @@ class FollowingListView(generics.ListAPIView):
     serializer_class = serializers.FollowSerializer
 
     def get_queryset(self):
-        user = self.request.user
-        return user.following_users
+        account = get_object_or_404(User, pk=self.request.GET.get('account'))
+        return account.following_users
 
 
 class FollowedListView(generics.ListAPIView):
@@ -61,8 +61,8 @@ class FollowedListView(generics.ListAPIView):
     serializer_class = serializers.FollowSerializer
 
     def get_queryset(self):
-        user = self.request.user
-        return user.followed_users
+        account = get_object_or_404(User, pk=self.request.GET.get('account'))
+        return account.followed_users
 
 
 # list create view
@@ -77,8 +77,12 @@ class EducationListView(generics.ListCreateAPIView):
     serializer_class = serializers.EducationSerializer
 
     def get_queryset(self):
-        user = self.request.user
-        return user.educations
+        params = self.request.GET
+        account = get_object_or_404(User, pk=params.get('account'))
+        if account:
+            return account.educations
+        else:
+            return super().get_queryset()
 
 
 class GoalListView(generics.ListCreateAPIView):
@@ -87,11 +91,11 @@ class GoalListView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         params = self.request.GET
-        user = self.request.user
-        if params.get('all'):
-            queryset = super().get_queryset()
+        account = get_object_or_404(User, pk=params.get('account'))
+        if account:
+            queryset = account.goals
         else:
-            queryset = user.goals
+            queryset = super().get_queryset()
         
         if params.get('starts-with'):
             return queryset.filter(body__istartswith=start_with)
@@ -104,11 +108,11 @@ class StudyInterestListView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         params = self.request.GET
-        user = self.request.user
-        if params.get('all'):
-            queryset = super().get_queryset()
+        account = get_object_or_404(User, pk=params.get('account'))
+        if account:
+            queryset = account.study_interests
         else:
-            queryset = user.study_interests
+            queryset = super().get_queryset()
         
         if params.get('starts-with'):
             return queryset.filter(body__istartswith=start_with)
@@ -120,17 +124,25 @@ class ScholarshipListView(generics.ListCreateAPIView):
     serializer_class = serializers.ScholarshipSerializer
 
     def get_queryset(self):
-        user = self.request.user
-        return user.scholarships
-
+        params = self.request.GET
+        account = get_object_or_404(User, pk=params.get('account'))
+        if account:
+            return account.scholarships
+        else:
+            return super().get_queryset()
+        
 
 class SocialLinkListView(generics.ListCreateAPIView):
     queryset = models.SocialLink.objects.all()
     serializer_class = serializers.SocialLinkSerializer
 
     def get_queryset(self):
-        user = self.request.user
-        return user.social_links
+        params = self.request.GET
+        account = get_object_or_404(User, pk=params.get('account'))
+        if account:
+            return account.social_links
+        else:
+            return super().get_queryset()
 
 
 class WorkExperienceListView(generics.ListCreateAPIView):
@@ -138,8 +150,12 @@ class WorkExperienceListView(generics.ListCreateAPIView):
     serializer_class = serializers.WorkExperienceSerializer
 
     def get_queryset(self):
-        user = self.request.user
-        return user.works
+        params = self.request.GET
+        account = get_object_or_404(User, pk=params.get('account'))
+        if account:
+            return account.works
+        else:
+            return super().get_queryset()
 
 
 # detail view (one to one)
@@ -150,8 +166,8 @@ class AboutDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_object(self):
         queryset = self.get_queryset()
-        user = self.request.user
-        return get_object_or_404(queryset, user=user)
+        account = get_object_or_404(User, pk=self.request.GET.get('account'))
+        return get_object_or_404(queryset, user=account)
 
 
 class BasicInfoDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -160,8 +176,8 @@ class BasicInfoDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_object(self):
         queryset = self.get_queryset()
-        user = self.request.user
-        return get_object_or_404(queryset, user=user)
+        account = get_object_or_404(User, pk=self.request.GET.get('account'))
+        return get_object_or_404(queryset, user=account)
 
 
 class ProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -170,8 +186,8 @@ class ProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_object(self):
         queryset = self.get_queryset()
-        user = self.request.user
-        return get_object_or_404(queryset, user=user)
+        account = get_object_or_404(User, pk=self.request.GET.get('account'))
+        return get_object_or_404(queryset, user=account)
 
 
 class ProfileImageDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -180,8 +196,8 @@ class ProfileImageDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_object(self):
         queryset = self.get_queryset()
-        user = self.request.user
-        return get_object_or_404(queryset, user=user)
+        account = get_object_or_404(User, pk=self.request.GET.get('account'))
+        return get_object_or_404(queryset, user=account)
 
 
 # detail view (one to many)
@@ -194,8 +210,7 @@ class EducationDetailView(generics.RetrieveUpdateDestroyAPIView):
     def get_object(self):
         queryset = self.get_queryset()
         obj_id = self.kwargs.pop('pk')
-        user = self.request.user
-        return get_object_or_404(queryset, user=user, id=obj_id)
+        return get_object_or_404(queryset, user=self.request.user, id=obj_id)
 
 
 class GoalDetailView(generics.RetrieveDestroyAPIView):
@@ -205,8 +220,7 @@ class GoalDetailView(generics.RetrieveDestroyAPIView):
     def get_object(self):
         queryset = self.get_queryset()
         obj_id = self.kwargs.pop('pk')
-        user = self.request.user
-        return get_object_or_404(queryset, user=user, id=obj_id)
+        return get_object_or_404(queryset, user=self.request.user, id=obj_id)
 
 class StudyInterestDetailView(generics.RetrieveDestroyAPIView):
     queryset = models.StudyInterest.objects.all()
@@ -215,8 +229,7 @@ class StudyInterestDetailView(generics.RetrieveDestroyAPIView):
     def get_object(self):
         queryset = self.get_queryset()
         obj_id = self.kwargs.pop('pk')
-        user = self.request.user
-        return get_object_or_404(queryset, user=user, id=obj_id)
+        return get_object_or_404(queryset, user=self.request.user, id=obj_id)
 
 
 class ScholarshipDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -226,8 +239,7 @@ class ScholarshipDetailView(generics.RetrieveUpdateDestroyAPIView):
     def get_object(self):
         queryset = self.get_queryset()
         obj_id = self.kwargs.pop('pk')
-        user = self.request.user
-        return get_object_or_404(queryset, user=user, id=obj_id)
+        return get_object_or_404(queryset, user=self.request.user, id=obj_id)
 
 
 class SocialLinkDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -237,8 +249,7 @@ class SocialLinkDetailView(generics.RetrieveUpdateDestroyAPIView):
     def get_object(self):
         queryset = self.get_queryset()
         obj_id = self.kwargs.pop('pk')
-        user = self.request.user
-        return get_object_or_404(queryset, user=user, id=obj_id)
+        return get_object_or_404(queryset, user=self.request.user, id=obj_id)
 
 
 class WorkDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -248,8 +259,7 @@ class WorkDetailView(generics.RetrieveUpdateDestroyAPIView):
     def get_object(self):
         queryset = self.get_queryset()
         obj_id = self.kwargs.pop('pk')
-        user = self.request.user
-        return get_object_or_404(queryset, user=user, id=obj_id)
+        return get_object_or_404(queryset, user=self.request.user, id=obj_id)
 
 
 # create
