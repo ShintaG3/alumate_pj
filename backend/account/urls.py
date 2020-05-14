@@ -31,7 +31,7 @@ urlpatterns = [
     
     path('educations/user/<int:id>', views.EducationDetailUser.as_view(), name='user-education'),
     path('scholarshps/user/<int:id>', views.ScholarshipDetailUser.as_view(), name='user-scholarship'),
-    path('social-links/user/<int:id>', views.SocialLinkDetailUser.as_view()),
+    path('social-links/user/<int:id>', views.SocialLinkDetailUser.as_view(), name='user-social-link'),
     path('works/user/<int:id>', views.WorkDetailUser.as_view()),
 
     # retrieve / destroy
