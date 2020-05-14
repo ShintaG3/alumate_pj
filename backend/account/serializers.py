@@ -53,9 +53,18 @@ class StudyInterestSerializer(serializers.ModelSerializer):
 
 
 class EducationSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(
+        default=serializers.CurrentUserDefault()
+    )
+
     class Meta:
         model = models.Education
         fields = '__all__'
+
+    def to_representation(self, instance):
+        self.fields['school'] = SchoolSerializer()
+        self.fields['major'] = MajorSerializer()
+        return super(EducationSerializer, self).to_representation(instance)
 
 
 class WorkExperienceSerializer(serializers.ModelSerializer):

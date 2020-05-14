@@ -277,3 +277,49 @@ class BasicInfoTestCase(TestCase):
         self.assertEqual(models.BasicInfo.objects.count(), 2)
 
 
+class EducationTestCase(TestCase):
+
+    def setUp(self):
+        self.client = get_auth_client()
+        self.url = reverse('account:user-educations')
+        self.user = User.objects.get(username='testuser')
+
+        major = models.Major.objects.create(name='computer science')
+        school1 = models.School.objects.create(name='University of smth1')
+        school2 = models.School.objects.create(name='University of smth2')
+
+        education = models.Education.objects.create(
+            user=self.user, degree=models.DegreeStatus.BACHELOR, school=school1, major=major, is_study_abroad=False)
+
+        self.data = {
+            'degree': models.DegreeStatus.BACHELOR,
+            'school': school2.id,
+            'major': major.id,
+            'is_study_abroad': False
+        }
+
+    def test_api_get_user_educations_cannot_get_other_users(self):
+        self.assertEqual(models.Education.objects.count(), 1)
+        models.Education.objects.create(
+            user=User.objects.create(
+                username='another_user', password='foranotheruser'),
+            school=models.School.objects.create(
+                name='something else university'),
+            major=models.Major.objects.create(name='some major'),
+            degree=models.DegreeStatus.BACHELOR,
+            is_study_abroad=False
+        )
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+
+    def test_api_get_user_educations(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+
+    def test_api_create_user_educations(self):
+        self.assertEqual(models.Education.objects.count(), 1)
+        response = self.client.post(self.url, self.data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(models.Education.objects.count(), 2)
