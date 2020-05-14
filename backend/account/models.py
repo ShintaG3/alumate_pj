@@ -153,7 +153,7 @@ class Scholarship(History):
 
 
 class SocialLink(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='social_links')
     title = models.CharField(max_length=20)
     url = models.URLField()
 

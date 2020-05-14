@@ -124,7 +124,7 @@ class SocialLinkListUser(generics.ListCreateAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        return user.works
+        return user.social_links
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

@@ -432,3 +432,41 @@ class ScholarshipTestCase(TestCase):
         response = self.client.post(self.url, self.data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(models.Scholarship.objects.count(), 2)
+
+
+class SocialLinkTestCase(TestCase):
+    def setUp(self):
+        self.client = get_auth_client()
+        self.url = reverse('account:user-social-links')
+        self.user = User.objects.get(username='testuser')
+
+        social_link = models.SocialLink.objects.create(
+            user=self.user, title='Some Title', url='http://something.com')
+
+        self.data = {
+            'title': 'Another Title',
+            'url': 'http://another.com'
+        }
+
+    def test_api_get_user_social_links_cannot_get_other_users(self):
+        self.assertEqual(models.SocialLink.objects.count(), 1)
+        models.SocialLink.objects.create(
+            user=User.objects.create(
+                username='another_user', password='foranotheruser'),
+            title='Some Title',
+            url='http://something.com'
+        )
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+
+    def test_api_get_user_social_links(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+
+    def test_api_create_user_social_link(self):
+        self.assertEqual(models.SocialLink.objects.count(), 1)
+        response = self.client.post(self.url, self.data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(models.SocialLink.objects.count(), 2)

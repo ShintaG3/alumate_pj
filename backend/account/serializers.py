@@ -3,6 +3,10 @@ from . import models
 
 
 class AboutSerializer():
+    user = serializers.HiddenField(
+        default=serializers.CurrentUserDefault()
+    )
+
     class Meta:
         model = models.About
         fields = '__all__'
@@ -76,6 +80,10 @@ class EducationSerializer(serializers.ModelSerializer):
 
 
 class WorkExperienceSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(
+        default=serializers.CurrentUserDefault()
+    )
+    
     class Meta:
         model = models.WorkExperience
         fields = '__all__'
@@ -85,31 +93,47 @@ class ScholarshipSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(
         default=serializers.CurrentUserDefault()
     )
-    
+
     class Meta:
         model = models.Scholarship
         fields = '__all__'
 
 
 class SocialLinkSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(
+        default=serializers.CurrentUserDefault()
+    )
+
     class Meta:
         model = models.SocialLink
         fields = '__all__'
 
 
 class FollowSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(
+        default=serializers.CurrentUserDefault()
+    )
+
     class Meta:
         model = models.Follow
         fields = '__all__'
 
 
 class ProfileSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(
+        default=serializers.CurrentUserDefault()
+    )
+
     class Meta:
         model = models.Profile
         fields = '__all__'
 
 
 class ProfileImageSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(
+        default=serializers.CurrentUserDefault()
+    )
+
     class Meta:
         model = models.ProfileImage
         fields = '__all__'
