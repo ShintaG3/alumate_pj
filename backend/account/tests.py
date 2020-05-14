@@ -340,9 +340,9 @@ class GoalTestCase(TestCase):
     def test_api_get_user_goals_cannot_get_other_users(self):
         self.assertEqual(models.Goal.objects.count(), 1)
         models.Goal.objects.create(
-            user = User.objects.create(
+            user=User.objects.create(
                 username='another_user', password='foranotheruser'),
-            body = 'another user goal'
+            body='another user goal'
         )
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -359,3 +359,38 @@ class GoalTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(models.Goal.objects.count(), 2)
 
+
+class StudyInterestTestCase(TestCase):
+    def setUp(self):
+        self.client = get_auth_client()
+        self.url = reverse('account:user-study-interests')
+        self.user = User.objects.get(username='testuser')
+
+        study_interest = models.StudyInterest.objects.create(
+            user=self.user, body='some study interest')
+
+        self.data = {
+            'body': 'another study interest'
+        }
+
+    def test_api_get_user_study_interests_cannot_get_other_users(self):
+        self.assertEqual(models.StudyInterest.objects.count(), 1)
+        models.StudyInterest.objects.create(
+            user=User.objects.create(
+                username='another_user', password='foranotheruser'),
+            body='another user study interest'
+        )
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+
+    def test_api_get_user_study_interests(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+
+    def test_api_create_user_study_interest(self):
+        self.assertEqual(models.StudyInterest.objects.count(), 1)
+        response = self.client.post(self.url, self.data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(models.StudyInterest.objects.count(), 2)

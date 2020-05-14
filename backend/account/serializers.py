@@ -44,13 +44,17 @@ class GoalSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(
         default=serializers.CurrentUserDefault()
     )
-    
+
     class Meta:
         model = models.Goal
         fields = '__all__'
 
 
 class StudyInterestSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(
+        default=serializers.CurrentUserDefault()
+    )
+    
     class Meta:
         model = models.StudyInterest
         fields = '__all__'
