@@ -470,3 +470,42 @@ class SocialLinkTestCase(TestCase):
         response = self.client.post(self.url, self.data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(models.SocialLink.objects.count(), 2)
+
+
+class WorkExperienceTestCase(TestCase):
+    def setUp(self):
+        self.client = get_auth_client()
+        self.url = reverse('account:user-works')
+        self.user = User.objects.get(username='testuser')
+
+        work = models.WorkExperience.objects.create(
+            user=self.user, company='Some company', position='Some position')
+
+        self.data = {
+            'company': 'Some company',
+            'position': 'Some position'
+        }
+
+    def test_api_get_user_works_cannot_get_other_users(self):
+        self.assertEqual(models.WorkExperience.objects.count(), 1)
+        models.WorkExperience.objects.create(
+            user=User.objects.create(
+                username='another_user', password='foranotheruser'),
+            company='Some company',
+            position='Some position'
+        )
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+
+    def test_api_get_user_works(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+
+    def test_api_create_user_work(self):
+        self.assertEqual(models.WorkExperience.objects.count(), 1)
+        response = self.client.post(self.url, self.data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(models.WorkExperience.objects.count(), 2)
+

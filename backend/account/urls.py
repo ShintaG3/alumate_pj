@@ -21,7 +21,7 @@ urlpatterns = [
     path('study-interests/user', views.StudyInterestListUser.as_view(), name='user-study-interests'),
     path('scholarshps/user', views.ScholarshipListUser.as_view(), name='user-scholarships'),
     path('social-links/user', views.SocialLinkListUser.as_view(), name='user-social-links'),
-    path('works/user', views.WorkExperienceListUser.as_view()),
+    path('works/user', views.WorkExperienceListUser.as_view(), name='user-works'),
 
     # retrieve / update / delete
     path('about/user', views.AboutUser.as_view()),

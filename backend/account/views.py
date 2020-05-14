@@ -126,9 +126,6 @@ class SocialLinkListUser(generics.ListCreateAPIView):
         user = self.request.user
         return user.social_links
 
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
 
 class WorkExperienceListUser(generics.ListCreateAPIView):
     queryset = models.WorkExperience.objects.all()
@@ -137,9 +134,6 @@ class WorkExperienceListUser(generics.ListCreateAPIView):
     def get_queryset(self):
         user = self.request.user
         return user.works
-
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
 
 
 # detail view (one to one)
